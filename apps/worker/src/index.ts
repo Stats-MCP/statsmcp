@@ -4,6 +4,7 @@ import { createMemoryCache, type Cache } from 'pxweb-mcp';
 import { createSistatServer, sistatPreset } from 'sistat-mcp';
 import { createSsbServer, ssbPreset } from 'ssb-mcp';
 import { createStatEeServer, statEePreset } from 'stat-ee-mcp';
+import { createStatfinServer, statfinPreset } from 'statfin-mcp';
 
 import { createEdgeCache } from '@/edge-cache';
 
@@ -53,6 +54,16 @@ const SERVERS = new Map<string, HostedServer>([
         createHagstovaServer({
           cache,
           userAgent: `hagstova-mcp-worker/${hagstovaPreset.version}`
+        })
+    }
+  ],
+  [
+    '/fi/mcp',
+    {
+      create: (cache) =>
+        createStatfinServer({
+          cache,
+          userAgent: `statfin-mcp-worker/${statfinPreset.version}`
         })
     }
   ]

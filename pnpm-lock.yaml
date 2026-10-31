@@ -244,6 +244,9 @@ importers:
       stat-ee-mcp:
         specifier: workspace:*
         version: link:../../packages/stat-ee
+      statfin-mcp:
+        specifier: workspace:*
+        version: link:../../packages/statfin
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 'catalog:'
