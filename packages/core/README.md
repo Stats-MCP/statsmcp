@@ -16,14 +16,13 @@ npm install pxweb-mcp @modelcontextprotocol/server
 
 ## Make a server
 
-Make a `PxwebPreset` for the PxWeb instance, then give it to `createPxwebServer`:
+Make a `PxwebPreset` for the PxWeb instance, then give it to `createPresetServer`:
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
 import {
   createMemoryCache,
-  createPxwebClient,
-  createPxwebServer,
+  createPresetServer,
   type PxwebPreset
 } from 'pxweb-mcp';
 
@@ -32,6 +31,7 @@ const preset: PxwebPreset = {
   title: 'Statistics Finland',
   version: '0.1.0',
   apiBaseUrl: 'https://pxdata.stat.fi/PXWeb/api/v1',
+  database: 'StatFin',
   languages: ['fi', 'en', 'sv'],
   attribution: () => 'Source: Statistics Finland',
   tableUrl: (lang) => `https://pxdata.stat.fi/PxWeb/pxweb/${lang}/StatFin/`,
@@ -40,33 +40,30 @@ const preset: PxwebPreset = {
   searchLimit: 10
 };
 
-const client = createPxwebClient({
-  baseUrl: preset.apiBaseUrl,
-  database: 'StatFin',
-  cache: createMemoryCache()
-});
-
-await createPxwebServer(preset, client).connect(new StdioServerTransport());
+const server = createPresetServer(preset, { cache: createMemoryCache() });
+await server.connect(new StdioServerTransport());
 ```
 
-The `database` option is the path segment after the language. On SiStat it is `Data` (the default). On StatFin it is `StatFin`.
+`createPresetServer` makes the PxWeb client from the preset. Its options are `cache`, `fetch` and `userAgent`. The default user agent is `<name>-mcp/<version>`. To use your own client, call `createPxwebServer(preset, client)`.
 
 The server has three tools: `search_tables`, `get_table_metadata` and `query_table`. Each result ends with the text from `attribution`. Results of the table tools also contain the link from `tableUrl`.
 
 ## Preset fields
 
-| Field          | Description                                                       |
-| -------------- | ----------------------------------------------------------------- |
-| `name`         | Server name that the MCP client sees.                             |
-| `title`        | Display name.                                                     |
-| `version`      | Server version.                                                   |
-| `apiBaseUrl`   | API root, without the language segment.                           |
-| `languages`    | Language codes. The first one is the default.                     |
-| `attribution`  | Source line for a language. It is added to every result.          |
-| `tableUrl`     | Link in table results. It gets the language and the table ID.     |
-| `instructions` | Instructions for the model, sent when the client connects.        |
-| `maxCells`     | Maximum number of cells in one query. Larger queries are refused. |
-| `searchLimit`  | Default number of search results.                                 |
+| Field           | Description                                                                                                                                              |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`          | Server name that the MCP client sees.                                                                                                                    |
+| `title`         | Display name.                                                                                                                                            |
+| `version`       | Server version.                                                                                                                                          |
+| `apiBaseUrl`    | API root, without the language segment.                                                                                                                  |
+| `database`      | Optional. Path segment after the language: `Data` (default) on SiStat, `table` on SSB, `StatFin` on StatFin.                                             |
+| `languages`     | Language codes. The first one is the default.                                                                                                            |
+| `attribution`   | Source line for a language. It is added to every result.                                                                                                 |
+| `tableUrl`      | Link in table results. It gets the language and the table ID.                                                                                            |
+| `instructions`  | Instructions for the model, sent when the client connects.                                                                                               |
+| `maxCells`      | Maximum number of cells in one query. Larger queries are refused.                                                                                        |
+| `searchLimit`   | Default number of search results.                                                                                                                        |
+| `searchAliases` | Optional. Per language, `{ terms, query }` pairs. If the query contains a term, the server also searches for `query`, for example `salary` → `earnings`. |
 
 ## Other exports
 

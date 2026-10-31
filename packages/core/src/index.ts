@@ -3,14 +3,18 @@ export {
   type Cache,
   type MemoryCacheOptions
 } from '@/cache';
-export { createPxwebServer } from '@/create-pxweb-server';
+export {
+  createPresetServer,
+  createPxwebServer,
+  type PresetServerOptions
+} from '@/create-pxweb-server';
 export {
   flattenJsonStat,
   toCsv,
   type FlatTable,
   type JsonStatDataset
 } from '@/json-stat';
-export type { PxwebPreset } from '@/preset';
+export type { PxwebPreset, SearchAlias } from '@/preset';
 export {
   createPxwebClient,
   PxwebError,

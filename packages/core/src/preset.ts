@@ -6,12 +6,14 @@ export interface SearchAlias {
 }
 
 export interface PxwebPreset {
-  /** MCP server name, for example "sistat". */
+  /** MCP server name without a "-mcp" suffix, for example "sistat". */
   name: string;
   title: string;
   version: string;
   /** PxWeb API v1 root, for example "https://pxweb.stat.si/SiStatData/api/v1". */
   apiBaseUrl: string;
+  /** Path segment after the language: "Data" on SiStat (the default), "table" on SSB. */
+  database?: string;
   languages: readonly [string, ...string[]];
   /** Appended to every tool result. Most statistics offices require it. */
   attribution: (lang: string) => string;

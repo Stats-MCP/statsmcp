@@ -2,7 +2,7 @@ import { createMcpHandler } from '@modelcontextprotocol/server';
 import { describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 
-import { createPxwebServer } from '@/create-pxweb-server';
+import { createPresetServer, createPxwebServer } from '@/create-pxweb-server';
 import type { PxwebPreset } from '@/preset';
 import { createPxwebClient } from '@/pxweb-client';
 
@@ -253,6 +253,42 @@ describe('createPxwebServer', () => {
       });
 
       expect(result).toEqual({ text: message, isError: true });
+    }
+  );
+
+  it.each([
+    [undefined, undefined, '/en/Data?query=prices', 'test-mcp/0.0.0'],
+    ['table', 'my-app/1.0', '/en/table?query=prices', 'my-app/1.0']
+  ])(
+    'createPresetServer uses database %s and user agent %s',
+    async (database, userAgent, path, expectedAgent) => {
+      const fetchMock = vi.fn<typeof fetch>(async () => json([]));
+      const server = createPresetServer(
+        { ...preset, database },
+        { fetch: fetchMock, userAgent }
+      );
+      const handler = createMcpHandler(() => server);
+
+      await handler.fetch(
+        new Request('https://mcp.example/mcp', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            accept: 'application/json, text/event-stream',
+            'mcp-protocol-version': '2025-06-18'
+          },
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            id: 1,
+            method: 'tools/call',
+            params: { name: 'search_tables', arguments: { query: 'prices' } }
+          })
+        })
+      );
+
+      const [url, init] = fetchMock.mock.calls[0] ?? [];
+      expect(String(url)).toBe(`${preset.apiBaseUrl}${path}`);
+      expect(new Headers(init?.headers).get('user-agent')).toBe(expectedAgent);
     }
   );
 });

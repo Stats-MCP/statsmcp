@@ -1,6 +1,7 @@
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
 import {
   createMemoryCache,
+  createPresetServer,
   createPxwebClient,
   createPxwebServer,
   flattenJsonStat,
@@ -14,9 +15,11 @@ import {
   type MemoryCacheOptions,
   type PxwebClient,
   type PxwebClientOptions,
+  type PresetServerOptions,
   type PxwebPreset,
   type PxwebSelection,
   type QueryPlan,
+  type SearchAlias,
   type SelectionInput,
   type TableMetadata,
   type TableSearchHit,
@@ -87,5 +90,12 @@ const sistatOptions: SistatServerOptions = {
   userAgent: 'my-app/1.0'
 };
 
+const aliases: SearchAlias[] = [{ terms: ['salary'], query: 'earnings' }];
+const presetOptions: PresetServerOptions = { cache, userAgent: 'consumer' };
+
 await createPxwebServer(preset, client).connect(new StdioServerTransport());
+await createPresetServer(
+  { ...preset, database: 'StatFin', searchAliases: { en: aliases } },
+  presetOptions
+).connect(new StdioServerTransport());
 await createSistatServer(sistatOptions).connect(new StdioServerTransport());
