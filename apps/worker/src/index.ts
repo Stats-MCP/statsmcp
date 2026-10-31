@@ -34,12 +34,12 @@ function landingText(origin: string): string {
     ([path, server]) =>
       `- ${server.title}\n  ${origin}${path}\n  Data: ${server.data}`
   );
-  return `statsmcp: MCP servers for official statistics.
+  return `StatsMCP: official national statistics for every AI assistant.
 
 Endpoints (Streamable HTTP, no authentication):
 ${servers.join('\n')}
 
-Source code (MIT): https://github.com/TadejPolajnar/pxweb-mcp`;
+Source code (MIT): https://github.com/TadejPolajnar/statsmcp`;
 }
 
 const CORS_HEADERS = {

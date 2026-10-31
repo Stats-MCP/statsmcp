@@ -4,14 +4,14 @@
   "description": "MCP server toolkit for PxWeb API v1 statistics databases",
   "license": "MIT",
   "author": "Tadej Polajnar",
-  "homepage": "https://github.com/TadejPolajnar/pxweb-mcp/tree/main/packages/core#readme",
+  "homepage": "https://github.com/TadejPolajnar/statsmcp/tree/main/packages/core#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TadejPolajnar/pxweb-mcp.git",
+    "url": "git+https://github.com/TadejPolajnar/statsmcp.git",
     "directory": "packages/core"
   },
   "bugs": {
-    "url": "https://github.com/TadejPolajnar/pxweb-mcp/issues"
+    "url": "https://github.com/TadejPolajnar/statsmcp/issues"
   },
   "type": "module",
   "engines": {

@@ -4,14 +4,14 @@
   "description": "MCP server for SiStat, the database of the Statistical Office of the Republic of Slovenia (SURS)",
   "license": "MIT",
   "author": "Tadej Polajnar",
-  "homepage": "https://github.com/TadejPolajnar/pxweb-mcp/tree/main/packages/sistat#readme",
+  "homepage": "https://github.com/TadejPolajnar/statsmcp/tree/main/packages/sistat#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TadejPolajnar/pxweb-mcp.git",
+    "url": "git+https://github.com/TadejPolajnar/statsmcp.git",
     "directory": "packages/sistat"
   },
   "bugs": {
-    "url": "https://github.com/TadejPolajnar/pxweb-mcp/issues"
+    "url": "https://github.com/TadejPolajnar/statsmcp/issues"
   },
   "type": "module",
   "engines": {

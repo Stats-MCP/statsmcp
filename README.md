@@ -1,11 +1,11 @@
-# pxweb-mcp
+# StatsMCP
 
-[![CI](https://github.com/TadejPolajnar/pxweb-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/TadejPolajnar/pxweb-mcp/actions/workflows/ci.yml)
+[![CI](https://github.com/TadejPolajnar/statsmcp/actions/workflows/ci.yml/badge.svg)](https://github.com/TadejPolajnar/statsmcp/actions/workflows/ci.yml)
 [![npm: sistat-mcp](https://img.shields.io/npm/v/sistat-mcp?label=sistat-mcp)](https://www.npmjs.com/package/sistat-mcp)
 [![npm: pxweb-mcp](https://img.shields.io/npm/v/pxweb-mcp?label=pxweb-mcp)](https://www.npmjs.com/package/pxweb-mcp)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
 
-MCP servers that give AI assistants access to official statistics. The servers use the [PxWeb API](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/), which many national statistics offices use.
+Official national statistics for every AI assistant. StatsMCP is a set of MCP servers for the databases of national statistics offices. The servers use the [PxWeb API](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/), which many national statistics offices use.
 
 The first server is **sistat-mcp** for [SiStat](https://pxweb.stat.si/SiStat/en), the database of the Statistical Office of the Republic of Slovenia (SURS). SiStat has more than 4,800 tables in Slovenian and English.
 
