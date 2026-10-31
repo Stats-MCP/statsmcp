@@ -17,7 +17,7 @@
     "deploy:worker": "pnpm build && pnpm --filter sistat-mcp-worker run deploy",
     "lint": "oxlint",
     "changeset": "changeset",
-    "version-packages": "changeset version && pnpm install --lockfile-only",
+    "version-packages": "changeset version && node scripts/sync-server-json.mjs && pnpm install --lockfile-only",
     "release": "pnpm build && changeset publish"
   },
   "devDependencies": {

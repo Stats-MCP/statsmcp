@@ -6,6 +6,12 @@ An MCP server for [SiStat](https://pxweb.stat.si/SiStat/en), the database of the
 
 ## Use the server
 
+### Hosted
+
+Add `https://statsmcp.dev/si/mcp` as a remote MCP server. It uses Streamable HTTP and needs no authentication. For the steps for each client, refer to [statsmcp.dev/slovenia](https://statsmcp.dev/slovenia/).
+
+### Local
+
 You need Node.js 20 or later.
 
 ```json

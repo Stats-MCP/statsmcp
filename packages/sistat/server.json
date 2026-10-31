@@ -1,0 +1,41 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Stats-MCP/sistat",
+  "title": "StatsMCP Slovenia (SiStat)",
+  "description": "Official statistics of Slovenia (SURS SiStat) for AI assistants. Read-only, cited sources.",
+  "websiteUrl": "https://statsmcp.dev/slovenia/",
+  "icons": [
+    {
+      "src": "https://statsmcp.dev/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": ["512x512"]
+    },
+    {
+      "src": "https://statsmcp.dev/favicon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/Stats-MCP/statsmcp",
+    "source": "github",
+    "subfolder": "packages/sistat"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "sistat-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://statsmcp.dev/si/mcp"
+    }
+  ]
+}

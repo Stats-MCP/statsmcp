@@ -5,6 +5,8 @@
 [![npm: pxweb-mcp](https://img.shields.io/npm/v/pxweb-mcp?label=pxweb-mcp)](https://www.npmjs.com/package/pxweb-mcp)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
 
+Website: [statsmcp.dev](https://statsmcp.dev)
+
 Official national statistics for every AI assistant. StatsMCP is a set of MCP servers for the databases of national statistics offices. The servers use the [PxWeb API](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/), which many national statistics offices use.
 
 The first server is **sistat-mcp** for [SiStat](https://pxweb.stat.si/SiStat/en), the database of the Statistical Office of the Republic of Slovenia (SURS). SiStat has more than 4,800 tables in Slovenian and English.
@@ -25,6 +27,18 @@ The first server is **sistat-mcp** for [SiStat](https://pxweb.stat.si/SiStat/en)
 - **Read-only.** The server needs no API key.
 
 ## Quick start
+
+**Hosted (no install)**
+
+Add `https://statsmcp.dev/si/mcp` as a remote MCP server. It uses Streamable HTTP and needs no authentication.
+
+```sh
+claude mcp add --transport http statsmcp-si https://statsmcp.dev/si/mcp
+```
+
+For Claude, ChatGPT, Cursor and VS Code, the steps are on [statsmcp.dev](https://statsmcp.dev).
+
+**Local (stdio)**
 
 You need Node.js 20 or later.
 

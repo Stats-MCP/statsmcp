@@ -1,10 +1,11 @@
 {
   "name": "sistat-mcp",
   "version": "0.1.0",
+  "mcpName": "io.github.Stats-MCP/sistat",
   "description": "MCP server for SiStat, the database of the Statistical Office of the Republic of Slovenia (SURS)",
   "license": "MIT",
   "author": "Tadej Polajnar",
-  "homepage": "https://github.com/Stats-MCP/statsmcp/tree/main/packages/sistat#readme",
+  "homepage": "https://statsmcp.dev/slovenia/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Stats-MCP/statsmcp.git",
