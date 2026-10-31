@@ -13,6 +13,8 @@ const METADATA_TTL_SECONDS = 24 * 60 * 60;
 const DATA_TTL_SECONDS = 60 * 60;
 const ERROR_BODY_MAX_CHARS = 300;
 const DEFAULT_TIMEOUT_MS = 30_000;
+/** PxWeb answers an unknown table with 400 or 404 on the metadata GET; both are reported as "not found". */
+const NOT_FOUND_STATUSES = new Set([400, 404]);
 const MAX_RESPONSE_BYTES = 20 * 1024 * 1024;
 const DATABASE_PATTERN = /^[A-Za-z0-9_-]+$/;
 const TABLE_ID_PATTERN = /^(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+(?:\.px|\.PX)?$/;
@@ -235,24 +237,34 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
 
     async getMetadata(lang, tableId) {
       const url = tableUrl(lang, tableId);
-      return request(
-        url,
-        { method: 'GET' },
-        metadataSchema,
-        (parsed) => ({
-          title: parsed.title,
-          variables: parsed.variables.map((variable) => ({
-            code: variable.code,
-            label: variable.text,
-            values: variable.values,
-            valueLabels: variable.valueTexts,
-            eliminable: variable.elimination ?? false,
-            isTime: variable.time ?? false
-          }))
-        }),
-        METADATA_TTL_SECONDS,
-        `meta:${url}`
-      );
+      try {
+        return await request(
+          url,
+          { method: 'GET' },
+          metadataSchema,
+          (parsed) => ({
+            title: parsed.title,
+            variables: parsed.variables.map((variable) => ({
+              code: variable.code,
+              label: variable.text,
+              values: variable.values,
+              valueLabels: variable.valueTexts,
+              eliminable: variable.elimination ?? false,
+              isTime: variable.time ?? false
+            }))
+          }),
+          METADATA_TTL_SECONDS,
+          `meta:${url}`
+        );
+      } catch (err) {
+        if (err instanceof PxwebError && NOT_FOUND_STATUSES.has(err.status)) {
+          throw new PxwebError(
+            `Table "${tableId}" was not found. Use search_tables to find a table id.`,
+            404
+          );
+        }
+        throw err;
+      }
     },
 
     async query(lang, tableId, selections) {

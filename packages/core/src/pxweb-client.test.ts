@@ -170,6 +170,33 @@ describe('createPxwebClient', () => {
     );
   });
 
+  it.each([400, 404])(
+    'reports an unknown table clearly (HTTP %i)',
+    async (status) => {
+      const client = createPxwebClient({
+        baseUrl: BASE_URL,
+        fetch: async () => new Response('Bad Request', { status })
+      });
+
+      await expect(client.getMetadata('en', 'NOPE.px')).rejects.toMatchObject({
+        status: 404,
+        message:
+          'Table "NOPE.px" was not found. Use search_tables to find a table id.'
+      });
+    }
+  );
+
+  it('passes other metadata errors through unchanged', async () => {
+    const client = createPxwebClient({
+      baseUrl: BASE_URL,
+      fetch: async () => new Response('Too many', { status: 429 })
+    });
+
+    await expect(client.getMetadata('en', 'T1.px')).rejects.toMatchObject({
+      status: 429
+    });
+  });
+
   it('uses a table id without a suffix verbatim in the URL', async () => {
     const fetchMock = vi.fn<typeof fetch>(
       async () => new Response(metadataBody)
