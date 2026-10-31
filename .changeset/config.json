@@ -8,7 +8,14 @@
   ],
   "commit": false,
   "fixed": [
-    ["pxweb-mcp", "sistat-mcp", "ssb-mcp", "stat-ee-mcp", "hagstova-mcp"]
+    [
+      "pxweb-mcp",
+      "sistat-mcp",
+      "ssb-mcp",
+      "stat-ee-mcp",
+      "hagstova-mcp",
+      "statfin-mcp"
+    ]
   ],
   "access": "public",
   "baseBranch": "main",
