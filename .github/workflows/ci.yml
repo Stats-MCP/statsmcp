@@ -67,3 +67,31 @@ jobs:
           } | timeout 60 ./node_modules/.bin/sistat-mcp > out.jsonl
           cat out.jsonl
           grep -q '"query_table"' out.jsonl
+
+  types:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 20
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: packages
+          path: pack
+      - name: Check package types resolution
+        run: |
+          for tarball in pack/*.tgz; do
+            npx -y @arethetypeswrong/cli@0.18.5 --profile esm-only "$tarball"
+          done
+      - name: Typecheck a TypeScript 5 consumer
+        working-directory: tests/consumer
+        run: |
+          npm init -y > /dev/null
+          npm pkg set type=module
+          npm install --no-audit --no-fund ../../pack/*.tgz typescript@5.9.3 @types/node@20.19.43
+          npx tsc -p .

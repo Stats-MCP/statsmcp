@@ -6,3 +6,5 @@ coverage/
 *.log
 .DS_Store
 .plans/
+tests/consumer/package.json
+tests/consumer/package-lock.json
