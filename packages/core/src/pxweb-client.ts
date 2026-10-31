@@ -13,6 +13,7 @@ const DATA_TTL_SECONDS = 60 * 60;
 const ERROR_BODY_MAX_CHARS = 300;
 const DEFAULT_TIMEOUT_MS = 30_000;
 const MAX_RESPONSE_BYTES = 20 * 1024 * 1024;
+const DATABASE_PATTERN = /^[A-Za-z0-9_-]+$/;
 const TABLE_ID_PATTERN = /^(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.px$/;
 
 const searchHitSchema = z.object({
@@ -73,6 +74,8 @@ export interface PxwebClient {
 
 export interface PxwebClientOptions {
   baseUrl: string;
+  /** Database segment after the language, "Data" on SiStat. */
+  database?: string;
   cache?: Cache;
   fetch?: typeof fetch;
   userAgent?: string;
@@ -94,6 +97,10 @@ export function isValidTableId(tableId: string): boolean {
 }
 
 export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
+  const database = options.database ?? 'Data';
+  if (!DATABASE_PATTERN.test(database)) {
+    throw new Error(`Invalid PxWeb database "${database}".`);
+  }
   const baseUrl = options.baseUrl.replace(/\/+$/, '');
   const cache = options.cache ?? createMemoryCache();
   const doFetch = options.fetch ?? fetch;
@@ -169,12 +176,12 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
         400
       );
     }
-    return `${baseUrl}/${encodeURIComponent(lang)}/Data/${tableId}`;
+    return `${baseUrl}/${encodeURIComponent(lang)}/${database}/${tableId}`;
   }
 
   return {
     async search(lang, query) {
-      const url = `${baseUrl}/${encodeURIComponent(lang)}/Data?query=${encodeURIComponent(query)}`;
+      const url = `${baseUrl}/${encodeURIComponent(lang)}/${database}?query=${encodeURIComponent(query)}`;
       const hits = await request(
         url,
         { method: 'GET' },

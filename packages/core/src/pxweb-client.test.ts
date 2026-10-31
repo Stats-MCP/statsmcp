@@ -73,4 +73,29 @@ describe('createPxwebClient', () => {
       status: 429
     });
   });
+
+  it.each([
+    [undefined, 'Data'],
+    ['StatFin', 'StatFin']
+  ])('builds URLs with database %s', async (database, segment) => {
+    const fetchMock = vi.fn(async () => new Response('[]'));
+    const client = createPxwebClient({
+      baseUrl: `${BASE_URL}/`,
+      database,
+      fetch: fetchMock
+    });
+
+    await client.search('en', 'population');
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      `${BASE_URL}/en/${segment}?query=population`,
+      expect.anything()
+    );
+  });
+
+  it('rejects a database segment that could change the path', () => {
+    expect(() =>
+      createPxwebClient({ baseUrl: BASE_URL, database: '../admin' })
+    ).toThrow(/Invalid PxWeb database/);
+  });
 });
