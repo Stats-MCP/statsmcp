@@ -168,7 +168,7 @@ catalogs:
       specifier: 5.20261016.1
       version: 5.20261016.1
     '@modelcontextprotocol/server':
-      specifier: 2.3.1
+      specifier: ^2.3.1
       version: 2.3.1
     '@types/node':
       specifier: 26.6.5
@@ -189,7 +189,7 @@ catalogs:
       specifier: 4.151.1
       version: 4.151.1
     zod:
-      specifier: 4.6.7
+      specifier: ^4.6.7
       version: 4.6.7
 
 importers:
@@ -233,13 +233,13 @@ importers:
 
   packages/core:
     dependencies:
-      '@modelcontextprotocol/server':
-        specifier: 'catalog:'
-        version: 2.3.1
       zod:
         specifier: 'catalog:'
         version: 4.6.7
     devDependencies:
+      '@modelcontextprotocol/server':
+        specifier: 'catalog:'
+        version: 2.3.1
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
