@@ -29,7 +29,9 @@ export function rankSearchHits(
   return hits
     .map((hit, index) => {
       let score = -index * POSITION_COST;
-      if (isHistorical(hit.title, currentYear)) score -= HISTORICAL_PENALTY;
+      if (hit.archived || isHistorical(hit.title, currentYear)) {
+        score -= HISTORICAL_PENALTY;
+      }
       score += RECENCY_WEIGHT * recency(hit.published, currentYear);
       return { hit, score, index };
     })

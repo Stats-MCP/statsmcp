@@ -242,6 +242,31 @@ describe('createPxwebClient', () => {
     ]);
   });
 
+  it('marks hits from the preset archive hook and ranks them last', async () => {
+    const hits = [
+      { id: 'PA66.PX', path: '/Lepetatud_tabelid/x', title: 'PA66: Wages' },
+      { id: 'IA002.px', path: '/majandus/hinnad', title: 'IA002: Prices' }
+    ];
+    const client = createPxwebClient({
+      baseUrl: BASE_URL,
+      fetch: async () => new Response(JSON.stringify(hits)),
+      tableIdFromHit: (hit) => hit.id,
+      isArchived: (hit) => hit.path?.startsWith('/Lepetatud_tabelid/') ?? false
+    });
+
+    const result = await client.search('en', 'prices');
+
+    expect(result).toEqual([
+      { tableId: 'IA002.px', title: 'IA002: Prices', published: undefined },
+      {
+        tableId: 'PA66.PX',
+        title: 'PA66: Wages',
+        published: undefined,
+        archived: true
+      }
+    ]);
+  });
+
   it('uses a table id without a suffix verbatim in the URL', async () => {
     const fetchMock = vi.fn<typeof fetch>(
       async () => new Response(metadataBody)

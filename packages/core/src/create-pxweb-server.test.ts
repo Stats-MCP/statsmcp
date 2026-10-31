@@ -73,15 +73,14 @@ async function callTool(
   fetchMock: typeof fetch,
   name: string,
   args: Record<string, unknown>,
-  serverPreset: PxwebPreset = preset
+  serverPreset: PxwebPreset = preset,
+  createServer = () =>
+    createPxwebServer(
+      serverPreset,
+      createPxwebClient({ baseUrl: preset.apiBaseUrl, fetch: fetchMock })
+    )
 ): Promise<{ text: string; isError: boolean }> {
-  const client = createPxwebClient({
-    baseUrl: preset.apiBaseUrl,
-    fetch: fetchMock
-  });
-  const handler = createMcpHandler(() =>
-    createPxwebServer(serverPreset, client)
-  );
+  const handler = createMcpHandler(createServer);
   const response = await handler.fetch(
     new Request('https://mcp.example/mcp', {
       method: 'POST',
@@ -267,6 +266,33 @@ describe('createPxwebServer', () => {
       expect(result).toEqual({ text: message, isError: true });
     }
   );
+
+  it('marks and ranks archived tables from the preset hook', async () => {
+    const fetchMock = vi.fn<typeof fetch>(async () =>
+      json([
+        { id: 'OLD.PX', path: '/Archive/x', title: 'OLD: Prices' },
+        { id: 'NEW.PX', path: '/prices', title: 'NEW: Prices' }
+      ])
+    );
+    const archivePreset: PxwebPreset = {
+      ...preset,
+      tableIdFromHit: (hit) => hit.id,
+      isArchived: (hit) => hit.path?.startsWith('/Archive/') ?? false
+    };
+
+    const { text } = await callTool(
+      fetchMock,
+      'search_tables',
+      { query: 'prices' },
+      archivePreset,
+      () => createPresetServer(archivePreset, { fetch: fetchMock })
+    );
+
+    expect(text.split('\n').slice(1, 3)).toEqual([
+      'NEW.PX | NEW: Prices',
+      'OLD.PX | OLD: Prices | archived'
+    ]);
+  });
 
   it.each([
     [undefined, undefined, '/en/Data?query=prices', 'test-mcp/0.0.0'],

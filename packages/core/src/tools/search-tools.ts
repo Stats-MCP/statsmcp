@@ -87,7 +87,7 @@ export function registerSearchTools(
           .slice(0, limit)
           .map(
             (hit) =>
-              `${hit.tableId} | ${hit.title}${hit.published ? ` | ${hit.published.slice(0, 10)}` : ''}`
+              `${hit.tableId} | ${hit.title}${hit.published ? ` | ${hit.published.slice(0, 10)}` : ''}${hit.archived ? ' | archived' : ''}`
           );
         return textResult(
           `${hits.length} tables match; showing ${lines.length}.\n${lines.join('\n')}\n\n${preset.attribution(lang)}`

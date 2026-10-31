@@ -33,6 +33,7 @@ export function createPresetServer(
     baseUrl: preset.apiBaseUrl,
     database: preset.database,
     tableIdFromHit: preset.tableIdFromHit,
+    isArchived: preset.isArchived,
     cache: options.cache,
     fetch: options.fetch,
     userAgent: options.userAgent ?? `${preset.name}-mcp/${preset.version}`

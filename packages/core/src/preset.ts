@@ -35,6 +35,8 @@ export interface PxwebPreset {
   searchLimit: number;
   /** Builds the table id from a search hit, for example the table number in the title. */
   tableIdFromHit?: (hit: SearchHit) => string;
+  /** True when the office keeps the table in its archive, for example by its path. */
+  isArchived?: (hit: SearchHit) => boolean;
   /** Per language. Each matching alias adds one search in the database's own wording. */
   searchAliases?: Readonly<Record<string, readonly SearchAlias[]>>;
 }

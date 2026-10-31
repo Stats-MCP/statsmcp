@@ -61,6 +61,8 @@ export interface TableSearchHit {
   tableId: string;
   title: string;
   published: string | undefined;
+  /** The office has moved the table to its archive; ranked low and marked in results. */
+  archived?: true;
 }
 
 type ScoredHit = TableSearchHit & { score: number };
@@ -112,6 +114,8 @@ export interface PxwebClientOptions {
   now?: () => Date;
   /** Builds the table id from a search hit; defaults to `path/id`. */
   tableIdFromHit?: (hit: SearchHit) => string;
+  /** True when the office keeps the table in its archive, for example by its path. */
+  isArchived?: (hit: SearchHit) => boolean;
 }
 
 export class PxwebError extends Error {
@@ -295,6 +299,7 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
           tableId: `${prefix}${tableIdFor(hit)}`,
           title: hit.title,
           published: hit.published,
+          ...(options.isArchived?.(hit) ? { archived: true as const } : {}),
           score: hit.score ?? 0
         })),
       SEARCH_TTL_SECONDS,

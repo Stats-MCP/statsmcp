@@ -41,6 +41,27 @@ describe('rankSearchHits', () => {
     ]);
   });
 
+  it('moves an archived table below a current one', () => {
+    const hits = [
+      {
+        tableId: 'PA66',
+        title: 'Wages and consumer prices',
+        published: '2026-04-03',
+        archived: true as const
+      },
+      {
+        tableId: 'IA002',
+        title: 'Consumer price index',
+        published: '2026-10-06'
+      }
+    ];
+
+    expect(rankSearchHits(hits, 2026).map((hit) => hit.tableId)).toEqual([
+      'IA002',
+      'PA66'
+    ]);
+  });
+
   it('lifts a recent table over an older one that the API ranked first', () => {
     const hits = [
       { tableId: 'a', title: 'Tourist arrivals', published: '2022-01-24' },
