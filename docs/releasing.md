@@ -14,6 +14,18 @@ Pull requests that the workflow opens do not start CI. To run CI on the release 
 
 To run `pnpm version-packages` on your computer, set `GITHUB_TOKEN`. The changelog generator reads pull request data from GitHub.
 
+## Manual release from your computer
+
+Use this only when CI cannot run. Releases from your computer have no provenance.
+
+```sh
+npm login
+pnpm build
+pnpm -r --filter './packages/*' publish --no-git-checks
+```
+
+Use `pnpm publish`, not `npm publish`. pnpm replaces `workspace:*` and `catalog:` with real versions.
+
 ## First release
 
 Do these steps in this order.
