@@ -1,22 +1,42 @@
 # pxweb-mcp
 
-MCP servers for official statistics published through the [PxWeb API v1](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/).
+[![CI](https://github.com/TadejPolajnar/pxweb-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/TadejPolajnar/pxweb-mcp/actions/workflows/ci.yml)
+[![npm: sistat-mcp](https://img.shields.io/npm/v/sistat-mcp?label=sistat-mcp)](https://www.npmjs.com/package/sistat-mcp)
+[![npm: pxweb-mcp](https://img.shields.io/npm/v/pxweb-mcp?label=pxweb-mcp)](https://www.npmjs.com/package/pxweb-mcp)
+[![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
 
-The first server is **sistat-mcp**. It gives AI assistants access to [SiStat](https://pxweb.stat.si/SiStat/en), the database of the Statistical Office of the Republic of Slovenia (SURS). SiStat has more than 4,800 tables, in Slovenian and English.
+MCP servers that give AI assistants access to official statistics. The servers use the [PxWeb API](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/), which many national statistics offices use.
 
-> This project is not affiliated with or endorsed by SURS.
+The first server is **sistat-mcp** for [SiStat](https://pxweb.stat.si/SiStat/en), the database of the Statistical Office of the Republic of Slovenia (SURS). SiStat has more than 4,800 tables in Slovenian and English.
 
-## Packages
+> **You:** What is the latest inflation rate in Slovenia?
+>
+> **Assistant:** In October 2026, prices were 3.3% higher than in October 2025.
+> _Source: SURS (Statistical Office of the Republic of Slovenia), table H281S.px_
 
-| Package                         | Description                                                                                                         |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| [`pxweb-mcp`](packages/core)    | Generic toolkit: PxWeb v1 client, query planner, MCP tools. Use it to make a server for a different PxWeb instance. |
-| [`sistat-mcp`](packages/sistat) | SiStat preset and a stdio server.                                                                                   |
-| [`apps/worker`](apps/worker)    | Cloudflare Worker for a hosted endpoint. The endpoint is not live yet.                                              |
+## Features
 
-## Use the server
+- **Search** more than 4,800 tables by keywords.
+- **Read the variables** of a table, with a filter for long lists such as municipalities.
+- **Get data** as CSV with readable labels. Use `latest` to get the most recent periods.
+- **Source in every result**, with a link to the table, as the SURS terms require.
+- **Safe queries:** the server refuses queries that are too large and tells the assistant how to make them smaller.
+- **Caching** of searches, metadata and data.
+- **Read-only.** The server needs no API key.
+
+## Quick start
 
 You need Node.js 20 or later.
+
+**Claude Code**
+
+```sh
+claude mcp add sistat -- npx -y sistat-mcp
+```
+
+**Claude Desktop, Cursor and other MCP clients**
+
+Add this to the MCP configuration of the client:
 
 ```json
 {
@@ -26,100 +46,36 @@ You need Node.js 20 or later.
 }
 ```
 
-For Claude Code:
+Then ask a question, for example "What is the average net salary in Slovenia?". For more questions and real results, refer to [docs/examples.md](docs/examples.md).
 
-```sh
-claude mcp add sistat -- npx -y sistat-mcp
-```
+## Databases
 
-## Tools
+| Database                                  | Country  | Package                         | Status    |
+| ----------------------------------------- | -------- | ------------------------------- | --------- |
+| [SiStat](https://pxweb.stat.si/SiStat/en) | Slovenia | [`sistat-mcp`](packages/sistat) | Available |
+| Statistics Norway                         | Norway   |                                 | Planned   |
+| Statistics Iceland                        | Iceland  |                                 | Planned   |
 
-| Tool                 | What it does                                                                                                                                           |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `search_tables`      | Finds tables by keywords in their titles. Returns table IDs, titles and publication dates.                                                             |
-| `get_table_metadata` | Lists the variables of a table and their value codes. Long lists are shortened. Use `valueFilter` to find a value by name, for example a municipality. |
-| `query_table`        | Returns data as CSV with readable labels. Use `latest` for recent periods. If a query is too large, the tool tells how to make it smaller.             |
+To add a database that uses PxWeb, use the [`pxweb-mcp`](packages/core) toolkit.
 
-All tools are read-only. Each tool accepts `lang` (`sl` or `en`).
+## Documentation
 
-For real calls and results, refer to [docs/examples.md](docs/examples.md).
+| Page                                 | Contents                                              |
+| ------------------------------------ | ----------------------------------------------------- |
+| [Tools](docs/tools.md)               | The three tools, their arguments and errors.          |
+| [Examples](docs/examples.md)         | Real questions, tool calls and results.               |
+| [Data licence](docs/data-licence.md) | Terms of use of the data and how the source is shown. |
+| [Self-hosting](docs/self-hosting.md) | Run the server over HTTP on Cloudflare Workers.       |
+| [Toolkit](packages/core/README.md)   | Make a server for a different PxWeb database.         |
+| [Development](docs/development.md)   | Repository layout, commands and local tests.          |
+| [Releasing](docs/releasing.md)       | Release steps for the maintainer.                     |
 
-## Data licence and attribution
+## Contributing
 
-SURS data is free to use for any purpose, including commercial use, if you name SURS as the source. Refer to the [SURS copyright terms](https://www.stat.si/StatWeb/en/StaticPages/Index/Copyright).
-
-This server adds the source to every result:
-
-- `Source: SURS (Statistical Office of the Republic of Slovenia)` (English)
-- `Vir: SURS (Statistični urad Republike Slovenije)` (Slovenian)
-
-Each `get_table_metadata` and `query_table` result also includes the table ID and a link to the table on SiStat.
-
-If you calculate new figures from the data, you must say so, for example: `Source: SURS / Calculated by <you>`.
-
-## Limits
-
-- One query can return a maximum of 5,000 cells. The SiStat API allows 50 million cells. Large results fill the context of the model.
-- The server caches search results and query results for 1 hour. It caches table metadata for 24 hours.
-
-## Development
-
-You need Node.js 24 and pnpm 12.
-
-```sh
-pnpm install
-pnpm build        # build packages/core and packages/sistat
-pnpm test         # unit tests
-pnpm typecheck
-pnpm lint         # oxlint
-pnpm format       # oxfmt check
-```
-
-### Test locally
-
-1. Build the packages:
-
-   ```sh
-   pnpm install && pnpm build
-   ```
-
-2. Connect a client. Use one of these two options.
-
-   Stdio server from source:
-
-   ```sh
-   claude mcp add sistat-local -- node "$PWD/packages/sistat/dist/bin.mjs"
-   ```
-
-   Worker on your computer (the same code as the hosted endpoint):
-
-   ```sh
-   pnpm dev:worker
-   claude mcp add --transport http sistat-worker http://127.0.0.1:8787/mcp
-   ```
-
-3. Ask a question from [docs/examples.md](docs/examples.md), for example "What is the latest inflation rate in Slovenia?".
-
-To call the tools without an assistant, use the MCP Inspector:
-
-```sh
-npx @modelcontextprotocol/inspector node packages/sistat/dist/bin.mjs
-```
-
-Deploy the Worker:
-
-```sh
-pnpm deploy:worker
-```
-
-The Worker caches in memory and in the Cloudflare Cache API. The Cache API keeps data only on a custom domain. On `workers.dev`, the Worker uses only the memory cache.
-
-## Add a different PxWeb instance
-
-To make a server for a different PxWeb instance, refer to the [`pxweb-mcp` README](packages/core/README.md).
-
-Before you publish a server for a different instance, read the terms of use of that statistics office.
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before you open a pull request. This project follows the [Code of conduct](CODE_OF_CONDUCT.md). To report a security problem, refer to [SECURITY.md](SECURITY.md).
 
 ## Licence
 
-The code is under the [MIT](LICENSE) licence. The data belongs to the statistics office that publishes it.
+The code is under the [MIT licence](LICENSE). The data belongs to the statistics office that publishes it. Refer to [docs/data-licence.md](docs/data-licence.md).
+
+This project is not affiliated with or endorsed by SURS or any other statistics office.
