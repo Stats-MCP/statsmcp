@@ -17,6 +17,21 @@ const metadataBody = JSON.stringify({
   ]
 });
 
+const scoredHit = (id: string, score: number) => ({
+  id,
+  path: '/prices',
+  title: `${id}: Table`,
+  score
+});
+
+function multiClient(fetchMock: typeof fetch) {
+  return createPxwebClient({
+    baseUrl: BASE_URL,
+    database: ['Econ', 'People'],
+    fetch: fetchMock
+  });
+}
+
 describe('isValidTableId', () => {
   it.each([
     ['0156101S.px', true],
@@ -268,6 +283,88 @@ describe('createPxwebClient', () => {
     ]);
     await expect(missing).rejects.toMatchObject({ status: 400 });
     await expect(inherited).rejects.toMatchObject({ status: 400 });
+  });
+
+  describe('with several databases', () => {
+    it('searches every database, prefixes ids and orders hits by score', async () => {
+      const fetchMock = vi.fn<typeof fetch>(async (url) =>
+        String(url).includes('/Econ?')
+          ? new Response(JSON.stringify([scoredHit('A.px', 0.2)]))
+          : new Response(JSON.stringify([scoredHit('B.px', 0.9)]))
+      );
+
+      const hits = await multiClient(fetchMock).search('en', 'prices');
+
+      expect(hits.map((h) => h.tableId)).toEqual([
+        'People/prices/B.px',
+        'Econ/prices/A.px'
+      ]);
+    });
+
+    it('keeps the results of the other databases when one fails, and fails when all fail', async () => {
+      const oneDown = vi.fn<typeof fetch>(async (url) =>
+        String(url).includes('/Econ?')
+          ? new Response('down', { status: 503 })
+          : new Response(JSON.stringify([scoredHit('B.px', 0.9)]))
+      );
+      const allDown = vi.fn<typeof fetch>(
+        async () => new Response('down', { status: 503 })
+      );
+
+      const hits = await multiClient(oneDown).search('en', 'prices');
+
+      expect(hits.map((h) => h.tableId)).toEqual(['People/prices/B.px']);
+      await expect(
+        multiClient(allDown).search('en', 'prices')
+      ).rejects.toMatchObject({ status: 503 });
+    });
+
+    it('reads a table from the database in its id and rejects an unknown database without a request', async () => {
+      const fetchMock = vi.fn<typeof fetch>(
+        async () => new Response(metadataBody)
+      );
+      const client = multiClient(fetchMock);
+
+      await client.getMetadata('en', 'People/prices/B.px');
+      const unknown = client.getMetadata('en', 'Other/prices/B.px');
+
+      await expect(unknown).rejects.toMatchObject({ status: 404 });
+      expect(fetchMock.mock.calls.map(([url]) => String(url))).toEqual([
+        `${BASE_URL}/en/People/prices/B.px`
+      ]);
+    });
+  });
+
+  it.each(['Econ', 'Other/prices/B.px'])(
+    'answers "not found" without a request for the id %s with a database array',
+    async (tableId) => {
+      const fetchMock = vi.fn<typeof fetch>();
+      const client = createPxwebClient({
+        baseUrl: BASE_URL,
+        database: ['Econ'],
+        fetch: fetchMock
+      });
+
+      await expect(client.getMetadata('en', tableId)).rejects.toMatchObject({
+        status: 404
+      });
+      expect(fetchMock).not.toHaveBeenCalled();
+    }
+  );
+
+  it('prefixes ids with the database for a one-element database array', async () => {
+    const fetchMock = vi.fn<typeof fetch>(
+      async () => new Response(JSON.stringify([scoredHit('A.px', 0.5)]))
+    );
+    const client = createPxwebClient({
+      baseUrl: BASE_URL,
+      database: ['Econ'],
+      fetch: fetchMock
+    });
+
+    const hits = await client.search('en', 'prices');
+
+    expect(hits.map((h) => h.tableId)).toEqual(['Econ/prices/A.px']);
   });
 
   it('rejects a database segment that could change the path', () => {

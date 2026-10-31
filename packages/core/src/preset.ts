@@ -17,8 +17,12 @@ export interface PxwebPreset {
    * Use `{ en: …, is: … }` when each language has its own root.
    */
   apiBaseUrl: ApiBaseUrl;
-  /** Path segment after the language: "Data" on SiStat (the default), "table" on SSB. */
-  database?: string;
+  /**
+   * Path segment after the language: "Data" on SiStat (the default), "table" on SSB.
+   * With an array, search covers every database in it and each table id starts with its database.
+   * A database that fails is left out of the results; search fails only if all fail.
+   */
+  database?: string | readonly [string, ...string[]];
   languages: readonly [string, ...string[]];
   /** Appended to every tool result. Most statistics offices require it. */
   attribution: (lang: string) => string;

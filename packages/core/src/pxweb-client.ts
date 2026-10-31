@@ -24,7 +24,8 @@ const searchHitSchema = z.object({
   id: z.string(),
   path: z.string().optional(),
   title: z.string(),
-  published: z.string().optional()
+  published: z.string().optional(),
+  score: z.number().optional()
 });
 
 export type SearchHit = z.infer<typeof searchHitSchema>;
@@ -62,6 +63,8 @@ export interface TableSearchHit {
   published: string | undefined;
 }
 
+type ScoredHit = TableSearchHit & { score: number };
+
 export interface TableVariable {
   code: string;
   label: string;
@@ -96,8 +99,11 @@ export type ApiBaseUrl = string | Readonly<Record<string, string>>;
 
 export interface PxwebClientOptions {
   baseUrl: ApiBaseUrl;
-  /** Database segment after the language, "Data" on SiStat. */
-  database?: string;
+  /**
+   * Database segment after the language, "Data" on SiStat. With an array, search
+   * covers every database in it and each table id starts with its database.
+   */
+  database?: string | readonly [string, ...string[]];
   cache?: Cache;
   fetch?: typeof fetch;
   userAgent?: string;
@@ -180,10 +186,17 @@ function rootForLanguage(
 }
 
 export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
-  const database = options.database ?? 'Data';
-  if (!DATABASE_PATTERN.test(database)) {
-    throw new Error(`Invalid PxWeb database "${database}".`);
+  const databases =
+    typeof options.database === 'string' || options.database === undefined
+      ? [options.database ?? 'Data']
+      : [...options.database];
+  for (const database of databases) {
+    if (!DATABASE_PATTERN.test(database)) {
+      throw new Error(`Invalid PxWeb database "${database}".`);
+    }
   }
+  const [firstDatabase] = databases;
+  const multiDatabase = Array.isArray(options.database);
   const languageRoot = (lang: string): string => {
     const root = rootForLanguage(options.baseUrl, lang);
     if (!root) {
@@ -254,30 +267,57 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
         400
       );
     }
-    return `${languageRoot(lang)}/${database}/${tableId}`;
+    if (!multiDatabase)
+      return `${languageRoot(lang)}/${firstDatabase}/${tableId}`;
+    const [database, ...rest] = tableId.split('/');
+    if (rest.length === 0 || !databases.includes(database ?? '')) {
+      throw new PxwebError(
+        `Table "${tableId}" was not found. Use search_tables to find a table id.`,
+        404
+      );
+    }
+    return `${languageRoot(lang)}/${tableId}`;
+  }
+
+  async function searchDatabase(
+    lang: string,
+    database: string,
+    query: string
+  ): Promise<ScoredHit[]> {
+    const url = `${languageRoot(lang)}/${database}?query=${encodeURIComponent(query)}`;
+    const prefix = multiDatabase ? `${database}/` : '';
+    return request(
+      url,
+      { method: 'GET' },
+      z.array(searchHitSchema),
+      (hits) =>
+        hits.map((hit) => ({
+          tableId: `${prefix}${tableIdFor(hit)}`,
+          title: hit.title,
+          published: hit.published,
+          score: hit.score ?? 0
+        })),
+      SEARCH_TTL_SECONDS,
+      `search:${url}`
+    );
   }
 
   return {
     async search(lang, query) {
-      const url = `${languageRoot(lang)}/${database}?query=${encodeURIComponent(query)}`;
-      return request(
-        url,
-        { method: 'GET' },
-        z.array(searchHitSchema),
-        (hits) =>
-          rankSearchHits(
-            uniqueByTableId(
-              hits.map((hit) => ({
-                tableId: tableIdFor(hit),
-                title: hit.title,
-                published: hit.published
-              }))
-            ),
-            now().getUTCFullYear()
-          ),
-        SEARCH_TTL_SECONDS,
-        `search:${url}`
+      const results = await Promise.allSettled(
+        databases.map((database) => searchDatabase(lang, database, query))
       );
+      const found = results.flatMap((result) =>
+        result.status === 'fulfilled' ? [result.value] : []
+      );
+      const failure = results.find((result) => result.status === 'rejected');
+      if (found.length === 0 && failure) throw failure.reason;
+      const merged = found.flat();
+      const ordered = multiDatabase
+        ? merged.toSorted((a, b) => b.score - a.score)
+        : merged;
+      const hits = ordered.map(({ score: _score, ...hit }) => hit);
+      return rankSearchHits(uniqueByTableId(hits), now().getUTCFullYear());
     },
 
     async getMetadata(lang, tableId) {
