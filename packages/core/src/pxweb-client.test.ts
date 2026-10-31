@@ -65,6 +65,71 @@ describe('createPxwebClient', () => {
     });
   });
 
+  it('cancels a body larger than the limit when no length is declared', async () => {
+    const chunk = new Uint8Array(1024 * 1024);
+    const cancel = vi.fn<() => void>();
+    const stream = new ReadableStream<Uint8Array>({
+      pull: (controller) => controller.enqueue(chunk),
+      cancel
+    });
+    const client = createPxwebClient({
+      baseUrl: BASE_URL,
+      fetch: async () => new Response(stream)
+    });
+
+    await expect(client.search('en', 'x')).rejects.toThrow(/too large/);
+    expect(cancel).toHaveBeenCalled();
+  });
+
+  it('decodes a character that is split across chunks', async () => {
+    const bytes = new TextEncoder().encode(
+      JSON.stringify([{ id: 'T1.px', title: 'ČETRTLETJE' }])
+    );
+    const split = bytes.indexOf(0xc4) + 1;
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(bytes.slice(0, split));
+        controller.enqueue(bytes.slice(split));
+        controller.close();
+      }
+    });
+    const client = createPxwebClient({
+      baseUrl: BASE_URL,
+      fetch: async () => new Response(stream)
+    });
+
+    await expect(client.search('en', 'x')).resolves.toMatchObject([
+      { title: 'ČETRTLETJE' }
+    ]);
+  });
+
+  it('does not cache a JSON-stat dataset that cannot be flattened', async () => {
+    const dataset = {
+      class: 'dataset',
+      id: ['SPOL'],
+      size: [1],
+      dimension: { SPOL: { category: { index: ['1'] } } },
+      value: [5]
+    };
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ ...dataset, size: [2] }))
+      )
+      .mockResolvedValueOnce(new Response(JSON.stringify(dataset)));
+    const client = createPxwebClient({ baseUrl: BASE_URL, fetch: fetchMock });
+    const selections = [
+      { code: 'SPOL', selection: { filter: 'item' as const, values: ['1'] } }
+    ];
+
+    await expect(client.query('en', 'T1.px', selections)).rejects.toThrow(
+      'PxWeb returned an invalid JSON-stat dataset.'
+    );
+    await expect(
+      client.query('en', 'T1.px', selections)
+    ).resolves.toMatchObject({ rows: [['1', 5]] });
+  });
+
   it('reports upstream HTTP errors with their status', async () => {
     const client = createPxwebClient({
       baseUrl: BASE_URL,

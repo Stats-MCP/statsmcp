@@ -4,7 +4,8 @@ import { createMemoryCache, type Cache } from '@/cache';
 import {
   flattenJsonStat,
   jsonStatDatasetSchema,
-  type FlatTable
+  type FlatTable,
+  type JsonStatDataset
 } from '@/json-stat';
 
 const SEARCH_TTL_SECONDS = 60 * 60;
@@ -96,6 +97,41 @@ export function isValidTableId(tableId: string): boolean {
   return TABLE_ID_PATTERN.test(tableId);
 }
 
+async function readCappedText(response: Response): Promise<string> {
+  if (!response.body) return '';
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let size = 0;
+  let text = '';
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > MAX_RESPONSE_BYTES) {
+        await reader.cancel().catch(() => undefined);
+        throw new PxwebError('PxWeb response is too large.', 502);
+      }
+      text += decoder.decode(value, { stream: true });
+    }
+  } catch (err) {
+    if (err instanceof PxwebError) throw err;
+    throw new PxwebError(
+      `PxWeb response could not be read: ${err instanceof Error ? err.message : String(err)}`,
+      502
+    );
+  }
+  return text + decoder.decode();
+}
+
+function toFlatTable(dataset: JsonStatDataset): FlatTable {
+  try {
+    return flattenJsonStat(dataset);
+  } catch {
+    throw new PxwebError('PxWeb returned an invalid JSON-stat dataset.', 502);
+  }
+}
+
 function parseBody<T>(body: string, schema: z.ZodType<T>): T {
   let json: unknown;
   try {
@@ -140,33 +176,31 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
     if (declaredSize > MAX_RESPONSE_BYTES) {
       throw new PxwebError('PxWeb response is too large.', 502);
     }
-    const body = await response.text();
+    const body = await readCappedText(response);
     if (!response.ok) {
       throw new PxwebError(
         `PxWeb returned HTTP ${response.status}: ${body.slice(0, ERROR_BODY_MAX_CHARS)}`,
         response.status
       );
     }
-    if (body.length > MAX_RESPONSE_BYTES) {
-      throw new PxwebError('PxWeb response is too large.', 502);
-    }
     return body;
   }
 
-  async function request<T>(
+  async function request<T, R>(
     url: string,
     init: RequestInit,
     schema: z.ZodType<T>,
+    map: (data: T) => R,
     ttlSeconds: number,
     cacheKey: string
-  ): Promise<T> {
+  ): Promise<R> {
     const cached = await cache.get(cacheKey);
-    if (cached !== undefined) return parseBody(cached, schema);
+    if (cached !== undefined) return map(parseBody(cached, schema));
 
     const body = await fetchBody(url, init);
-    const data = parseBody(body, schema);
+    const result = map(parseBody(body, schema));
     await cache.set(cacheKey, body, ttlSeconds);
-    return data;
+    return result;
   }
 
   function tableUrl(lang: string, tableId: string): string {
@@ -182,42 +216,43 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
   return {
     async search(lang, query) {
       const url = `${baseUrl}/${encodeURIComponent(lang)}/${database}?query=${encodeURIComponent(query)}`;
-      const hits = await request(
+      return request(
         url,
         { method: 'GET' },
         z.array(searchHitSchema),
+        (hits) =>
+          hits.map((hit) => ({
+            tableId: hit.path
+              ? `${hit.path.replace(/^\/|\/$/g, '')}/${hit.id}`
+              : hit.id,
+            title: hit.title,
+            published: hit.published
+          })),
         SEARCH_TTL_SECONDS,
         `search:${url}`
       );
-      return hits.map((hit) => ({
-        tableId: hit.path
-          ? `${hit.path.replace(/^\/|\/$/g, '')}/${hit.id}`
-          : hit.id,
-        title: hit.title,
-        published: hit.published
-      }));
     },
 
     async getMetadata(lang, tableId) {
       const url = tableUrl(lang, tableId);
-      const parsed = await request(
+      return request(
         url,
         { method: 'GET' },
         metadataSchema,
+        (parsed) => ({
+          title: parsed.title,
+          variables: parsed.variables.map((variable) => ({
+            code: variable.code,
+            label: variable.text,
+            values: variable.values,
+            valueLabels: variable.valueTexts,
+            eliminable: variable.elimination ?? false,
+            isTime: variable.time ?? false
+          }))
+        }),
         METADATA_TTL_SECONDS,
         `meta:${url}`
       );
-      return {
-        title: parsed.title,
-        variables: parsed.variables.map((variable) => ({
-          code: variable.code,
-          label: variable.text,
-          values: variable.values,
-          valueLabels: variable.valueTexts,
-          eliminable: variable.elimination ?? false,
-          isTime: variable.time ?? false
-        }))
-      };
     },
 
     async query(lang, tableId, selections) {
@@ -226,7 +261,7 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
         query: selections,
         response: { format: 'json-stat2' }
       });
-      const dataset = await request(
+      return request(
         url,
         {
           method: 'POST',
@@ -234,10 +269,10 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
           headers: { 'content-type': 'application/json' }
         },
         jsonStatDatasetSchema,
+        toFlatTable,
         DATA_TTL_SECONDS,
         `data:${url}:${body}`
       );
-      return flattenJsonStat(dataset);
     }
   };
 }
