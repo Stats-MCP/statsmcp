@@ -4,7 +4,7 @@ import { createSistatServer, sistatPreset } from 'sistat-mcp';
 
 import { createEdgeCache } from '@/edge-cache';
 
-interface Env {
+export interface Env {
   RATE_LIMITER: RateLimit;
 }
 
@@ -50,42 +50,47 @@ async function isRateLimited(env: Env, request: Request): Promise<boolean> {
   }
 }
 
-export const worker = {
-  async fetch(request, env, ctx) {
-    const { pathname } = new URL(request.url);
+export async function handleRequest(
+  request: Request,
+  env: Env,
+  waitUntil: (promise: Promise<unknown>) => void
+): Promise<Response> {
+  const { pathname } = new URL(request.url);
 
-    if (pathname === '/') {
-      return new Response(LANDING_TEXT, {
-        headers: { 'content-type': 'text/plain; charset=utf-8' }
-      });
-    }
-    if (pathname !== MCP_PATH) {
-      return new Response('Not found', { status: 404 });
-    }
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: CORS_HEADERS });
-    }
-    if (await isRateLimited(env, request)) {
-      return withCors(
-        new Response('Too many requests. Try again in a minute.', {
-          status: 429,
-          headers: { 'retry-after': '60' }
-        })
-      );
-    }
-
-    memoryCache ??= createMemoryCache();
-    const cache = createEdgeCache(caches.default, memoryCache, (promise) =>
-      ctx.waitUntil(promise)
-    );
-    const handler = createMcpHandler(() =>
-      createSistatServer({
-        cache,
-        userAgent: `sistat-mcp-worker/${sistatPreset.version}`
+  if (pathname === '/') {
+    return new Response(LANDING_TEXT, {
+      headers: { 'content-type': 'text/plain; charset=utf-8' }
+    });
+  }
+  if (pathname !== MCP_PATH) {
+    return new Response('Not found', { status: 404 });
+  }
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+  if (await isRateLimited(env, request)) {
+    return withCors(
+      new Response('Too many requests. Try again in a minute.', {
+        status: 429,
+        headers: { 'retry-after': '60' }
       })
     );
-    return withCors(await handler.fetch(request));
   }
+
+  memoryCache ??= createMemoryCache();
+  const cache = createEdgeCache(caches.default, memoryCache, waitUntil);
+  const handler = createMcpHandler(() =>
+    createSistatServer({
+      cache,
+      userAgent: `sistat-mcp-worker/${sistatPreset.version}`
+    })
+  );
+  return withCors(await handler.fetch(request));
+}
+
+export const worker = {
+  fetch: (request, env, ctx) =>
+    handleRequest(request, env, (promise) => ctx.waitUntil(promise))
 } satisfies ExportedHandler<Env>;
 
 export default worker;
