@@ -34,3 +34,7 @@ export {
   type QueryPlan,
   type SelectionInput
 } from '@/query-plan';
+export {
+  createPxwebV2Client,
+  type PxwebV2ClientOptions
+} from '@/pxweb-v2-client';

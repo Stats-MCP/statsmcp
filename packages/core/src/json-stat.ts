@@ -29,7 +29,9 @@ export interface FlatTable {
   rows: (string | number | null)[][];
 }
 
-function orderedCodes(index: Record<string, number> | string[]): string[] {
+export function orderedCodes(
+  index: Record<string, number> | string[]
+): string[] {
   if (Array.isArray(index)) return index;
   return Object.entries(index)
     .toSorted(([, a], [, b]) => a - b)

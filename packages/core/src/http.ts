@@ -1,11 +1,11 @@
-import type { z } from 'zod';
-
 import { createMemoryCache, type Cache } from '@/cache';
 import {
   flattenJsonStat,
   type FlatTable,
   type JsonStatDataset
 } from '@/json-stat';
+
+import type { z } from 'zod';
 
 export const SEARCH_TTL_SECONDS = 60 * 60;
 export const METADATA_TTL_SECONDS = 24 * 60 * 60;

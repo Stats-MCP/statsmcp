@@ -18,6 +18,11 @@ export interface PxwebPreset {
    */
   apiBaseUrl: ApiBaseUrl;
   /**
+   * PxWeb API version, default "v1". "v2" needs one string `apiBaseUrl` (the language is a
+   * query parameter), uses the API table ids as they are and ignores `database` and `tableIdFromHit`.
+   */
+  apiVersion?: 'v1' | 'v2';
+  /**
    * Path segment after the language: "Data" on SiStat (the default), "table" on SSB.
    * With an array, search covers every database in it and each table id starts with its database.
    * A database that fails is left out of the results; search fails only if all fail.

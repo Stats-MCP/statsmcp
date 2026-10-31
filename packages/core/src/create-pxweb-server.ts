@@ -3,6 +3,7 @@ import { McpServer } from '@modelcontextprotocol/server';
 import type { Cache } from '@/cache';
 import type { PxwebPreset } from '@/preset';
 import { createPxwebClient, type PxwebClient } from '@/pxweb-client';
+import { createPxwebV2Client } from '@/pxweb-v2-client';
 import { registerSearchTools } from '@/tools/search-tools';
 import { registerTableTools } from '@/tools/table-tools';
 
@@ -25,18 +26,37 @@ export interface PresetServerOptions {
   userAgent?: string;
 }
 
+function createPresetClient(
+  preset: PxwebPreset,
+  http: Pick<PresetServerOptions, 'cache' | 'fetch'> & { userAgent: string }
+): PxwebClient {
+  if (preset.apiVersion !== 'v2') {
+    return createPxwebClient({
+      ...http,
+      baseUrl: preset.apiBaseUrl,
+      database: preset.database,
+      tableIdFromHit: preset.tableIdFromHit,
+      isArchived: preset.isArchived
+    });
+  }
+  if (typeof preset.apiBaseUrl !== 'string') {
+    throw new Error('A PxWeb v2 preset needs one apiBaseUrl string.');
+  }
+  return createPxwebV2Client({
+    ...http,
+    baseUrl: preset.apiBaseUrl,
+    isArchived: preset.isArchived
+  });
+}
+
 export function createPresetServer(
   preset: PxwebPreset,
   options: PresetServerOptions = {}
 ): McpServer {
-  const client = createPxwebClient({
-    baseUrl: preset.apiBaseUrl,
-    database: preset.database,
-    tableIdFromHit: preset.tableIdFromHit,
-    isArchived: preset.isArchived,
+  const http = {
     cache: options.cache,
     fetch: options.fetch,
     userAgent: options.userAgent ?? `${preset.name}-mcp/${preset.version}`
-  });
-  return createPxwebServer(preset, client);
+  };
+  return createPxwebServer(preset, createPresetClient(preset, http));
 }

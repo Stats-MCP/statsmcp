@@ -282,6 +282,37 @@ describe('createPxwebServer', () => {
     }
   );
 
+  it('createPresetServer refuses a v2 preset with one API root per language', () => {
+    expect(() =>
+      createPresetServer({
+        ...preset,
+        apiBaseUrl: { en: 'https://stats.example/api/v2' },
+        apiVersion: 'v2'
+      })
+    ).toThrow(/one apiBaseUrl string/);
+  });
+
+  it('createPresetServer uses the v2 client for a v2 preset', async () => {
+    const fetchMock = vi.fn<typeof fetch>(async () => json({ tables: [] }));
+    const v2Preset: PxwebPreset = {
+      ...preset,
+      apiBaseUrl: 'https://stats.example/api/v2',
+      apiVersion: 'v2'
+    };
+
+    await callTool(
+      fetchMock,
+      'search_tables',
+      { query: 'prices' },
+      v2Preset,
+      () => createPresetServer(v2Preset, { fetch: fetchMock })
+    );
+
+    expect(String(fetchMock.mock.calls[0]?.[0])).toBe(
+      'https://stats.example/api/v2/tables?query=prices&lang=en&pageSize=50'
+    );
+  });
+
   it('marks and ranks archived tables from the preset hook', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () =>
       json([
