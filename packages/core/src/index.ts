@@ -21,6 +21,7 @@ export {
   type PxwebClient,
   type PxwebClientOptions,
   type PxwebSelection,
+  type SearchHit,
   type TableMetadata,
   type TableSearchHit,
   type TableVariable

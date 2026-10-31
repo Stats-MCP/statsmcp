@@ -197,6 +197,36 @@ describe('createPxwebClient', () => {
     });
   });
 
+  it('builds table ids with the preset hook, falls back for bad ids and keeps the first duplicate', async () => {
+    const hits = [
+      {
+        id: 'Kpi10',
+        path: '/if/a',
+        title: '14710: Consumer price index',
+        published: '2026-10-09'
+      },
+      {
+        id: 'Kpi10',
+        path: '/pp/b',
+        title: '14710: Copy of the index',
+        published: '2026-10-09'
+      },
+      { id: 'X1', path: '/z', title: 'No number here', published: '2026-10-09' }
+    ];
+    const client = createPxwebClient({
+      baseUrl: BASE_URL,
+      fetch: async () => new Response(JSON.stringify(hits)),
+      tableIdFromHit: (hit) => /^(\d+):/.exec(hit.title)?.[1] ?? ''
+    });
+
+    const result = await client.search('en', 'prices');
+
+    expect(result.map((hit) => [hit.tableId, hit.title])).toEqual([
+      ['14710', '14710: Consumer price index'],
+      ['z/X1', 'No number here']
+    ]);
+  });
+
   it('uses a table id without a suffix verbatim in the URL', async () => {
     const fetchMock = vi.fn<typeof fetch>(
       async () => new Response(metadataBody)

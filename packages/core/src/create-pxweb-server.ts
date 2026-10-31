@@ -32,6 +32,7 @@ export function createPresetServer(
   const client = createPxwebClient({
     baseUrl: preset.apiBaseUrl,
     database: preset.database,
+    tableIdFromHit: preset.tableIdFromHit,
     cache: options.cache,
     fetch: options.fetch,
     userAgent: options.userAgent ?? `${preset.name}-mcp/${preset.version}`

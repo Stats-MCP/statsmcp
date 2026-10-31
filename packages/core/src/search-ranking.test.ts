@@ -11,6 +11,9 @@ describe('isHistorical', () => {
     ['Population, 1995Q1 - 2025Q4', false],
     ['Inflation, Slovenia, monthly', false],
     ['Series, 2000 - 2024', true],
+    ['05654: Payments of unemployment benefits (closed series)', true],
+    ['05645: Dagpenger ved arbeidsledighet (F) (avslutta serie)', true],
+    ['Discontinued operations, quarterly', false],
     ['Series, 2000 - 2025', false]
   ])('%s → %s', (title, expected) => {
     expect(isHistorical(title, 2026)).toBe(expected);

@@ -27,6 +27,21 @@ const searchHitSchema = z.object({
   published: z.string().optional()
 });
 
+export type SearchHit = z.infer<typeof searchHitSchema>;
+
+function defaultTableId(hit: SearchHit): string {
+  return hit.path ? `${hit.path.replace(/^\/|\/$/g, '')}/${hit.id}` : hit.id;
+}
+
+function uniqueByTableId(hits: TableSearchHit[]): TableSearchHit[] {
+  const seen = new Set<string>();
+  return hits.filter((hit) => {
+    if (seen.has(hit.tableId)) return false;
+    seen.add(hit.tableId);
+    return true;
+  });
+}
+
 const variableSchema = z.object({
   code: z.string(),
   text: z.string(),
@@ -86,6 +101,8 @@ export interface PxwebClientOptions {
   timeoutMs?: number;
   /** Clock for search ranking; defaults to the system time. */
   now?: () => Date;
+  /** Builds the table id from a search hit; defaults to `path/id`. */
+  tableIdFromHit?: (hit: SearchHit) => string;
 }
 
 export class PxwebError extends Error {
@@ -161,6 +178,10 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
   const doFetch = options.fetch ?? fetch;
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const now = options.now ?? (() => new Date());
+  const tableIdFor = (hit: SearchHit): string => {
+    const custom = options.tableIdFromHit?.(hit).trim();
+    return custom && isValidTableId(custom) ? custom : defaultTableId(hit);
+  };
   const headers: Record<string, string> = { accept: 'application/json' };
   if (options.userAgent) headers['user-agent'] = options.userAgent;
 
@@ -228,13 +249,13 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
         z.array(searchHitSchema),
         (hits) =>
           rankSearchHits(
-            hits.map((hit) => ({
-              tableId: hit.path
-                ? `${hit.path.replace(/^\/|\/$/g, '')}/${hit.id}`
-                : hit.id,
-              title: hit.title,
-              published: hit.published
-            })),
+            uniqueByTableId(
+              hits.map((hit) => ({
+                tableId: tableIdFor(hit),
+                title: hit.title,
+                published: hit.published
+              }))
+            ),
             now().getUTCFullYear()
           ),
         SEARCH_TTL_SECONDS,

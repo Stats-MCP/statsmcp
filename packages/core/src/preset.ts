@@ -1,3 +1,5 @@
+import type { SearchHit } from '@/pxweb-client';
+
 export interface SearchAlias {
   /** Lower-case words or phrases that trigger the alias when the query contains them. */
   terms: readonly string[];
@@ -22,6 +24,8 @@ export interface PxwebPreset {
   instructions: string;
   maxCells: number;
   searchLimit: number;
+  /** Builds the table id from a search hit, for example the table number in the title. */
+  tableIdFromHit?: (hit: SearchHit) => string;
   /** Per language. Each matching alias adds one search in the database's own wording. */
   searchAliases?: Readonly<Record<string, readonly SearchAlias[]>>;
 }

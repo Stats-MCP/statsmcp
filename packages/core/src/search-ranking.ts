@@ -2,12 +2,14 @@ import type { TableSearchHit } from '@/pxweb-client';
 
 const CLOSED_RANGE =
   /(\d{4})(?:[MQH]\d{1,2})?\s*-\s*(\d{4})(?:[MQH]\d{1,2})?\s*$/;
+const CLOSED_SERIES = /closed series|avslutta serie|avsluttet serie/i;
 const HISTORICAL_PENALTY = 1;
 const RECENCY_WEIGHT = 0.15;
 const RECENCY_YEARS = 4;
 const POSITION_COST = 0.03;
 
 export function isHistorical(title: string, currentYear: number): boolean {
+  if (CLOSED_SERIES.test(title)) return true;
   const match = CLOSED_RANGE.exec(title);
   return match !== null && Number(match[2]) < currentYear - 1;
 }
