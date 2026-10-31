@@ -1,0 +1,24 @@
+{
+  "name": "pxweb-mcp-monorepo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.9.1",
+  "engines": {
+    "node": ">=24.21.0",
+    "pnpm": ">=12.9.1"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter './packages/*' build",
+    "typecheck": "pnpm build && pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "format": "oxfmt --check .",
+    "format:fix": "oxfmt --write .",
+    "dev:worker": "pnpm build && pnpm --filter sistat-mcp-worker dev",
+    "deploy:worker": "pnpm build && pnpm --filter sistat-mcp-worker deploy"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "oxfmt": "catalog:",
+    "typescript": "catalog:"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "pxweb-mcp",
+  "version": "0.1.0",
+  "description": "MCP server toolkit for PxWeb API v1 statistics databases",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "mcp",
+    "pxweb",
+    "statistics",
+    "open-data"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

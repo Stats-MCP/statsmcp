@@ -1,0 +1,46 @@
+{
+  "printWidth": 80,
+  "semi": true,
+  "arrowParens": "always",
+  "singleQuote": true,
+  "bracketSpacing": true,
+  "tabWidth": 2,
+  "useTabs": false,
+  "trailingComma": "none",
+  "sortPackageJson": false,
+  "ignorePatterns": ["**/dist/**", "**/.wrangler/**", "**/*.d.ts"],
+  "sortImports": {
+    "customGroups": [
+      {
+        "groupName": "alias",
+        "elementNamePattern": ["@/**"]
+      }
+    ],
+    "groups": [
+      "value-builtin",
+      "value-external",
+      {
+        "newlinesBetween": true
+      },
+      "alias",
+      {
+        "newlinesBetween": true
+      },
+      "value-parent",
+      "value-sibling",
+      "value-index",
+      {
+        "newlinesBetween": true
+      },
+      "type"
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/vitest.config.ts", "**/tsdown.config.ts"],
+      "options": {
+        "sortImports": false
+      }
+    }
+  ]
+}
