@@ -18,6 +18,7 @@ export type { PxwebPreset, SearchAlias } from '@/preset';
 export {
   createPxwebClient,
   PxwebError,
+  type ApiBaseUrl,
   type PxwebClient,
   type PxwebClientOptions,
   type PxwebSelection,

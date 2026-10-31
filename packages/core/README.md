@@ -55,7 +55,7 @@ The server has three tools: `search_tables`, `get_table_metadata` and `query_tab
 | `name`          | Server name that the MCP client sees.                                                                                                                    |
 | `title`         | Display name.                                                                                                                                            |
 | `version`       | Server version.                                                                                                                                          |
-| `apiBaseUrl`    | API root, without the language segment.                                                                                                                  |
+| `apiBaseUrl`    | API root, without the language segment. If each language has its own root, use an object, for example `{ en: '…/pxen/api/v1', is: '…/pxis/api/v1' }`.    |
 | `database`      | Optional. Path segment after the language: `Data` (default) on SiStat, `table` on SSB, `StatFin` on StatFin.                                             |
 | `languages`     | Language codes. The first one is the default.                                                                                                            |
 | `attribution`   | Source line for a language. It is added to every result.                                                                                                 |

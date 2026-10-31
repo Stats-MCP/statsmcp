@@ -91,8 +91,11 @@ export interface PxwebClient {
   ): Promise<FlatTable>;
 }
 
+/** One API root, or one per language when each language has its own root. */
+export type ApiBaseUrl = string | Readonly<Record<string, string>>;
+
 export interface PxwebClientOptions {
-  baseUrl: string;
+  baseUrl: ApiBaseUrl;
   /** Database segment after the language, "Data" on SiStat. */
   database?: string;
   cache?: Cache;
@@ -168,12 +171,26 @@ function parseBody<T>(body: string, schema: z.ZodType<T>): T {
   return result.data;
 }
 
+function rootForLanguage(
+  baseUrl: ApiBaseUrl,
+  lang: string
+): string | undefined {
+  if (typeof baseUrl === 'string') return baseUrl;
+  return Object.hasOwn(baseUrl, lang) ? baseUrl[lang] : undefined;
+}
+
 export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
   const database = options.database ?? 'Data';
   if (!DATABASE_PATTERN.test(database)) {
     throw new Error(`Invalid PxWeb database "${database}".`);
   }
-  const baseUrl = options.baseUrl.replace(/\/+$/, '');
+  const languageRoot = (lang: string): string => {
+    const root = rootForLanguage(options.baseUrl, lang);
+    if (!root) {
+      throw new PxwebError(`Language "${lang}" is not supported.`, 400);
+    }
+    return `${root.replace(/\/+$/, '')}/${encodeURIComponent(lang)}`;
+  };
   const cache = options.cache ?? createMemoryCache();
   const doFetch = options.fetch ?? fetch;
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
@@ -237,12 +254,12 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
         400
       );
     }
-    return `${baseUrl}/${encodeURIComponent(lang)}/${database}/${tableId}`;
+    return `${languageRoot(lang)}/${database}/${tableId}`;
   }
 
   return {
     async search(lang, query) {
-      const url = `${baseUrl}/${encodeURIComponent(lang)}/${database}?query=${encodeURIComponent(query)}`;
+      const url = `${languageRoot(lang)}/${database}?query=${encodeURIComponent(query)}`;
       return request(
         url,
         { method: 'GET' },

@@ -1,4 +1,4 @@
-import type { SearchHit } from '@/pxweb-client';
+import type { ApiBaseUrl, SearchHit } from '@/pxweb-client';
 
 export interface SearchAlias {
   /** Lower-case words or phrases that trigger the alias when the query contains them. */
@@ -12,8 +12,11 @@ export interface PxwebPreset {
   name: string;
   title: string;
   version: string;
-  /** PxWeb API v1 root, for example "https://pxweb.stat.si/SiStatData/api/v1". */
-  apiBaseUrl: string;
+  /**
+   * PxWeb API v1 root, for example "https://pxweb.stat.si/SiStatData/api/v1".
+   * Use `{ en: …, is: … }` when each language has its own root.
+   */
+  apiBaseUrl: ApiBaseUrl;
   /** Path segment after the language: "Data" on SiStat (the default), "table" on SSB. */
   database?: string;
   languages: readonly [string, ...string[]];

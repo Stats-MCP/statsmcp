@@ -245,6 +245,31 @@ describe('createPxwebClient', () => {
     );
   });
 
+  it('uses the API root of the language and rejects a language without one', async () => {
+    const fetchMock = vi.fn<typeof fetch>(
+      async () => new Response(metadataBody)
+    );
+    const client = createPxwebClient({
+      baseUrl: {
+        en: 'https://px.example/pxen/api/v1/',
+        is: 'https://px.example/pxis/api/v1'
+      },
+      fetch: fetchMock
+    });
+
+    await client.getMetadata('en', 'a/T1.px');
+    await client.getMetadata('is', 'a/T1.px');
+    const missing = client.search('sl', 'population');
+    const inherited = client.search('constructor', 'population');
+
+    expect(fetchMock.mock.calls.map(([url]) => String(url))).toEqual([
+      'https://px.example/pxen/api/v1/en/Data/a/T1.px',
+      'https://px.example/pxis/api/v1/is/Data/a/T1.px'
+    ]);
+    await expect(missing).rejects.toMatchObject({ status: 400 });
+    await expect(inherited).rejects.toMatchObject({ status: 400 });
+  });
+
   it('rejects a database segment that could change the path', () => {
     expect(() =>
       createPxwebClient({ baseUrl: BASE_URL, database: '../admin' })

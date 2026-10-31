@@ -9,6 +9,7 @@ import {
   PxwebError,
   QueryPlanError,
   toCsv,
+  type ApiBaseUrl,
   type Cache,
   type FlatTable,
   type JsonStatDataset,
@@ -44,6 +45,10 @@ const preset: PxwebPreset = {
   searchLimit: 10
 };
 
+const perLanguageRoot: ApiBaseUrl = {
+  en: 'https://pxdata.stat.fi/PXWeb/api/v1'
+};
+
 const cacheOptions: MemoryCacheOptions = { maxEntries: 10, maxChars: 1024 };
 const cache: Cache = createMemoryCache(cacheOptions);
 const clientOptions: PxwebClientOptions = {
@@ -76,7 +81,8 @@ export const summary: string[] = [
   variables[0]?.code ?? '',
   toCsv(table),
   toCsv(flattenJsonStat(dataset)),
-  sistatPreset.title
+  sistatPreset.title,
+  String(Object.keys(perLanguageRoot))
 ];
 
 export function describeError(err: unknown): string {
