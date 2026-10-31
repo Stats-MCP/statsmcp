@@ -45,6 +45,19 @@ Each `get_table_metadata` and `query_table` result also has the table ID and a l
 
 This project is not affiliated with or endorsed by Statistics Estonia.
 
+## Statistics Faroe Islands
+
+Statistics Faroe Islands publishes its data under the [Creative Commons Attribution 4.0 licence (CC BY 4.0)](https://hagstova.fo/en/terms-use). You can use it for any purpose, including commercial use, if you name Statistics Faroe Islands as the source.
+
+The server adds the source and the terms link to every result:
+
+- `Source: Statistics Faroe Islands, CC BY 4.0 (https://hagstova.fo/en/terms-use)` (English)
+- `Kelda: Hagstova Føroya, CC BY 4.0 (https://hagstova.fo/en/terms-use)` (Faroese)
+
+If you change the data or calculate new figures, say so, for example: `Statistics Faroe Islands and own calculations`.
+
+This project is not affiliated with or endorsed by Statistics Faroe Islands.
+
 ## Other statistics offices
 
 Before you add or publish a server for a different statistics office, read its terms of use. Some offices do not allow commercial use. You can run these offices as presets on your computer. We do not put them on the hosted endpoint.

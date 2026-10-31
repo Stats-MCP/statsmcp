@@ -39,7 +39,7 @@ async function syncServerJson(dir, version) {
   await writeFile(serverUrl, `${JSON.stringify(server, null, 2)}\n`);
 }
 
-for (const dir of ['sistat', 'ssb', 'stat-ee']) {
+for (const dir of ['sistat', 'ssb', 'stat-ee', 'hagstova']) {
   const version = await syncPresetVersion(dir);
   if (dir === 'sistat') await syncServerJson(dir, version);
 }
