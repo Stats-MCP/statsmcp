@@ -229,6 +229,9 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
+      hagstova-mcp:
+        specifier: workspace:*
+        version: link:../../packages/hagstova
       pxweb-mcp:
         specifier: workspace:*
         version: link:../../packages/core

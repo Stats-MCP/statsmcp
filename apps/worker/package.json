@@ -14,7 +14,8 @@
     "pxweb-mcp": "workspace:*",
     "sistat-mcp": "workspace:*",
     "ssb-mcp": "workspace:*",
-    "stat-ee-mcp": "workspace:*"
+    "stat-ee-mcp": "workspace:*",
+    "hagstova-mcp": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:",
