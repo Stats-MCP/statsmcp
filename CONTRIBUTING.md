@@ -49,8 +49,13 @@ These rules are conventions:
 
 - Use [Conventional Commits](https://www.conventionalcommits.org/), for example `fix(core): handle empty search results`.
 - Keep one topic in each pull request.
+- If you change a published package, run `pnpm changeset` and add the changeset file to the pull request.
 - If you change what a tool returns, update `docs/examples.md`.
 
 ## Add a statistics office
 
 To add a PxWeb instance, first read the terms of use of that office. If the terms do not allow commercial use, tell us in the pull request. We do not put these instances on the hosted endpoint.
+
+## Releases
+
+The maintainer releases the packages. The Release workflow opens a version pull request from the changesets. When this pull request is merged, the workflow publishes the packages to npm with provenance.
