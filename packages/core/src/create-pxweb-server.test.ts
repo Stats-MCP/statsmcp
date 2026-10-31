@@ -185,17 +185,32 @@ describe('createPxwebServer', () => {
     expect(result.text).toContain('S1.px | Plain result');
   });
 
-  it('does not repeat a table number that the title already starts with', async () => {
-    const fetchMock = vi.fn<typeof fetch>(async () =>
-      json({ ...metadata, title: '14710: Consumer price index' })
-    );
+  it.each([
+    [
+      '14710',
+      '14710: Consumer price index',
+      'Table 14710: Consumer price index'
+    ],
+    [
+      'IA021.PX',
+      'IA021: Consumer price index',
+      'Table IA021.PX: Consumer price index'
+    ],
+    ['a/b/H281S.px', 'H281S: Prices', 'Table a/b/H281S.px: Prices']
+  ])(
+    'does not repeat the table number of %s that the title starts with',
+    async (tableId, title, expected) => {
+      const fetchMock = vi.fn<typeof fetch>(async () =>
+        json({ ...metadata, title })
+      );
 
-    const { text } = await callTool(fetchMock, 'get_table_metadata', {
-      tableId: '14710'
-    });
+      const { text } = await callTool(fetchMock, 'get_table_metadata', {
+        tableId
+      });
 
-    expect(text.split('\n')[0]).toBe('Table 14710: Consumer price index');
-  });
+      expect(text.split('\n')[0]).toBe(expected);
+    }
+  );
 
   it('shortens long value lists and filters values by label', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () => json(metadata));

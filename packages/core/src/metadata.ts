@@ -43,8 +43,9 @@ export function formatMetadata(
   metadata: TableMetadata,
   valueFilter?: string
 ): string {
-  const title = metadata.title.startsWith(`${tableId}: `)
-    ? metadata.title.slice(tableId.length + 2)
+  const prefix = `${tableId.split('/').at(-1)?.replace(/\.px$/i, '')}: `;
+  const title = metadata.title.startsWith(prefix)
+    ? metadata.title.slice(prefix.length)
     : metadata.title;
   const lines = [`Table ${tableId}: ${title}`];
   for (const variable of metadata.variables) {

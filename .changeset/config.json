@@ -7,7 +7,7 @@
     }
   ],
   "commit": false,
-  "fixed": [["pxweb-mcp", "sistat-mcp", "ssb-mcp"]],
+  "fixed": [["pxweb-mcp", "sistat-mcp", "ssb-mcp", "stat-ee-mcp"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

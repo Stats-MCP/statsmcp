@@ -32,6 +32,19 @@ If you change the data or calculate new figures, you must say so, for example: `
 
 This project is not affiliated with or endorsed by Statistics Norway.
 
+## Statistics Estonia
+
+Statistics Estonia shares its open data under the [Creative Commons Attribution-ShareAlike 4.0 licence (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/). You can use it for any purpose, including commercial use, if you name Statistics Estonia as the source. If you change the data or make new data from it, you must share the result under the same licence.
+
+The server adds the source and the licence link to every result:
+
+- `Source: Statistics Estonia, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)` (English)
+- `Allikas: Statistikaamet, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)` (Estonian)
+
+Each `get_table_metadata` and `query_table` result also has the table ID and a link to the table on andmed.stat.ee.
+
+This project is not affiliated with or endorsed by Statistics Estonia.
+
 ## Other statistics offices
 
 Before you add or publish a server for a different statistics office, read its terms of use. Some offices do not allow commercial use. You can run these offices as presets on your computer. We do not put them on the hosted endpoint.
