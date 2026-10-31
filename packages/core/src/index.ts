@@ -27,6 +27,7 @@ export {
   type TableVariable
 } from '@/pxweb-client';
 export {
+  DEFAULT_MAX_RESULT_CHARS,
   planQuery,
   QueryPlanError,
   type QueryPlan,

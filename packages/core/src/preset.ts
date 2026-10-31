@@ -23,6 +23,8 @@ export interface PxwebPreset {
   tableUrl: (lang: string, tableId: string) => string;
   instructions: string;
   maxCells: number;
+  /** Maximum estimated size of a query result in characters. Default 30,000 (about 8,000 tokens). */
+  maxResultChars?: number;
   searchLimit: number;
   /** Builds the table id from a search hit, for example the table number in the title. */
   tableIdFromHit?: (hit: SearchHit) => string;

@@ -63,7 +63,7 @@ export function registerTableTools(
     'query_table',
     {
       title: 'Query table data',
-      description: `Get data from a table as CSV with readable labels. For each variable, give value codes from get_table_metadata, or "latest" for the most recent N periods. Results above ${preset.maxCells} cells are refused with advice on how to narrow the query.`,
+      description: `Get data from a table as CSV with readable labels. For each variable, give value codes from get_table_metadata, or "latest" for the most recent N periods. Results above ${preset.maxCells} cells, or too large for the context, are refused with advice on how to narrow the query.`,
       inputSchema: z.object({
         tableId,
         lang,
@@ -96,7 +96,12 @@ export function registerTableTools(
     async ({ tableId: id, lang: language = preset.languages[0], selections }) =>
       runTool(async () => {
         const metadata = await client.getMetadata(language, id);
-        const plan = planQuery(metadata, selections, preset.maxCells);
+        const plan = planQuery(
+          metadata,
+          selections,
+          preset.maxCells,
+          preset.maxResultChars
+        );
         const table = await client.query(language, id, plan.selections);
         const header = `${table.label ?? metadata.title}. ${table.rows.length} rows.`;
         return textResult(

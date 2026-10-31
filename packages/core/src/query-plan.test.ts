@@ -117,4 +117,26 @@ describe('planQuery', () => {
       planQuery(metadata, [{ code: 'LETO', latest: 99 }], 1000).cells
     ).toBe(3);
   });
+
+  it('refuses a result that would be too large for the context and names the largest variables', () => {
+    const query = [
+      { code: 'OBČINE', values: metadata.variables[1]?.values ?? [] }
+    ];
+
+    expect(() => planQuery(metadata, query, 5000, 2000)).toThrow(
+      /about \d+ characters \(about \d+ tokens\), above the limit of 2000\. Select fewer values for MUNICIPALITIES \(212 values\)/
+    );
+  });
+
+  it('estimates the result size from the selected labels', () => {
+    const plan = planQuery(metadata, [{ code: 'SPOL', values: ['1'] }], 1000);
+
+    expect(plan.estimatedChars).toBe(3 * (3 + 1 + 4 + 1 + 10));
+  });
+
+  it('estimates latest periods from the last labels', () => {
+    const plan = planQuery(metadata, [{ code: 'LETO', latest: 1 }], 1000);
+
+    expect(plan.estimatedChars).toBe(4 + 1 + 10);
+  });
 });

@@ -1,4 +1,8 @@
-import type { PxwebSelection, TableMetadata } from '@/pxweb-client';
+import type {
+  PxwebSelection,
+  TableMetadata,
+  TableVariable
+} from '@/pxweb-client';
 
 export interface SelectionInput {
   code: string;
@@ -9,6 +13,26 @@ export interface SelectionInput {
 export interface QueryPlan {
   selections: PxwebSelection[];
   cells: number;
+  estimatedChars: number;
+}
+
+export const DEFAULT_MAX_RESULT_CHARS = 30_000;
+const VALUE_CHARS = 10;
+const CHARS_PER_TOKEN = 3.5;
+
+function averageLabelLength(
+  variable: TableVariable,
+  values: readonly string[]
+): number {
+  if (values.length === 0) return 0;
+  const labels = new Map(
+    variable.values.map((value, index) => [value, variable.valueLabels[index]])
+  );
+  const total = values.reduce(
+    (sum, value) => sum + (labels.get(value) ?? value).length,
+    0
+  );
+  return total / values.length;
 }
 
 export class QueryPlanError extends Error {
@@ -34,7 +58,8 @@ function listCodes(codes: string[]): string {
 export function planQuery(
   metadata: TableMetadata,
   inputs: SelectionInput[],
-  maxCells: number
+  maxCells: number,
+  maxResultChars: number = DEFAULT_MAX_RESULT_CHARS
 ): QueryPlan {
   const byCode = new Map(metadata.variables.map((v) => [v.code, v]));
   const inputByCode = new Map<string, SelectionInput>();
@@ -69,7 +94,7 @@ export function planQuery(
   }
 
   const selections: PxwebSelection[] = [];
-  const sizes: { label: string; count: number }[] = [];
+  const sizes: { label: string; count: number; labelChars: number }[] = [];
 
   for (const variable of metadata.variables) {
     const input = inputByCode.get(variable.code);
@@ -80,7 +105,11 @@ export function planQuery(
         code: variable.code,
         selection: { filter: 'top', values: [String(count)] }
       });
-      sizes.push({ label: variable.label, count });
+      sizes.push({
+        label: variable.label,
+        count,
+        labelChars: averageLabelLength(variable, variable.values.slice(-count))
+      });
       continue;
     }
 
@@ -96,7 +125,11 @@ export function planQuery(
         code: variable.code,
         selection: { filter: 'item', values: input.values }
       });
-      sizes.push({ label: variable.label, count: input.values.length });
+      sizes.push({
+        label: variable.label,
+        count: input.values.length,
+        labelChars: averageLabelLength(variable, input.values)
+      });
       continue;
     }
 
@@ -106,20 +139,36 @@ export function planQuery(
       code: variable.code,
       selection: { filter: 'all', values: ['*'] }
     });
-    sizes.push({ label: variable.label, count: variable.values.length });
+    sizes.push({
+      label: variable.label,
+      count: variable.values.length,
+      labelChars: averageLabelLength(variable, variable.values)
+    });
   }
 
   const cells = sizes.reduce((product, size) => product * size.count, 1);
+  const largest = sizes
+    .toSorted((a, b) => b.count - a.count)
+    .slice(0, 3)
+    .map((size) => `${size.label} (${size.count} values)`)
+    .join(', ');
   if (cells > maxCells) {
-    const largest = sizes
-      .toSorted((a, b) => b.count - a.count)
-      .slice(0, 3)
-      .map((size) => `${size.label} (${size.count} values)`)
-      .join(', ');
     throw new QueryPlanError(
       `The query would return ${cells} cells, above the limit of ${maxCells}. Select fewer values for ${largest}.`
     );
   }
 
-  return { selections, cells };
+  const rowChars = sizes.reduce(
+    (sum, size) => sum + size.labelChars + 1,
+    VALUE_CHARS
+  );
+  const estimatedChars = Math.round(cells * rowChars);
+  if (estimatedChars > maxResultChars) {
+    const tokens = Math.round(estimatedChars / CHARS_PER_TOKEN);
+    throw new QueryPlanError(
+      `The result would be about ${estimatedChars} characters (about ${tokens} tokens), above the limit of ${maxResultChars}. Select fewer values for ${largest}.`
+    );
+  }
+
+  return { selections, cells, estimatedChars };
 }
