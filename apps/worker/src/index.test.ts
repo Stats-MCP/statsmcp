@@ -8,8 +8,8 @@ function envWith(limit: RateLimit['limit']): Env {
 
 const waitUntil = (): void => undefined;
 
-function mcpRequest(method: string): Request {
-  return new Request('https://mcp.example/si/mcp', {
+function mcpRequest(method: string, path = '/si/mcp'): Request {
+  return new Request(`https://mcp.example${path}`, {
     method,
     headers: {
       'content-type': 'application/json',
@@ -81,6 +81,36 @@ describe('worker', () => {
     expect(consoleError).not.toHaveBeenCalled();
   });
 
+  it.each([
+    ['/si/mcp', 'SiStat'],
+    ['/no/mcp', 'Statistics Norway']
+  ])('serves the %s server', async (path, instructionsPart) => {
+    vi.stubGlobal('caches', { default: {} });
+    const initialize = new Request(`https://mcp.example${path}`, {
+      method: 'POST',
+      headers: mcpRequest('POST', path).headers,
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'initialize',
+        params: {
+          protocolVersion: '2025-06-18',
+          capabilities: {},
+          clientInfo: { name: 'test', version: '1.0.0' }
+        }
+      })
+    });
+
+    const response = await handleRequest(
+      initialize,
+      envWith(vi.fn<RateLimit['limit']>(async () => ({ success: true }))),
+      waitUntil
+    );
+
+    expect(response.status).toBe(200);
+    expect(await response.text()).toContain(instructionsPart);
+  });
+
   it('accepts a trailing slash and a query string on a server path', async () => {
     const response = await handleRequest(
       new Request('https://mcp.example/si/mcp/?client=x', {
@@ -93,7 +123,7 @@ describe('worker', () => {
     expect(response.status).toBe(204);
   });
 
-  it.each(['/', '/si/mcp-extra'])(
+  it.each(['/', '/si/mcp-extra', '/xx/mcp'])(
     'returns 404 with CORS headers for %s',
     async (path) => {
       const limit = vi.fn<RateLimit['limit']>();

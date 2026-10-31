@@ -1,6 +1,7 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { createMemoryCache, type Cache } from 'pxweb-mcp';
 import { createSistatServer, sistatPreset } from 'sistat-mcp';
+import { createSsbServer, ssbPreset } from 'ssb-mcp';
 
 import { createEdgeCache } from '@/edge-cache';
 
@@ -20,6 +21,16 @@ const SERVERS = new Map<string, HostedServer>([
         createSistatServer({
           cache,
           userAgent: `sistat-mcp-worker/${sistatPreset.version}`
+        })
+    }
+  ],
+  [
+    '/no/mcp',
+    {
+      create: (cache) =>
+        createSsbServer({
+          cache,
+          userAgent: `ssb-mcp-worker/${ssbPreset.version}`
         })
     }
   ]

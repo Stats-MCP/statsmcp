@@ -17,6 +17,21 @@ If you calculate new figures from the data, you must say so, for example: `Sourc
 
 This project is not affiliated with or endorsed by SURS. Do not use the SURS logo or name in a way that suggests that SURS endorses your product.
 
+## Statbank (Norway)
+
+Statistics Norway (SSB) publishes its data under the [Creative Commons Attribution 4.0 licence (CC BY 4.0)](https://www.ssb.no/en/diverse/lisens). You can use it for any purpose, including commercial use, if you name Statistics Norway as the source.
+
+The server adds the source and the licence link to every result:
+
+- `Source: Statistics Norway (SSB), CC BY 4.0 (https://www.ssb.no/en/diverse/lisens)` (English)
+- `Kilde: Statistisk sentralbyrå (SSB), CC BY 4.0 (https://www.ssb.no/diverse/lisens)` (Norwegian)
+
+Each `get_table_metadata` and `query_table` result also has the table number and a link to the table on ssb.no.
+
+If you change the data or calculate new figures, you must say so, for example: `Source: Statistics Norway (SSB) / Calculated by <you>`.
+
+This project is not affiliated with or endorsed by Statistics Norway.
+
 ## Other statistics offices
 
 Before you add or publish a server for a different statistics office, read its terms of use. Some offices do not allow commercial use. You can run these offices as presets on your computer. We do not put them on the hosted endpoint.

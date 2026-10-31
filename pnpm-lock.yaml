@@ -235,6 +235,9 @@ importers:
       sistat-mcp:
         specifier: workspace:*
         version: link:../../packages/sistat
+      ssb-mcp:
+        specifier: workspace:*
+        version: link:../../packages/ssb
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 'catalog:'
