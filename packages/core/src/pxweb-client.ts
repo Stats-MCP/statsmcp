@@ -1,22 +1,21 @@
 import { z } from 'zod';
 
-import { createMemoryCache, type Cache } from '@/cache';
+import type { Cache } from '@/cache';
 import {
-  flattenJsonStat,
-  jsonStatDatasetSchema,
-  type FlatTable,
-  type JsonStatDataset
-} from '@/json-stat';
+  createRequester,
+  DATA_TTL_SECONDS,
+  METADATA_TTL_SECONDS,
+  PxwebError,
+  SEARCH_TTL_SECONDS,
+  toFlatTable
+} from '@/http';
+import { jsonStatDatasetSchema, type FlatTable } from '@/json-stat';
 import { rankSearchHits } from '@/search-ranking';
 
-const SEARCH_TTL_SECONDS = 60 * 60;
-const METADATA_TTL_SECONDS = 24 * 60 * 60;
-const DATA_TTL_SECONDS = 60 * 60;
-const ERROR_BODY_MAX_CHARS = 300;
-const DEFAULT_TIMEOUT_MS = 30_000;
+export { PxwebError } from '@/http';
+
 /** PxWeb answers an unknown table with 400 or 404 on the metadata GET; both are reported as "not found". */
 const NOT_FOUND_STATUSES = new Set([400, 404]);
-const MAX_RESPONSE_BYTES = 20 * 1024 * 1024;
 const DATABASE_PATTERN = /^[A-Za-z0-9_-]+$/;
 const TABLE_ID_PATTERN = /^(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+(?:\.px|\.PX)?$/;
 
@@ -118,67 +117,8 @@ export interface PxwebClientOptions {
   isArchived?: (hit: SearchHit) => boolean;
 }
 
-export class PxwebError extends Error {
-  constructor(
-    message: string,
-    readonly status: number
-  ) {
-    super(message);
-    this.name = 'PxwebError';
-  }
-}
-
 export function isValidTableId(tableId: string): boolean {
   return TABLE_ID_PATTERN.test(tableId);
-}
-
-async function readCappedText(response: Response): Promise<string> {
-  if (!response.body) return '';
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let size = 0;
-  let text = '';
-  try {
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      size += value.byteLength;
-      if (size > MAX_RESPONSE_BYTES) {
-        await reader.cancel().catch(() => undefined);
-        throw new PxwebError('PxWeb response is too large.', 502);
-      }
-      text += decoder.decode(value, { stream: true });
-    }
-  } catch (err) {
-    if (err instanceof PxwebError) throw err;
-    throw new PxwebError(
-      `PxWeb response could not be read: ${err instanceof Error ? err.message : String(err)}`,
-      502
-    );
-  }
-  return text + decoder.decode();
-}
-
-function toFlatTable(dataset: JsonStatDataset): FlatTable {
-  try {
-    return flattenJsonStat(dataset);
-  } catch {
-    throw new PxwebError('PxWeb returned an invalid JSON-stat dataset.', 502);
-  }
-}
-
-function parseBody<T>(body: string, schema: z.ZodType<T>): T {
-  let json: unknown;
-  try {
-    json = JSON.parse(body.replace(/^\uFEFF/, ''));
-  } catch {
-    throw new PxwebError('PxWeb returned a response that is not JSON.', 502);
-  }
-  const result = schema.safeParse(json);
-  if (!result.success) {
-    throw new PxwebError('PxWeb returned an unexpected response shape.', 502);
-  }
-  return result.data;
 }
 
 function rootForLanguage(
@@ -208,61 +148,12 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
     }
     return `${root.replace(/\/+$/, '')}/${encodeURIComponent(lang)}`;
   };
-  const cache = options.cache ?? createMemoryCache();
-  const doFetch = options.fetch ?? fetch;
-  const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const now = options.now ?? (() => new Date());
+  const request = createRequester(options);
   const tableIdFor = (hit: SearchHit): string => {
     const custom = options.tableIdFromHit?.(hit).trim();
     return custom && isValidTableId(custom) ? custom : defaultTableId(hit);
   };
-  const headers: Record<string, string> = { accept: 'application/json' };
-  if (options.userAgent) headers['user-agent'] = options.userAgent;
-
-  async function fetchBody(url: string, init: RequestInit): Promise<string> {
-    let response: Response;
-    try {
-      response = await doFetch(url, {
-        ...init,
-        headers: { ...headers, ...init.headers },
-        signal: AbortSignal.timeout(timeoutMs)
-      });
-    } catch (err) {
-      throw new PxwebError(
-        `PxWeb request failed: ${err instanceof Error ? err.message : String(err)}`,
-        502
-      );
-    }
-    const declaredSize = Number(response.headers.get('content-length') ?? 0);
-    if (declaredSize > MAX_RESPONSE_BYTES) {
-      throw new PxwebError('PxWeb response is too large.', 502);
-    }
-    const body = await readCappedText(response);
-    if (!response.ok) {
-      throw new PxwebError(
-        `PxWeb returned HTTP ${response.status}: ${body.slice(0, ERROR_BODY_MAX_CHARS)}`,
-        response.status
-      );
-    }
-    return body;
-  }
-
-  async function request<T, R>(
-    url: string,
-    init: RequestInit,
-    schema: z.ZodType<T>,
-    map: (data: T) => R,
-    ttlSeconds: number,
-    cacheKey: string
-  ): Promise<R> {
-    const cached = await cache.get(cacheKey);
-    if (cached !== undefined) return map(parseBody(cached, schema));
-
-    const body = await fetchBody(url, init);
-    const result = map(parseBody(body, schema));
-    await cache.set(cacheKey, body, ttlSeconds);
-    return result;
-  }
 
   function tableUrl(lang: string, tableId: string): string {
     if (!isValidTableId(tableId)) {
