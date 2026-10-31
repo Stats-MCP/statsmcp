@@ -27,5 +27,26 @@ To answer a question with data:
 
 Always cite the source line that each result ends with. If you calculate new figures from the data, say they are your own calculation based on SURS data.`,
   maxCells: 5000,
-  searchLimit: 10
+  searchLimit: 10,
+  searchAliases: {
+    en: [
+      { terms: ['salary', 'salaries', 'wage'], query: 'earnings' },
+      {
+        terms: [
+          'housing price',
+          'house price',
+          'home price',
+          'property price',
+          'real estate'
+        ],
+        query: 'house price indices'
+      }
+    ],
+    sl: [
+      {
+        terms: ['cene stanovanj', 'cene nepremičnin', 'stanovanjske cene'],
+        query: 'indeksi cen stanovanjskih nepremičnin'
+      }
+    ]
+  }
 };

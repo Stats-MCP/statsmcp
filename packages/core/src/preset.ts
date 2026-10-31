@@ -1,3 +1,10 @@
+export interface SearchAlias {
+  /** Lower-case words or phrases that trigger the alias when the query contains them. */
+  terms: readonly string[];
+  /** Extra query in the database's own wording, for example "earnings" for "salary". */
+  query: string;
+}
+
 export interface PxwebPreset {
   /** MCP server name, for example "sistat". */
   name: string;
@@ -13,4 +20,6 @@ export interface PxwebPreset {
   instructions: string;
   maxCells: number;
   searchLimit: number;
+  /** Per language. Each matching alias adds one search in the database's own wording. */
+  searchAliases?: Readonly<Record<string, readonly SearchAlias[]>>;
 }

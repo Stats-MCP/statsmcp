@@ -72,13 +72,16 @@ function json(body: unknown, status = 200): Response {
 async function callTool(
   fetchMock: typeof fetch,
   name: string,
-  args: Record<string, unknown>
+  args: Record<string, unknown>,
+  serverPreset: PxwebPreset = preset
 ): Promise<{ text: string; isError: boolean }> {
   const client = createPxwebClient({
     baseUrl: preset.apiBaseUrl,
     fetch: fetchMock
   });
-  const handler = createMcpHandler(() => createPxwebServer(preset, client));
+  const handler = createMcpHandler(() =>
+    createPxwebServer(serverPreset, client)
+  );
   const response = await handler.fetch(
     new Request('https://mcp.example/mcp', {
       method: 'POST',
@@ -127,6 +130,60 @@ describe('createPxwebServer', () => {
     expect(text).toBe(
       '1 tables match; showing 1.\nEconomy/Prices/T1.px | Prices | 2026-10-05\n\nSource: Test office'
     );
+  });
+
+  it('adds the hits of a matching search alias before the plain results', async () => {
+    const fetchMock = vi.fn<typeof fetch>(async (input) =>
+      String(input).includes('query=earnings')
+        ? json([
+            {
+              id: 'E1.px',
+              title: 'Average monthly earnings',
+              published: '2026-10-01'
+            }
+          ])
+        : json([])
+    );
+    const aliasPreset: PxwebPreset = {
+      ...preset,
+      searchAliases: { en: [{ terms: ['salary'], query: 'earnings' }] }
+    };
+
+    const { text } = await callTool(
+      fetchMock,
+      'search_tables',
+      { query: 'average salary' },
+      aliasPreset
+    );
+
+    expect(text).toContain('E1.px | Average monthly earnings');
+  });
+
+  it.each([
+    ['a word inside another word', 'sewage treatment'],
+    ['an alias query that fails', 'average wage']
+  ])('keeps the plain results for %s', async (_case, query) => {
+    const fetchMock = vi.fn<typeof fetch>(async (input) =>
+      String(input).includes('query=earnings')
+        ? new Response('Too many', { status: 429 })
+        : json([
+            { id: 'S1.px', title: 'Plain result', published: '2026-01-01' }
+          ])
+    );
+    const aliasPreset: PxwebPreset = {
+      ...preset,
+      searchAliases: { en: [{ terms: ['wage'], query: 'earnings' }] }
+    };
+
+    const result = await callTool(
+      fetchMock,
+      'search_tables',
+      { query },
+      aliasPreset
+    );
+
+    expect(result.isError).toBe(false);
+    expect(result.text).toContain('S1.px | Plain result');
   });
 
   it('shortens long value lists and filters values by label', async () => {

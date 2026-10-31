@@ -1,10 +1,52 @@
 import { z } from 'zod';
 
 import type { PxwebPreset } from '@/preset';
-import type { PxwebClient } from '@/pxweb-client';
+import type { PxwebClient, TableSearchHit } from '@/pxweb-client';
+import { rankSearchHits } from '@/search-ranking';
 import { readAnnotations, runTool, textResult } from '@/tools/tool-result';
 
 import type { McpServer } from '@modelcontextprotocol/server';
+
+function normalize(text: string, lang: string): string {
+  return text.toLocaleLowerCase(lang).normalize('NFD').replace(/\p{M}/gu, '');
+}
+
+function startsWord(text: string, term: string): boolean {
+  let index = text.indexOf(term);
+  while (index >= 0) {
+    if (!/\p{L}/u.test(text[index - 1] ?? ' ')) return true;
+    index = text.indexOf(term, index + 1);
+  }
+  return false;
+}
+
+async function searchWithAliases(
+  client: PxwebClient,
+  preset: PxwebPreset,
+  lang: string,
+  query: string
+): Promise<TableSearchHit[]> {
+  const text = normalize(query, lang);
+  const aliasQueries = (preset.searchAliases?.[lang] ?? [])
+    .filter((alias) =>
+      alias.terms.some((term) => startsWord(text, normalize(term, lang)))
+    )
+    .map((alias) => alias.query);
+  const [original, ...aliases] = await Promise.allSettled(
+    [query, ...aliasQueries].map((search) => client.search(lang, search))
+  );
+  if (original?.status === 'rejected') throw original.reason;
+  const aliasHits = aliases.flatMap((result) =>
+    result.status === 'fulfilled' ? result.value : []
+  );
+  const seen = new Set<string>();
+  const merged = [...aliasHits, ...(original?.value ?? [])].filter((hit) => {
+    if (seen.has(hit.tableId)) return false;
+    seen.add(hit.tableId);
+    return true;
+  });
+  return rankSearchHits(merged, new Date().getUTCFullYear());
+}
 
 export function registerSearchTools(
   server: McpServer,
@@ -35,7 +77,7 @@ export function registerSearchTools(
     },
     async ({ query, lang = preset.languages[0], limit = preset.searchLimit }) =>
       runTool(async () => {
-        const hits = await client.search(lang, query);
+        const hits = await searchWithAliases(client, preset, lang, query);
         if (!hits.length) {
           return textResult(
             `No tables match "${query}". Try fewer or broader keywords, or the other language.`

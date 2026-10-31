@@ -7,6 +7,7 @@ import {
   type FlatTable,
   type JsonStatDataset
 } from '@/json-stat';
+import { rankSearchHits } from '@/search-ranking';
 
 const SEARCH_TTL_SECONDS = 60 * 60;
 const METADATA_TTL_SECONDS = 24 * 60 * 60;
@@ -83,6 +84,8 @@ export interface PxwebClientOptions {
   fetch?: typeof fetch;
   userAgent?: string;
   timeoutMs?: number;
+  /** Clock for search ranking; defaults to the system time. */
+  now?: () => Date;
 }
 
 export class PxwebError extends Error {
@@ -157,6 +160,7 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
   const cache = options.cache ?? createMemoryCache();
   const doFetch = options.fetch ?? fetch;
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+  const now = options.now ?? (() => new Date());
   const headers: Record<string, string> = { accept: 'application/json' };
   if (options.userAgent) headers['user-agent'] = options.userAgent;
 
@@ -223,13 +227,16 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
         { method: 'GET' },
         z.array(searchHitSchema),
         (hits) =>
-          hits.map((hit) => ({
-            tableId: hit.path
-              ? `${hit.path.replace(/^\/|\/$/g, '')}/${hit.id}`
-              : hit.id,
-            title: hit.title,
-            published: hit.published
-          })),
+          rankSearchHits(
+            hits.map((hit) => ({
+              tableId: hit.path
+                ? `${hit.path.replace(/^\/|\/$/g, '')}/${hit.id}`
+                : hit.id,
+              title: hit.title,
+              published: hit.published
+            })),
+            now().getUTCFullYear()
+          ),
         SEARCH_TTL_SECONDS,
         `search:${url}`
       );
