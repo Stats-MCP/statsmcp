@@ -21,11 +21,21 @@ describe('isValidTableId', () => {
   it.each([
     ['0156101S.px', true],
     ['folder/sub/05A1002S.px', true],
+    ['05A1002S', true],
+    ['Kpi10', true],
+    ['if/if01/kpi/SBMENU12005/Kpi10', true],
+    ['0156101S.PX', true],
     ['../secret.px', false],
-    ['05A1002S', false],
     ['/05A1002S.px', false],
     ['a/../b.px', false],
-    ['05A1002S.px?x=1', false]
+    ['05A1002S.px?x=1', false],
+    ['05A1002S.csv', false],
+    ['a.b/c', false],
+    ['%2e%2e/x', false],
+    ['a\\b', false],
+    ['a/b.px\n', false],
+    ['tabela-č', false],
+    ['a//b', false]
   ])('%s → %s', (tableId, valid) => {
     expect(isValidTableId(tableId)).toBe(valid);
   });
@@ -156,6 +166,24 @@ describe('createPxwebClient', () => {
 
     expect(fetchMock).toHaveBeenCalledWith(
       `${BASE_URL}/en/${segment}?query=population`,
+      expect.anything()
+    );
+  });
+
+  it('uses a table id without a suffix verbatim in the URL', async () => {
+    const fetchMock = vi.fn<typeof fetch>(
+      async () => new Response(metadataBody)
+    );
+    const client = createPxwebClient({
+      baseUrl: BASE_URL,
+      database: 'table',
+      fetch: fetchMock
+    });
+
+    await client.getMetadata('en', 'if/if01/kpi/SBMENU12005/Kpi10');
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      `${BASE_URL}/en/table/if/if01/kpi/SBMENU12005/Kpi10`,
       expect.anything()
     );
   });

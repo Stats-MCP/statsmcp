@@ -15,7 +15,7 @@ const ERROR_BODY_MAX_CHARS = 300;
 const DEFAULT_TIMEOUT_MS = 30_000;
 const MAX_RESPONSE_BYTES = 20 * 1024 * 1024;
 const DATABASE_PATTERN = /^[A-Za-z0-9_-]+$/;
-const TABLE_ID_PATTERN = /^(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.px$/;
+const TABLE_ID_PATTERN = /^(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+(?:\.px|\.PX)?$/;
 
 const searchHitSchema = z.object({
   id: z.string(),
@@ -206,7 +206,7 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
   function tableUrl(lang: string, tableId: string): string {
     if (!isValidTableId(tableId)) {
       throw new PxwebError(
-        `Invalid table id "${tableId}". Expected an id like "0156101S.px".`,
+        `Invalid table id "${tableId}". Use the id exactly as search_tables returns it.`,
         400
       );
     }

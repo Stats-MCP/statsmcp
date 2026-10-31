@@ -26,11 +26,11 @@ Each result line has the table ID, the title and the publication date. Use short
 
 Lists the variables of a table and their value codes.
 
-| Argument      | Type   | Description                                                                   |
-| ------------- | ------ | ----------------------------------------------------------------------------- |
-| `tableId`     | string | Table ID from `search_tables`, for example `H281S.px`.                        |
-| `lang`        | string | Optional. Language of the labels.                                             |
-| `valueFilter` | string | Optional. Shows only values whose label contains this text. Case-insensitive. |
+| Argument      | Type   | Description                                                                                                   |
+| ------------- | ------ | ------------------------------------------------------------------------------------------------------------- |
+| `tableId`     | string | Table ID exactly as `search_tables` returns it, for example `H281S.px`. Some databases use IDs without `.px`. |
+| `lang`        | string | Optional. Language of the labels.                                                                             |
+| `valueFilter` | string | Optional. Shows only values whose label contains this text. Case-insensitive.                                 |
 
 Each variable has one of these flags:
 

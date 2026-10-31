@@ -11,8 +11,8 @@ import type { McpServer } from '@modelcontextprotocol/server';
 
 const tableId = z
   .string()
-  .min(4)
-  .describe('Table id from search_tables, for example "05A1002S.px".');
+  .min(1)
+  .describe('Table id exactly as search_tables returns it.');
 
 export function registerTableTools(
   server: McpServer,
