@@ -14,11 +14,13 @@
     "format": "oxfmt --check .",
     "format:fix": "oxfmt --write .",
     "dev:worker": "pnpm build && pnpm --filter sistat-mcp-worker dev",
-    "deploy:worker": "pnpm build && pnpm --filter sistat-mcp-worker deploy"
+    "deploy:worker": "pnpm build && pnpm --filter sistat-mcp-worker deploy",
+    "lint": "oxlint"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "oxfmt": "catalog:",
+    "oxlint": "catalog:",
     "typescript": "catalog:"
   }
 }

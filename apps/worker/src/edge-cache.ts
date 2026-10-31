@@ -12,6 +12,10 @@ async function sha256(text: string): Promise<string> {
     .join('');
 }
 
+async function edgeRequest(key: string): Promise<Request> {
+  return new Request(`${CACHE_HOST}/${await sha256(key)}`);
+}
+
 /**
  * Isolate memory first, then the colo's Cache API. Cache API writes are
  * no-ops on workers.dev; they only persist on a custom domain.
@@ -21,10 +25,6 @@ export function createEdgeCache(
   memory: Cache,
   waitUntil: (promise: Promise<unknown>) => void
 ): Cache {
-  async function edgeRequest(key: string): Promise<Request> {
-    return new Request(`${CACHE_HOST}/${await sha256(key)}`);
-  }
-
   return {
     async get(key) {
       const fromMemory = await memory.get(key);

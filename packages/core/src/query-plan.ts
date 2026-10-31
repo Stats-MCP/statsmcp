@@ -111,8 +111,8 @@ export function planQuery(
 
   const cells = sizes.reduce((product, size) => product * size.count, 1);
   if (cells > maxCells) {
-    const largest = [...sizes]
-      .sort((a, b) => b.count - a.count)
+    const largest = sizes
+      .toSorted((a, b) => b.count - a.count)
       .slice(0, 3)
       .map((size) => `${size.label} (${size.count} values)`)
       .join(', ');

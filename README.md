@@ -71,6 +71,7 @@ pnpm install
 pnpm build        # build packages/core and packages/sistat
 pnpm test         # unit tests
 pnpm typecheck
+pnpm lint         # oxlint
 pnpm format       # oxfmt check
 ```
 

@@ -96,6 +96,20 @@ export function isValidTableId(tableId: string): boolean {
   return TABLE_ID_PATTERN.test(tableId);
 }
 
+function parseBody<T>(body: string, schema: z.ZodType<T>): T {
+  let json: unknown;
+  try {
+    json = JSON.parse(body.replace(/^\uFEFF/, ''));
+  } catch {
+    throw new PxwebError('PxWeb returned a response that is not JSON.', 502);
+  }
+  const result = schema.safeParse(json);
+  if (!result.success) {
+    throw new PxwebError('PxWeb returned an unexpected response shape.', 502);
+  }
+  return result.data;
+}
+
 export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
   const database = options.database ?? 'Data';
   if (!DATABASE_PATTERN.test(database)) {
@@ -137,20 +151,6 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
       throw new PxwebError('PxWeb response is too large.', 502);
     }
     return body;
-  }
-
-  function parseBody<T>(body: string, schema: z.ZodType<T>): T {
-    let json: unknown;
-    try {
-      json = JSON.parse(body.replace(/^\uFEFF/, ''));
-    } catch {
-      throw new PxwebError('PxWeb returned a response that is not JSON.', 502);
-    }
-    const result = schema.safeParse(json);
-    if (!result.success) {
-      throw new PxwebError('PxWeb returned an unexpected response shape.', 502);
-    }
-    return result.data;
   }
 
   async function request<T>(

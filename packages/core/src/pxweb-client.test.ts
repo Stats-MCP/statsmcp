@@ -33,7 +33,9 @@ describe('isValidTableId', () => {
 
 describe('createPxwebClient', () => {
   it('serves repeated metadata requests from the cache', async () => {
-    const fetchMock = vi.fn(async () => new Response(metadataBody));
+    const fetchMock = vi.fn<typeof fetch>(
+      async () => new Response(metadataBody)
+    );
     const client = createPxwebClient({ baseUrl: BASE_URL, fetch: fetchMock });
 
     await client.getMetadata('en', 'T1.px');
@@ -50,7 +52,7 @@ describe('createPxwebClient', () => {
 
   it('does not cache a response with an unexpected shape', async () => {
     const fetchMock = vi
-      .fn()
+      .fn<typeof fetch>()
       .mockResolvedValueOnce(new Response('{"unexpected":true}'))
       .mockResolvedValueOnce(new Response(metadataBody));
     const client = createPxwebClient({ baseUrl: BASE_URL, fetch: fetchMock });
@@ -78,7 +80,7 @@ describe('createPxwebClient', () => {
     [undefined, 'Data'],
     ['StatFin', 'StatFin']
   ])('builds URLs with database %s', async (database, segment) => {
-    const fetchMock = vi.fn(async () => new Response('[]'));
+    const fetchMock = vi.fn<typeof fetch>(async () => new Response('[]'));
     const client = createPxwebClient({
       baseUrl: `${BASE_URL}/`,
       database,

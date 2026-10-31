@@ -32,7 +32,7 @@ export interface FlatTable {
 function orderedCodes(index: Record<string, number> | string[]): string[] {
   if (Array.isArray(index)) return index;
   return Object.entries(index)
-    .sort(([, a], [, b]) => a - b)
+    .toSorted(([, a], [, b]) => a - b)
     .map(([code]) => code);
 }
 
