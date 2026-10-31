@@ -1,4 +1,4 @@
-import { createMcpHandler } from '@modelcontextprotocol/server';
+import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { createMemoryCache, type Cache } from 'pxweb-mcp';
 import { createSistatServer, sistatPreset } from 'sistat-mcp';
 
@@ -8,13 +8,39 @@ export interface Env {
   RATE_LIMITER: RateLimit;
 }
 
-const MCP_PATH = '/mcp';
+interface HostedServer {
+  title: string;
+  data: string;
+  create: (cache: Cache) => McpServer;
+}
 
-const LANDING_TEXT = `${sistatPreset.title}
+const SERVERS = new Map<string, HostedServer>([
+  [
+    '/si/mcp',
+    {
+      title: sistatPreset.title,
+      data: 'SiStat, Statistical Office of the Republic of Slovenia (SURS). Not affiliated with or endorsed by SURS.',
+      create: (cache) =>
+        createSistatServer({
+          cache,
+          userAgent: `sistat-mcp-worker/${sistatPreset.version}`
+        })
+    }
+  ]
+]);
 
-MCP endpoint: ${MCP_PATH} (Streamable HTTP, no authentication).
-Data: SiStat, Statistical Office of the Republic of Slovenia (SURS). Not affiliated with or endorsed by SURS.
-Source code: MIT licence.`;
+function landingText(origin: string): string {
+  const servers = [...SERVERS].map(
+    ([path, server]) =>
+      `- ${server.title}\n  ${origin}${path}\n  Data: ${server.data}`
+  );
+  return `statsmcp: MCP servers for official statistics.
+
+Endpoints (Streamable HTTP, no authentication):
+${servers.join('\n')}
+
+Source code (MIT): https://github.com/TadejPolajnar/pxweb-mcp`;
+}
 
 const CORS_HEADERS = {
   'access-control-allow-origin': '*',
@@ -55,15 +81,16 @@ export async function handleRequest(
   env: Env,
   waitUntil: (promise: Promise<unknown>) => void
 ): Promise<Response> {
-  const { pathname } = new URL(request.url);
+  const { origin, pathname } = new URL(request.url);
 
   if (pathname === '/') {
-    return new Response(LANDING_TEXT, {
+    return new Response(landingText(origin), {
       headers: { 'content-type': 'text/plain; charset=utf-8' }
     });
   }
-  if (pathname !== MCP_PATH) {
-    return new Response('Not found', { status: 404 });
+  const server = SERVERS.get(pathname.replace(/\/$/, ''));
+  if (!server) {
+    return withCors(new Response('Not found', { status: 404 }));
   }
   if (request.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: CORS_HEADERS });
@@ -79,12 +106,7 @@ export async function handleRequest(
 
   memoryCache ??= createMemoryCache();
   const cache = createEdgeCache(caches.default, memoryCache, waitUntil);
-  const handler = createMcpHandler(() =>
-    createSistatServer({
-      cache,
-      userAgent: `sistat-mcp-worker/${sistatPreset.version}`
-    })
-  );
+  const handler = createMcpHandler(() => server.create(cache));
   return withCors(await handler.fetch(request));
 }
 

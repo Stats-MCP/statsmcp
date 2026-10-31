@@ -21,12 +21,14 @@ You need a Cloudflare account and the packages built (`pnpm build`).
    pnpm deploy:worker
    ```
 
-3. Connect a client to `https://<your-worker>/mcp`.
+3. Connect a client to `https://<your-worker>/si/mcp`.
+
+The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sets the custom domain `statsmcp.dev`. Remove the `routes` entry, or change it to your domain.
 
 ### What the Worker does
 
-- `/mcp` is the MCP endpoint. It needs no authentication.
-- `/` shows a short text about the server.
+- Each server has its own path. `/si/mcp` is the SiStat endpoint. It needs no authentication.
+- `/` shows a text page that lists the endpoints.
 - Each IP address can send 60 POST requests per minute. The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sets this limit. If the rate limiter fails, the Worker lets the request through.
 - CORS allows all origins, so browser-based clients can connect.
 
@@ -52,4 +54,4 @@ pnpm build
 pnpm dev:worker
 ```
 
-The endpoint is `http://127.0.0.1:8787/mcp`.
+The SiStat endpoint is `http://127.0.0.1:8787/si/mcp`.

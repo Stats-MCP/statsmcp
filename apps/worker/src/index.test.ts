@@ -9,7 +9,7 @@ function envWith(limit: RateLimit['limit']): Env {
 const waitUntil = (): void => undefined;
 
 function mcpRequest(method: string): Request {
-  return new Request('https://mcp.example/mcp', {
+  return new Request('https://mcp.example/si/mcp', {
     method,
     headers: {
       'content-type': 'application/json',
@@ -81,16 +81,42 @@ describe('worker', () => {
     expect(consoleError).toHaveBeenCalled();
   });
 
-  it.each([
-    ['/', 200],
-    ['/other', 404]
-  ])('answers GET %s with %i', async (path, status) => {
+  it('lists the endpoint of each server on the landing page', async () => {
     const response = await handleRequest(
-      new Request(`https://mcp.example${path}`),
+      new Request('https://mcp.example/'),
       envWith(vi.fn<RateLimit['limit']>()),
       waitUntil
     );
 
-    expect(response.status).toBe(status);
+    expect(await response.text()).toContain('https://mcp.example/si/mcp');
   });
+
+  it('accepts a trailing slash and a query string on a server path', async () => {
+    const response = await handleRequest(
+      new Request('https://mcp.example/si/mcp/?client=x', {
+        method: 'OPTIONS'
+      }),
+      envWith(vi.fn<RateLimit['limit']>()),
+      waitUntil
+    );
+
+    expect(response.status).toBe(204);
+  });
+
+  it.each(['/mcp', '/other'])(
+    'returns 404 with CORS headers for %s',
+    async (path) => {
+      const limit = vi.fn<RateLimit['limit']>();
+
+      const response = await handleRequest(
+        new Request(`https://mcp.example${path}`, { method: 'POST' }),
+        envWith(limit),
+        waitUntil
+      );
+
+      expect(response.status).toBe(404);
+      expect(response.headers.get('access-control-allow-origin')).toBe('*');
+      expect(limit).not.toHaveBeenCalled();
+    }
+  );
 });

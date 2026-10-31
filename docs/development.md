@@ -43,7 +43,7 @@ pnpm format       # oxfmt check (pnpm format:fix to correct)
 
    ```sh
    pnpm dev:worker
-   claude mcp add --transport http sistat-worker http://127.0.0.1:8787/mcp
+   claude mcp add --transport http sistat-worker http://127.0.0.1:8787/si/mcp
    ```
 
 3. Ask a question from [examples.md](examples.md), for example "What is the latest inflation rate in Slovenia?".
