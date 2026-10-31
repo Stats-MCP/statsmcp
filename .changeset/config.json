@@ -2,10 +2,12 @@
   "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "Stats-MCP/statsmcp" }
+    {
+      "repo": "Stats-MCP/statsmcp"
+    }
   ],
   "commit": false,
-  "fixed": [["pxweb-mcp", "sistat-mcp"]],
+  "fixed": [["pxweb-mcp", "sistat-mcp", "ssb-mcp"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

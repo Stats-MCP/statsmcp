@@ -47,7 +47,7 @@ Do these steps in this order.
 
 ## MCP Registry metadata
 
-`packages/sistat/server.json` describes `sistat-mcp` for the [MCP Registry](https://registry.modelcontextprotocol.io). Its `name` must be the same as `mcpName` in `packages/sistat/package.json`. `pnpm version-packages` copies the new version into `server.json`.
+`packages/sistat/server.json` describes `sistat-mcp` for the [MCP Registry](https://registry.modelcontextprotocol.io). Its `name` must be the same as `mcpName` in `packages/sistat/package.json`. `pnpm version-packages` copies the new version into `server.json` and into the `version` field of each preset (`packages/*/src/preset.ts`).
 
 ## Directories
 

@@ -186,6 +186,18 @@ describe('createPxwebServer', () => {
     expect(result.text).toContain('S1.px | Plain result');
   });
 
+  it('does not repeat a table number that the title already starts with', async () => {
+    const fetchMock = vi.fn<typeof fetch>(async () =>
+      json({ ...metadata, title: '14710: Consumer price index' })
+    );
+
+    const { text } = await callTool(fetchMock, 'get_table_metadata', {
+      tableId: '14710'
+    });
+
+    expect(text.split('\n')[0]).toBe('Table 14710: Consumer price index');
+  });
+
   it('shortens long value lists and filters values by label', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () => json(metadata));
 
