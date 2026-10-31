@@ -29,6 +29,6 @@ Do these steps in this order.
 ## Hosted endpoint
 
 1. Add the domain to Cloudflare.
-2. Add a custom domain route to [`apps/worker/wrangler.jsonc`](../apps/worker/wrangler.jsonc).
+2. Add a route `statsmcp.dev/<id>/mcp*` with `zone_name` to [`apps/worker/wrangler.jsonc`](../apps/worker/wrangler.jsonc). The website project owns the custom domain.
 3. Deploy with `pnpm deploy:worker`.
 4. Add the endpoint URL to the README Quick start.

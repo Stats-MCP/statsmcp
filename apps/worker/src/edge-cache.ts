@@ -18,7 +18,7 @@ async function edgeRequest(key: string): Promise<Request> {
 
 /**
  * Isolate memory first, then the colo's Cache API. Cache API writes are
- * no-ops on workers.dev; they only persist on a custom domain.
+ * no-ops on workers.dev; they only persist on a zone (custom domain or route).
  */
 export function createEdgeCache(
   edge: globalThis.Cache,

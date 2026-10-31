@@ -9,8 +9,6 @@ export interface Env {
 }
 
 interface HostedServer {
-  title: string;
-  data: string;
   create: (cache: Cache) => McpServer;
 }
 
@@ -18,8 +16,6 @@ const SERVERS = new Map<string, HostedServer>([
   [
     '/si/mcp',
     {
-      title: sistatPreset.title,
-      data: 'SiStat, Statistical Office of the Republic of Slovenia (SURS). Not affiliated with or endorsed by SURS.',
       create: (cache) =>
         createSistatServer({
           cache,
@@ -28,19 +24,6 @@ const SERVERS = new Map<string, HostedServer>([
     }
   ]
 ]);
-
-function landingText(origin: string): string {
-  const servers = [...SERVERS].map(
-    ([path, server]) =>
-      `- ${server.title}\n  ${origin}${path}\n  Data: ${server.data}`
-  );
-  return `StatsMCP: official national statistics for every AI assistant.
-
-Endpoints (Streamable HTTP, no authentication):
-${servers.join('\n')}
-
-Source code (MIT): https://github.com/Stats-MCP/statsmcp`;
-}
 
 const CORS_HEADERS = {
   'access-control-allow-origin': '*',
@@ -80,13 +63,8 @@ export async function handleRequest(
   env: Env,
   waitUntil: (promise: Promise<unknown>) => void
 ): Promise<Response> {
-  const { origin, pathname } = new URL(request.url);
+  const { pathname } = new URL(request.url);
 
-  if (pathname === '/') {
-    return new Response(landingText(origin), {
-      headers: { 'content-type': 'text/plain; charset=utf-8' }
-    });
-  }
   const server = SERVERS.get(pathname.replace(/\/$/, ''));
   if (!server) {
     return withCors(new Response('Not found', { status: 404 }));

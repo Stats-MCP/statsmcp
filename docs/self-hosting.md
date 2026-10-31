@@ -23,12 +23,12 @@ You need a Cloudflare account and the packages built (`pnpm build`).
 
 3. Connect a client to `https://<your-worker>/si/mcp`.
 
-The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sets the custom domain `statsmcp.dev`. Remove the `routes` entry, or change it to your domain.
+The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sends `statsmcp.dev/si/mcp*` to the Worker with a Workers route. The website on `statsmcp.dev` is a separate project. To use your own domain, change the route, or remove it and use the `workers.dev` URL.
 
 ### What the Worker does
 
 - Each server has its own path. `/si/mcp` is the SiStat endpoint. It needs no authentication.
-- `/` shows a text page that lists the endpoints.
+- Each new country adds one route line, `statsmcp.dev/<id>/mcp*`, next to its entry in `SERVERS`.
 - Each IP address can send 60 POST requests per minute. The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sets this limit. If the rate limiter fails, the Worker lets the request through.
 - CORS allows all origins, so browser-based clients can connect.
 
@@ -43,7 +43,7 @@ The Worker caches responses from the statistics API in two places:
 1. In memory, for each Worker instance.
 2. In the Cloudflare Cache API, for each data centre.
 
-The Cache API keeps data only on a custom domain. On `workers.dev`, the Worker uses only the memory cache.
+The Cache API keeps data only on your own domain (a custom domain or a route). On `workers.dev`, the Worker uses only the memory cache.
 
 | Response       | Time in cache |
 | -------------- | ------------- |

@@ -81,16 +81,6 @@ describe('worker', () => {
     expect(consoleError).not.toHaveBeenCalled();
   });
 
-  it('lists the endpoint of each server on the landing page', async () => {
-    const response = await handleRequest(
-      new Request('https://mcp.example/'),
-      envWith(vi.fn<RateLimit['limit']>()),
-      waitUntil
-    );
-
-    expect(await response.text()).toContain('https://mcp.example/si/mcp');
-  });
-
   it('accepts a trailing slash and a query string on a server path', async () => {
     const response = await handleRequest(
       new Request('https://mcp.example/si/mcp/?client=x', {
@@ -103,7 +93,7 @@ describe('worker', () => {
     expect(response.status).toBe(204);
   });
 
-  it.each(['/mcp', '/other'])(
+  it.each(['/', '/si/mcp-extra'])(
     'returns 404 with CORS headers for %s',
     async (path) => {
       const limit = vi.fn<RateLimit['limit']>();
