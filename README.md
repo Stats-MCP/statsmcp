@@ -9,7 +9,7 @@ Website: [statsmcp.dev](https://statsmcp.dev)
 
 Official national statistics for every AI assistant. StatsMCP is a set of MCP servers for the databases of national statistics offices. The servers use the [PxWeb API](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/), which many national statistics offices use.
 
-The first server is **sistat-mcp** for [SiStat](https://pxweb.stat.si/SiStat/en), the database of the Statistical Office of the Republic of Slovenia (SURS). SiStat has more than 4,800 tables in Slovenian and English. The second server is **ssb-mcp** for [Statbank Norway](https://www.ssb.no/en/statbank), the database of Statistics Norway (SSB).
+The first server is **sistat-mcp** for [SiStat](https://pxweb.stat.si/SiStat/en), the database of the Statistical Office of the Republic of Slovenia (SURS). SiStat has more than 4,800 tables in Slovenian and English. The second server is **ssb-mcp** for [Statbank Norway](https://www.ssb.no/en/statbank), the database of Statistics Norway (SSB). The third is **stat-ee-mcp** for the [database of Statistics Estonia](https://andmed.stat.ee/en/stat).
 
 > **You:** What is the latest inflation rate in Slovenia?
 >
@@ -42,6 +42,12 @@ For Norway:
 claude mcp add --transport http statsmcp-no https://statsmcp.dev/no/mcp
 ```
 
+For Estonia:
+
+```sh
+claude mcp add --transport http statsmcp-ee https://statsmcp.dev/ee/mcp
+```
+
 For Claude, ChatGPT, Cursor and VS Code, the steps are on [statsmcp.dev](https://statsmcp.dev).
 
 **Local (stdio)**
@@ -70,11 +76,12 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 
 ## Databases
 
-| Database                                          | Country  | Package                         | Status                   |
-| ------------------------------------------------- | -------- | ------------------------------- | ------------------------ |
-| [SiStat](https://pxweb.stat.si/SiStat/en)         | Slovenia | [`sistat-mcp`](packages/sistat) | Available                |
-| [Statbank Norway](https://www.ssb.no/en/statbank) | Norway   | [`ssb-mcp`](packages/ssb)       | Hosted; npm package soon |
-| Statistics Iceland                                | Iceland  |                                 | Planned                  |
+| Database                                             | Country  | Package                           | Status                   |
+| ---------------------------------------------------- | -------- | --------------------------------- | ------------------------ |
+| [SiStat](https://pxweb.stat.si/SiStat/en)            | Slovenia | [`sistat-mcp`](packages/sistat)   | Available                |
+| [Statbank Norway](https://www.ssb.no/en/statbank)    | Norway   | [`ssb-mcp`](packages/ssb)         | Hosted; npm package soon |
+| [Statistics Estonia](https://andmed.stat.ee/en/stat) | Estonia  | [`stat-ee-mcp`](packages/stat-ee) | Hosted; npm package soon |
+| Statistics Iceland                                   | Iceland  |                                   | Planned                  |
 
 To add a database that uses PxWeb, use the [`pxweb-mcp`](packages/core) toolkit.
 

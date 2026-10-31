@@ -2,6 +2,7 @@ import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { createMemoryCache, type Cache } from 'pxweb-mcp';
 import { createSistatServer, sistatPreset } from 'sistat-mcp';
 import { createSsbServer, ssbPreset } from 'ssb-mcp';
+import { createStatEeServer, statEePreset } from 'stat-ee-mcp';
 
 import { createEdgeCache } from '@/edge-cache';
 
@@ -31,6 +32,16 @@ const SERVERS = new Map<string, HostedServer>([
         createSsbServer({
           cache,
           userAgent: `ssb-mcp-worker/${ssbPreset.version}`
+        })
+    }
+  ],
+  [
+    '/ee/mcp',
+    {
+      create: (cache) =>
+        createStatEeServer({
+          cache,
+          userAgent: `stat-ee-mcp-worker/${statEePreset.version}`
         })
     }
   ]

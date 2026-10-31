@@ -13,7 +13,8 @@
     "@modelcontextprotocol/server": "catalog:",
     "pxweb-mcp": "workspace:*",
     "sistat-mcp": "workspace:*",
-    "ssb-mcp": "workspace:*"
+    "ssb-mcp": "workspace:*",
+    "stat-ee-mcp": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:",

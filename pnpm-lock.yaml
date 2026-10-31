@@ -238,6 +238,9 @@ importers:
       ssb-mcp:
         specifier: workspace:*
         version: link:../../packages/ssb
+      stat-ee-mcp:
+        specifier: workspace:*
+        version: link:../../packages/stat-ee
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 'catalog:'
