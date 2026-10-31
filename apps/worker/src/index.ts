@@ -39,7 +39,7 @@ function landingText(origin: string): string {
 Endpoints (Streamable HTTP, no authentication):
 ${servers.join('\n')}
 
-Source code (MIT): https://github.com/TadejPolajnar/statsmcp`;
+Source code (MIT): https://github.com/Stats-MCP/statsmcp`;
 }
 
 const CORS_HEADERS = {

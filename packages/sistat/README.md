@@ -30,7 +30,7 @@ claude mcp add sistat -- npx -y sistat-mcp
 | `get_table_metadata` | Lists the variables of a table and their value codes. Use `valueFilter` to find a value by name. |
 | `query_table`        | Returns data as CSV with readable labels. Use `latest` for recent periods.                       |
 
-All tools are read-only. Each tool accepts `lang` (`sl` or `en`). For real calls and results, refer to the [examples](https://github.com/TadejPolajnar/statsmcp/blob/main/docs/examples.md).
+All tools are read-only. Each tool accepts `lang` (`sl` or `en`). For real calls and results, refer to the [examples](https://github.com/Stats-MCP/statsmcp/blob/main/docs/examples.md).
 
 ## Use it in your own server
 

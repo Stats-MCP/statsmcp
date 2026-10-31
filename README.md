@@ -1,6 +1,6 @@
 # StatsMCP
 
-[![CI](https://github.com/TadejPolajnar/statsmcp/actions/workflows/ci.yml/badge.svg)](https://github.com/TadejPolajnar/statsmcp/actions/workflows/ci.yml)
+[![CI](https://github.com/Stats-MCP/statsmcp/actions/workflows/ci.yml/badge.svg)](https://github.com/Stats-MCP/statsmcp/actions/workflows/ci.yml)
 [![npm: sistat-mcp](https://img.shields.io/npm/v/sistat-mcp?label=sistat-mcp)](https://www.npmjs.com/package/sistat-mcp)
 [![npm: pxweb-mcp](https://img.shields.io/npm/v/pxweb-mcp?label=pxweb-mcp)](https://www.npmjs.com/package/pxweb-mcp)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
