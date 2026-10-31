@@ -35,8 +35,7 @@ export function createEdgeCache(
         const value = await response.text();
         await memory.set(key, value, 60);
         return value;
-      } catch (err) {
-        console.error('Edge cache read failed', err);
+      } catch {
         return undefined;
       }
     },
@@ -53,9 +52,7 @@ export function createEdgeCache(
               })
             )
           )
-          .catch((err: unknown) =>
-            console.error('Edge cache write failed', err)
-          )
+          .catch(() => undefined)
       );
     }
   };

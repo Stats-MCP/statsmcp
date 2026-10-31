@@ -70,8 +70,7 @@ async function isRateLimited(env: Env, request: Request): Promise<boolean> {
   try {
     const { success } = await env.RATE_LIMITER.limit({ key: clientIp });
     return !success;
-  } catch (err) {
-    console.error('Rate limiter failed; allowing request', err);
+  } catch {
     return false;
   }
 }

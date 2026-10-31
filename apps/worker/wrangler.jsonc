@@ -3,7 +3,7 @@
   "name": "statsmcp",
   "main": "src/index.ts",
   "compatibility_date": "2026-10-01",
-  "observability": { "enabled": true },
+  "observability": { "enabled": false },
   "routes": [{ "pattern": "statsmcp.dev", "custom_domain": true }],
   "ratelimits": [
     {

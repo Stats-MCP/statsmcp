@@ -32,6 +32,10 @@ The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sets the custom domai
 - Each IP address can send 60 POST requests per minute. The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sets this limit. If the rate limiter fails, the Worker lets the request through.
 - CORS allows all origins, so browser-based clients can connect.
 
+### Privacy
+
+The Worker does not store logs. Workers observability is off in [`wrangler.jsonc`](../apps/worker/wrangler.jsonc), so Cloudflare does not keep the Worker output, and the Worker code does not print request content. The rate limiter counts requests for each IP address for one minute and does not keep them after that.
+
 ### Cache
 
 The Worker caches responses from the statistics API in two places:

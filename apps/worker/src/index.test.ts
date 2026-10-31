@@ -59,7 +59,7 @@ describe('worker', () => {
     expect(limit).toHaveBeenCalledWith({ key: '203.0.113.7' });
   });
 
-  it('serves the request when the rate limiter fails', async () => {
+  it('serves the request without logging when the rate limiter fails', async () => {
     // tools/list never reads the cache, so an empty Cache API stub is enough.
     vi.stubGlobal('caches', { default: {} });
     const consoleError = vi
@@ -78,7 +78,7 @@ describe('worker', () => {
     expect(response.status).toBe(200);
     expect(response.headers.get('access-control-allow-origin')).toBe('*');
     expect(await response.text()).toContain('query_table');
-    expect(consoleError).toHaveBeenCalled();
+    expect(consoleError).not.toHaveBeenCalled();
   });
 
   it('lists the endpoint of each server on the landing page', async () => {
