@@ -1,0 +1,45 @@
+{
+  "name": "sistat-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for SiStat, the database of the Statistical Office of the Republic of Slovenia (SURS)",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "sistat",
+    "surs",
+    "slovenia",
+    "statistics",
+    "pxweb"
+  ],
+  "bin": {
+    "sistat-mcp": "./dist/bin.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "catalog:",
+    "pxweb-mcp": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

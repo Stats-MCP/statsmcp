@@ -4,6 +4,9 @@
   "description": "MCP server toolkit for PxWeb API v1 statistics databases",
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "keywords": [
     "mcp",
     "pxweb",

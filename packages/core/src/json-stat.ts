@@ -9,7 +9,6 @@ export const jsonStatDatasetSchema = z.object({
   class: z.literal('dataset'),
   label: z.string().optional(),
   source: z.string().optional(),
-  updated: z.string().optional(),
   id: z.array(z.string()),
   size: z.array(z.number()),
   dimension: z.record(
@@ -26,7 +25,6 @@ export type JsonStatDataset = z.infer<typeof jsonStatDatasetSchema>;
 
 export interface FlatTable {
   label: string | undefined;
-  updated: string | undefined;
   columns: string[];
   rows: (string | number | null)[][];
 }
@@ -75,7 +73,6 @@ export function flattenJsonStat(dataset: JsonStatDataset): FlatTable {
 
   return {
     label: dataset.label,
-    updated: dataset.updated,
     columns: [...dims.map((dim) => dim.label), 'Value'],
     rows
   };

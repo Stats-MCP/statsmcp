@@ -98,13 +98,7 @@ export function registerTableTools(
         const metadata = await client.getMetadata(language, id);
         const plan = planQuery(metadata, selections, preset.maxCells);
         const table = await client.query(language, id, plan.selections);
-        const header = [
-          table.label ?? metadata.title,
-          table.updated ? `Updated ${table.updated.slice(0, 10)}.` : undefined,
-          `${table.rows.length} rows.`
-        ]
-          .filter(Boolean)
-          .join(' ');
+        const header = `${table.label ?? metadata.title}. ${table.rows.length} rows.`;
         return textResult(
           `${header}\n\n${toCsv(table)}\n\n${sourceLine(language, id)}`
         );

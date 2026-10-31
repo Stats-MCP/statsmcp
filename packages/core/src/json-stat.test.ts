@@ -47,7 +47,6 @@ describe('toCsv', () => {
   it('quotes cells that contain commas or quotes', () => {
     const csv = toCsv({
       label: undefined,
-      updated: undefined,
       columns: ['Region', 'Value'],
       rows: [
         ['Ljubljana, city', 1],
