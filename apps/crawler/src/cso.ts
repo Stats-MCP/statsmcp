@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import type { CrawlSource } from '@/crawl';
 
-import type { TableDoc } from 'pxweb-mcp';
+import type { TableDoc } from '@statsmcp/core';
 
 const MAX_COLLECTION_BYTES = 100 * 1024 * 1024;
 

@@ -10,13 +10,13 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "abs-mcp": "workspace:*",
-    "cbs-mcp": "workspace:*",
-    "dst-mcp": "workspace:*",
-    "pxweb-mcp": "workspace:*",
-    "scb-mcp": "workspace:*",
-    "statsmcp-eurostat": "workspace:*",
-    "statsmcp-statcan": "workspace:*",
+    "@statsmcp/abs": "workspace:*",
+    "@statsmcp/cbs": "workspace:*",
+    "@statsmcp/core": "workspace:*",
+    "@statsmcp/dst": "workspace:*",
+    "@statsmcp/eurostat": "workspace:*",
+    "@statsmcp/scb": "workspace:*",
+    "@statsmcp/statcan": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {

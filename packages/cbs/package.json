@@ -1,5 +1,5 @@
 {
-  "name": "cbs-mcp",
+  "name": "@statsmcp/cbs",
   "version": "0.3.0",
   "description": "MCP server for StatLine, the database of Statistics Netherlands (CBS)",
   "license": "MIT",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { snapshotProblems } from '@/validate';
 
-import type { Snapshot } from 'pxweb-mcp';
+import type { Snapshot } from '@statsmcp/core';
 
 function snapshot(ids: string[]): Snapshot {
   return {

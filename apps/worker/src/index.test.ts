@@ -1,4 +1,4 @@
-import { writeSnapshot } from 'pxweb-mcp';
+import { writeSnapshot } from '@statsmcp/core';
 import { afterEach, describe, expect, inject, it, vi } from 'vitest';
 
 import { HOSTED_PATHS, handleRequest, type Env } from '@/index';

@@ -1,5 +1,5 @@
 {
-  "name": "abs-mcp",
+  "name": "@statsmcp/abs",
   "version": "0.3.0",
   "description": "MCP server for the Data API of the Australian Bureau of Statistics (ABS)",
   "license": "MIT",
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

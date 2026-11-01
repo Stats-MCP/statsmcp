@@ -1,5 +1,5 @@
 {
-  "name": "scb-mcp",
+  "name": "@statsmcp/scb",
   "version": "0.3.0",
   "description": "MCP server for the Statistical Database of Statistics Sweden (SCB)",
   "license": "MIT",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // CBS publishes under CC BY 4.0 and asks to be cited as the source:
 // https://www.cbs.nl/en-gb/about-us/website/copyright

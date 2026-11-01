@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import type { CrawlContext, CrawlSource } from '@/crawl';
 
-import type { TableDoc } from 'pxweb-mcp';
+import type { TableDoc } from '@statsmcp/core';
 
 export interface PxwebTreeSourceOptions {
   name: string;

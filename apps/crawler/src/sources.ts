@@ -1,14 +1,14 @@
-import { absPreset } from 'abs-mcp';
-import { cbsPreset } from 'cbs-mcp';
-import { dstPreset } from 'dst-mcp';
+import { absPreset } from '@statsmcp/abs';
+import { cbsPreset } from '@statsmcp/cbs';
 import {
   createMemoryCache,
   createPresetClient,
   type PxwebPreset
-} from 'pxweb-mcp';
-import { scbPreset } from 'scb-mcp';
-import { eurostatPreset } from 'statsmcp-eurostat';
-import { statcanPreset } from 'statsmcp-statcan';
+} from '@statsmcp/core';
+import { dstPreset } from '@statsmcp/dst';
+import { eurostatPreset } from '@statsmcp/eurostat';
+import { scbPreset } from '@statsmcp/scb';
+import { statcanPreset } from '@statsmcp/statcan';
 
 import type { CrawlSource } from '@/crawl';
 import { csoSource } from '@/cso';

@@ -1,5 +1,5 @@
 {
-  "name": "cso-mcp",
+  "name": "@statsmcp/cso",
   "version": "0.3.0",
   "description": "MCP server for PxStat, the database of the Central Statistics Office of Ireland (CSO)",
   "license": "MIT",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

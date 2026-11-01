@@ -1,5 +1,5 @@
 {
-  "name": "pxweb-mcp",
+  "name": "@statsmcp/core",
   "version": "0.3.0",
   "description": "MCP server toolkit for PxWeb API v1 statistics databases",
   "license": "MIT",

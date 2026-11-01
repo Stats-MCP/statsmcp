@@ -8,7 +8,7 @@ import {
   type Snapshot,
   type SnapshotReader,
   type TableDoc
-} from 'pxweb-mcp';
+} from '@statsmcp/core';
 
 import { openCheckpoint, type Checkpoint } from '@/checkpoint';
 import { createCrawlFetch, type CrawlFetch } from '@/crawl-fetch';

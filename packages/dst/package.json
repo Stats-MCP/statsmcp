@@ -1,5 +1,5 @@
 {
-  "name": "dst-mcp",
+  "name": "@statsmcp/dst",
   "version": "0.3.0",
   "description": "MCP server for StatBank Denmark, the database of Statistics Denmark (Danmarks Statistik)",
   "license": "MIT",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

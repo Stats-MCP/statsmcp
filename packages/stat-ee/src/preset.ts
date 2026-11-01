@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // Statistics Estonia shares its open data under CC BY-SA 4.0 (footer of andmed.stat.ee).
 const LICENCE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/';

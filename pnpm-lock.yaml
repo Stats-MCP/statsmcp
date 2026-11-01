@@ -229,25 +229,25 @@ importers:
 
   apps/crawler:
     dependencies:
-      abs-mcp:
+      '@statsmcp/abs':
         specifier: workspace:*
         version: link:../../packages/abs
-      cbs-mcp:
+      '@statsmcp/cbs':
         specifier: workspace:*
         version: link:../../packages/cbs
-      dst-mcp:
-        specifier: workspace:*
-        version: link:../../packages/dst
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../../packages/core
-      scb-mcp:
+      '@statsmcp/dst':
         specifier: workspace:*
-        version: link:../../packages/scb
-      statsmcp-eurostat:
+        version: link:../../packages/dst
+      '@statsmcp/eurostat':
         specifier: workspace:*
         version: link:../../packages/eurostat
-      statsmcp-statcan:
+      '@statsmcp/scb':
+        specifier: workspace:*
+        version: link:../../packages/scb
+      '@statsmcp/statcan':
         specifier: workspace:*
         version: link:../../packages/statcan
       zod:
@@ -272,51 +272,51 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      abs-mcp:
+      '@statsmcp/abs':
         specifier: workspace:*
         version: link:../../packages/abs
-      cbs-mcp:
+      '@statsmcp/cbs':
         specifier: workspace:*
         version: link:../../packages/cbs
-      cso-mcp:
-        specifier: workspace:*
-        version: link:../../packages/cso
-      dst-mcp:
-        specifier: workspace:*
-        version: link:../../packages/dst
-      dzs-mcp:
-        specifier: workspace:*
-        version: link:../../packages/dzs
-      hagstova-mcp:
-        specifier: workspace:*
-        version: link:../../packages/hagstova
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../../packages/core
-      scb-mcp:
+      '@statsmcp/cso':
         specifier: workspace:*
-        version: link:../../packages/scb
-      sistat-mcp:
+        version: link:../../packages/cso
+      '@statsmcp/dst':
         specifier: workspace:*
-        version: link:../../packages/sistat
-      ssb-mcp:
+        version: link:../../packages/dst
+      '@statsmcp/dzs':
         specifier: workspace:*
-        version: link:../../packages/ssb
-      stat-ee-mcp:
-        specifier: workspace:*
-        version: link:../../packages/stat-ee
-      statfin-mcp:
-        specifier: workspace:*
-        version: link:../../packages/statfin
-      statice-mcp:
-        specifier: workspace:*
-        version: link:../../packages/statice
-      statsmcp-eurostat:
+        version: link:../../packages/dzs
+      '@statsmcp/eurostat':
         specifier: workspace:*
         version: link:../../packages/eurostat
-      statsmcp-statcan:
+      '@statsmcp/hagstova':
+        specifier: workspace:*
+        version: link:../../packages/hagstova
+      '@statsmcp/scb':
+        specifier: workspace:*
+        version: link:../../packages/scb
+      '@statsmcp/sistat':
+        specifier: workspace:*
+        version: link:../../packages/sistat
+      '@statsmcp/ssb':
+        specifier: workspace:*
+        version: link:../../packages/ssb
+      '@statsmcp/stat-ee':
+        specifier: workspace:*
+        version: link:../../packages/stat-ee
+      '@statsmcp/statcan':
         specifier: workspace:*
         version: link:../../packages/statcan
+      '@statsmcp/statfin':
+        specifier: workspace:*
+        version: link:../../packages/statfin
+      '@statsmcp/statice':
+        specifier: workspace:*
+        version: link:../../packages/statice
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 'catalog:'
@@ -336,7 +336,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -358,7 +358,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -405,7 +405,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -427,7 +427,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -449,7 +449,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -471,7 +471,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -493,7 +493,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -515,7 +515,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -537,7 +537,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -559,7 +559,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -581,7 +581,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -603,7 +603,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -625,7 +625,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -647,7 +647,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -669,7 +669,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
-      pxweb-mcp:
+      '@statsmcp/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:

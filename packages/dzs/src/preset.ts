@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // The Croatian Bureau of Statistics publishes under the Open Licence of the Republic
 // of Croatia. It asks for the source, the date of the last update and a link to the table.

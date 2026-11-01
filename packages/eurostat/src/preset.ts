@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // Eurostat allows reuse, also commercial, if the source is acknowledged. Data for
 // countries outside the EU, EFTA and candidate countries is for non-commercial use only:

@@ -1,4 +1,4 @@
-import type { Snapshot } from 'pxweb-mcp';
+import type { Snapshot } from '@statsmcp/core';
 
 export const MAX_COUNT_DROP = 0.2;
 

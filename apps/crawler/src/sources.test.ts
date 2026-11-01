@@ -1,4 +1,4 @@
-import { dstPreset } from 'dst-mcp';
+import { dstPreset } from '@statsmcp/dst';
 import { describe, expect, it, vi } from 'vitest';
 
 import type { CrawlContext } from '@/crawl';

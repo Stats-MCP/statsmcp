@@ -1,4 +1,4 @@
-import type { Cache } from 'pxweb-mcp';
+import type { Cache } from '@statsmcp/core';
 
 const CACHE_HOST = 'https://cache.sistat-mcp.internal';
 

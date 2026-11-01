@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // Statistics Faroe Islands publishes under CC BY 4.0: https://hagstova.fo/en/terms-use
 const ATTRIBUTION = {

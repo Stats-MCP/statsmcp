@@ -1,5 +1,5 @@
 {
-  "name": "statsmcp-eurostat",
+  "name": "@statsmcp/eurostat",
   "version": "0.3.0",
   "description": "MCP server for the Eurostat database (harmonised statistics for EU and EFTA countries)",
   "license": "MIT",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

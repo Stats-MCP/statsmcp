@@ -1,5 +1,5 @@
 {
-  "name": "statsmcp-singstat",
+  "name": "@statsmcp/singstat",
   "version": "0.3.0",
   "description": "MCP server for SingStat Table Builder, the database of the Singapore Department of Statistics",
   "license": "MIT",
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

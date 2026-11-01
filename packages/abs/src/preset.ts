@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // Most ABS material is under CC BY 4.0 and must be attributed to the ABS:
 // https://www.abs.gov.au/website-privacy-copyright-and-disclaimer#copyright-and-creative-commons

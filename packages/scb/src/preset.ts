@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // Statistics Sweden publishes the database under CC0 (API /config) and asks to be named as the source.
 const LICENCE = 'CC0 (https://creativecommons.org/publicdomain/zero/1.0/)';

@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // Statistics Denmark: CC BY 4.0, commercial use allowed, cite "Statistics Denmark":
 // https://www.dst.dk/en/Statistik/brug-statistikken/kildeangivelse

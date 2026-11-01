@@ -1,24 +1,24 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
-import { createAbsServer, absPreset } from 'abs-mcp';
-import { createCbsServer, cbsPreset } from 'cbs-mcp';
-import { createCsoServer, csoPreset } from 'cso-mcp';
-import { createDstServer, dstPreset } from 'dst-mcp';
-import { createDzsServer, dzsPreset } from 'dzs-mcp';
-import { createHagstovaServer, hagstovaPreset } from 'hagstova-mcp';
+import { createAbsServer, absPreset } from '@statsmcp/abs';
+import { createCbsServer, cbsPreset } from '@statsmcp/cbs';
 import {
   bucketSnapshotReader,
   createMemoryCache,
   type Cache,
   type SnapshotReader
-} from 'pxweb-mcp';
-import { createScbServer, scbPreset } from 'scb-mcp';
-import { createSistatServer, sistatPreset } from 'sistat-mcp';
-import { createSsbServer, ssbPreset } from 'ssb-mcp';
-import { createStatEeServer, statEePreset } from 'stat-ee-mcp';
-import { createStatfinServer, statfinPreset } from 'statfin-mcp';
-import { createStaticeServer, staticePreset } from 'statice-mcp';
-import { createEurostatServer, eurostatPreset } from 'statsmcp-eurostat';
-import { createStatcanServer, statcanPreset } from 'statsmcp-statcan';
+} from '@statsmcp/core';
+import { createCsoServer, csoPreset } from '@statsmcp/cso';
+import { createDstServer, dstPreset } from '@statsmcp/dst';
+import { createDzsServer, dzsPreset } from '@statsmcp/dzs';
+import { createEurostatServer, eurostatPreset } from '@statsmcp/eurostat';
+import { createHagstovaServer, hagstovaPreset } from '@statsmcp/hagstova';
+import { createScbServer, scbPreset } from '@statsmcp/scb';
+import { createSistatServer, sistatPreset } from '@statsmcp/sistat';
+import { createSsbServer, ssbPreset } from '@statsmcp/ssb';
+import { createStatEeServer, statEePreset } from '@statsmcp/stat-ee';
+import { createStatcanServer, statcanPreset } from '@statsmcp/statcan';
+import { createStatfinServer, statfinPreset } from '@statsmcp/statfin';
+import { createStaticeServer, staticePreset } from '@statsmcp/statice';
 
 import { createEdgeCache } from '@/edge-cache';
 import { isIndexFile, serveIndexFile, type IndexBucket } from '@/index-files';

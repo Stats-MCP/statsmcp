@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // Statistics Finland publishes under CC BY 4.0:
 // https://stat.fi/en/about-us/get-to-know-statistics-finland/legislation/terms-of-use

@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { parseArgs } from 'node:util';
 
-import { urlSnapshotReader } from 'pxweb-mcp';
+import { urlSnapshotReader } from '@statsmcp/core';
 import { z } from 'zod';
 
 import { crawlSource } from '@/crawl';

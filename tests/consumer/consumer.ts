@@ -25,13 +25,13 @@ import {
   type TableMetadata,
   type TableSearchHit,
   type TableVariable
-} from 'pxweb-mcp';
-import { nodeTableSnapshots } from 'pxweb-mcp/node';
+} from '@statsmcp/core';
+import { nodeTableSnapshots } from '@statsmcp/core/node';
 import {
   createSistatServer,
   sistatPreset,
   type SistatServerOptions
-} from 'sistat-mcp';
+} from '@statsmcp/sistat';
 
 const preset: PxwebPreset = {
   name: 'statfin',

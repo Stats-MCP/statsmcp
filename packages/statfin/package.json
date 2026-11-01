@@ -1,5 +1,5 @@
 {
-  "name": "statfin-mcp",
+  "name": "@statsmcp/statfin",
   "version": "0.3.0",
   "description": "MCP server for StatFin, the database of Statistics Finland (Tilastokeskus)",
   "license": "MIT",
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

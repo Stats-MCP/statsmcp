@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // SingStat datasets are under the Singapore Open Data Licence: commercial use allowed,
 // credit the dataset and link the licence, no official status implied.

@@ -1,5 +1,5 @@
 {
-  "name": "stat-ee-mcp",
+  "name": "@statsmcp/stat-ee",
   "version": "0.3.0",
   "description": "MCP server for the database of Statistics Estonia (Statistikaamet)",
   "license": "MIT",
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // Statistics Iceland publishes under CC BY 4.0: https://statice.is/publications/open-data-access
 const TERMS = 'https://statice.is/publications/open-data-access';

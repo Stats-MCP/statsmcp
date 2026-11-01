@@ -1,5 +1,5 @@
 {
-  "name": "ssb-mcp",
+  "name": "@statsmcp/ssb",
   "version": "0.3.0",
   "description": "MCP server for Statbank Norway, the database of Statistics Norway (SSB)",
   "license": "MIT",
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

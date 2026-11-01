@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // Statistics Canada Open Licence: commercial use allowed; credit "Statistics Canada",
 // and "Adapted from Statistics Canada" for changed data: https://www.statcan.gc.ca/en/reference/licence

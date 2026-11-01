@@ -1,5 +1,5 @@
 {
-  "name": "sistat-mcp",
+  "name": "@statsmcp/sistat",
   "version": "0.3.0",
   "mcpName": "io.github.Stats-MCP/sistat",
   "description": "MCP server for SiStat, the database of the Statistical Office of the Republic of Slovenia (SURS)",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
-    "pxweb-mcp": "workspace:*"
+    "@statsmcp/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",

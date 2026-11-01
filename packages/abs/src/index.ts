@@ -1,4 +1,4 @@
-import { createPresetServer, type PresetServerOptions } from 'pxweb-mcp';
+import { createPresetServer, type PresetServerOptions } from '@statsmcp/core';
 
 import { absPreset } from '@/preset';
 

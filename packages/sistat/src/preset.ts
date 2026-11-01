@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 const SISTAT_WEB = 'https://pxweb.stat.si/SiStatData/pxweb';
 

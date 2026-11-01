@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { nodeTableSnapshots } from 'pxweb-mcp/node';
+import { nodeTableSnapshots } from '@statsmcp/core/node';
 
 import { createScbServer, scbPreset } from '@/index';
 

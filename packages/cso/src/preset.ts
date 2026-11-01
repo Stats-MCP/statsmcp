@@ -1,4 +1,4 @@
-import type { PxwebPreset } from 'pxweb-mcp';
+import type { PxwebPreset } from '@statsmcp/core';
 
 // The Central Statistics Office publishes its statistics under CC BY 4.0:
 // https://www.cso.ie/en/aboutus/whoweare/copyrightpolicy/
