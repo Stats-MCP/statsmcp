@@ -1,24 +1,28 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
-import { createAbsServer, absPreset } from '@statsmcp/abs';
-import { createCbsServer, cbsPreset } from '@statsmcp/cbs';
+import { absPreset } from '@statsmcp/abs';
+import { cbsPreset } from '@statsmcp/cbs';
 import {
   bucketSnapshotReader,
   createMemoryCache,
+  createMultiServer,
+  createPresetClient,
+  createPresetServer,
   type Cache,
+  type PxwebPreset,
   type SnapshotReader
 } from '@statsmcp/core';
-import { createCsoServer, csoPreset } from '@statsmcp/cso';
-import { createDstServer, dstPreset } from '@statsmcp/dst';
-import { createDzsServer, dzsPreset } from '@statsmcp/dzs';
-import { createEurostatServer, eurostatPreset } from '@statsmcp/eurostat';
-import { createHagstovaServer, hagstovaPreset } from '@statsmcp/hagstova';
-import { createScbServer, scbPreset } from '@statsmcp/scb';
-import { createSistatServer, sistatPreset } from '@statsmcp/sistat';
-import { createSsbServer, ssbPreset } from '@statsmcp/ssb';
-import { createStatEeServer, statEePreset } from '@statsmcp/stat-ee';
-import { createStatcanServer, statcanPreset } from '@statsmcp/statcan';
-import { createStatfinServer, statfinPreset } from '@statsmcp/statfin';
-import { createStaticeServer, staticePreset } from '@statsmcp/statice';
+import { csoPreset } from '@statsmcp/cso';
+import { dstPreset } from '@statsmcp/dst';
+import { dzsPreset } from '@statsmcp/dzs';
+import { eurostatPreset } from '@statsmcp/eurostat';
+import { hagstovaPreset } from '@statsmcp/hagstova';
+import { scbPreset } from '@statsmcp/scb';
+import { sistatPreset } from '@statsmcp/sistat';
+import { ssbPreset } from '@statsmcp/ssb';
+import { statEePreset } from '@statsmcp/stat-ee';
+import { statcanPreset } from '@statsmcp/statcan';
+import { statfinPreset } from '@statsmcp/statfin';
+import { staticePreset } from '@statsmcp/statice';
 
 import { createEdgeCache } from '@/edge-cache';
 import { isIndexFile, serveIndexFile, type IndexBucket } from '@/index-files';
@@ -32,154 +36,94 @@ interface HostedServer {
   create: (cache: Cache, tableSnapshots?: SnapshotReader) => McpServer;
 }
 
+interface HostedCountry {
+  /** Path segment on statsmcp.dev and the `country` code on /mcp. */
+  code: string;
+  preset: PxwebPreset;
+  /** Package name sent in the User-Agent, kept from before the scope rename. */
+  agent: string;
+  /** Gets the crawled R2 snapshots, as search source or as fallback for a failing live list. */
+  snapshots: boolean;
+}
+
+const COUNTRIES: readonly HostedCountry[] = [
+  { code: 'si', preset: sistatPreset, agent: 'sistat-mcp', snapshots: false },
+  { code: 'no', preset: ssbPreset, agent: 'ssb-mcp', snapshots: false },
+  { code: 'ee', preset: statEePreset, agent: 'stat-ee-mcp', snapshots: false },
+  {
+    code: 'fo',
+    preset: hagstovaPreset,
+    agent: 'hagstova-mcp',
+    snapshots: false
+  },
+  { code: 'fi', preset: statfinPreset, agent: 'statfin-mcp', snapshots: false },
+  { code: 'se', preset: scbPreset, agent: 'scb-mcp', snapshots: true },
+  { code: 'dk', preset: dstPreset, agent: 'dst-mcp', snapshots: true },
+  { code: 'nl', preset: cbsPreset, agent: 'cbs-mcp', snapshots: true },
+  {
+    code: 'eu',
+    preset: eurostatPreset,
+    agent: 'statsmcp-eurostat',
+    snapshots: true
+  },
+  {
+    code: 'ca',
+    preset: statcanPreset,
+    agent: 'statsmcp-statcan',
+    snapshots: true
+  },
+  { code: 'is', preset: staticePreset, agent: 'statice-mcp', snapshots: true },
+  { code: 'hr', preset: dzsPreset, agent: 'dzs-mcp', snapshots: true },
+  { code: 'ie', preset: csoPreset, agent: 'cso-mcp', snapshots: true },
+  { code: 'au', preset: absPreset, agent: 'abs-mcp', snapshots: true }
+];
+
+function serverOptions(
+  country: HostedCountry,
+  cache: Cache,
+  tableSnapshots: SnapshotReader | undefined
+) {
+  return {
+    cache,
+    userAgent: `${country.agent}-worker/${country.preset.version}`,
+    ...(country.snapshots && tableSnapshots ? { tableSnapshots } : {})
+  };
+}
+
+// All packages share one release version (changesets fixed group), so any preset gives it.
+const MULTI_SERVER_VERSION = sistatPreset.version;
+
 const SERVERS = new Map<string, HostedServer>([
-  [
-    '/si/mcp',
-    {
-      create: (cache) =>
-        createSistatServer({
-          cache,
-          userAgent: `sistat-mcp-worker/${sistatPreset.version}`
-        })
-    }
-  ],
-  [
-    '/no/mcp',
-    {
-      create: (cache) =>
-        createSsbServer({
-          cache,
-          userAgent: `ssb-mcp-worker/${ssbPreset.version}`
-        })
-    }
-  ],
-  [
-    '/ee/mcp',
-    {
-      create: (cache) =>
-        createStatEeServer({
-          cache,
-          userAgent: `stat-ee-mcp-worker/${statEePreset.version}`
-        })
-    }
-  ],
-  [
-    '/fo/mcp',
-    {
-      create: (cache) =>
-        createHagstovaServer({
-          cache,
-          userAgent: `hagstova-mcp-worker/${hagstovaPreset.version}`
-        })
-    }
-  ],
-  [
-    '/fi/mcp',
-    {
-      create: (cache) =>
-        createStatfinServer({
-          cache,
-          userAgent: `statfin-mcp-worker/${statfinPreset.version}`
-        })
-    }
-  ],
-  [
-    '/se/mcp',
+  ...COUNTRIES.map((country): [string, HostedServer] => [
+    `/${country.code}/mcp`,
     {
       create: (cache, tableSnapshots) =>
-        createScbServer({
-          cache,
-          tableSnapshots,
-          userAgent: `scb-mcp-worker/${scbPreset.version}`
-        })
+        createPresetServer(
+          country.preset,
+          serverOptions(country, cache, tableSnapshots)
+        )
     }
-  ],
+  ]),
   [
-    '/dk/mcp',
+    '/mcp',
     {
       create: (cache, tableSnapshots) =>
-        createDstServer({
-          cache,
-          tableSnapshots,
-          userAgent: `dst-mcp-worker/${dstPreset.version}`
-        })
-    }
-  ],
-  [
-    '/nl/mcp',
-    {
-      create: (cache, tableSnapshots) =>
-        createCbsServer({
-          cache,
-          tableSnapshots,
-          userAgent: `cbs-mcp-worker/${cbsPreset.version}`
-        })
-    }
-  ],
-  [
-    '/eu/mcp',
-    {
-      create: (cache, tableSnapshots) =>
-        createEurostatServer({
-          cache,
-          tableSnapshots,
-          userAgent: `statsmcp-eurostat-worker/${eurostatPreset.version}`
-        })
-    }
-  ],
-  [
-    '/ca/mcp',
-    {
-      create: (cache, tableSnapshots) =>
-        createStatcanServer({
-          cache,
-          tableSnapshots,
-          userAgent: `statsmcp-statcan-worker/${statcanPreset.version}`
-        })
-    }
-  ],
-  [
-    '/is/mcp',
-    {
-      create: (cache, tableSnapshots) =>
-        createStaticeServer({
-          cache,
-          tableSnapshots,
-          userAgent: `statice-mcp-worker/${staticePreset.version}`
-        })
-    }
-  ],
-  [
-    '/hr/mcp',
-    {
-      create: (cache, tableSnapshots) =>
-        createDzsServer({
-          cache,
-          tableSnapshots,
-          userAgent: `dzs-mcp-worker/${dzsPreset.version}`
-        })
-    }
-  ],
-  [
-    '/ie/mcp',
-    {
-      create: (cache, tableSnapshots) =>
-        createCsoServer({
-          cache,
-          tableSnapshots,
-          userAgent: `cso-mcp-worker/${csoPreset.version}`
-        })
-    }
-  ],
-  [
-    '/au/mcp',
-    {
-      create: (cache, tableSnapshots) =>
-        createAbsServer({
-          cache,
-          tableSnapshots,
-          userAgent: `abs-mcp-worker/${absPreset.version}`
-        })
+        createMultiServer(
+          COUNTRIES.map((country) => ({
+            code: country.code,
+            preset: country.preset,
+            client: () =>
+              createPresetClient(
+                country.preset,
+                serverOptions(country, cache, tableSnapshots)
+              )
+          })),
+          {
+            name: 'statsmcp',
+            title: 'StatsMCP (official statistics from many offices)',
+            version: MULTI_SERVER_VERSION
+          }
+        )
     }
   ]
 ]);

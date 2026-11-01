@@ -102,7 +102,8 @@ describe('worker', () => {
     ['/is/mcp', 'Statistics Iceland'],
     ['/hr/mcp', 'Croatian Bureau of Statistics'],
     ['/ie/mcp', 'Central Statistics Office'],
-    ['/au/mcp', 'Australian Bureau of Statistics']
+    ['/au/mcp', 'Australian Bureau of Statistics'],
+    ['/mcp', 'many national statistics offices']
   ])('serves the %s server', async (path, instructionsPart) => {
     vi.stubGlobal('caches', { default: {} });
     const initialize = new Request(`https://mcp.example${path}`, {
@@ -193,7 +194,7 @@ describe('worker', () => {
     expect(response.status).toBe(204);
   });
 
-  it.each(['/', '/si/mcp-extra', '/xx/mcp'])(
+  it.each(['/', '/si/mcp-extra', '/mcp-extra', '/xx/mcp'])(
     'returns 404 with CORS headers for %s',
     async (path) => {
       const limit = vi.fn<RateLimit['limit']>();
@@ -214,7 +215,11 @@ describe('worker', () => {
     const patterns = inject('routePatterns');
 
     expect(
-      HOSTED_PATHS.filter((path) => !patterns.includes(`statsmcp.dev${path}*`))
+      HOSTED_PATHS.filter(
+        (path) =>
+          !patterns.includes(`statsmcp.dev${path}*`) &&
+          !patterns.includes(`statsmcp.dev${path}`)
+      )
     ).toEqual([]);
   });
 });
