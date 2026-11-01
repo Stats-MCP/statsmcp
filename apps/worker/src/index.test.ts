@@ -86,7 +86,8 @@ describe('worker', () => {
     ['/no/mcp', 'Statistics Norway'],
     ['/ee/mcp', 'Statistics Estonia'],
     ['/fo/mcp', 'Statistics Faroe Islands'],
-    ['/fi/mcp', 'Statistics Finland']
+    ['/fi/mcp', 'Statistics Finland'],
+    ['/se/mcp', 'Statistics Sweden']
   ])('serves the %s server', async (path, instructionsPart) => {
     vi.stubGlobal('caches', { default: {} });
     const initialize = new Request(`https://mcp.example${path}`, {

@@ -1,6 +1,7 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { createHagstovaServer, hagstovaPreset } from 'hagstova-mcp';
 import { createMemoryCache, type Cache } from 'pxweb-mcp';
+import { createScbServer, scbPreset } from 'scb-mcp';
 import { createSistatServer, sistatPreset } from 'sistat-mcp';
 import { createSsbServer, ssbPreset } from 'ssb-mcp';
 import { createStatEeServer, statEePreset } from 'stat-ee-mcp';
@@ -64,6 +65,16 @@ const SERVERS = new Map<string, HostedServer>([
         createStatfinServer({
           cache,
           userAgent: `statfin-mcp-worker/${statfinPreset.version}`
+        })
+    }
+  ],
+  [
+    '/se/mcp',
+    {
+      create: (cache) =>
+        createScbServer({
+          cache,
+          userAgent: `scb-mcp-worker/${scbPreset.version}`
         })
     }
   ]
