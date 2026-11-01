@@ -1,6 +1,6 @@
 {
   "name": "pxweb-mcp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "MCP server toolkit for PxWeb API v1 statistics databases",
   "license": "MIT",
   "author": "Tadej Polajnar",

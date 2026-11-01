@@ -10,7 +10,7 @@ const ATTRIBUTION = {
 export const statcanPreset: PxwebPreset = {
   name: 'statcan',
   title: 'Statistics Canada data tables (official statistics of Canada)',
-  version: '0.2.0',
+  version: '0.3.0',
   apiBaseUrl: 'https://www150.statcan.gc.ca/t1/wds/rest',
   api: 'statcan-wds',
   languages: ['en', 'fr'],

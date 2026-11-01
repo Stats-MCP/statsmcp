@@ -1,6 +1,6 @@
 {
   "name": "statsmcp-singstat",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "MCP server for SingStat Table Builder, the database of the Singapore Department of Statistics",
   "license": "MIT",
   "author": "Tadej Polajnar",

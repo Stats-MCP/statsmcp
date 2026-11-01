@@ -13,7 +13,7 @@ const ATTRIBUTION = {
 export const eurostatPreset: PxwebPreset = {
   name: 'eurostat',
   title: 'Eurostat (harmonised official statistics for EU and EFTA countries)',
-  version: '0.2.0',
+  version: '0.3.0',
   apiBaseUrl: 'https://ec.europa.eu/eurostat/api/dissemination',
   api: 'eurostat',
   languages: ['en', 'de', 'fr'],

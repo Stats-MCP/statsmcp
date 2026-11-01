@@ -1,5 +1,15 @@
 # pxweb-mcp
 
+## 0.3.0
+
+### Minor Changes
+
+- [`735cc71`](https://github.com/Stats-MCP/statsmcp/commit/735cc71cec49dad952cea5c296bfa984ea489c0a) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Add an SDMX-JSON client (`api: 'sdmx'`, with `sdmxAgency`), first used for the Australian Bureau of Statistics.
+
+### Patch Changes
+
+- [`61cb1cc`](https://github.com/Stats-MCP/statsmcp/commit/61cb1ccc3dda0ee86068d05dbcfe42b9b2fe27dd) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - CBS: read tables from OData v4 (datasets.cbs.nl) when the v3 service refuses the request, as it does from Cloudflare Workers.
+
 ## 0.2.0
 
 ### Minor Changes
