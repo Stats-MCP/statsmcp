@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: ai
+      - dependency-name: '@ai-sdk/*'
+    groups:
+      dev-tooling:
+        patterns:
+          - wrangler
+          - oxlint
+          - oxfmt
+          - typescript
+          - vitest
+          - tsdown
+          - '@types/*'
+      other:
+        patterns:
+          - '*'
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
