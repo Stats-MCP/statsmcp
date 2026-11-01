@@ -8,7 +8,7 @@ An MCP server for [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/
 
 ### Hosted
 
-Add `https://statsmcp.dev/sg/mcp` as a remote MCP server. It uses Streamable HTTP and needs no authentication. For the steps for each client, refer to [statsmcp.dev/singapore](https://statsmcp.dev/singapore/).
+There is no hosted endpoint for Singapore. Run the server on your computer, so that you accept the Singapore Open Data Licence yourself.
 
 ### Local
 

@@ -259,9 +259,6 @@ importers:
       statsmcp-eurostat:
         specifier: workspace:*
         version: link:../../packages/eurostat
-      statsmcp-singstat:
-        specifier: workspace:*
-        version: link:../../packages/singstat
       statsmcp-statcan:
         specifier: workspace:*
         version: link:../../packages/statcan

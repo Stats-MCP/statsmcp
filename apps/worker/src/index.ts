@@ -9,7 +9,6 @@ import { createSsbServer, ssbPreset } from 'ssb-mcp';
 import { createStatEeServer, statEePreset } from 'stat-ee-mcp';
 import { createStatfinServer, statfinPreset } from 'statfin-mcp';
 import { createEurostatServer, eurostatPreset } from 'statsmcp-eurostat';
-import { createSingstatServer, singstatPreset } from 'statsmcp-singstat';
 import { createStatcanServer, statcanPreset } from 'statsmcp-statcan';
 
 import { createEdgeCache } from '@/edge-cache';
@@ -120,16 +119,6 @@ const SERVERS = new Map<string, HostedServer>([
         createStatcanServer({
           cache,
           userAgent: `statsmcp-statcan-worker/${statcanPreset.version}`
-        })
-    }
-  ],
-  [
-    '/sg/mcp',
-    {
-      create: (cache) =>
-        createSingstatServer({
-          cache,
-          userAgent: `statsmcp-singstat-worker/${singstatPreset.version}`
         })
     }
   ]
