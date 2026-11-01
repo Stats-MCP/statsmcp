@@ -11,6 +11,7 @@ import {
 } from '@/http';
 import { jsonStatDatasetSchema, type FlatTable } from '@/json-stat';
 import { rankSearchHits } from '@/search-ranking';
+import type { TableDoc } from '@/table-doc';
 
 export { PxwebError } from '@/http';
 
@@ -97,6 +98,8 @@ export interface PxwebClient {
     options?: TableSearchOptions
   ): Promise<TableSearchHit[]>;
   getMetadata(lang: string, tableId: string): Promise<TableMetadata>;
+  /** The full table catalogue, for clients that search a local index. */
+  listTables?(lang: string): Promise<TableDoc[]>;
   query(
     lang: string,
     tableId: string,

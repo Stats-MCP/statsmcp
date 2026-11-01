@@ -10,7 +10,12 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "cbs-mcp": "workspace:*",
+    "dst-mcp": "workspace:*",
     "pxweb-mcp": "workspace:*",
+    "scb-mcp": "workspace:*",
+    "statsmcp-eurostat": "workspace:*",
+    "statsmcp-statcan": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {

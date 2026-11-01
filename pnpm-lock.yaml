@@ -229,9 +229,24 @@ importers:
 
   apps/crawler:
     dependencies:
+      cbs-mcp:
+        specifier: workspace:*
+        version: link:../../packages/cbs
+      dst-mcp:
+        specifier: workspace:*
+        version: link:../../packages/dst
       pxweb-mcp:
         specifier: workspace:*
         version: link:../../packages/core
+      scb-mcp:
+        specifier: workspace:*
+        version: link:../../packages/scb
+      statsmcp-eurostat:
+        specifier: workspace:*
+        version: link:../../packages/eurostat
+      statsmcp-statcan:
+        specifier: workspace:*
+        version: link:../../packages/statcan
       zod:
         specifier: 'catalog:'
         version: 4.6.7

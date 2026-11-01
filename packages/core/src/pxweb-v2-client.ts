@@ -123,54 +123,54 @@ export function createPxwebV2Client(
     return `${baseUrl}/tables/${tableId}`;
   }
 
-  const tableIndex = createTableIndexLoader(
-    async (lang) => {
-      const docs: TableDoc[] = [];
-      for (let page = 1; page <= MAX_LIST_PAGES; page++) {
-        const params = new URLSearchParams({
-          lang,
-          pageSize: String(LIST_PAGE_SIZE),
-          pageNumber: String(page)
+  const listTables = async (lang: string): Promise<TableDoc[]> => {
+    const docs: TableDoc[] = [];
+    for (let page = 1; page <= MAX_LIST_PAGES; page++) {
+      const params = new URLSearchParams({
+        lang,
+        pageSize: String(LIST_PAGE_SIZE),
+        pageNumber: String(page)
+      });
+      const url = `${baseUrl}/tables?${params.toString()}`;
+      const data = await request(
+        url,
+        { method: 'GET' },
+        tableListSchema,
+        (parsed) => parsed,
+        SEARCH_TTL_SECONDS,
+        `tables:${url}`
+      );
+      for (const table of data.tables) {
+        const archived =
+          table.discontinued === true ||
+          (options.isArchived?.({ id: table.id, title: table.label }) ?? false);
+        docs.push({
+          id: table.id,
+          title: table.label,
+          path: (table.paths?.[0] ?? []).map((part) => part.label),
+          ...(table.updated ? { updated: table.updated } : {}),
+          ...(table.lastPeriod ? { lastPeriod: table.lastPeriod } : {}),
+          ...(archived ? { discontinued: true } : {})
         });
-        const url = `${baseUrl}/tables?${params.toString()}`;
-        const data = await request(
-          url,
-          { method: 'GET' },
-          tableListSchema,
-          (parsed) => parsed,
-          SEARCH_TTL_SECONDS,
-          `tables:${url}`
-        );
-        for (const table of data.tables) {
-          const archived =
-            table.discontinued === true ||
-            (options.isArchived?.({ id: table.id, title: table.label }) ??
-              false);
-          docs.push({
-            id: table.id,
-            title: table.label,
-            path: (table.paths?.[0] ?? []).map((part) => part.label),
-            ...(table.updated ? { updated: table.updated } : {}),
-            ...(table.lastPeriod ? { lastPeriod: table.lastPeriod } : {}),
-            ...(archived ? { discontinued: true } : {})
-          });
-        }
-        const totalPages = data.page?.totalPages;
-        const lastPage =
-          totalPages === undefined
-            ? data.tables.length < LIST_PAGE_SIZE
-            : page >= totalPages;
-        if (lastPage) break;
       }
-      return docs;
-    },
-    {
-      ttlSeconds: SEARCH_TTL_SECONDS,
-      currentYear: () => now().getUTCFullYear()
+      const totalPages = data.page?.totalPages;
+      const lastPage =
+        totalPages === undefined
+          ? data.tables.length < LIST_PAGE_SIZE
+          : page >= totalPages;
+      if (lastPage) break;
     }
-  );
+    return docs;
+  };
+
+  const tableIndex = createTableIndexLoader(listTables, {
+    ttlSeconds: SEARCH_TTL_SECONDS,
+    currentYear: () => now().getUTCFullYear()
+  });
 
   return {
+    listTables,
+
     async search(lang, query, searchOptions) {
       if (options.search === 'index') {
         return (await tableIndex(lang)).search(query, searchOptions);

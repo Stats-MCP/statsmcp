@@ -147,32 +147,33 @@ export function createStatbankDkClient(
   const now = options.now ?? (() => new Date());
   const request = createRequester(options);
 
-  const tableIndex = createTableIndexLoader(
-    (lang) => {
-      const url = `${baseUrl}/tables`;
-      return request(
-        url,
-        post({ lang }),
-        tableListSchema,
-        (list) =>
-          list.map((table): TableDoc => ({
-            id: table.id,
-            title: table.text,
-            ...(table.updated ? { updated: table.updated } : {}),
-            ...(table.latestPeriod ? { lastPeriod: table.latestPeriod } : {}),
-            ...(table.active === false ? { discontinued: true } : {})
-          })),
-        SEARCH_TTL_SECONDS,
-        `tables:${url}:${lang}`
-      );
-    },
-    {
-      ttlSeconds: SEARCH_TTL_SECONDS,
-      currentYear: () => now().getUTCFullYear()
-    }
-  );
+  const listTables = (lang: string): Promise<TableDoc[]> => {
+    const url = `${baseUrl}/tables`;
+    return request(
+      url,
+      post({ lang }),
+      tableListSchema,
+      (list) =>
+        list.map((table): TableDoc => ({
+          id: table.id,
+          title: table.text,
+          ...(table.updated ? { updated: table.updated } : {}),
+          ...(table.latestPeriod ? { lastPeriod: table.latestPeriod } : {}),
+          ...(table.active === false ? { discontinued: true } : {})
+        })),
+      SEARCH_TTL_SECONDS,
+      `tables:${url}:${lang}`
+    );
+  };
+
+  const tableIndex = createTableIndexLoader(listTables, {
+    ttlSeconds: SEARCH_TTL_SECONDS,
+    currentYear: () => now().getUTCFullYear()
+  });
 
   return {
+    listTables,
+
     async search(lang, query, searchOptions) {
       return (await tableIndex(lang)).search(query, searchOptions);
     },

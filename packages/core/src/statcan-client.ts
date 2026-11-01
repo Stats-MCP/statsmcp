@@ -236,22 +236,21 @@ export function createStatcanClient(
     return loading;
   }
 
-  const tableIndex = createTableIndexLoader(
-    async (lang) => {
-      const french = lang === 'fr';
-      return (await cubes()).map((item): TableDoc => ({
-        id: String(item.productId),
-        title: french ? item.cubeTitleFr : item.cubeTitleEn,
-        ...(item.releaseTime ? { updated: item.releaseTime } : {}),
-        ...(item.cubeEndDate ? { lastPeriod: item.cubeEndDate } : {}),
-        ...(String(item.archived) === ARCHIVED ? { discontinued: true } : {})
-      }));
-    },
-    {
-      ttlSeconds: SEARCH_TTL_SECONDS,
-      currentYear: () => now().getUTCFullYear()
-    }
-  );
+  const listTables = async (lang: string): Promise<TableDoc[]> => {
+    const french = lang === 'fr';
+    return (await cubes()).map((item): TableDoc => ({
+      id: String(item.productId),
+      title: french ? item.cubeTitleFr : item.cubeTitleEn,
+      ...(item.releaseTime ? { updated: item.releaseTime } : {}),
+      ...(item.cubeEndDate ? { lastPeriod: item.cubeEndDate } : {}),
+      ...(String(item.archived) === ARCHIVED ? { discontinued: true } : {})
+    }));
+  };
+
+  const tableIndex = createTableIndexLoader(listTables, {
+    ttlSeconds: SEARCH_TTL_SECONDS,
+    currentYear: () => now().getUTCFullYear()
+  });
 
   async function cube(productId: string): Promise<Cube> {
     const found = (await cubes()).find(
@@ -328,6 +327,8 @@ export function createStatcanClient(
   }
 
   return {
+    listTables,
+
     async search(lang, query, searchOptions) {
       return (await tableIndex(lang)).search(query, searchOptions);
     },

@@ -304,21 +304,20 @@ export function createEurostatClient(
     return promise;
   }
 
-  const tableIndex = createTableIndexLoader(
-    async (lang) =>
-      (await toc(lang)).map((entry): TableDoc => ({
-        id: entry.code,
-        title: entry.title,
-        path: entry.path,
-        ...(entry.updated ? { updated: entry.updated } : {}),
-        ...(entry.end ? { lastPeriod: entry.end } : {}),
-        ...(CLOSED_TITLE.test(entry.title) ? { discontinued: true } : {})
-      })),
-    {
-      ttlSeconds: SEARCH_TTL_SECONDS,
-      currentYear: () => now().getUTCFullYear()
-    }
-  );
+  const listTables = async (lang: string): Promise<TableDoc[]> =>
+    (await toc(lang)).map((entry): TableDoc => ({
+      id: entry.code,
+      title: entry.title,
+      path: entry.path,
+      ...(entry.updated ? { updated: entry.updated } : {}),
+      ...(entry.end ? { lastPeriod: entry.end } : {}),
+      ...(CLOSED_TITLE.test(entry.title) ? { discontinued: true } : {})
+    }));
+
+  const tableIndex = createTableIndexLoader(listTables, {
+    ttlSeconds: SEARCH_TTL_SECONDS,
+    currentYear: () => now().getUTCFullYear()
+  });
 
   async function metadata(lang: string, code: string): Promise<TableMetadata> {
     const entry = (await toc(lang)).find((item) => item.code === code);
@@ -370,6 +369,8 @@ export function createEurostatClient(
   }
 
   return {
+    listTables,
+
     async search(lang, query, searchOptions) {
       return (await tableIndex(lang)).search(query, searchOptions);
     },

@@ -130,24 +130,23 @@ export function createCbsODataClient(
     | Promise<z.infer<typeof catalogueSchema>['value']>
     | undefined;
 
-  const tableIndex = createTableIndexLoader(
-    async (lang) =>
-      (await catalogue())
-        .filter((entry) => entry.Language === lang)
-        .map((entry): TableDoc => ({
-          id: entry.Identifier,
-          title: entry.Title,
-          ...(entry.Modified ? { updated: entry.Modified } : {}),
-          ...(entry.Period ? { lastPeriod: entry.Period } : {}),
-          ...(DISCONTINUED.has(entry.OutputStatus ?? '')
-            ? { discontinued: true }
-            : {})
-        })),
-    {
-      ttlSeconds: SEARCH_TTL_SECONDS,
-      currentYear: () => now().getUTCFullYear()
-    }
-  );
+  const listTables = async (lang: string): Promise<TableDoc[]> =>
+    (await catalogue())
+      .filter((entry) => entry.Language === lang)
+      .map((entry): TableDoc => ({
+        id: entry.Identifier,
+        title: entry.Title,
+        ...(entry.Modified ? { updated: entry.Modified } : {}),
+        ...(entry.Period ? { lastPeriod: entry.Period } : {}),
+        ...(DISCONTINUED.has(entry.OutputStatus ?? '')
+          ? { discontinued: true }
+          : {})
+      }));
+
+  const tableIndex = createTableIndexLoader(listTables, {
+    ttlSeconds: SEARCH_TTL_SECONDS,
+    currentYear: () => now().getUTCFullYear()
+  });
 
   /** One download serves both languages and parallel searches. */
   function catalogue(): Promise<z.infer<typeof catalogueSchema>['value']> {
@@ -263,6 +262,8 @@ export function createCbsODataClient(
   }
 
   return {
+    listTables,
+
     async search(lang, query, searchOptions) {
       return (await tableIndex(lang)).search(query, searchOptions);
     },

@@ -31,7 +31,7 @@ export interface PresetServerOptions {
   userAgent?: string;
 }
 
-function createPresetClient(
+export function createPresetClient(
   preset: PxwebPreset,
   http: Pick<PresetServerOptions, 'cache' | 'fetch'> & { userAgent: string }
 ): PxwebClient {

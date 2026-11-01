@@ -17,6 +17,7 @@ import { snapshotProblems } from '@/validate';
 
 export interface CrawlContext {
   fetch: CrawlFetch;
+  userAgent: string;
   step: Checkpoint['step'];
 }
 
@@ -118,7 +119,11 @@ async function crawlLanguage(
   } else if (checkpoint.size > 0) {
     log(`${source.name}/${lang}: resuming after ${checkpoint.size} steps`);
   }
-  const docs = await source.crawl(lang, { fetch, step: checkpoint.step });
+  const docs = await source.crawl(lang, {
+    fetch,
+    userAgent: options.userAgent,
+    step: checkpoint.step
+  });
   const snapshot: Snapshot = {
     version: SNAPSHOT_VERSION,
     source: source.name,

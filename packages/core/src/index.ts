@@ -4,6 +4,7 @@ export {
   type MemoryCacheOptions
 } from '@/cache';
 export {
+  createPresetClient,
   createPresetServer,
   createPxwebServer,
   type PresetServerOptions
