@@ -7,9 +7,9 @@
 
 Website: [statsmcp.dev](https://statsmcp.dev)
 
-Official national statistics for every AI assistant. StatsMCP is a set of MCP servers for the databases of national statistics offices. The servers use the [PxWeb API](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/), which many national statistics offices use.
+Official national statistics for every AI assistant. StatsMCP is a set of MCP servers for the databases of national statistics offices.
 
-There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Sweden, Denmark, the Netherlands and Canada, plus Eurostat for harmonised data on all EU and EFTA countries. The [Databases](#databases) table lists each database and its package. The servers support PxWeb API v1 and v2, the StatBank API of Statistics Denmark, the OData service of Statistics Netherlands and the Eurostat API, the Web Data Service of Statistics Canada and SingStat Table Builder.
+There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Sweden, Denmark, the Netherlands, Iceland, Croatia, Ireland, Canada, Australia and Singapore, plus Eurostat for harmonised data on all EU and EFTA countries. The [Databases](#databases) table lists each database and its package. The servers support PxWeb API v1 and v2, the StatBank API of Statistics Denmark, the OData services of Statistics Netherlands, PxStat (Ireland), SDMX (Australia), the Eurostat API, the Web Data Service of Statistics Canada and SingStat Table Builder.
 
 > **You:** What is the latest inflation rate in Slovenia?
 >
@@ -118,22 +118,25 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 
 ## Databases
 
-| Database                                                                          | Country       | Package                                   | Status                       |
-| --------------------------------------------------------------------------------- | ------------- | ----------------------------------------- | ---------------------------- |
-| [SiStat](https://pxweb.stat.si/SiStat/en)                                         | Slovenia      | [`@statsmcp/sistat`](packages/sistat)     | Available                    |
-| [Statbank Norway](https://www.ssb.no/en/statbank)                                 | Norway        | [`@statsmcp/ssb`](packages/ssb)           | Hosted; npm package soon     |
-| [Statistics Estonia](https://andmed.stat.ee/en/stat)                              | Estonia       | [`@statsmcp/stat-ee`](packages/stat-ee)   | Hosted; npm package soon     |
-| [Statistics Faroe Islands](https://statbank.hagstova.fo/pxweb/en/H2/)             | Faroe Islands | [`@statsmcp/hagstova`](packages/hagstova) | Hosted; npm package soon     |
-| [StatFin](https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/)                         | Finland       | [`@statsmcp/statfin`](packages/statfin)   | Hosted; npm package soon     |
-| [Statistical Database](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/) (SCB) | Sweden        | [`@statsmcp/scb`](packages/scb)           | Hosted; npm package soon     |
-| [StatBank Denmark](https://www.statbank.dk/)                                      | Denmark       | [`@statsmcp/dst`](packages/dst)           | Hosted; npm package soon     |
-| [StatLine](https://opendata.cbs.nl/) (CBS)                                        | Netherlands   | [`@statsmcp/cbs`](packages/cbs)           | Hosted; npm package soon     |
-| [Eurostat](https://ec.europa.eu/eurostat/data/database)                           | EU and EFTA   | [`@statsmcp/eurostat`](packages/eurostat) | Hosted; npm package soon     |
-| [Statistics Canada](https://www150.statcan.gc.ca/n1/en/type/data)                 | Canada        | [`@statsmcp/statcan`](packages/statcan)   | Hosted; npm package soon     |
-| [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                   | Singapore     | [`@statsmcp/singstat`](packages/singstat) | Local only (npm); not hosted |
-| Statistics Iceland                                                                | Iceland       |                                           | Planned                      |
+| Database                                                                                                               | Country       | Package                                   | Status               |
+| ---------------------------------------------------------------------------------------------------------------------- | ------------- | ----------------------------------------- | -------------------- |
+| [SiStat](https://pxweb.stat.si/SiStat/en)                                                                              | Slovenia      | [`@statsmcp/sistat`](packages/sistat)     | Hosted and npm       |
+| [Statbank Norway](https://www.ssb.no/en/statbank)                                                                      | Norway        | [`@statsmcp/ssb`](packages/ssb)           | Hosted and npm       |
+| [Statistics Estonia](https://andmed.stat.ee/en/stat)                                                                   | Estonia       | [`@statsmcp/stat-ee`](packages/stat-ee)   | Hosted and npm       |
+| [Statistics Faroe Islands](https://statbank.hagstova.fo/pxweb/en/H2/)                                                  | Faroe Islands | [`@statsmcp/hagstova`](packages/hagstova) | Hosted and npm       |
+| [StatFin](https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/)                                                              | Finland       | [`@statsmcp/statfin`](packages/statfin)   | Hosted and npm       |
+| [Statistical Database](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/) (SCB)                                      | Sweden        | [`@statsmcp/scb`](packages/scb)           | Hosted and npm       |
+| [StatBank Denmark](https://www.statbank.dk/)                                                                           | Denmark       | [`@statsmcp/dst`](packages/dst)           | Hosted and npm       |
+| [StatLine](https://opendata.cbs.nl/) (CBS)                                                                             | Netherlands   | [`@statsmcp/cbs`](packages/cbs)           | Hosted and npm       |
+| [PX-Web of Statistics Iceland](https://px.hagstofa.is/pxen/pxweb/en/)                                                  | Iceland       | [`@statsmcp/statice`](packages/statice)   | Hosted and npm       |
+| [PC-Axis database of DZS](https://web.dzs.hr/PXWeb/)                                                                   | Croatia       | [`@statsmcp/dzs`](packages/dzs)           | Hosted and npm       |
+| [PxStat](https://data.cso.ie/) (CSO)                                                                                   | Ireland       | [`@statsmcp/cso`](packages/cso)           | Hosted and npm       |
+| [Eurostat](https://ec.europa.eu/eurostat/data/database)                                                                | EU and EFTA   | [`@statsmcp/eurostat`](packages/eurostat) | Hosted and npm       |
+| [Statistics Canada](https://www150.statcan.gc.ca/n1/en/type/data)                                                      | Canada        | [`@statsmcp/statcan`](packages/statcan)   | Hosted and npm       |
+| [ABS Data API](https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide) | Australia     | [`@statsmcp/abs`](packages/abs)           | Hosted and npm       |
+| [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                                                        | Singapore     | [`@statsmcp/singstat`](packages/singstat) | npm only; not hosted |
 
-To add a database that uses PxWeb, use the [`@statsmcp/core`](packages/core) toolkit.
+To add a database, use the [`@statsmcp/core`](packages/core) toolkit.
 
 ## Documentation
 

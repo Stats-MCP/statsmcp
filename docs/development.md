@@ -4,23 +4,28 @@ You need Node.js 24 and pnpm 12. The published packages work on Node.js 20 or la
 
 ## Repository layout
 
-| Path                | Package              | Description                                                                                                                                       |
-| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `packages/core`     | `@statsmcp/core`     | PxWeb v1 and v2, StatBank Denmark, CBS OData, Eurostat, Statistics Canada and SingStat clients, query planner and MCP tools. Has no country data. |
-| `packages/sistat`   | `@statsmcp/sistat`   | SiStat preset and the stdio server.                                                                                                               |
-| `packages/ssb`      | `@statsmcp/ssb`      | Statbank Norway preset and the stdio server.                                                                                                      |
-| `packages/stat-ee`  | `@statsmcp/stat-ee`  | Statistics Estonia preset and the stdio server.                                                                                                   |
-| `packages/hagstova` | `@statsmcp/hagstova` | Statistics Faroe Islands preset and the stdio server.                                                                                             |
-| `packages/statfin`  | `@statsmcp/statfin`  | Statistics Finland preset and the stdio server.                                                                                                   |
-| `packages/scb`      | `@statsmcp/scb`      | Statistics Sweden preset (PxWeb API v2) and the stdio server.                                                                                     |
-| `packages/dst`      | `@statsmcp/dst`      | Statistics Denmark preset (StatBank API) and the stdio server.                                                                                    |
-| `packages/cbs`      | `@statsmcp/cbs`      | Statistics Netherlands preset (CBS OData) and the stdio server.                                                                                   |
-| `packages/eurostat` | `@statsmcp/eurostat` | Eurostat preset and the stdio server.                                                                                                             |
-| `packages/statcan`  | `@statsmcp/statcan`  | Statistics Canada preset (WDS) and the stdio server.                                                                                              |
-| `packages/singstat` | `@statsmcp/singstat` | Singapore preset (SingStat Table Builder) and the stdio server.                                                                                   |
-| `apps/worker`       | private              | Cloudflare Worker for the hosted endpoint.                                                                                                        |
-| `tests/consumer`    | none                 | Typecheck of the published types with TypeScript 5. CI runs it.                                                                                   |
-| `docs`              |                      | Documentation.                                                                                                                                    |
+| Path                | Package              | Description                                                                                                                                                                  |
+| ------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `packages/core`     | `@statsmcp/core`     | PxWeb v1 and v2, StatBank Denmark, CBS OData, PxStat, SDMX, Eurostat, Statistics Canada and SingStat clients, table index, query planner and MCP tools. Has no country data. |
+| `packages/sistat`   | `@statsmcp/sistat`   | SiStat preset and the stdio server.                                                                                                                                          |
+| `packages/ssb`      | `@statsmcp/ssb`      | Statbank Norway preset and the stdio server.                                                                                                                                 |
+| `packages/stat-ee`  | `@statsmcp/stat-ee`  | Statistics Estonia preset and the stdio server.                                                                                                                              |
+| `packages/hagstova` | `@statsmcp/hagstova` | Statistics Faroe Islands preset and the stdio server.                                                                                                                        |
+| `packages/statfin`  | `@statsmcp/statfin`  | Statistics Finland preset and the stdio server.                                                                                                                              |
+| `packages/scb`      | `@statsmcp/scb`      | Statistics Sweden preset (PxWeb API v2) and the stdio server.                                                                                                                |
+| `packages/dst`      | `@statsmcp/dst`      | Statistics Denmark preset (StatBank API) and the stdio server.                                                                                                               |
+| `packages/cbs`      | `@statsmcp/cbs`      | Statistics Netherlands preset (CBS OData) and the stdio server.                                                                                                              |
+| `packages/eurostat` | `@statsmcp/eurostat` | Eurostat preset and the stdio server.                                                                                                                                        |
+| `packages/statcan`  | `@statsmcp/statcan`  | Statistics Canada preset (WDS) and the stdio server.                                                                                                                         |
+| `packages/singstat` | `@statsmcp/singstat` | Singapore preset (SingStat Table Builder) and the stdio server.                                                                                                              |
+| `packages/statice`  | `@statsmcp/statice`  | Statistics Iceland preset (PxWeb v1, crawled table list) and the stdio server.                                                                                               |
+| `packages/dzs`      | `@statsmcp/dzs`      | Croatian Bureau of Statistics preset (PxWeb v1, crawled table list) and the stdio server.                                                                                    |
+| `packages/cso`      | `@statsmcp/cso`      | Central Statistics Office Ireland preset (PxStat) and the stdio server.                                                                                                      |
+| `packages/abs`      | `@statsmcp/abs`      | Australian Bureau of Statistics preset (SDMX) and the stdio server.                                                                                                          |
+| `apps/worker`       | private              | Cloudflare Worker for the hosted endpoint.                                                                                                                                   |
+| `apps/crawler`      | private              | Crawler for the table lists of sources without a small list endpoint. Writes the snapshots that statsmcp.dev serves.                                                         |
+| `tests/consumer`    | none                 | Typecheck of the published types with TypeScript 5. CI runs it.                                                                                                              |
+| `docs`              |                      | Documentation.                                                                                                                                                               |
 
 ## Commands
 
