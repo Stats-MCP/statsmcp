@@ -11,7 +11,7 @@ import {
   type EvalMode
 } from '@/recorder';
 import { passRate, SCORER_NAMES, scoreCase, type Score } from '@/scorers';
-import { manifest, PRESETS } from '@/servers';
+import { isCountryId, manifest, PRESETS } from '@/servers';
 import { PROVIDER_IDS, PROVIDERS, runCase, type ProviderId } from '@/task';
 
 const provider: ProviderId =
@@ -49,7 +49,19 @@ describe.skipIf(!canRun)(`agent evals (${model}, ${mode})`, () => {
         apiKey,
         fetch
       });
-      const scores = scoreCase(item, output, PRESETS[item.server].languages[0]);
+      const country =
+        item.server === 'all' ? output.args?.country : item.server;
+      const defaultLang = isCountryId(country)
+        ? PRESETS[country].languages[0]
+        : 'en';
+      const scores = scoreCase(
+        item,
+        output,
+        defaultLang,
+        item.server === 'all' && isCountryId(country)
+          ? PRESETS[country].languages
+          : undefined
+      );
       results.push({ id: item.id, tags: item.tags, scores });
     }
 

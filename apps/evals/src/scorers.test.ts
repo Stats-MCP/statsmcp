@@ -135,3 +135,98 @@ describe('passRate', () => {
     ).toBe(0.5);
   });
 });
+
+describe('scoreCase on the all-countries endpoint', () => {
+  it.each([
+    ['list_countries', true],
+    ['search_tables', true],
+    ['query_table', false]
+  ])('accepts %s for a case that allows two tools: %s', (toolName, passed) => {
+    const either: EvalCase = {
+      id: 'z',
+      server: 'all',
+      tags: ['all-countries'],
+      ask: 'What is the population of Japan?',
+      expected: { tool: ['list_countries', 'search_tables'] }
+    };
+
+    const failedTool = failed(either, call(toolName, {})).includes('tool');
+    expect(failedTool).toBe(!passed);
+  });
+
+  it.each([
+    [{ country: 'fi' }, []],
+    [{ country: 'no' }, ['country']],
+    [{}, ['country']]
+  ])('checks the country %j', (args, expected) => {
+    const pick: EvalCase = {
+      id: 'c',
+      server: 'all',
+      tags: ['all-countries'],
+      ask: 'Compare unemployment in Finland and Sweden.',
+      expected: { tool: 'get_table_metadata', countries: ['fi', 'se'] }
+    };
+
+    expect(failed(pick, call('get_table_metadata', args))).toEqual(expected);
+  });
+
+  it('scores nothing but the tool when the model lists countries', () => {
+    const either: EvalCase = {
+      id: 'j',
+      server: 'all',
+      tags: ['all-countries'],
+      ask: 'What is the population of Japan?',
+      expected: { tool: ['list_countries', 'search_tables'] }
+    };
+
+    expect(
+      scoreCase(either, call('list_countries', {}), 'en')
+        .filter((score) => score.passed !== null)
+        .map((score) => score.name)
+    ).toEqual(['tool']);
+  });
+
+  it('checks the query length when such a case searches', () => {
+    const either: EvalCase = {
+      id: 'j',
+      server: 'all',
+      tags: ['all-countries'],
+      ask: 'What is the population of Japan?',
+      expected: { tool: ['list_countries', 'search_tables'] }
+    };
+
+    expect(
+      failed(
+        either,
+        call('search_tables', {
+          country: 'eu',
+          query: 'what is the population of japan in total'
+        })
+      )
+    ).toEqual(['short']);
+  });
+
+  it('fails a language that the chosen country does not offer', () => {
+    const compare: EvalCase = {
+      id: 'l',
+      server: 'all',
+      tags: ['all-countries'],
+      ask: 'Compare unemployment in Finland and Sweden.',
+      expected: {
+        tool: 'search_tables',
+        countries: ['fi', 'eu'],
+        keywords: { fi: ['työttöm'], en: ['unemploy'] }
+      }
+    };
+    const output = call('search_tables', {
+      country: 'eu',
+      lang: 'fi',
+      query: 'työttömyys'
+    });
+
+    const langScore = scoreCase(compare, output, 'en', ['en', 'de', 'fr']).find(
+      (score) => score.name === 'lang'
+    );
+    expect(langScore?.passed).toBe(false);
+  });
+});

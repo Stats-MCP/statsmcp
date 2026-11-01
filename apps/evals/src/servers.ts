@@ -1,7 +1,12 @@
 import { createMcpHandler } from '@modelcontextprotocol/server';
 import { absPreset } from '@statsmcp/abs';
 import { cbsPreset } from '@statsmcp/cbs';
-import { createPresetServer, type PxwebPreset } from '@statsmcp/core';
+import {
+  createMultiServer,
+  createPresetClient,
+  createPresetServer,
+  type PxwebPreset
+} from '@statsmcp/core';
 import { csoPreset } from '@statsmcp/cso';
 import { dstPreset } from '@statsmcp/dst';
 import { dzsPreset } from '@statsmcp/dzs';
@@ -34,10 +39,30 @@ export const PRESETS = {
   au: absPreset
 } as const satisfies Record<string, PxwebPreset>;
 
-export type ServerId = keyof typeof PRESETS;
-export const SERVER_IDS = Object.keys(PRESETS).filter(
-  (id): id is ServerId => id in PRESETS
+export type CountryId = keyof typeof PRESETS;
+export const COUNTRY_IDS = Object.keys(PRESETS).filter(
+  (id): id is CountryId => id in PRESETS
 );
+
+/** `all` is the hosted /mcp endpoint, built from the same presets. */
+export type ServerId = CountryId | 'all';
+export const SERVER_IDS: readonly ServerId[] = [...COUNTRY_IDS, 'all'];
+
+export function isCountryId(value: unknown): value is CountryId {
+  return COUNTRY_IDS.some((id) => id === value);
+}
+
+function createServer(id: ServerId) {
+  if (id !== 'all') return createPresetServer(PRESETS[id]);
+  return createMultiServer(
+    COUNTRY_IDS.map((code) => ({
+      code,
+      preset: PRESETS[code],
+      client: () => createPresetClient(PRESETS[code], { userAgent: 'evals' })
+    })),
+    { name: 'statsmcp', title: 'StatsMCP', version: PRESETS.si.version }
+  );
+}
 
 const initializeSchema = z.object({
   result: z.object({ instructions: z.string().min(1) })
@@ -66,7 +91,7 @@ export interface Manifest {
 
 /** Same JSON-RPC call the hosted endpoint answers; SSE or JSON body. */
 async function rpc(id: ServerId, method: string, params: unknown) {
-  const handler = createMcpHandler(() => createPresetServer(PRESETS[id]));
+  const handler = createMcpHandler(() => createServer(id));
   const response = await handler.fetch(
     new Request('https://mcp.example/mcp', {
       method: 'POST',

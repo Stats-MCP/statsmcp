@@ -12,7 +12,14 @@ export interface Score {
   reason?: string;
 }
 
-export const SCORER_NAMES = ['tool', 'lang', 'keywords', 'short', 'tableId'];
+export const SCORER_NAMES = [
+  'tool',
+  'country',
+  'lang',
+  'keywords',
+  'short',
+  'tableId'
+];
 
 /** A search query longer than this reads as a full question, not keywords. */
 const MAX_QUERY_WORDS = 6;
@@ -27,10 +34,11 @@ function result(name: string, passed: boolean, reason: string): Score {
 }
 
 export function toolMatch(item: EvalCase, output: TaskOutput): Score {
+  const accepted = [item.expected.tool].flat();
   return result(
     'tool',
-    output.toolName === item.expected.tool,
-    `expected ${item.expected.tool}, got ${output.toolName ?? 'no tool call'}`
+    accepted.some((tool) => tool === output.toolName),
+    `expected ${accepted.join(' or ')}, got ${output.toolName ?? 'no tool call'}`
   );
 }
 
@@ -38,11 +46,15 @@ function chosenLang(output: TaskOutput, defaultLang: string): string {
   return stringArg(output, 'lang') ?? defaultLang;
 }
 
-/** Any accepted language passes; a missing lang counts as the endpoint's default. */
+/**
+ * Any accepted language passes; a missing lang counts as the endpoint's default.
+ * On the all-countries endpoint the language must also exist for the chosen country.
+ */
 export function langMatch(
   item: EvalCase,
   output: TaskOutput,
-  defaultLang: string
+  defaultLang: string,
+  countryLanguages?: readonly string[]
 ): Score {
   const accepted = Object.keys(item.expected.keywords ?? {});
   if (accepted.length === 0) return { name: 'lang', passed: null };
@@ -50,10 +62,11 @@ export function langMatch(
     return result('lang', false, 'no tool call');
   }
   const actual = chosenLang(output, defaultLang);
+  const offered = countryLanguages ? countryLanguages.includes(actual) : true;
   return result(
     'lang',
-    accepted.includes(actual),
-    `expected lang ${accepted.join(' or ')}, got ${actual}`
+    accepted.includes(actual) && offered,
+    `expected lang ${accepted.join(' or ')}${offered ? '' : ' offered by the country'}, got ${actual}`
   );
 }
 
@@ -76,7 +89,8 @@ export function queryKeywords(
 }
 
 export function shortQuery(item: EvalCase, output: TaskOutput): Score {
-  if (item.expected.tool !== 'search_tables') {
+  const searchExpected = [item.expected.tool].flat().includes('search_tables');
+  if (!searchExpected || output.toolName === 'list_countries') {
     return { name: 'short', passed: null };
   }
   const query = stringArg(output, 'query') ?? '';
@@ -85,6 +99,17 @@ export function shortQuery(item: EvalCase, output: TaskOutput): Score {
     'short',
     count > 0 && count <= MAX_QUERY_WORDS,
     `query has ${count} words`
+  );
+}
+
+export function countryMatch(item: EvalCase, output: TaskOutput): Score {
+  const accepted = item.expected.countries;
+  if (!accepted) return { name: 'country', passed: null };
+  const actual = stringArg(output, 'country');
+  return result(
+    'country',
+    actual !== undefined && accepted.includes(actual),
+    `expected country ${accepted.join(' or ')}, got ${actual ?? 'none'}`
   );
 }
 
@@ -102,11 +127,13 @@ export function tableIdMatch(item: EvalCase, output: TaskOutput): Score {
 export function scoreCase(
   item: EvalCase,
   output: TaskOutput,
-  defaultLang: string
+  defaultLang: string,
+  countryLanguages?: readonly string[]
 ): Score[] {
   return [
     toolMatch(item, output),
-    langMatch(item, output, defaultLang),
+    countryMatch(item, output),
+    langMatch(item, output, defaultLang, countryLanguages),
     queryKeywords(item, output, defaultLang),
     shortQuery(item, output),
     tableIdMatch(item, output)

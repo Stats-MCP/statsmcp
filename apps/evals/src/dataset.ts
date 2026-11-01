@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { PRESETS, SERVER_IDS, type ServerId } from '@/servers';
+import { isCountryId, PRESETS, SERVER_IDS, type ServerId } from '@/servers';
 
 const caseSchema = z.object({
   id: z.string(),
@@ -8,10 +8,17 @@ const caseSchema = z.object({
     (value) =>
       typeof value === 'string' && SERVER_IDS.some((id) => id === value)
   ),
-  tags: z.array(z.enum(['english', 'native', 'alias', 'id-lookup'])),
+  tags: z.array(
+    z.enum(['english', 'native', 'alias', 'id-lookup', 'all-countries'])
+  ),
   ask: z.string(),
   expected: z.object({
-    tool: z.enum(['search_tables', 'get_table_metadata']),
+    tool: z.union([
+      z.enum(['search_tables', 'get_table_metadata', 'list_countries']),
+      z.array(z.enum(['search_tables', 'get_table_metadata', 'list_countries']))
+    ]),
+    /** On the all-countries endpoint: the accepted `country` codes. */
+    countries: z.array(z.string()).min(1).optional(),
     /**
      * Accepted search languages, each with lower-case keywords. The query passes
      * when it contains one keyword of the language the model chose.
@@ -33,7 +40,17 @@ const POPULATION_EN = ['population', 'inhabitant', 'resident'];
 /** Every accepted language must be one the endpoint really offers. */
 const casesSchema = z.array(caseSchema).superRefine((cases, context) => {
   for (const item of cases) {
-    const languages: readonly string[] = PRESETS[item.server].languages;
+    const codes =
+      item.server === 'all' ? (item.expected.countries ?? []) : [item.server];
+    const languages = codes.flatMap((code): readonly string[] =>
+      isCountryId(code) ? PRESETS[code].languages : []
+    );
+    if (codes.some((code) => !isCountryId(code))) {
+      context.addIssue({
+        code: 'custom',
+        message: `${item.id}: unknown country`
+      });
+    }
     for (const lang of Object.keys(item.expected.keywords ?? {})) {
       if (!languages.includes(lang)) {
         context.addIssue({
@@ -290,5 +307,109 @@ export const CASES: readonly EvalCase[] = casesSchema.parse([
     tags: ['id-lookup'],
     ask: 'Show the dimensions of the ABS dataset CPI.',
     expected: { tool: 'get_table_metadata', tableId: 'CPI' }
+  },
+  {
+    id: 'all-si-inflation-en',
+    server: 'all',
+    tags: ['all-countries', 'english'],
+    ask: 'What is the inflation rate in Slovenia?',
+    expected: {
+      ...search({
+        en: ['inflation', 'consumer price', 'cpi'],
+        sl: ['inflacij', 'cene', 'indeks cen']
+      }),
+      countries: ['si']
+    }
+  },
+  {
+    id: 'all-compare-unemployment',
+    server: 'all',
+    tags: ['all-countries', 'english'],
+    ask: 'Compare the unemployment rate in Finland and Sweden.',
+    expected: {
+      ...search({
+        en: ['unemploy', 'labour force'],
+        fi: ['työttöm', 'tyottom'],
+        sv: ['arbetslös', 'arbetslos']
+      }),
+      countries: ['fi', 'se', 'eu']
+    }
+  },
+  {
+    id: 'all-au-cpi',
+    server: 'all',
+    tags: ['all-countries', 'english', 'alias'],
+    ask: 'How fast are prices rising in Australia?',
+    expected: {
+      ...search({ en: ['inflation', 'consumer price', 'cpi'] }),
+      countries: ['au']
+    }
+  },
+  {
+    id: 'all-ie-house',
+    server: 'all',
+    tags: ['all-countries', 'english'],
+    ask: 'How fast are house prices rising in Ireland?',
+    expected: {
+      ...search({
+        en: ['property price', 'house price', 'housing', 'residential']
+      }),
+      countries: ['ie']
+    }
+  },
+  {
+    id: 'all-eu-gdp',
+    server: 'all',
+    tags: ['all-countries', 'english'],
+    ask: 'Which EU country has the highest GDP per capita?',
+    expected: {
+      ...search({ en: ['gdp', 'gross domestic'] }),
+      countries: ['eu']
+    }
+  },
+  {
+    id: 'all-dk-population-da',
+    server: 'all',
+    tags: ['all-countries', 'native'],
+    ask: 'Hvor mange indbyggere har Danmark?',
+    expected: {
+      ...search({ da: ['befolkning', 'folketal'], en: POPULATION_EN }),
+      countries: ['dk']
+    }
+  },
+  {
+    id: 'all-is-wages-is',
+    server: 'all',
+    tags: ['all-countries', 'native'],
+    ask: 'Hver eru meðallaun á Íslandi?',
+    expected: {
+      ...search({ is: ['laun'], en: ['wage', 'earning', 'salar'] }),
+      countries: ['is']
+    }
+  },
+  {
+    id: 'all-nl-id',
+    server: 'all',
+    tags: ['all-countries', 'id-lookup'],
+    ask: 'Show me the variables of CBS table 83474NED.',
+    expected: {
+      tool: 'get_table_metadata',
+      tableId: '83474NED',
+      countries: ['nl']
+    }
+  },
+  {
+    id: 'all-which-countries',
+    server: 'all',
+    tags: ['all-countries', 'english'],
+    ask: 'Which countries can you give me official statistics for?',
+    expected: { tool: 'list_countries' }
+  },
+  {
+    id: 'all-unknown-country',
+    server: 'all',
+    tags: ['all-countries', 'english'],
+    ask: 'What is the population of Japan?',
+    expected: { tool: ['list_countries', 'search_tables'] }
   }
 ]);

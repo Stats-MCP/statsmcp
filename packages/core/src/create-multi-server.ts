@@ -75,7 +75,9 @@ export function createMultiServer(
   const lang = z
     .string()
     .optional()
-    .describe("Language code. Default: the country's first language.");
+    .describe(
+      'Language of your search words and of the labels, for example "is" for Icelandic. Default: the country\'s first language (see list_countries).'
+    );
 
   function resolve(
     code: string,
