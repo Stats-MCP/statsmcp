@@ -74,6 +74,19 @@ If you change the data or calculate new figures, say so, for example: `Source: S
 
 This project is not affiliated with or endorsed by Statistics Finland.
 
+## Statistics Sweden
+
+Statistics Sweden publishes the Statistical Database under [CC0](https://creativecommons.org/publicdomain/zero/1.0/) (stated in the API configuration). You can use the data for any purpose. Statistics Sweden asks you to name it as the source.
+
+The server adds the source to every result:
+
+- `Source: Statistics Sweden (SCB), CC0 (https://creativecommons.org/publicdomain/zero/1.0/)` (English)
+- `Källa: SCB, CC0 (https://creativecommons.org/publicdomain/zero/1.0/)` (Swedish)
+
+Each `get_table_metadata` and `query_table` result also has the table ID and a link to the Statistical Database.
+
+This project is not affiliated with or endorsed by Statistics Sweden.
+
 ## Other statistics offices
 
 Before you add or publish a server for a different statistics office, read its terms of use. Some offices do not allow commercial use. You can run these offices as presets on your computer. We do not put them on the hosted endpoint.

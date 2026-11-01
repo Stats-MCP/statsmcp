@@ -1,6 +1,6 @@
 # pxweb-mcp
 
-A toolkit to make MCP servers for statistics databases that use the [PxWeb API v1](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/). Many national statistics offices use PxWeb.
+A toolkit to make MCP servers for statistics databases that use the [PxWeb API](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/) v1 or v2. Many national statistics offices use PxWeb.
 
 For a ready server, refer to [sistat-mcp](https://www.npmjs.com/package/sistat-mcp) (Slovenia).
 
