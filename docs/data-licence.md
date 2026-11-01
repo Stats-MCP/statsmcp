@@ -113,6 +113,16 @@ Each `get_table_metadata` and `query_table` result also has the table ID and a l
 
 This project is not affiliated with or endorsed by CBS.
 
+## Eurostat
+
+Eurostat allows reuse of its data for commercial and non-commercial purposes if you acknowledge the source. Refer to the [Eurostat copyright notice](https://ec.europa.eu/eurostat/help/copyright-notice).
+
+Data for countries outside the EU, EFTA and candidate countries may only be reused for non-commercial purposes. Some trade data has the same limit.
+
+The server adds `Source: Eurostat (https://ec.europa.eu/eurostat/help/copyright-notice)` to every result, with a link to the dataset in the Eurostat data browser.
+
+This project is not affiliated with or endorsed by Eurostat or the European Commission.
+
 ## Other statistics offices
 
 Before you add or publish a server for a different statistics office, read its terms of use. Some offices do not allow commercial use. You can run these offices as presets on your computer. We do not put them on the hosted endpoint.
