@@ -36,7 +36,7 @@ describe('scbPreset', () => {
   });
 
   it('uses the PxWeb v2 API', () => {
-    expect(scbPreset.apiVersion).toBe('v2');
+    expect(scbPreset.api).toBe('pxweb-v2');
   });
 
   it('matches the package version', () => {

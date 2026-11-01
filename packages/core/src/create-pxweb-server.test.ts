@@ -287,9 +287,30 @@ describe('createPxwebServer', () => {
       createPresetServer({
         ...preset,
         apiBaseUrl: { en: 'https://stats.example/api/v2' },
-        apiVersion: 'v2'
+        api: 'pxweb-v2'
       })
-    ).toThrow(/one apiBaseUrl string/);
+    ).toThrow(/pxweb-v2 preset needs one apiBaseUrl string/);
+  });
+
+  it('createPresetServer uses the StatBank client for a statbank-dk preset', async () => {
+    const fetchMock = vi.fn<typeof fetch>(async () => json([]));
+    const dkPreset: PxwebPreset = {
+      ...preset,
+      apiBaseUrl: 'https://stats.example/v1',
+      api: 'statbank-dk'
+    };
+
+    await callTool(
+      fetchMock,
+      'search_tables',
+      { query: 'prices' },
+      dkPreset,
+      () => createPresetServer(dkPreset, { fetch: fetchMock })
+    );
+
+    const [url, init] = fetchMock.mock.calls[0] ?? [];
+    expect(String(url)).toBe('https://stats.example/v1/tables');
+    expect(init?.method).toBe('POST');
   });
 
   it('createPresetServer uses the v2 client for a v2 preset', async () => {
@@ -297,7 +318,7 @@ describe('createPxwebServer', () => {
     const v2Preset: PxwebPreset = {
       ...preset,
       apiBaseUrl: 'https://stats.example/api/v2',
-      apiVersion: 'v2'
+      api: 'pxweb-v2'
     };
 
     await callTool(

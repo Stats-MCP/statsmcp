@@ -15,7 +15,7 @@ export const scbPreset: PxwebPreset = {
   title: 'Statistical Database of Statistics Sweden (SCB official statistics)',
   version: '0.1.0',
   apiBaseUrl: 'https://statistikdatabasen.scb.se/api/v2',
-  apiVersion: 'v2',
+  api: 'pxweb-v2',
   languages: ['sv', 'en'],
   attribution: (lang) => (lang === 'sv' ? ATTRIBUTION.sv : ATTRIBUTION.en),
   tableUrl: (lang) =>

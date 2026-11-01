@@ -4,6 +4,7 @@ import type { Cache } from '@/cache';
 import type { PxwebPreset } from '@/preset';
 import { createPxwebClient, type PxwebClient } from '@/pxweb-client';
 import { createPxwebV2Client } from '@/pxweb-v2-client';
+import { createStatbankDkClient } from '@/statbank-dk-client';
 import { registerSearchTools } from '@/tools/search-tools';
 import { registerTableTools } from '@/tools/table-tools';
 
@@ -30,7 +31,8 @@ function createPresetClient(
   preset: PxwebPreset,
   http: Pick<PresetServerOptions, 'cache' | 'fetch'> & { userAgent: string }
 ): PxwebClient {
-  if (preset.apiVersion !== 'v2') {
+  const api = preset.api ?? 'pxweb-v1';
+  if (api === 'pxweb-v1') {
     return createPxwebClient({
       ...http,
       baseUrl: preset.apiBaseUrl,
@@ -40,7 +42,10 @@ function createPresetClient(
     });
   }
   if (typeof preset.apiBaseUrl !== 'string') {
-    throw new Error('A PxWeb v2 preset needs one apiBaseUrl string.');
+    throw new Error(`A ${api} preset needs one apiBaseUrl string.`);
+  }
+  if (api === 'statbank-dk') {
+    return createStatbankDkClient({ ...http, baseUrl: preset.apiBaseUrl });
   }
   return createPxwebV2Client({
     ...http,

@@ -36,6 +36,10 @@ export {
 } from '@/query-plan';
 export { searchTitles } from '@/title-search';
 export {
+  createStatbankDkClient,
+  type StatbankDkClientOptions
+} from '@/statbank-dk-client';
+export {
   createPxwebV2Client,
   type PxwebV2ClientOptions
 } from '@/pxweb-v2-client';
