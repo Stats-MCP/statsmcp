@@ -156,7 +156,7 @@ Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before you op
 
 ## Old package names
 
-The packages moved to the `@statsmcp` scope. The old names are no longer maintained. To change, replace the package name in your `npx` or `npm install` command. The command names do not change.
+The packages moved to the `@statsmcp` scope. The old names were removed from npm. To change, replace the package name in your `npx` or `npm install` command. The command names do not change.
 
 | Old name            | New name             |
 | ------------------- | -------------------- |
