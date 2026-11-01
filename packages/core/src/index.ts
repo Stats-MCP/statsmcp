@@ -36,6 +36,10 @@ export {
 } from '@/query-plan';
 export { searchTitles } from '@/title-search';
 export {
+  createSingstatClient,
+  type SingstatClientOptions
+} from '@/singstat-client';
+export {
   createStatcanClient,
   type StatcanClientOptions
 } from '@/statcan-client';

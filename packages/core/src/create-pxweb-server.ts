@@ -6,6 +6,7 @@ import { createEurostatClient } from '@/eurostat-client';
 import type { PxwebPreset } from '@/preset';
 import { createPxwebClient, type PxwebClient } from '@/pxweb-client';
 import { createPxwebV2Client } from '@/pxweb-v2-client';
+import { createSingstatClient } from '@/singstat-client';
 import { createStatbankDkClient } from '@/statbank-dk-client';
 import { createStatcanClient } from '@/statcan-client';
 import { registerSearchTools } from '@/tools/search-tools';
@@ -46,6 +47,9 @@ function createPresetClient(
   }
   if (typeof preset.apiBaseUrl !== 'string') {
     throw new Error(`A ${api} preset needs one apiBaseUrl string.`);
+  }
+  if (api === 'singstat') {
+    return createSingstatClient({ ...http, baseUrl: preset.apiBaseUrl });
   }
   if (api === 'statcan-wds') {
     return createStatcanClient({ ...http, baseUrl: preset.apiBaseUrl });

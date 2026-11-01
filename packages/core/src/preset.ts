@@ -28,7 +28,8 @@ export interface PxwebPreset {
     | 'statbank-dk'
     | 'cbs-odata'
     | 'eurostat'
-    | 'statcan-wds';
+    | 'statcan-wds'
+    | 'singstat';
   /**
    * Path segment after the language: "Data" on SiStat (the default), "table" on SSB.
    * With an array, search covers every database in it and each table id starts with its database.
