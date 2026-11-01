@@ -6,7 +6,7 @@ For a ready server, refer to [sistat-mcp](https://www.npmjs.com/package/sistat-m
 
 ## Install
 
-You need Node.js 20 or later.
+You need Node.js 20 or later. TypeScript users need TypeScript 5.7 or later.
 
 ```sh
 npm install pxweb-mcp @modelcontextprotocol/server
@@ -72,6 +72,9 @@ The server has three tools: `search_tables`, `get_table_metadata` and `query_tab
 - `planQuery`: checks a selection against the table metadata and counts the cells.
 - `flattenJsonStat` and `toCsv`: convert a JSON-stat 2 dataset to rows and CSV.
 - `PxwebError` and `QueryPlanError`: the errors of the client and the planner.
+- `createTableIndex` and `createTableIndexLoader`: keyword search over a table list (BM25, stop words, prefix and fuzzy matching, the office's catalogue order). Use them for APIs without a good search.
+- Table snapshots: `writeSnapshot`, `readSnapshot`, `urlSnapshotReader`, `bucketSnapshotReader` and `firstSnapshot` store and read a table list as gzip JSON (`index/<source>/<lang>.json.gz`).
+- Other API clients: `createPxwebV2Client`, `createStatbankDkClient`, `createCbsODataClient`, `createEurostatClient`, `createStatcanClient` and `createSingstatClient`. A preset selects one with `api`.
 
 ## Terms of use
 

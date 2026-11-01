@@ -36,6 +36,20 @@ export {
   type SelectionInput
 } from '@/query-plan';
 export { searchTitles } from '@/title-search';
+export { tableDocSchema } from '@/table-doc';
+export {
+  bucketSnapshotReader,
+  firstSnapshot,
+  readSnapshot,
+  SNAPSHOT_VERSION,
+  snapshotKey,
+  urlSnapshotReader,
+  writeSnapshot,
+  type Snapshot,
+  type SnapshotBucket,
+  type SnapshotReader,
+  type UrlSnapshotReaderOptions
+} from '@/snapshot';
 export {
   createTableIndex,
   type TableDoc,

@@ -3,14 +3,7 @@ import { gunzipSync } from 'node:zlib';
 
 import { z } from 'zod';
 
-const tableDocSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  path: z.array(z.string()).optional(),
-  updated: z.string().optional(),
-  lastPeriod: z.string().optional(),
-  discontinued: z.boolean().optional()
-});
+import { tableDocSchema, type TableDoc } from '@/table-doc';
 
 const snapshotSchema = z.object({
   source: z.string(),
@@ -26,7 +19,7 @@ const goldenSchema = z.object({
   )
 });
 
-export type EvalDoc = z.infer<typeof tableDocSchema>;
+export type EvalDoc = TableDoc;
 export type GoldenSet = z.infer<typeof goldenSchema>;
 
 const root = new URL('./', import.meta.url);

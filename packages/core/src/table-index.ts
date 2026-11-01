@@ -2,21 +2,11 @@ import MiniSearch from 'minisearch';
 
 import type { TableSearchHit } from '@/pxweb-client';
 import { isHistorical, rankSearchHits } from '@/search-ranking';
+import type { TableDoc } from '@/table-doc';
 import { normalize } from '@/text';
 import { searchTitles } from '@/title-search';
 
-/** One table in a source's catalogue, in the shape the index stores. */
-export interface TableDoc {
-  id: string;
-  title: string;
-  /** Subject folders from the top, for example ["Economy", "Prices"]. */
-  path?: readonly string[];
-  /** ISO date of the last data update. */
-  updated?: string;
-  /** Last period with data, for example "2026M09", "2026-Q3" or "2025". */
-  lastPeriod?: string;
-  discontinued?: boolean;
-}
+export type { TableDoc } from '@/table-doc';
 
 export interface TableIndexSearchOptions {
   /** Also return discontinued tables; by default they are left out. */
@@ -141,6 +131,15 @@ function recency(updated: string | undefined, currentYear: number): number {
   );
 }
 
+function toHit(doc: TableDoc): TableSearchHit {
+  return {
+    tableId: doc.id,
+    title: doc.title,
+    published: doc.updated,
+    ...(doc.discontinued ? { archived: true as const } : {})
+  };
+}
+
 /**
  * Reciprocal rank fusion (Cormack et al. 2009): each list adds 1 / (k + rank),
  * so a table that ranks well in both lists comes first.
@@ -216,15 +215,6 @@ export function createTableIndex(
   };
 
   const hits = [...byId.values()].map(toHit);
-
-  function toHit(doc: TableDoc): TableSearchHit {
-    return {
-      tableId: doc.id,
-      title: doc.title,
-      published: doc.updated,
-      ...(doc.discontinued ? { archived: true as const } : {})
-    };
-  }
 
   return {
     size: byId.size,
