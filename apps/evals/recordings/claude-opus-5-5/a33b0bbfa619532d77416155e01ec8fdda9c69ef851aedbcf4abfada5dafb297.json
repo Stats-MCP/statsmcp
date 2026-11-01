@@ -1,0 +1,151 @@
+{
+  "model": "claude-opus-5-5",
+  "requestBody": {
+    "model": "claude-opus-5-5",
+    "max_tokens": 128000,
+    "system": [
+      {
+        "type": "text",
+        "text": "Official statistics for Croatia from the PX-Web database of the Croatian Bureau of Statistics (Državni zavod za statistiku, DZS). This server is not affiliated with or endorsed by the Croatian Bureau of Statistics.\n\nTo answer a question with data:\n1. Call `search_tables` with short topic keywords in Croatian (\"hr\") or English (\"en\"). Table ids contain the database and folder names; use them exactly as search_tables returns them. You can also search for a table number such as ME_PS09 if no other table has the same number.\n2. Call `get_table_metadata` on the best table to see its variables and value codes. Use `valueFilter` to find a county, town or municipality by name.\n3. Call `query_table` with only the values you need. Use `latest` for recent periods.\n\nThe bureau allows 10 API calls per 10 seconds, so request only the tables you need. Registered unemployment is published by the Croatian Employment Service, not in this database.\n\nAlways cite the source line that each result ends with, and the date of the last update that search_tables shows for the table. If you change the data or calculate new figures, say so, for example \"Croatian Bureau of Statistics and own calculations\".\n\nAlways call `search_tables` first, unless the user gives a table id. Use only table ids from search results or from the user."
+      }
+    ],
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "What is the population of Croatia?"
+          }
+        ]
+      }
+    ],
+    "tools": [
+      {
+        "name": "search_tables",
+        "description": "Find tables by keywords in their titles. Returns table ids, titles and publish dates, best match first. Search with short topic words, for example \"unemployment municipalities\", not full questions.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Keywords to search for."
+            },
+            "lang": {
+              "description": "Language of titles. Default \"hr\".",
+              "type": "string",
+              "enum": [
+                "hr",
+                "en"
+              ]
+            },
+            "limit": {
+              "description": "Maximum results. Default 10.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            },
+            "includeArchived": {
+              "description": "Also list discontinued tables, for older periods. Default false.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      },
+      {
+        "name": "get_table_metadata",
+        "description": "List the variables of a table and their value codes. Call this before query_table. Long value lists are shortened; use valueFilter to find specific values, for example a municipality name.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "tableId": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Table id exactly as search_tables returns it."
+            },
+            "lang": {
+              "description": "Language of labels. Default \"hr\".",
+              "type": "string",
+              "enum": [
+                "hr",
+                "en"
+              ]
+            },
+            "valueFilter": {
+              "description": "Show only values whose label contains this text, for example \"Ljubljana\".",
+              "type": "string"
+            }
+          },
+          "required": [
+            "tableId"
+          ]
+        }
+      },
+      {
+        "name": "query_table",
+        "description": "Get data from a table as CSV with readable labels. For each variable, give value codes from get_table_metadata, or \"latest\" for the most recent N periods. Results above 5000 cells, or too large for the context, are refused with advice on how to narrow the query.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "tableId": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Table id exactly as search_tables returns it."
+            },
+            "lang": {
+              "description": "Language of labels. Default \"hr\".",
+              "type": "string",
+              "enum": [
+                "hr",
+                "en"
+              ]
+            },
+            "selections": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "Variable code from get_table_metadata."
+                  },
+                  "values": {
+                    "description": "Value codes to include.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "latest": {
+                    "description": "Include only the last N values. Use it for time variables, for example the latest 4 quarters.",
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "code"
+                ]
+              },
+              "description": "One entry per variable to filter. Leave out variables you do not need."
+            }
+          },
+          "required": [
+            "tableId",
+            "selections"
+          ]
+        }
+      }
+    ],
+    "tool_choice": {
+      "type": "auto"
+    }
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011CgcJqskkVQKKyWLebjoxW\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"tool_use\",\"id\":\"toolu_01BrbysUAj18wonkNyhvTn8g\",\"name\":\"search_tables\",\"input\":{\"query\":\"population estimate\",\"lang\":\"en\"},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":1660,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":73,\"output_tokens_details\":{\"thinking_tokens\":0},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
+}

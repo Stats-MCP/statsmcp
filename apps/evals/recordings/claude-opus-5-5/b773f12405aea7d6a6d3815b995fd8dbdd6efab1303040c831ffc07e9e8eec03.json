@@ -1,0 +1,151 @@
+{
+  "model": "claude-opus-5-5",
+  "requestBody": {
+    "model": "claude-opus-5-5",
+    "max_tokens": 128000,
+    "system": [
+      {
+        "type": "text",
+        "text": "Official statistics for the Netherlands from StatLine, the database of Statistics Netherlands (CBS). This server is not affiliated with or endorsed by CBS.\n\nTo answer a question with data:\n1. Call `search_tables` with short topic keywords in Dutch (\"nl\") or English (\"en\"). Dutch and English tables have different ids (86141NED, 86141ENG), and there are more Dutch tables. Results marked \"archived\" are discontinued tables; prefer current tables.\n2. Call `get_table_metadata` on the best table. The measures of a table are the values of the \"Topics\" variable; select only the ones you need. Use `valueFilter` to find a municipality or region by name.\n3. Call `query_table` with only the values you need. Use `latest` for recent periods.\n\nAlways cite the source line that each result ends with. If you calculate new figures, say they are your own calculation based on CBS data.\n\nAlways call `search_tables` first, unless the user gives a table id. Use only table ids from search results or from the user."
+      }
+    ],
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "How many people live in the Netherlands?"
+          }
+        ]
+      }
+    ],
+    "tools": [
+      {
+        "name": "search_tables",
+        "description": "Find tables by keywords in their titles. Returns table ids, titles and publish dates, best match first. Search with short topic words, for example \"unemployment municipalities\", not full questions.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Keywords to search for."
+            },
+            "lang": {
+              "description": "Language of titles. Default \"nl\".",
+              "type": "string",
+              "enum": [
+                "nl",
+                "en"
+              ]
+            },
+            "limit": {
+              "description": "Maximum results. Default 10.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            },
+            "includeArchived": {
+              "description": "Also list discontinued tables, for older periods. Default false.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      },
+      {
+        "name": "get_table_metadata",
+        "description": "List the variables of a table and their value codes. Call this before query_table. Long value lists are shortened; use valueFilter to find specific values, for example a municipality name.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "tableId": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Table id exactly as search_tables returns it."
+            },
+            "lang": {
+              "description": "Language of labels. Default \"nl\".",
+              "type": "string",
+              "enum": [
+                "nl",
+                "en"
+              ]
+            },
+            "valueFilter": {
+              "description": "Show only values whose label contains this text, for example \"Ljubljana\".",
+              "type": "string"
+            }
+          },
+          "required": [
+            "tableId"
+          ]
+        }
+      },
+      {
+        "name": "query_table",
+        "description": "Get data from a table as CSV with readable labels. For each variable, give value codes from get_table_metadata, or \"latest\" for the most recent N periods. Results above 5000 cells, or too large for the context, are refused with advice on how to narrow the query.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "tableId": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Table id exactly as search_tables returns it."
+            },
+            "lang": {
+              "description": "Language of labels. Default \"nl\".",
+              "type": "string",
+              "enum": [
+                "nl",
+                "en"
+              ]
+            },
+            "selections": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "Variable code from get_table_metadata."
+                  },
+                  "values": {
+                    "description": "Value codes to include.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "latest": {
+                    "description": "Include only the last N values. Use it for time variables, for example the latest 4 quarters.",
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "code"
+                ]
+              },
+              "description": "One entry per variable to filter. Leave out variables you do not need."
+            }
+          },
+          "required": [
+            "tableId",
+            "selections"
+          ]
+        }
+      }
+    ],
+    "tool_choice": {
+      "type": "auto"
+    }
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011CgcJpoJ65aHhxjmyEUytj\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"tool_use\",\"id\":\"toolu_01Ti44ni4gzpoZiiNqZVfGoD\",\"name\":\"search_tables\",\"input\":{\"query\":\"population key figures\",\"lang\":\"en\",\"limit\":5},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":1570,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":95,\"output_tokens_details\":{\"thinking_tokens\":0},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
+}

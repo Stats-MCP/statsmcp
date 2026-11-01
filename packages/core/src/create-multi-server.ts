@@ -19,6 +19,7 @@ import {
   tableIdSchema,
   valueFilterSchema
 } from '@/tools/table-tools';
+import { toolInput } from '@/tools/tool-input';
 import { readAnnotations, textResult, toolError } from '@/tools/tool-result';
 
 import type { CallToolResult } from '@modelcontextprotocol/server';
@@ -36,15 +37,11 @@ export interface MultiServerOptions {
   version: string;
 }
 
-const INSTRUCTIONS = `Official statistics from many national statistics offices and Eurostat. This server is not affiliated with or endorsed by any of them.
+const INSTRUCTIONS = `Official statistics from national statistics offices and Eurostat. Not affiliated with or endorsed by any of them.
 
-To answer a question with data:
-1. Choose the country code. Call \`list_countries\` if you are not sure, and call it with a country code to read the hints for that office.
-2. Call \`search_tables\` with the country and short topic keywords. Always search first, unless the user gives a table id. Use only table ids from search results or from the user.
-3. Call \`get_table_metadata\`, then \`query_table\` with only the values you need. Use \`latest\` for recent periods.
-4. To compare countries, query each country separately. Say which office each number comes from.
+Workflow: search_tables with short topic keywords (always search first, unless the user gives a table id), then get_table_metadata, then query_table with only the values you need. Call list_countries with a country code for that office's hints. To compare countries, query each one separately and say which office each number comes from.
 
-Always cite the source line that each result ends with. If you calculate new figures, say they are your own calculation.`;
+Always cite the source line that each result ends with. Mark your own calculations.`;
 
 export function createMultiServer(
   entries: readonly MultiServerEntry[],
@@ -69,14 +66,12 @@ export function createMultiServer(
           "Maximum results. Default: the country's own limit."
         );
   const clients = new Map<string, PxwebClient>();
-  const country = z
-    .enum([first, ...rest])
-    .describe('Country code from list_countries; "eu" is Eurostat.');
+  const country = z.enum([first, ...rest]).describe('"eu" is Eurostat.');
   const lang = z
     .string()
     .optional()
     .describe(
-      'Language of your search words and of the labels, for example "is" for Icelandic. Default: the country\'s first language (see list_countries).'
+      'Language of the search words and labels, for example "is". Default: the country\'s first language.'
     );
 
   function resolve(
@@ -126,7 +121,7 @@ export function createMultiServer(
       title: 'List countries',
       description:
         'List the country codes, offices and languages. With a country code, show the hints for that office.',
-      inputSchema: z.object({
+      inputSchema: toolInput({
         country: country.optional()
       }),
       annotations: readAnnotations('List countries')
@@ -154,7 +149,7 @@ export function createMultiServer(
     {
       title: 'Search statistical tables',
       description: SEARCH_DESCRIPTION,
-      inputSchema: z.object({
+      inputSchema: toolInput({
         country,
         query: searchQuerySchema,
         lang,
@@ -186,7 +181,7 @@ export function createMultiServer(
     {
       title: 'Get table variables',
       description: METADATA_DESCRIPTION,
-      inputSchema: z.object({
+      inputSchema: toolInput({
         country,
         tableId: tableIdSchema,
         lang,
@@ -211,7 +206,7 @@ export function createMultiServer(
     {
       title: 'Query table data',
       description: queryTableDescription(maxCells),
-      inputSchema: z.object({
+      inputSchema: toolInput({
         country,
         tableId: tableIdSchema,
         lang,

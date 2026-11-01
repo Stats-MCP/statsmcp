@@ -5,6 +5,7 @@ import { formatMetadata } from '@/metadata';
 import type { PxwebPreset } from '@/preset';
 import type { PxwebClient } from '@/pxweb-client';
 import { planQuery, type SelectionInput } from '@/query-plan';
+import { toolInput } from '@/tools/tool-input';
 import { readAnnotations, runTool, textResult } from '@/tools/tool-result';
 
 import type { CallToolResult, McpServer } from '@modelcontextprotocol/server';
@@ -103,7 +104,7 @@ export function registerTableTools(
     {
       title: 'Get table variables',
       description: METADATA_DESCRIPTION,
-      inputSchema: z.object({
+      inputSchema: toolInput({
         tableId: tableIdSchema,
         lang,
         valueFilter: valueFilterSchema
@@ -119,7 +120,7 @@ export function registerTableTools(
     {
       title: 'Query table data',
       description: queryTableDescription(preset.maxCells),
-      inputSchema: z.object({
+      inputSchema: toolInput({
         tableId: tableIdSchema,
         lang,
         selections: selectionsSchema

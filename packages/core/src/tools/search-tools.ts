@@ -3,6 +3,7 @@ import { z } from 'zod';
 import type { PxwebPreset } from '@/preset';
 import type { PxwebClient, TableSearchHit } from '@/pxweb-client';
 import { normalize, startsWord } from '@/text';
+import { toolInput } from '@/tools/tool-input';
 import { readAnnotations, runTool, textResult } from '@/tools/tool-result';
 
 import type { CallToolResult, McpServer } from '@modelcontextprotocol/server';
@@ -114,7 +115,7 @@ export function registerSearchTools(
     {
       title: 'Search statistical tables',
       description: SEARCH_DESCRIPTION,
-      inputSchema: z.object({
+      inputSchema: toolInput({
         query: searchQuerySchema,
         lang: z
           .enum(preset.languages)
