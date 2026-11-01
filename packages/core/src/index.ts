@@ -74,6 +74,7 @@ export {
   createEurostatClient,
   type EurostatClientOptions
 } from '@/eurostat-client';
+export { createSdmxClient, type SdmxClientOptions } from '@/sdmx-client';
 export {
   createCbsODataClient,
   type CbsODataClientOptions

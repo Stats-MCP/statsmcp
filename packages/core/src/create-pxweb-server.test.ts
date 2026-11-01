@@ -314,6 +314,36 @@ describe('createPxwebServer', () => {
     expect(init?.method).toBe('POST');
   });
 
+  it('createPresetServer uses the SDMX client with the preset agency', async () => {
+    const fetchMock = vi.fn<typeof fetch>(async () =>
+      json({ data: { dataflows: [] } })
+    );
+    const sdmxPreset: PxwebPreset = {
+      ...preset,
+      apiBaseUrl: 'https://stats.example/rest',
+      api: 'sdmx',
+      sdmxAgency: 'ABS'
+    };
+
+    await callTool(
+      fetchMock,
+      'search_tables',
+      { query: 'prices' },
+      sdmxPreset,
+      () => createPresetServer(sdmxPreset, { fetch: fetchMock })
+    );
+
+    expect(String(fetchMock.mock.calls[0]?.[0])).toBe(
+      'https://stats.example/rest/dataflow/ABS'
+    );
+  });
+
+  it('createPresetServer refuses an sdmx preset without an agency', () => {
+    expect(() => createPresetServer({ ...preset, api: 'sdmx' })).toThrow(
+      'sdmxAgency'
+    );
+  });
+
   it('createPresetServer searches the crawled snapshot when the live table list fails', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () => json({}, 503));
     const dkPreset: PxwebPreset = {

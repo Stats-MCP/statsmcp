@@ -11,6 +11,7 @@ import {
   type PxwebClient
 } from '@/pxweb-client';
 import { createPxwebV2Client } from '@/pxweb-v2-client';
+import { createSdmxClient } from '@/sdmx-client';
 import { createSingstatClient } from '@/singstat-client';
 import type { SnapshotReader } from '@/snapshot';
 import { createStatbankDkClient } from '@/statbank-dk-client';
@@ -100,6 +101,12 @@ export function createPresetClient(
         }
       : {})
   };
+  if (api === 'sdmx') {
+    if (!preset.sdmxAgency) {
+      throw new Error('An sdmx preset needs sdmxAgency.');
+    }
+    return createSdmxClient({ ...indexed, agency: preset.sdmxAgency });
+  }
   if (api === 'statcan-wds') return createStatcanClient(indexed);
   if (api === 'eurostat') return createEurostatClient(indexed);
   if (api === 'cbs-odata') return createCbsODataClient(indexed);

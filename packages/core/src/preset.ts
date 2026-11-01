@@ -30,7 +30,10 @@ export interface PxwebPreset {
     | 'eurostat'
     | 'statcan-wds'
     | 'singstat'
-    | 'cso-pxstat';
+    | 'cso-pxstat'
+    | 'sdmx';
+  /** SDMX agency id, for example "ABS". Required when `api` is "sdmx". */
+  sdmxAgency?: string;
   /**
    * Search strategy for APIs that offer both: "api" uses the API's own search,
    * "index" lists every table and searches locally (better on the golden sets).
