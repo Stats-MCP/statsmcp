@@ -1,4 +1,4 @@
-# stat-ee-mcp
+# @statsmcp/stat-ee
 
 An MCP server for the [database of Statistics Estonia](https://andmed.stat.ee/en/stat) (Statistikaamet). It gives AI assistants access to its tables in Estonian and English.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "stat-ee": { "command": "npx", "args": ["-y", "stat-ee-mcp"] }
+    "stat-ee": { "command": "npx", "args": ["-y", "@statsmcp/stat-ee"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add stat-ee -- npx -y stat-ee-mcp
+claude mcp add stat-ee -- npx -y @statsmcp/stat-ee
 ```
 
 ## Tools
@@ -41,18 +41,18 @@ All tools are read-only. Each tool accepts `lang` (`et` or `en`).
 ## Use it in your own server
 
 ```sh
-npm install stat-ee-mcp
+npm install @statsmcp/stat-ee
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createStatEeServer } from 'stat-ee-mcp';
+import { createStatEeServer } from '@statsmcp/stat-ee';
 
 const server = createStatEeServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createStatEeServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createStatEeServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 

@@ -1,4 +1,4 @@
-# cbs-mcp
+# @statsmcp/cbs
 
 An MCP server for [StatLine](https://opendata.cbs.nl/), the database of Statistics Netherlands (CBS). It gives AI assistants access to its tables in Dutch and English.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "cbs": { "command": "npx", "args": ["-y", "cbs-mcp"] }
+    "cbs": { "command": "npx", "args": ["-y", "@statsmcp/cbs"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add cbs -- npx -y cbs-mcp
+claude mcp add cbs -- npx -y @statsmcp/cbs
 ```
 
 The server searches the full table list of the office. If the office API cannot give this list, the server uses a copy of the list from https://statsmcp.dev, or the copy in the package. To stop all requests to statsmcp.dev, set the environment variable `STATSMCP_INDEX=off`.
@@ -43,18 +43,18 @@ All tools are read-only. Each tool accepts `lang` (`nl` or `en`). Dutch and Engl
 ## Use it in your own server
 
 ```sh
-npm install cbs-mcp
+npm install @statsmcp/cbs
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createCbsServer } from 'cbs-mcp';
+import { createCbsServer } from '@statsmcp/cbs';
 
 const server = createCbsServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createCbsServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createCbsServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 

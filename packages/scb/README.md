@@ -1,4 +1,4 @@
-# scb-mcp
+# @statsmcp/scb
 
 An MCP server for the [Statistical Database](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/) of Statistics Sweden (SCB). It uses the PxWeb API v2 and gives AI assistants access to its tables in Swedish and English.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "scb": { "command": "npx", "args": ["-y", "scb-mcp"] }
+    "scb": { "command": "npx", "args": ["-y", "@statsmcp/scb"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add scb -- npx -y scb-mcp
+claude mcp add scb -- npx -y @statsmcp/scb
 ```
 
 The server searches the full table list of the office. If the office API cannot give this list, the server uses a copy of the list from https://statsmcp.dev, or the copy in the package. To stop all requests to statsmcp.dev, set the environment variable `STATSMCP_INDEX=off`.
@@ -43,18 +43,18 @@ All tools are read-only. Each tool accepts `lang` (`sv` or `en`). Statistics Swe
 ## Use it in your own server
 
 ```sh
-npm install scb-mcp
+npm install @statsmcp/scb
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createScbServer } from 'scb-mcp';
+import { createScbServer } from '@statsmcp/scb';
 
 const server = createScbServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createScbServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createScbServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 

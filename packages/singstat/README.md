@@ -1,4 +1,4 @@
-# statsmcp-singstat
+# @statsmcp/singstat
 
 An MCP server for [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/), the database of the Singapore Department of Statistics. It gives AI assistants access to its time series in English.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "singstat": { "command": "npx", "args": ["-y", "statsmcp-singstat"] }
+    "singstat": { "command": "npx", "args": ["-y", "@statsmcp/singstat"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add singstat -- npx -y statsmcp-singstat
+claude mcp add singstat -- npx -y @statsmcp/singstat
 ```
 
 ## Tools
@@ -41,18 +41,18 @@ All tools are read-only. Each tool accepts `lang` (`en`). Each table has two var
 ## Use it in your own server
 
 ```sh
-npm install statsmcp-singstat
+npm install @statsmcp/singstat
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createSingstatServer } from 'statsmcp-singstat';
+import { createSingstatServer } from '@statsmcp/singstat';
 
 const server = createSingstatServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createSingstatServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createSingstatServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 

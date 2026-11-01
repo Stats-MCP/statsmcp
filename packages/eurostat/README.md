@@ -1,4 +1,4 @@
-# statsmcp-eurostat
+# @statsmcp/eurostat
 
 An MCP server for the [Eurostat database](https://ec.europa.eu/eurostat/data/database): harmonised statistics for the EU, EFTA and candidate countries, in English, German and French. Use it to compare countries.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "eurostat": { "command": "npx", "args": ["-y", "statsmcp-eurostat"] }
+    "eurostat": { "command": "npx", "args": ["-y", "@statsmcp/eurostat"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add eurostat -- npx -y statsmcp-eurostat
+claude mcp add eurostat -- npx -y @statsmcp/eurostat
 ```
 
 The server searches the full table list of the office. If the office API cannot give this list, the server uses a copy of the list from https://statsmcp.dev, or the copy in the package. To stop all requests to statsmcp.dev, set the environment variable `STATSMCP_INDEX=off`.
@@ -43,18 +43,18 @@ All tools are read-only. Each tool accepts `lang` (`en`, `de` or `fr`). Countrie
 ## Use it in your own server
 
 ```sh
-npm install statsmcp-eurostat
+npm install @statsmcp/eurostat
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createEurostatServer } from 'statsmcp-eurostat';
+import { createEurostatServer } from '@statsmcp/eurostat';
 
 const server = createEurostatServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createEurostatServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createEurostatServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 

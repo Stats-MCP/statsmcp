@@ -1,4 +1,4 @@
-# hagstova-mcp
+# @statsmcp/hagstova
 
 An MCP server for the [StatBank of Statistics Faroe Islands](https://statbank.hagstova.fo/pxweb/en/H2/) (Hagstova Føroya). It gives AI assistants access to its tables in Faroese and English.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "hagstova": { "command": "npx", "args": ["-y", "hagstova-mcp"] }
+    "hagstova": { "command": "npx", "args": ["-y", "@statsmcp/hagstova"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add hagstova -- npx -y hagstova-mcp
+claude mcp add hagstova -- npx -y @statsmcp/hagstova
 ```
 
 ## Tools
@@ -41,18 +41,18 @@ All tools are read-only. Each tool accepts `lang` (`fo` or `en`). English search
 ## Use it in your own server
 
 ```sh
-npm install hagstova-mcp
+npm install @statsmcp/hagstova
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createHagstovaServer } from 'hagstova-mcp';
+import { createHagstovaServer } from '@statsmcp/hagstova';
 
 const server = createHagstovaServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createHagstovaServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createHagstovaServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 

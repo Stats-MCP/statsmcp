@@ -1,6 +1,6 @@
 # Examples
 
-These examples are real calls to `sistat-mcp`, recorded on 31 October 2026. The values change when SURS publishes new data.
+These examples are real calls to `@statsmcp/sistat`, recorded on 31 October 2026. The values change when SURS publishes new data.
 
 Each example shows a question that a user can ask, the tool calls that an assistant makes, and the result.
 

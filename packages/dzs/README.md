@@ -1,4 +1,4 @@
-# dzs-mcp
+# @statsmcp/dzs
 
 An MCP server for the [PX-Web database of the Croatian Bureau of Statistics](https://web.dzs.hr/PXWeb/pxweb/en/) (Državni zavod za statistiku). It gives AI assistants access to its tables.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "dzs": { "command": "npx", "args": ["-y", "dzs-mcp"] }
+    "dzs": { "command": "npx", "args": ["-y", "@statsmcp/dzs"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add dzs -- npx -y dzs-mcp
+claude mcp add dzs -- npx -y @statsmcp/dzs
 ```
 
 The API of the office has no list of all tables. The server searches a copy of the table list from https://statsmcp.dev, or the copy in the package. To stop all requests to statsmcp.dev, set the environment variable `STATSMCP_INDEX=off`.
@@ -43,13 +43,13 @@ All tools are read-only. Each tool accepts `lang` (`hr` or `en`). The Croatian l
 ## Use it in your own server
 
 ```sh
-npm install dzs-mcp
+npm install @statsmcp/dzs
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createDzsServer } from 'dzs-mcp';
-import { nodeTableSnapshots } from 'pxweb-mcp/node';
+import { nodeTableSnapshots } from '@statsmcp/core/node';
+import { createDzsServer } from '@statsmcp/dzs';
 
 const server = createDzsServer({
   userAgent: 'my-app/1.0',

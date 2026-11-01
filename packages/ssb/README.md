@@ -1,4 +1,4 @@
-# ssb-mcp
+# @statsmcp/ssb
 
 An MCP server for [Statbank Norway](https://www.ssb.no/en/statbank), the database of Statistics Norway (SSB). It gives AI assistants access to Statbank tables in Norwegian and English.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "ssb": { "command": "npx", "args": ["-y", "ssb-mcp"] }
+    "ssb": { "command": "npx", "args": ["-y", "@statsmcp/ssb"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add ssb -- npx -y ssb-mcp
+claude mcp add ssb -- npx -y @statsmcp/ssb
 ```
 
 ## Tools
@@ -43,18 +43,18 @@ SSB allows about 40 API calls per minute. The server keeps results in a cache to
 ## Use it in your own server
 
 ```sh
-npm install ssb-mcp
+npm install @statsmcp/ssb
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createSsbServer } from 'ssb-mcp';
+import { createSsbServer } from '@statsmcp/ssb';
 
 const server = createSsbServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createSsbServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createSsbServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 

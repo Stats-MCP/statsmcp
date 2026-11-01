@@ -1,4 +1,4 @@
-# statfin-mcp
+# @statsmcp/statfin
 
 An MCP server for [StatFin](https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/), the database of Statistics Finland (Tilastokeskus). It gives AI assistants access to its tables in Finnish, Swedish and English.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "statfin": { "command": "npx", "args": ["-y", "statfin-mcp"] }
+    "statfin": { "command": "npx", "args": ["-y", "@statsmcp/statfin"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add statfin -- npx -y statfin-mcp
+claude mcp add statfin -- npx -y @statsmcp/statfin
 ```
 
 ## Tools
@@ -41,18 +41,18 @@ All tools are read-only. Each tool accepts `lang` (`fi`, `sv` or `en`). Statisti
 ## Use it in your own server
 
 ```sh
-npm install statfin-mcp
+npm install @statsmcp/statfin
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createStatfinServer } from 'statfin-mcp';
+import { createStatfinServer } from '@statsmcp/statfin';
 
 const server = createStatfinServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createStatfinServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createStatfinServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 

@@ -1,4 +1,4 @@
-# dst-mcp
+# @statsmcp/dst
 
 An MCP server for [StatBank Denmark](https://www.statbank.dk/), the database of Statistics Denmark (Danmarks Statistik). It gives AI assistants access to its tables in Danish and English.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "dst": { "command": "npx", "args": ["-y", "dst-mcp"] }
+    "dst": { "command": "npx", "args": ["-y", "@statsmcp/dst"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add dst -- npx -y dst-mcp
+claude mcp add dst -- npx -y @statsmcp/dst
 ```
 
 The server searches the full table list of the office. If the office API cannot give this list, the server uses a copy of the list from https://statsmcp.dev, or the copy in the package. To stop all requests to statsmcp.dev, set the environment variable `STATSMCP_INDEX=off`.
@@ -43,18 +43,18 @@ All tools are read-only. Each tool accepts `lang` (`da` or `en`). The StatBank A
 ## Use it in your own server
 
 ```sh
-npm install dst-mcp
+npm install @statsmcp/dst
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createDstServer } from 'dst-mcp';
+import { createDstServer } from '@statsmcp/dst';
 
 const server = createDstServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createDstServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createDstServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 

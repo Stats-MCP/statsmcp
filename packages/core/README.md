@@ -1,15 +1,15 @@
-# pxweb-mcp
+# @statsmcp/core
 
 A toolkit to make MCP servers for statistics databases that use the [PxWeb API](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/) v1 or v2. Many national statistics offices use PxWeb.
 
-For a ready server, refer to [sistat-mcp](https://www.npmjs.com/package/sistat-mcp) (Slovenia).
+For a ready server, refer to [@statsmcp/sistat](https://www.npmjs.com/package/@statsmcp/sistat) (Slovenia).
 
 ## Install
 
 You need Node.js 20 or later. TypeScript users need TypeScript 5.7 or later.
 
 ```sh
-npm install pxweb-mcp @modelcontextprotocol/server
+npm install @statsmcp/core @modelcontextprotocol/server
 ```
 
 `@modelcontextprotocol/server` is a peer dependency. Your server and this package must use the same copy.
@@ -24,7 +24,7 @@ import {
   createMemoryCache,
   createPresetServer,
   type PxwebPreset
-} from 'pxweb-mcp';
+} from '@statsmcp/core';
 
 const preset: PxwebPreset = {
   name: 'statfin',
@@ -76,7 +76,7 @@ The server has three tools: `search_tables`, `get_table_metadata` and `query_tab
 - Table snapshots: `writeSnapshot`, `readSnapshot`, `urlSnapshotReader`, `bucketSnapshotReader` and `firstSnapshot` store and read a table list as gzip JSON (`index/<source>/<lang>.json.gz`).
 - `createPresetClient`: the API client that a preset selects, without the MCP server. Clients that search a local index also have `listTables(lang)`, which gives the full table list.
 - `tableSnapshots` (option of `createPresetServer`): a `SnapshotReader`. If the live table list of a source fails, search uses the snapshot of that source.
-- `pxweb-mcp/node`: `nodeTableSnapshots(dir)` for Node.js. It reads the snapshot from https://statsmcp.dev first, then from `<dir>/<lang>.json.gz`. Set `STATSMCP_INDEX=off` to stop the requests to statsmcp.dev. Set `STATSMCP_INDEX_URL` to use a mirror.
+- `@statsmcp/core/node`: `nodeTableSnapshots(dir)` for Node.js. It reads the snapshot from https://statsmcp.dev first, then from `<dir>/<lang>.json.gz`. Set `STATSMCP_INDEX=off` to stop the requests to statsmcp.dev. Set `STATSMCP_INDEX_URL` to use a mirror.
 - Other API clients: `createPxwebV2Client`, `createStatbankDkClient`, `createCbsODataClient`, `createEurostatClient`, `createStatcanClient` and `createSingstatClient`. A preset selects one with `api`.
 
 ## Terms of use

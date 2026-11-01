@@ -1,8 +1,8 @@
 # StatsMCP
 
 [![CI](https://github.com/Stats-MCP/statsmcp/actions/workflows/ci.yml/badge.svg)](https://github.com/Stats-MCP/statsmcp/actions/workflows/ci.yml)
-[![npm: sistat-mcp](https://img.shields.io/npm/v/sistat-mcp?label=sistat-mcp)](https://www.npmjs.com/package/sistat-mcp)
-[![npm: pxweb-mcp](https://img.shields.io/npm/v/pxweb-mcp?label=pxweb-mcp)](https://www.npmjs.com/package/pxweb-mcp)
+[![npm: @statsmcp/sistat](https://img.shields.io/npm/v/@statsmcp/sistat?label=@statsmcp/sistat)](https://www.npmjs.com/package/@statsmcp/sistat)
+[![npm: @statsmcp/core](https://img.shields.io/npm/v/@statsmcp/core?label=@statsmcp/core)](https://www.npmjs.com/package/@statsmcp/core)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
 
 Website: [statsmcp.dev](https://statsmcp.dev)
@@ -99,7 +99,7 @@ You need Node.js 20 or later.
 **Claude Code**
 
 ```sh
-claude mcp add sistat -- npx -y sistat-mcp
+claude mcp add sistat -- npx -y @statsmcp/sistat
 ```
 
 **Claude Desktop, Cursor and other MCP clients**
@@ -109,7 +109,7 @@ Add this to the MCP configuration of the client:
 ```json
 {
   "mcpServers": {
-    "sistat": { "command": "npx", "args": ["-y", "sistat-mcp"] }
+    "sistat": { "command": "npx", "args": ["-y", "@statsmcp/sistat"] }
   }
 }
 ```
@@ -118,22 +118,22 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 
 ## Databases
 
-| Database                                                                          | Country       | Package                                  | Status                       |
-| --------------------------------------------------------------------------------- | ------------- | ---------------------------------------- | ---------------------------- |
-| [SiStat](https://pxweb.stat.si/SiStat/en)                                         | Slovenia      | [`sistat-mcp`](packages/sistat)          | Available                    |
-| [Statbank Norway](https://www.ssb.no/en/statbank)                                 | Norway        | [`ssb-mcp`](packages/ssb)                | Hosted; npm package soon     |
-| [Statistics Estonia](https://andmed.stat.ee/en/stat)                              | Estonia       | [`stat-ee-mcp`](packages/stat-ee)        | Hosted; npm package soon     |
-| [Statistics Faroe Islands](https://statbank.hagstova.fo/pxweb/en/H2/)             | Faroe Islands | [`hagstova-mcp`](packages/hagstova)      | Hosted; npm package soon     |
-| [StatFin](https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/)                         | Finland       | [`statfin-mcp`](packages/statfin)        | Hosted; npm package soon     |
-| [Statistical Database](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/) (SCB) | Sweden        | [`scb-mcp`](packages/scb)                | Hosted; npm package soon     |
-| [StatBank Denmark](https://www.statbank.dk/)                                      | Denmark       | [`dst-mcp`](packages/dst)                | Hosted; npm package soon     |
-| [StatLine](https://opendata.cbs.nl/) (CBS)                                        | Netherlands   | [`cbs-mcp`](packages/cbs)                | Hosted; npm package soon     |
-| [Eurostat](https://ec.europa.eu/eurostat/data/database)                           | EU and EFTA   | [`statsmcp-eurostat`](packages/eurostat) | Hosted; npm package soon     |
-| [Statistics Canada](https://www150.statcan.gc.ca/n1/en/type/data)                 | Canada        | [`statsmcp-statcan`](packages/statcan)   | Hosted; npm package soon     |
-| [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                   | Singapore     | [`statsmcp-singstat`](packages/singstat) | Local only (npm); not hosted |
-| Statistics Iceland                                                                | Iceland       |                                          | Planned                      |
+| Database                                                                          | Country       | Package                                   | Status                       |
+| --------------------------------------------------------------------------------- | ------------- | ----------------------------------------- | ---------------------------- |
+| [SiStat](https://pxweb.stat.si/SiStat/en)                                         | Slovenia      | [`@statsmcp/sistat`](packages/sistat)     | Available                    |
+| [Statbank Norway](https://www.ssb.no/en/statbank)                                 | Norway        | [`@statsmcp/ssb`](packages/ssb)           | Hosted; npm package soon     |
+| [Statistics Estonia](https://andmed.stat.ee/en/stat)                              | Estonia       | [`@statsmcp/stat-ee`](packages/stat-ee)   | Hosted; npm package soon     |
+| [Statistics Faroe Islands](https://statbank.hagstova.fo/pxweb/en/H2/)             | Faroe Islands | [`@statsmcp/hagstova`](packages/hagstova) | Hosted; npm package soon     |
+| [StatFin](https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/)                         | Finland       | [`@statsmcp/statfin`](packages/statfin)   | Hosted; npm package soon     |
+| [Statistical Database](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/) (SCB) | Sweden        | [`@statsmcp/scb`](packages/scb)           | Hosted; npm package soon     |
+| [StatBank Denmark](https://www.statbank.dk/)                                      | Denmark       | [`@statsmcp/dst`](packages/dst)           | Hosted; npm package soon     |
+| [StatLine](https://opendata.cbs.nl/) (CBS)                                        | Netherlands   | [`@statsmcp/cbs`](packages/cbs)           | Hosted; npm package soon     |
+| [Eurostat](https://ec.europa.eu/eurostat/data/database)                           | EU and EFTA   | [`@statsmcp/eurostat`](packages/eurostat) | Hosted; npm package soon     |
+| [Statistics Canada](https://www150.statcan.gc.ca/n1/en/type/data)                 | Canada        | [`@statsmcp/statcan`](packages/statcan)   | Hosted; npm package soon     |
+| [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                   | Singapore     | [`@statsmcp/singstat`](packages/singstat) | Local only (npm); not hosted |
+| Statistics Iceland                                                                | Iceland       |                                           | Planned                      |
 
-To add a database that uses PxWeb, use the [`pxweb-mcp`](packages/core) toolkit.
+To add a database that uses PxWeb, use the [`@statsmcp/core`](packages/core) toolkit.
 
 ## Documentation
 
@@ -150,6 +150,28 @@ To add a database that uses PxWeb, use the [`pxweb-mcp`](packages/core) toolkit.
 ## Contributing
 
 Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before you open a pull request. This project follows the [Code of conduct](CODE_OF_CONDUCT.md). To report a security problem, refer to [SECURITY.md](SECURITY.md).
+
+## Old package names
+
+The packages moved to the `@statsmcp` scope. The old names are no longer maintained. To change, replace the package name in your `npx` or `npm install` command. The command names do not change.
+
+| Old name            | New name             |
+| ------------------- | -------------------- |
+| `pxweb-mcp`         | `@statsmcp/core`     |
+| `sistat-mcp`        | `@statsmcp/sistat`   |
+| `ssb-mcp`           | `@statsmcp/ssb`      |
+| `stat-ee-mcp`       | `@statsmcp/stat-ee`  |
+| `hagstova-mcp`      | `@statsmcp/hagstova` |
+| `statfin-mcp`       | `@statsmcp/statfin`  |
+| `scb-mcp`           | `@statsmcp/scb`      |
+| `dst-mcp`           | `@statsmcp/dst`      |
+| `cbs-mcp`           | `@statsmcp/cbs`      |
+| `statsmcp-eurostat` | `@statsmcp/eurostat` |
+| `statsmcp-statcan`  | `@statsmcp/statcan`  |
+| `statsmcp-singstat` | `@statsmcp/singstat` |
+| `statice-mcp`       | `@statsmcp/statice`  |
+| `dzs-mcp`           | `@statsmcp/dzs`      |
+| `cso-mcp`           | `@statsmcp/cso`      |
 
 ## Licence
 

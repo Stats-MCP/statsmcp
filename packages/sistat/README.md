@@ -1,4 +1,4 @@
-# sistat-mcp
+# @statsmcp/sistat
 
 An MCP server for [SiStat](https://pxweb.stat.si/SiStat/en), the database of the Statistical Office of the Republic of Slovenia (SURS). It gives AI assistants access to more than 4,800 tables in Slovenian and English.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "sistat": { "command": "npx", "args": ["-y", "sistat-mcp"] }
+    "sistat": { "command": "npx", "args": ["-y", "@statsmcp/sistat"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add sistat -- npx -y sistat-mcp
+claude mcp add sistat -- npx -y @statsmcp/sistat
 ```
 
 ## Tools
@@ -41,18 +41,18 @@ All tools are read-only. Each tool accepts `lang` (`sl` or `en`). For real calls
 ## Use it in your own server
 
 ```sh
-npm install sistat-mcp
+npm install @statsmcp/sistat
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createSistatServer } from 'sistat-mcp';
+import { createSistatServer } from '@statsmcp/sistat';
 
 const server = createSistatServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createSistatServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createSistatServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 

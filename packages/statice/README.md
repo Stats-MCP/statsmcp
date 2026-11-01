@@ -1,4 +1,4 @@
-# statice-mcp
+# @statsmcp/statice
 
 An MCP server for the [PX-Web database of Statistics Iceland](https://px.hagstofa.is/pxen/pxweb/en/) (Hagstofa Íslands). It gives AI assistants access to its tables.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "statice": { "command": "npx", "args": ["-y", "statice-mcp"] }
+    "statice": { "command": "npx", "args": ["-y", "@statsmcp/statice"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add statice -- npx -y statice-mcp
+claude mcp add statice -- npx -y @statsmcp/statice
 ```
 
 The API of the office has no list of all tables. The server searches a copy of the table list from https://statsmcp.dev, or the copy in the package. To stop all requests to statsmcp.dev, set the environment variable `STATSMCP_INDEX=off`.
@@ -43,13 +43,13 @@ All tools are read-only. Each tool accepts `lang` (`en` or `is`). The English an
 ## Use it in your own server
 
 ```sh
-npm install statice-mcp
+npm install @statsmcp/statice
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { nodeTableSnapshots } from 'pxweb-mcp/node';
-import { createStaticeServer } from 'statice-mcp';
+import { nodeTableSnapshots } from '@statsmcp/core/node';
+import { createStaticeServer } from '@statsmcp/statice';
 
 const server = createStaticeServer({
   userAgent: 'my-app/1.0',

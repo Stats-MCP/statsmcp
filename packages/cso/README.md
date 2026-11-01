@@ -1,4 +1,4 @@
-# cso-mcp
+# @statsmcp/cso
 
 An MCP server for [PxStat](https://data.cso.ie/), the database of the Central Statistics Office of Ireland (CSO). It gives AI assistants access to more than 13,000 tables.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "cso": { "command": "npx", "args": ["-y", "cso-mcp"] }
+    "cso": { "command": "npx", "args": ["-y", "@statsmcp/cso"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add cso -- npx -y cso-mcp
+claude mcp add cso -- npx -y @statsmcp/cso
 ```
 
 The API of the CSO has no search. The server searches a copy of the table list from https://statsmcp.dev, or the copy in the package. To stop all requests to statsmcp.dev, set the environment variable `STATSMCP_INDEX=off`.
@@ -43,13 +43,13 @@ All tools are read-only. The data is in English.
 ## Use it in your own server
 
 ```sh
-npm install cso-mcp
+npm install @statsmcp/cso
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createCsoServer } from 'cso-mcp';
-import { nodeTableSnapshots } from 'pxweb-mcp/node';
+import { nodeTableSnapshots } from '@statsmcp/core/node';
+import { createCsoServer } from '@statsmcp/cso';
 
 const server = createCsoServer({
   userAgent: 'my-app/1.0',

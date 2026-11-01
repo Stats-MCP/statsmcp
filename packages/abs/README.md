@@ -1,4 +1,4 @@
-# abs-mcp
+# @statsmcp/abs
 
 An MCP server for the [Data API of the Australian Bureau of Statistics](https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide) (ABS). It gives AI assistants access to its statistical tables.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "abs": { "command": "npx", "args": ["-y", "abs-mcp"] }
+    "abs": { "command": "npx", "args": ["-y", "@statsmcp/abs"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add abs -- npx -y abs-mcp
+claude mcp add abs -- npx -y @statsmcp/abs
 ```
 
 The server searches the full table list of the ABS. If the ABS API cannot give this list, the server uses a copy of the list from https://statsmcp.dev, or the copy in the package. To stop all requests to statsmcp.dev, set the environment variable `STATSMCP_INDEX=off`.
@@ -43,12 +43,12 @@ All tools are read-only. The ABS publishes in English only (`lang` is `en`).
 ## Use it in your own server
 
 ```sh
-npm install abs-mcp
+npm install @statsmcp/abs
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createAbsServer } from 'abs-mcp';
+import { createAbsServer } from '@statsmcp/abs';
 
 const server = createAbsServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());

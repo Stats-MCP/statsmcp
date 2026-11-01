@@ -1,4 +1,4 @@
-# statsmcp-statcan
+# @statsmcp/statcan
 
 An MCP server for the [data tables of Statistics Canada](https://www150.statcan.gc.ca/n1/en/type/data). It gives AI assistants access to more than 8,000 tables in English and French.
 
@@ -17,7 +17,7 @@ You need Node.js 20 or later.
 ```json
 {
   "mcpServers": {
-    "statcan": { "command": "npx", "args": ["-y", "statsmcp-statcan"] }
+    "statcan": { "command": "npx", "args": ["-y", "@statsmcp/statcan"] }
   }
 }
 ```
@@ -25,7 +25,7 @@ You need Node.js 20 or later.
 For Claude Code:
 
 ```sh
-claude mcp add statcan -- npx -y statsmcp-statcan
+claude mcp add statcan -- npx -y @statsmcp/statcan
 ```
 
 The server searches the full table list of the office. If the office API cannot give this list, the server uses a copy of the list from https://statsmcp.dev, or the copy in the package. To stop all requests to statsmcp.dev, set the environment variable `STATSMCP_INDEX=off`.
@@ -43,18 +43,18 @@ All tools are read-only. Each tool accepts `lang` (`en` or `fr`). Variables are 
 ## Use it in your own server
 
 ```sh
-npm install statsmcp-statcan
+npm install @statsmcp/statcan
 ```
 
 ```ts
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
-import { createStatcanServer } from 'statsmcp-statcan';
+import { createStatcanServer } from '@statsmcp/statcan';
 
 const server = createStatcanServer({ userAgent: 'my-app/1.0' });
 await server.connect(new StdioServerTransport());
 ```
 
-`createStatcanServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `pxweb-mcp` and use `createMemoryCache`, or implement the `Cache` interface.
+`createStatcanServer` returns an `McpServer`. It also accepts a `cache`. To make one, install `@statsmcp/core` and use `createMemoryCache`, or implement the `Cache` interface.
 
 ## Data licence and attribution
 
