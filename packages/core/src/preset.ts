@@ -18,11 +18,11 @@ export interface PxwebPreset {
    */
   apiBaseUrl: ApiBaseUrl;
   /**
-   * API type, default "pxweb-v1". "pxweb-v2" and "statbank-dk" need one string `apiBaseUrl`
+   * API type, default "pxweb-v1". The other types need one string `apiBaseUrl`
    * (the language is a parameter), use the API table ids as they are and ignore
    * `database` and `tableIdFromHit`.
    */
-  api?: 'pxweb-v1' | 'pxweb-v2' | 'statbank-dk';
+  api?: 'pxweb-v1' | 'pxweb-v2' | 'statbank-dk' | 'cbs-odata';
   /**
    * Path segment after the language: "Data" on SiStat (the default), "table" on SSB.
    * With an array, search covers every database in it and each table id starts with its database.

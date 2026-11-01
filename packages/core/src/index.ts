@@ -36,6 +36,10 @@ export {
 } from '@/query-plan';
 export { searchTitles } from '@/title-search';
 export {
+  createCbsODataClient,
+  type CbsODataClientOptions
+} from '@/cbs-odata-client';
+export {
   createStatbankDkClient,
   type StatbankDkClientOptions
 } from '@/statbank-dk-client';

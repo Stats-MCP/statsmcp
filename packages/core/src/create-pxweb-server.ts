@@ -1,6 +1,7 @@
 import { McpServer } from '@modelcontextprotocol/server';
 
 import type { Cache } from '@/cache';
+import { createCbsODataClient } from '@/cbs-odata-client';
 import type { PxwebPreset } from '@/preset';
 import { createPxwebClient, type PxwebClient } from '@/pxweb-client';
 import { createPxwebV2Client } from '@/pxweb-v2-client';
@@ -43,6 +44,9 @@ function createPresetClient(
   }
   if (typeof preset.apiBaseUrl !== 'string') {
     throw new Error(`A ${api} preset needs one apiBaseUrl string.`);
+  }
+  if (api === 'cbs-odata') {
+    return createCbsODataClient({ ...http, baseUrl: preset.apiBaseUrl });
   }
   if (api === 'statbank-dk') {
     return createStatbankDkClient({ ...http, baseUrl: preset.apiBaseUrl });
