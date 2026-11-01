@@ -15,7 +15,8 @@ function termsOf(query: string, lang: string): string[] {
 
 /**
  * Keyword search over a local list of tables, for APIs without a working search.
- * A table matches when a query word starts a word in its title or equals its id.
+ * A table matches when at least half of the query words start a word in its title
+ * or equal its id, so a short word such as "for" alone does not match every table.
  * Tables that match more words come first; ties keep the list order.
  */
 export function searchTitles(
@@ -25,6 +26,7 @@ export function searchTitles(
 ): TableSearchHit[] {
   const terms = termsOf(query, lang);
   if (terms.length === 0) return [];
+  const needed = Math.ceil(terms.length / 2);
   return tables
     .map((table, index) => {
       const title = normalize(table.title, lang);
@@ -34,7 +36,7 @@ export function searchTitles(
       ).length;
       return { table, matches, index };
     })
-    .filter((entry) => entry.matches > 0)
+    .filter((entry) => entry.matches >= needed)
     .toSorted((a, b) => b.matches - a.matches || a.index - b.index)
     .map((entry) => entry.table);
 }

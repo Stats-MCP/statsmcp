@@ -25,6 +25,15 @@ describe('searchTitles', () => {
     ).toEqual(['PRIS113', 'PRIS111']);
   });
 
+  it('needs at least half of the query words, so a common word alone does not match', () => {
+    expect(
+      searchTitles(tables, 'index for the property', 'en').map((t) => t.tableId)
+    ).toEqual([]);
+    expect(
+      searchTitles(tables, 'earnings for sector', 'en').map((t) => t.tableId)
+    ).toEqual(['LON1']);
+  });
+
   it.each([
     ['folk1a', ['FOLK1A']],
     ['koebekraft', []],
