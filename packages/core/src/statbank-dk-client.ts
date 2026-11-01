@@ -15,7 +15,11 @@ import type {
   PxwebSelection,
   TableMetadata
 } from '@/pxweb-client';
-import { createTableIndexLoader, type TableDoc } from '@/table-index';
+import {
+  createTableIndexLoader,
+  type TableDoc,
+  type TableListOptions
+} from '@/table-index';
 
 const TABLE_ID_PATTERN = /^[\p{L}\p{N}_-]+$/u;
 const NOT_FOUND_STATUSES = new Set([400, 404]);
@@ -66,7 +70,7 @@ const dimensionKeysSchema = z.object({
   size: z.array(z.number())
 });
 
-export interface StatbankDkClientOptions extends HttpOptions {
+export interface StatbankDkClientOptions extends HttpOptions, TableListOptions {
   /** StatBank API root, for example "https://api.statbank.dk/v1". */
   baseUrl: string;
   /** Clock for search ranking; defaults to the system time. */
@@ -167,6 +171,7 @@ export function createStatbankDkClient(
   };
 
   const tableIndex = createTableIndexLoader(listTables, {
+    fallback: options.listFallback,
     ttlSeconds: SEARCH_TTL_SECONDS,
     currentYear: () => now().getUTCFullYear()
   });

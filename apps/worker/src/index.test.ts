@@ -1,3 +1,4 @@
+import { writeSnapshot } from 'pxweb-mcp';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { handleRequest, type Env } from '@/index';
@@ -117,6 +118,57 @@ describe('worker', () => {
 
     expect(response.status).toBe(200);
     expect(await response.text()).toContain(instructionsPart);
+  });
+
+  it('searches the R2 snapshot when the live table list fails', async () => {
+    vi.stubGlobal('caches', {
+      default: { match: async () => undefined, put: async () => undefined }
+    });
+    vi.stubGlobal(
+      'fetch',
+      vi.fn<typeof fetch>(async () => {
+        throw new TypeError('network down');
+      })
+    );
+    const gzip = await writeSnapshot({
+      version: 1,
+      source: 'dst',
+      lang: 'en',
+      builtAt: '2026-11-01T00:00:00.000Z',
+      count: 1,
+      docs: [
+        { id: 'FOLK1A', title: 'Population at the first day of the quarter' }
+      ]
+    });
+    const get = vi.fn<NonNullable<Env['INDEX']>['get']>(async () => ({
+      body: new Blob([gzip]).stream(),
+      httpEtag: '"x"'
+    }));
+    const search = new Request('https://mcp.example/dk/mcp', {
+      method: 'POST',
+      headers: mcpRequest('POST', '/dk/mcp').headers,
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'tools/call',
+        params: {
+          name: 'search_tables',
+          arguments: { query: 'population', lang: 'en' }
+        }
+      })
+    });
+
+    const response = await handleRequest(
+      search,
+      {
+        RATE_LIMITER: { limit: async () => ({ success: true }) },
+        INDEX: { get }
+      },
+      waitUntil
+    );
+
+    expect(await response.text()).toContain('FOLK1A');
+    expect(get).toHaveBeenCalledWith('index/dst/en.json.gz');
   });
 
   it('accepts a trailing slash and a query string on a server path', async () => {

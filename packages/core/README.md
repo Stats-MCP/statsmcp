@@ -74,6 +74,9 @@ The server has three tools: `search_tables`, `get_table_metadata` and `query_tab
 - `PxwebError` and `QueryPlanError`: the errors of the client and the planner.
 - `createTableIndex` and `createTableIndexLoader`: keyword search over a table list (BM25, stop words, prefix and fuzzy matching, the office's catalogue order). Use them for APIs without a good search.
 - Table snapshots: `writeSnapshot`, `readSnapshot`, `urlSnapshotReader`, `bucketSnapshotReader` and `firstSnapshot` store and read a table list as gzip JSON (`index/<source>/<lang>.json.gz`).
+- `createPresetClient`: the API client that a preset selects, without the MCP server. Clients that search a local index also have `listTables(lang)`, which gives the full table list.
+- `tableSnapshots` (option of `createPresetServer`): a `SnapshotReader`. If the live table list of a source fails, search uses the snapshot of that source.
+- `pxweb-mcp/node`: `nodeTableSnapshots(dir)` for Node.js. It reads the snapshot from https://statsmcp.dev first, then from `<dir>/<lang>.json.gz`. Set `STATSMCP_INDEX=off` to stop the requests to statsmcp.dev. Set `STATSMCP_INDEX_URL` to use a mirror.
 - Other API clients: `createPxwebV2Client`, `createStatbankDkClient`, `createCbsODataClient`, `createEurostatClient`, `createStatcanClient` and `createSingstatClient`. A preset selects one with `api`.
 
 ## Terms of use

@@ -6,7 +6,10 @@ import type { McpServer } from '@modelcontextprotocol/server';
 
 export { scbPreset } from '@/preset';
 
-export type ScbServerOptions = Pick<PresetServerOptions, 'cache' | 'userAgent'>;
+export type ScbServerOptions = Pick<
+  PresetServerOptions,
+  'cache' | 'userAgent' | 'tableSnapshots'
+>;
 
 export function createScbServer(options: ScbServerOptions = {}): McpServer {
   return createPresetServer(scbPreset, options);

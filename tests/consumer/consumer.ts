@@ -26,6 +26,7 @@ import {
   type TableSearchHit,
   type TableVariable
 } from 'pxweb-mcp';
+import { nodeTableSnapshots } from 'pxweb-mcp/node';
 import {
   createSistatServer,
   sistatPreset,
@@ -97,7 +98,13 @@ const sistatOptions: SistatServerOptions = {
 };
 
 const aliases: SearchAlias[] = [{ terms: ['salary'], query: 'earnings' }];
-const presetOptions: PresetServerOptions = { cache, userAgent: 'consumer' };
+const presetOptions: PresetServerOptions = {
+  cache,
+  userAgent: 'consumer',
+  tableSnapshots: nodeTableSnapshots(new URL('./snapshots/', import.meta.url), {
+    env: { STATSMCP_INDEX: 'off' }
+  })
+};
 
 await createPxwebServer(preset, client).connect(new StdioServerTransport());
 await createPresetServer(

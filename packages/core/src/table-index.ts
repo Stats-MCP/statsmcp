@@ -256,6 +256,11 @@ export function createTableIndex(
   };
 }
 
+export interface TableListOptions {
+  /** Tables to use when the live table list fails, for example a crawled snapshot. */
+  listFallback?: (lang: string) => Promise<readonly TableDoc[] | undefined>;
+}
+
 export interface TableIndexLoaderOptions {
   /** How long a built index stays fresh. */
   ttlSeconds: number;
@@ -263,6 +268,12 @@ export interface TableIndexLoaderOptions {
   retrySeconds?: number;
   /** Year for recency at build time; defaults to the current UTC year. */
   currentYear?: () => number;
+  /**
+   * Tables for a language that has no index yet when the live list fails. A stale
+   * live index wins over the fallback, and a fallback index is kept only until
+   * the next retry.
+   */
+  fallback?: TableListOptions['listFallback'];
 }
 
 const DEFAULT_RETRY_SECONDS = 5 * 60;
@@ -279,6 +290,19 @@ export function createTableIndexLoader(
   const loading = new Map<string, Promise<TableIndex>>();
   const ttlMs = options.ttlSeconds * 1000;
   const retryMs = (options.retrySeconds ?? DEFAULT_RETRY_SECONDS) * 1000;
+  const build = (docs: readonly TableDoc[], lang: string): TableIndex =>
+    createTableIndex(docs, lang, {
+      currentYear: options.currentYear?.() ?? new Date().getUTCFullYear()
+    });
+
+  async function fallbackIndex(lang: string): Promise<TableIndex | undefined> {
+    try {
+      const docs = await options.fallback?.(lang);
+      return docs && docs.length > 0 ? build(docs, lang) : undefined;
+    } catch {
+      return undefined;
+    }
+  }
 
   return (lang) => {
     const current = built.get(lang);
@@ -288,19 +312,15 @@ export function createTableIndexLoader(
     if (pending) return pending;
     const promise = load(lang)
       .then((docs) => {
-        const index = createTableIndex(docs, lang, {
-          currentYear: options.currentYear?.() ?? new Date().getUTCFullYear()
-        });
+        const index = build(docs, lang);
         built.set(lang, { at: Date.now(), index });
         return index;
       })
-      .catch((err: unknown) => {
-        if (!current) throw err;
-        built.set(lang, {
-          at: Date.now() - ttlMs + retryMs,
-          index: current.index
-        });
-        return current.index;
+      .catch(async (err: unknown) => {
+        const index = current?.index ?? (await fallbackIndex(lang));
+        if (!index) throw err;
+        built.set(lang, { at: Date.now() - ttlMs + retryMs, index });
+        return index;
       })
       .finally(() => loading.delete(lang));
     loading.set(lang, promise);

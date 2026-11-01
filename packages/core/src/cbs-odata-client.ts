@@ -15,7 +15,11 @@ import type {
   TableMetadata,
   TableVariable
 } from '@/pxweb-client';
-import { createTableIndexLoader, type TableDoc } from '@/table-index';
+import {
+  createTableIndexLoader,
+  type TableDoc,
+  type TableListOptions
+} from '@/table-index';
 
 const TABLE_ID_PATTERN = /^[A-Za-z0-9]+$/;
 const NOT_FOUND_STATUSES = new Set([400, 404]);
@@ -67,7 +71,7 @@ const rowsSchema = z.object({
 /** Guards against a run-away loop if the service keeps sending next links. */
 const MAX_KEY_PAGES = 20;
 
-export interface CbsODataClientOptions extends HttpOptions {
+export interface CbsODataClientOptions extends HttpOptions, TableListOptions {
   /** Root of the CBS open data service, for example "https://opendata.cbs.nl". */
   baseUrl: string;
   /** Clock for search ranking; defaults to the system time. */
@@ -144,6 +148,7 @@ export function createCbsODataClient(
       }));
 
   const tableIndex = createTableIndexLoader(listTables, {
+    fallback: options.listFallback,
     ttlSeconds: SEARCH_TTL_SECONDS,
     currentYear: () => now().getUTCFullYear()
   });

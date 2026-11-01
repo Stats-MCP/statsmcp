@@ -10,7 +10,11 @@ import {
 } from '@/http';
 import { jsonStatDatasetSchema } from '@/json-stat';
 import type { PxwebClient, TableMetadata, TableVariable } from '@/pxweb-client';
-import { createTableIndexLoader, type TableDoc } from '@/table-index';
+import {
+  createTableIndexLoader,
+  type TableDoc,
+  type TableListOptions
+} from '@/table-index';
 
 const CODE_PATTERN = /^[A-Za-z0-9_$.-]+$/;
 const CLOSED_TITLE = /\(\d{4}\s*-\s*\d{4}\)\s*$/;
@@ -18,7 +22,7 @@ const TIME_CODE = 'time';
 const NOT_FOUND_STATUSES = new Set([400, 404]);
 const TEXT: RequestInit = { method: 'GET', headers: { accept: '*/*' } };
 
-export interface EurostatClientOptions extends HttpOptions {
+export interface EurostatClientOptions extends HttpOptions, TableListOptions {
   /** Root of the dissemination API, "https://ec.europa.eu/eurostat/api/dissemination". */
   baseUrl: string;
   /** Clock for search ranking; defaults to the system time. */
@@ -315,6 +319,7 @@ export function createEurostatClient(
     }));
 
   const tableIndex = createTableIndexLoader(listTables, {
+    fallback: options.listFallback,
     ttlSeconds: SEARCH_TTL_SECONDS,
     currentYear: () => now().getUTCFullYear()
   });

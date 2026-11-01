@@ -200,3 +200,91 @@ describe('createTableIndexLoader', () => {
     await expect(loader('da')).rejects.toThrow('upstream down');
   });
 });
+
+const crawled: TableDoc[] = [
+  { id: 'CRAWLED', title: 'Crawled population table' }
+];
+const listDown = async (): Promise<TableDoc[]> => {
+  throw new Error('list down');
+};
+const firstHit = async (
+  loader: ReturnType<typeof createTableIndexLoader>
+): Promise<string | undefined> =>
+  (await loader('en')).search('population')[0]?.tableId;
+
+describe('createTableIndexLoader fallback', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('uses the fallback only until the next retry when there is no index', async () => {
+    vi.useFakeTimers();
+    const load = vi
+      .fn<(lang: string) => Promise<TableDoc[]>>()
+      .mockRejectedValueOnce(new Error('list down'))
+      .mockResolvedValue(docs);
+    const loader = createTableIndexLoader(load, {
+      ttlSeconds: 3600,
+      retrySeconds: 60,
+      fallback: async () => crawled
+    });
+
+    expect(await firstHit(loader)).toBe('CRAWLED');
+    vi.advanceTimersByTime(61_000);
+    expect(await firstHit(loader)).toBe('FOLK1A');
+  });
+
+  it('calls the fallback once for parallel searches', async () => {
+    const fallback = vi.fn<(lang: string) => Promise<TableDoc[]>>(
+      async () => crawled
+    );
+    const loader = createTableIndexLoader(listDown, {
+      ttlSeconds: 60,
+      fallback
+    });
+
+    const [first, second] = await Promise.all([loader('en'), loader('en')]);
+
+    expect(first).toBe(second);
+    expect(fallback).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps a stale live index instead of the fallback', async () => {
+    vi.useFakeTimers();
+    const fallback = vi.fn<(lang: string) => Promise<TableDoc[]>>(
+      async () => crawled
+    );
+    const load = vi
+      .fn<(lang: string) => Promise<TableDoc[]>>()
+      .mockResolvedValueOnce(docs)
+      .mockRejectedValue(new Error('list down'));
+    const loader = createTableIndexLoader(load, { ttlSeconds: 60, fallback });
+
+    await loader('en');
+    vi.advanceTimersByTime(61_000);
+
+    expect(await firstHit(loader)).toBe('FOLK1A');
+    expect(fallback).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['has no snapshot', async () => undefined],
+    ['has an empty snapshot', async () => []],
+    [
+      'fails too',
+      async (): Promise<TableDoc[]> => {
+        throw new Error('snapshot down');
+      }
+    ]
+  ])(
+    'rethrows the live error when the fallback %s',
+    async (_case, fallback) => {
+      const loader = createTableIndexLoader(listDown, {
+        ttlSeconds: 60,
+        fallback
+      });
+
+      await expect(loader('en')).rejects.toThrow('list down');
+    }
+  );
+});

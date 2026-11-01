@@ -53,6 +53,9 @@ export {
 } from '@/snapshot';
 export {
   createTableIndex,
+  createTableIndexLoader,
+  type TableIndexLoaderOptions,
+  type TableListOptions,
   type TableDoc,
   type TableIndex,
   type TableIndexOptions,

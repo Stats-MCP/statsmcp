@@ -2,7 +2,12 @@ import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { createCbsServer, cbsPreset } from 'cbs-mcp';
 import { createDstServer, dstPreset } from 'dst-mcp';
 import { createHagstovaServer, hagstovaPreset } from 'hagstova-mcp';
-import { createMemoryCache, type Cache } from 'pxweb-mcp';
+import {
+  bucketSnapshotReader,
+  createMemoryCache,
+  type Cache,
+  type SnapshotReader
+} from 'pxweb-mcp';
 import { createScbServer, scbPreset } from 'scb-mcp';
 import { createSistatServer, sistatPreset } from 'sistat-mcp';
 import { createSsbServer, ssbPreset } from 'ssb-mcp';
@@ -20,7 +25,7 @@ export interface Env {
 }
 
 interface HostedServer {
-  create: (cache: Cache) => McpServer;
+  create: (cache: Cache, tableSnapshots?: SnapshotReader) => McpServer;
 }
 
 const SERVERS = new Map<string, HostedServer>([
@@ -77,9 +82,10 @@ const SERVERS = new Map<string, HostedServer>([
   [
     '/se/mcp',
     {
-      create: (cache) =>
+      create: (cache, tableSnapshots) =>
         createScbServer({
           cache,
+          tableSnapshots,
           userAgent: `scb-mcp-worker/${scbPreset.version}`
         })
     }
@@ -87,9 +93,10 @@ const SERVERS = new Map<string, HostedServer>([
   [
     '/dk/mcp',
     {
-      create: (cache) =>
+      create: (cache, tableSnapshots) =>
         createDstServer({
           cache,
+          tableSnapshots,
           userAgent: `dst-mcp-worker/${dstPreset.version}`
         })
     }
@@ -97,9 +104,10 @@ const SERVERS = new Map<string, HostedServer>([
   [
     '/nl/mcp',
     {
-      create: (cache) =>
+      create: (cache, tableSnapshots) =>
         createCbsServer({
           cache,
+          tableSnapshots,
           userAgent: `cbs-mcp-worker/${cbsPreset.version}`
         })
     }
@@ -107,9 +115,10 @@ const SERVERS = new Map<string, HostedServer>([
   [
     '/eu/mcp',
     {
-      create: (cache) =>
+      create: (cache, tableSnapshots) =>
         createEurostatServer({
           cache,
+          tableSnapshots,
           userAgent: `statsmcp-eurostat-worker/${eurostatPreset.version}`
         })
     }
@@ -117,9 +126,10 @@ const SERVERS = new Map<string, HostedServer>([
   [
     '/ca/mcp',
     {
-      create: (cache) =>
+      create: (cache, tableSnapshots) =>
         createStatcanServer({
           cache,
+          tableSnapshots,
           userAgent: `statsmcp-statcan-worker/${statcanPreset.version}`
         })
     }
@@ -185,7 +195,10 @@ export async function handleRequest(
 
   memoryCache ??= createMemoryCache();
   const cache = createEdgeCache(caches.default, memoryCache, waitUntil);
-  const handler = createMcpHandler(() => server.create(cache));
+  const tableSnapshots = env.INDEX
+    ? bucketSnapshotReader(env.INDEX)
+    : undefined;
+  const handler = createMcpHandler(() => server.create(cache, tableSnapshots));
   return withCors(await handler.fetch(request));
 }
 

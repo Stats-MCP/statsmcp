@@ -28,6 +28,8 @@ For Claude Code:
 claude mcp add eurostat -- npx -y statsmcp-eurostat
 ```
 
+The server searches the full table list of the office. If the office API cannot give this list, the server uses a copy of the list from https://statsmcp.dev, or the copy in the package. To stop all requests to statsmcp.dev, set the environment variable `STATSMCP_INDEX=off`.
+
 ## Tools
 
 | Tool                 | What it does                                                                                     |

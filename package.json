@@ -18,7 +18,8 @@
     "lint": "oxlint",
     "changeset": "changeset",
     "version-packages": "changeset version && node scripts/sync-versions.mjs && oxfmt --write packages/sistat/server.json && pnpm install --lockfile-only",
-    "release": "pnpm build && changeset publish"
+    "release": "pnpm build && node scripts/bundle-snapshots.mjs --strict && changeset publish",
+    "bundle-snapshots": "node scripts/bundle-snapshots.mjs"
   },
   "devDependencies": {
     "@changesets/changelog-github": "catalog:",

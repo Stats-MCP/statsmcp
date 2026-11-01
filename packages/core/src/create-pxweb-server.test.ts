@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { createPresetServer, createPxwebServer } from '@/create-pxweb-server';
 import type { PxwebPreset } from '@/preset';
 import { createPxwebClient } from '@/pxweb-client';
+import type { SnapshotReader } from '@/snapshot';
 
 const preset: PxwebPreset = {
   name: 'test',
@@ -311,6 +312,34 @@ describe('createPxwebServer', () => {
     const [url, init] = fetchMock.mock.calls[0] ?? [];
     expect(String(url)).toBe('https://stats.example/v1/tables');
     expect(init?.method).toBe('POST');
+  });
+
+  it('createPresetServer searches the crawled snapshot when the live table list fails', async () => {
+    const fetchMock = vi.fn<typeof fetch>(async () => json({}, 503));
+    const dkPreset: PxwebPreset = {
+      ...preset,
+      apiBaseUrl: 'https://stats.example/v1',
+      api: 'statbank-dk'
+    };
+    const tableSnapshots = vi.fn<SnapshotReader>(async (source, lang) => ({
+      version: 1,
+      source,
+      lang,
+      builtAt: '2026-11-01T00:00:00.000Z',
+      count: 1,
+      docs: [{ id: 'PRIS01', title: 'Consumer prices' }]
+    }));
+
+    const { text } = await callTool(
+      fetchMock,
+      'search_tables',
+      { query: 'prices' },
+      dkPreset,
+      () => createPresetServer(dkPreset, { fetch: fetchMock, tableSnapshots })
+    );
+
+    expect(text).toContain('PRIS01');
+    expect(tableSnapshots).toHaveBeenCalledWith('test', 'en');
   });
 
   it('createPresetServer uses the v2 client for a v2 preset', async () => {

@@ -18,7 +18,11 @@ import type {
   TableSearchHit
 } from '@/pxweb-client';
 import { rankSearchHits } from '@/search-ranking';
-import { createTableIndexLoader, type TableDoc } from '@/table-index';
+import {
+  createTableIndexLoader,
+  type TableDoc,
+  type TableListOptions
+} from '@/table-index';
 
 const TABLE_ID_PATTERN = /^[A-Za-z0-9_-]+$/;
 const SEARCH_PAGE_SIZE = 50;
@@ -60,7 +64,7 @@ const metadataSchema = z.object({
 
 type V2Metadata = z.infer<typeof metadataSchema>;
 
-export interface PxwebV2ClientOptions extends HttpOptions {
+export interface PxwebV2ClientOptions extends HttpOptions, TableListOptions {
   /** PxWeb API v2 root, for example "https://statistikdatabasen.scb.se/api/v2". */
   baseUrl: string;
   /** Clock for search ranking; defaults to the system time. */
@@ -164,6 +168,7 @@ export function createPxwebV2Client(
   };
 
   const tableIndex = createTableIndexLoader(listTables, {
+    fallback: options.listFallback,
     ttlSeconds: SEARCH_TTL_SECONDS,
     currentYear: () => now().getUTCFullYear()
   });

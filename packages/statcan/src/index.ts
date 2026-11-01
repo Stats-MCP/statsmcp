@@ -8,7 +8,7 @@ export { statcanPreset } from '@/preset';
 
 export type StatcanServerOptions = Pick<
   PresetServerOptions,
-  'cache' | 'userAgent'
+  'cache' | 'userAgent' | 'tableSnapshots'
 >;
 
 export function createStatcanServer(

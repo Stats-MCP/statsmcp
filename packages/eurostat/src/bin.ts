@@ -1,7 +1,15 @@
 #!/usr/bin/env node
 import { StdioServerTransport } from '@modelcontextprotocol/server/stdio';
+import { nodeTableSnapshots } from 'pxweb-mcp/node';
 
-import { createEurostatServer } from '@/index';
+import { createEurostatServer, eurostatPreset } from '@/index';
 
-const server = createEurostatServer();
+const server = createEurostatServer({
+  tableSnapshots: nodeTableSnapshots(
+    new URL('../snapshots/', import.meta.url),
+    {
+      userAgent: `${eurostatPreset.name}-mcp/${eurostatPreset.version}`
+    }
+  )
+});
 await server.connect(new StdioServerTransport());

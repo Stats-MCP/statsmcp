@@ -15,7 +15,11 @@ import type {
   TableMetadata,
   TableVariable
 } from '@/pxweb-client';
-import { createTableIndexLoader, type TableDoc } from '@/table-index';
+import {
+  createTableIndexLoader,
+  type TableDoc,
+  type TableListOptions
+} from '@/table-index';
 
 const PRODUCT_ID_PATTERN = /^\d{8}$/;
 const COORDINATE_LENGTH = 10;
@@ -96,7 +100,7 @@ const dataSchema = z.array(
 
 type Cube = z.infer<typeof cubeListSchema>[number];
 
-export interface StatcanClientOptions extends HttpOptions {
+export interface StatcanClientOptions extends HttpOptions, TableListOptions {
   /** WDS root, for example "https://www150.statcan.gc.ca/t1/wds/rest". */
   baseUrl: string;
   /** Clock for search ranking; defaults to the system time. */
@@ -248,6 +252,7 @@ export function createStatcanClient(
   };
 
   const tableIndex = createTableIndexLoader(listTables, {
+    fallback: options.listFallback,
     ttlSeconds: SEARCH_TTL_SECONDS,
     currentYear: () => now().getUTCFullYear()
   });

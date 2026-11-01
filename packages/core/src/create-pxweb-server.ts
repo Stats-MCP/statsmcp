@@ -7,6 +7,7 @@ import type { PxwebPreset } from '@/preset';
 import { createPxwebClient, type PxwebClient } from '@/pxweb-client';
 import { createPxwebV2Client } from '@/pxweb-v2-client';
 import { createSingstatClient } from '@/singstat-client';
+import type { SnapshotReader } from '@/snapshot';
 import { createStatbankDkClient } from '@/statbank-dk-client';
 import { createStatcanClient } from '@/statcan-client';
 import { registerSearchTools } from '@/tools/search-tools';
@@ -29,12 +30,17 @@ export interface PresetServerOptions {
   cache?: Cache;
   fetch?: typeof fetch;
   userAgent?: string;
+  /** Crawled table lists, used when a source's live table list fails. */
+  tableSnapshots?: SnapshotReader;
 }
 
 export function createPresetClient(
   preset: PxwebPreset,
-  http: Pick<PresetServerOptions, 'cache' | 'fetch'> & { userAgent: string }
+  options: Pick<PresetServerOptions, 'cache' | 'fetch' | 'tableSnapshots'> & {
+    userAgent: string;
+  }
 ): PxwebClient {
+  const { tableSnapshots, ...http } = options;
   const api = preset.api ?? 'pxweb-v1';
   if (api === 'pxweb-v1') {
     return createPxwebClient({
@@ -51,21 +57,22 @@ export function createPresetClient(
   if (api === 'singstat') {
     return createSingstatClient({ ...http, baseUrl: preset.apiBaseUrl });
   }
-  if (api === 'statcan-wds') {
-    return createStatcanClient({ ...http, baseUrl: preset.apiBaseUrl });
-  }
-  if (api === 'eurostat') {
-    return createEurostatClient({ ...http, baseUrl: preset.apiBaseUrl });
-  }
-  if (api === 'cbs-odata') {
-    return createCbsODataClient({ ...http, baseUrl: preset.apiBaseUrl });
-  }
-  if (api === 'statbank-dk') {
-    return createStatbankDkClient({ ...http, baseUrl: preset.apiBaseUrl });
-  }
-  return createPxwebV2Client({
+  const indexed = {
     ...http,
     baseUrl: preset.apiBaseUrl,
+    ...(tableSnapshots
+      ? {
+          listFallback: async (lang: string) =>
+            (await tableSnapshots(preset.name, lang))?.docs
+        }
+      : {})
+  };
+  if (api === 'statcan-wds') return createStatcanClient(indexed);
+  if (api === 'eurostat') return createEurostatClient(indexed);
+  if (api === 'cbs-odata') return createCbsODataClient(indexed);
+  if (api === 'statbank-dk') return createStatbankDkClient(indexed);
+  return createPxwebV2Client({
+    ...indexed,
     isArchived: preset.isArchived,
     search: preset.search
   });
@@ -75,10 +82,13 @@ export function createPresetServer(
   preset: PxwebPreset,
   options: PresetServerOptions = {}
 ): McpServer {
-  const http = {
-    cache: options.cache,
-    fetch: options.fetch,
-    userAgent: options.userAgent ?? `${preset.name}-mcp/${preset.version}`
-  };
-  return createPxwebServer(preset, createPresetClient(preset, http));
+  return createPxwebServer(
+    preset,
+    createPresetClient(preset, {
+      cache: options.cache,
+      fetch: options.fetch,
+      tableSnapshots: options.tableSnapshots,
+      userAgent: options.userAgent ?? `${preset.name}-mcp/${preset.version}`
+    })
+  );
 }

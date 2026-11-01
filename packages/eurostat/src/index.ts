@@ -8,7 +8,7 @@ export { eurostatPreset } from '@/preset';
 
 export type EurostatServerOptions = Pick<
   PresetServerOptions,
-  'cache' | 'userAgent'
+  'cache' | 'userAgent' | 'tableSnapshots'
 >;
 
 export function createEurostatServer(
