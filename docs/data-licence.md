@@ -123,6 +123,19 @@ The server adds `Source: Eurostat (https://ec.europa.eu/eurostat/help/copyright-
 
 This project is not affiliated with or endorsed by Eurostat or the European Commission.
 
+## Statistics Canada
+
+Statistics Canada publishes its data under the [Statistics Canada Open Licence](https://www.statcan.gc.ca/en/reference/licence). You can use, publish and sell it, also commercially, if you credit Statistics Canada.
+
+The server adds the source and the licence link to every result:
+
+- `Source: Statistics Canada, Statistics Canada Open Licence (https://www.statcan.gc.ca/en/reference/licence)` (English)
+- `Source : Statistique Canada, Licence ouverte de Statistique Canada (https://www.statcan.gc.ca/fr/reference/licence)` (French)
+
+If you change the data or make a new product from it, write "Adapted from Statistics Canada".
+
+This project is not affiliated with or endorsed by Statistics Canada.
+
 ## Other statistics offices
 
 Before you add or publish a server for a different statistics office, read its terms of use. Some offices do not allow commercial use. You can run these offices as presets on your computer. We do not put them on the hosted endpoint.
