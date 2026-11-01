@@ -89,9 +89,9 @@ export type Requester = <T, R>(
   cacheKey: string
 ) => Promise<R>;
 
-/** Fetches with a timeout and a size cap, caches raw bodies and parses them through a schema. */
-export function createRequester(options: HttpOptions): Requester {
-  const cache = options.cache ?? createMemoryCache();
+function createFetcher(
+  options: HttpOptions
+): (url: string, init: RequestInit) => Promise<string> {
   const doFetch = options.fetch ?? fetch;
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const headers: Record<string, string> = { accept: 'application/json' };
@@ -125,6 +125,14 @@ export function createRequester(options: HttpOptions): Requester {
     return body;
   }
 
+  return fetchBody;
+}
+
+/** Fetches with a timeout and a size cap, caches raw bodies and parses them through a schema. */
+export function createRequester(options: HttpOptions): Requester {
+  const cache = options.cache ?? createMemoryCache();
+  const fetchBody = createFetcher(options);
+
   async function request<T, R>(
     url: string,
     init: RequestInit,
@@ -143,4 +151,27 @@ export function createRequester(options: HttpOptions): Requester {
   }
 
   return request;
+}
+
+export type TextRequester = <R>(
+  url: string,
+  init: RequestInit,
+  map: (text: string) => R,
+  ttlSeconds: number,
+  cacheKey: string
+) => Promise<R>;
+
+/** Like `createRequester`, for APIs that answer with XML or TSV instead of JSON. */
+export function createTextRequester(options: HttpOptions): TextRequester {
+  const cache = options.cache ?? createMemoryCache();
+  const fetchBody = createFetcher(options);
+
+  return async (url, init, map, ttlSeconds, cacheKey) => {
+    const cached = await cache.get(cacheKey);
+    if (cached !== undefined) return map(cached);
+    const body = await fetchBody(url, init);
+    const result = map(body);
+    await cache.set(cacheKey, body, ttlSeconds);
+    return result;
+  };
 }

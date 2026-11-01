@@ -36,6 +36,10 @@ export {
 } from '@/query-plan';
 export { searchTitles } from '@/title-search';
 export {
+  createEurostatClient,
+  type EurostatClientOptions
+} from '@/eurostat-client';
+export {
   createCbsODataClient,
   type CbsODataClientOptions
 } from '@/cbs-odata-client';
