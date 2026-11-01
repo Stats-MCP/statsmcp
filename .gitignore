@@ -7,6 +7,7 @@ coverage/
 *.log
 .DS_Store
 .plans/
+.claude/
 tests/consumer/package.json
 tests/consumer/package-lock.json
 packages/*/snapshots/
