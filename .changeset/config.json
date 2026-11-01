@@ -19,7 +19,8 @@
       "dst-mcp",
       "cbs-mcp",
       "statsmcp-eurostat",
-      "statsmcp-statcan"
+      "statsmcp-statcan",
+      "statsmcp-singstat"
     ]
   ],
   "access": "public",

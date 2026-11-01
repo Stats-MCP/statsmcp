@@ -136,6 +136,14 @@ If you change the data or make a new product from it, write "Adapted from Statis
 
 This project is not affiliated with or endorsed by Statistics Canada.
 
+## Singapore Department of Statistics
+
+SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.
+
+The server adds `Contains information from SingStat Table Builder (Singapore Department of Statistics), made available under the Singapore Open Data Licence (https://data.gov.sg/open-data-licence)` to every result, with a link to the table.
+
+This project is not affiliated with or endorsed by the Singapore Department of Statistics.
+
 ## Other statistics offices
 
 Before you add or publish a server for a different statistics office, read its terms of use. Some offices do not allow commercial use. You can run these offices as presets on your computer. We do not put them on the hosted endpoint.
