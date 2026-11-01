@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/sistat",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "mcpName": "io.github.Stats-MCP/sistat",
   "description": "MCP server for SiStat, the database of the Statistical Office of the Republic of Slovenia (SURS)",
   "license": "MIT",

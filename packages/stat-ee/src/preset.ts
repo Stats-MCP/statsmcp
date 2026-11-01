@@ -10,7 +10,7 @@ const ATTRIBUTION = {
 export const statEePreset: PxwebPreset = {
   name: 'stat-ee',
   title: 'Statistics Estonia database (official statistics of Estonia)',
-  version: '0.4.0',
+  version: '0.4.1',
   apiBaseUrl: 'https://andmed.stat.ee/api/v1',
   database: 'stat',
   languages: ['et', 'en'],

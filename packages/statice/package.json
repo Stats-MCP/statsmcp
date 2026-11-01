@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/statice",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "MCP server for the PX-Web database of Statistics Iceland (Hagstofa Íslands)",
   "license": "MIT",
   "author": "Tadej Polajnar",

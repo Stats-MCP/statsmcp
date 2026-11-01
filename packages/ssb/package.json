@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/ssb",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "MCP server for Statbank Norway, the database of Statistics Norway (SSB)",
   "license": "MIT",
   "author": "Tadej Polajnar",

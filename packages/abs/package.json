@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/abs",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "MCP server for the Data API of the Australian Bureau of Statistics (ABS)",
   "license": "MIT",
   "author": "Tadej Polajnar",

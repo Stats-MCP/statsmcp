@@ -11,7 +11,7 @@ const DISCONTINUED = /\s-\s*(?:discontinued|endað)\s*$/i;
 export const hagstovaPreset: PxwebPreset = {
   name: 'hagstova',
   title: 'StatBank of Statistics Faroe Islands (official statistics)',
-  version: '0.4.0',
+  version: '0.4.1',
   apiBaseUrl: 'https://statbank.hagstova.fo/api/v1',
   database: 'H2',
   languages: ['fo', 'en'],

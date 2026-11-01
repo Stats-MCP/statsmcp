@@ -1,5 +1,12 @@
 # @statsmcp/statice
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [[`d4c87e0`](https://github.com/Stats-MCP/statsmcp/commit/d4c87e067a46557722f1028cb888d6c954929a18), [`26eaec3`](https://github.com/Stats-MCP/statsmcp/commit/26eaec3392c6cb6910a287b3f6a8cdbfa4fc795d)]:
+  - @statsmcp/core@0.4.1
+
 ## 0.4.0
 
 ### Patch Changes
