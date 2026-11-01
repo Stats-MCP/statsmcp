@@ -12,9 +12,11 @@ import { createEurostatServer, eurostatPreset } from 'statsmcp-eurostat';
 import { createStatcanServer, statcanPreset } from 'statsmcp-statcan';
 
 import { createEdgeCache } from '@/edge-cache';
+import { isIndexFile, serveIndexFile, type IndexBucket } from '@/index-files';
 
 export interface Env {
   RATE_LIMITER: RateLimit;
+  INDEX?: IndexBucket;
 }
 
 interface HostedServer {
@@ -163,6 +165,7 @@ export async function handleRequest(
   waitUntil: (promise: Promise<unknown>) => void
 ): Promise<Response> {
   const { pathname } = new URL(request.url);
+  if (isIndexFile(pathname)) return serveIndexFile(request, env.INDEX);
 
   const server = SERVERS.get(pathname.replace(/\/$/, ''));
   if (!server) {
