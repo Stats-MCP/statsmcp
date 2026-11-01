@@ -6,9 +6,9 @@ This page is for the maintainer.
 
 1. A pull request that changes a published package contains a changeset (`pnpm changeset`).
 2. When the pull request is merged, the Release workflow opens or updates the pull request "chore: release packages". This pull request changes the versions and the changelogs.
-3. When the release pull request is merged, the Release workflow publishes `pxweb-mcp`, `sistat-mcp`, `ssb-mcp`, `stat-ee-mcp`, `hagstova-mcp`, `statfin-mcp` and `scb-mcp` to npm with provenance and creates GitHub releases.
+3. When the release pull request is merged, the Release workflow publishes `pxweb-mcp`, `sistat-mcp`, `ssb-mcp`, `stat-ee-mcp`, `hagstova-mcp`, `statfin-mcp`, `scb-mcp` and `dst-mcp` to npm with provenance and creates GitHub releases.
 
-`pxweb-mcp`, `sistat-mcp`, `ssb-mcp`, `stat-ee-mcp`, `hagstova-mcp`, `statfin-mcp` and `scb-mcp` always have the same version.
+`pxweb-mcp`, `sistat-mcp`, `ssb-mcp`, `stat-ee-mcp`, `hagstova-mcp`, `statfin-mcp`, `scb-mcp` and `dst-mcp` always have the same version.
 
 Pull requests that the workflow opens do not start CI. To run CI on the release pull request, close it and open it again.
 

@@ -4,18 +4,19 @@ You need Node.js 24 and pnpm 12. The published packages work on Node.js 20 or la
 
 ## Repository layout
 
-| Path                | Package        | Description                                                                |
-| ------------------- | -------------- | -------------------------------------------------------------------------- |
-| `packages/core`     | `pxweb-mcp`    | PxWeb v1 and v2 clients, query planner and MCP tools. Has no country data. |
-| `packages/sistat`   | `sistat-mcp`   | SiStat preset and the stdio server.                                        |
-| `packages/ssb`      | `ssb-mcp`      | Statbank Norway preset and the stdio server.                               |
-| `packages/stat-ee`  | `stat-ee-mcp`  | Statistics Estonia preset and the stdio server.                            |
-| `packages/hagstova` | `hagstova-mcp` | Statistics Faroe Islands preset and the stdio server.                      |
-| `packages/statfin`  | `statfin-mcp`  | Statistics Finland preset and the stdio server.                            |
-| `packages/scb`      | `scb-mcp`      | Statistics Sweden preset (PxWeb API v2) and the stdio server.              |
-| `apps/worker`       | private        | Cloudflare Worker for the hosted endpoint.                                 |
-| `tests/consumer`    | none           | Typecheck of the published types with TypeScript 5. CI runs it.            |
-| `docs`              |                | Documentation.                                                             |
+| Path                | Package        | Description                                                                                     |
+| ------------------- | -------------- | ----------------------------------------------------------------------------------------------- |
+| `packages/core`     | `pxweb-mcp`    | PxWeb v1 and v2 and StatBank Denmark clients, query planner and MCP tools. Has no country data. |
+| `packages/sistat`   | `sistat-mcp`   | SiStat preset and the stdio server.                                                             |
+| `packages/ssb`      | `ssb-mcp`      | Statbank Norway preset and the stdio server.                                                    |
+| `packages/stat-ee`  | `stat-ee-mcp`  | Statistics Estonia preset and the stdio server.                                                 |
+| `packages/hagstova` | `hagstova-mcp` | Statistics Faroe Islands preset and the stdio server.                                           |
+| `packages/statfin`  | `statfin-mcp`  | Statistics Finland preset and the stdio server.                                                 |
+| `packages/scb`      | `scb-mcp`      | Statistics Sweden preset (PxWeb API v2) and the stdio server.                                   |
+| `packages/dst`      | `dst-mcp`      | Statistics Denmark preset (StatBank API) and the stdio server.                                  |
+| `apps/worker`       | private        | Cloudflare Worker for the hosted endpoint.                                                      |
+| `tests/consumer`    | none           | Typecheck of the published types with TypeScript 5. CI runs it.                                 |
+| `docs`              |                | Documentation.                                                                                  |
 
 ## Commands
 

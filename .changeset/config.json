@@ -15,7 +15,8 @@
       "stat-ee-mcp",
       "hagstova-mcp",
       "statfin-mcp",
-      "scb-mcp"
+      "scb-mcp",
+      "dst-mcp"
     ]
   ],
   "access": "public",

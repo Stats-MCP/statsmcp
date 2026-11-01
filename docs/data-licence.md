@@ -87,6 +87,19 @@ Each `get_table_metadata` and `query_table` result also has the table ID and a l
 
 This project is not affiliated with or endorsed by Statistics Sweden.
 
+## Statistics Denmark
+
+Statistics Denmark publishes its data under the [Creative Commons Attribution 4.0 licence (CC BY 4.0)](https://www.dst.dk/en/Statistik/brug-statistikken/kildeangivelse). You can use it for any purpose, including commercial use, if you name Statistics Denmark as the source.
+
+The server adds the source and the licence link to every result:
+
+- `Source: Statistics Denmark, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)` (English)
+- `Kilde: Danmarks Statistik, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)` (Danish)
+
+Each `get_table_metadata` and `query_table` result also has the table ID and a link to the table on StatBank. If you calculate new figures, say so, for example: `Own calculations based on data from Statistics Denmark`.
+
+This project is not affiliated with or endorsed by Statistics Denmark.
+
 ## Other statistics offices
 
 Before you add or publish a server for a different statistics office, read its terms of use. Some offices do not allow commercial use. You can run these offices as presets on your computer. We do not put them on the hosted endpoint.
