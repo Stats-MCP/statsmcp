@@ -1,9 +1,13 @@
-import { readFileSync } from 'node:fs';
-
 import { writeSnapshot } from 'pxweb-mcp';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, inject, it, vi } from 'vitest';
 
 import { HOSTED_PATHS, handleRequest, type Env } from '@/index';
+
+declare module 'vitest' {
+  export interface ProvidedContext {
+    routePatterns: string[];
+  }
+}
 
 function envWith(limit: RateLimit['limit']): Env {
   return { RATE_LIMITER: { limit } };
@@ -207,13 +211,7 @@ describe('worker', () => {
   );
 
   it('has a production route for every hosted server', () => {
-    const config = readFileSync(
-      new URL('../wrangler.jsonc', import.meta.url),
-      'utf8'
-    );
-    const patterns = [...config.matchAll(/"pattern": "([^"]+)"/g)].map(
-      (match) => match[1]
-    );
+    const patterns = inject('routePatterns');
 
     expect(
       HOSTED_PATHS.filter((path) => !patterns.includes(`statsmcp.dev${path}*`))
