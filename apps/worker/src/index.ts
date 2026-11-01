@@ -1,4 +1,5 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
+import { createCbsServer, cbsPreset } from 'cbs-mcp';
 import { createDstServer, dstPreset } from 'dst-mcp';
 import { createHagstovaServer, hagstovaPreset } from 'hagstova-mcp';
 import { createMemoryCache, type Cache } from 'pxweb-mcp';
@@ -86,6 +87,16 @@ const SERVERS = new Map<string, HostedServer>([
         createDstServer({
           cache,
           userAgent: `dst-mcp-worker/${dstPreset.version}`
+        })
+    }
+  ],
+  [
+    '/nl/mcp',
+    {
+      create: (cache) =>
+        createCbsServer({
+          cache,
+          userAgent: `cbs-mcp-worker/${cbsPreset.version}`
         })
     }
   ]

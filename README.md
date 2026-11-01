@@ -9,7 +9,7 @@ Website: [statsmcp.dev](https://statsmcp.dev)
 
 Official national statistics for every AI assistant. StatsMCP is a set of MCP servers for the databases of national statistics offices. The servers use the [PxWeb API](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/), which many national statistics offices use.
 
-There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Sweden and Denmark. The [Databases](#databases) table lists each database and its package. The servers support PxWeb API v1 and v2 and the StatBank API of Statistics Denmark.
+There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Sweden, Denmark and the Netherlands. The [Databases](#databases) table lists each database and its package. The servers support PxWeb API v1 and v2, the StatBank API of Statistics Denmark and the OData service of Statistics Netherlands.
 
 > **You:** What is the latest inflation rate in Slovenia?
 >
@@ -72,6 +72,12 @@ For Denmark:
 claude mcp add --transport http statsmcp-dk https://statsmcp.dev/dk/mcp
 ```
 
+For the Netherlands:
+
+```sh
+claude mcp add --transport http statsmcp-nl https://statsmcp.dev/nl/mcp
+```
+
 For Claude, ChatGPT, Cursor and VS Code, the steps are on [statsmcp.dev](https://statsmcp.dev).
 
 **Local (stdio)**
@@ -109,6 +115,7 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 | [StatFin](https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/)                         | Finland       | [`statfin-mcp`](packages/statfin)   | Hosted; npm package soon |
 | [Statistical Database](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/) (SCB) | Sweden        | [`scb-mcp`](packages/scb)           | Hosted; npm package soon |
 | [StatBank Denmark](https://www.statbank.dk/)                                      | Denmark       | [`dst-mcp`](packages/dst)           | Hosted; npm package soon |
+| [StatLine](https://opendata.cbs.nl/) (CBS)                                        | Netherlands   | [`cbs-mcp`](packages/cbs)           | Hosted; npm package soon |
 | Statistics Iceland                                                                | Iceland       |                                     | Planned                  |
 
 To add a database that uses PxWeb, use the [`pxweb-mcp`](packages/core) toolkit.
