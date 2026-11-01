@@ -6,8 +6,9 @@ import {
   createMemoryCache,
   createMultiServer,
   createPresetClient,
-  createPresetServer,
+  createPxwebServer,
   type Cache,
+  type PxwebClient,
   type PxwebPreset,
   type SnapshotReader
 } from '@statsmcp/core';
@@ -32,8 +33,15 @@ export interface Env {
   INDEX?: IndexBucket;
 }
 
+interface SharedState {
+  bucket: IndexBucket | undefined;
+  cache: Cache;
+  reader: SnapshotReader | undefined;
+  clients: Map<string, PxwebClient>;
+}
+
 interface HostedServer {
-  create: (cache: Cache, tableSnapshots?: SnapshotReader) => McpServer;
+  create: (clientFor: (country: HostedCountry) => PxwebClient) => McpServer;
 }
 
 interface HostedCountry {
@@ -97,26 +105,19 @@ const SERVERS = new Map<string, HostedServer>([
   ...COUNTRIES.map((country): [string, HostedServer] => [
     `/${country.code}/mcp`,
     {
-      create: (cache, tableSnapshots) =>
-        createPresetServer(
-          country.preset,
-          serverOptions(country, cache, tableSnapshots)
-        )
+      create: (clientFor) =>
+        createPxwebServer(country.preset, clientFor(country))
     }
   ]),
   [
     '/mcp',
     {
-      create: (cache, tableSnapshots) =>
+      create: (clientFor) =>
         createMultiServer(
           COUNTRIES.map((country) => ({
             code: country.code,
             preset: country.preset,
-            client: () =>
-              createPresetClient(
-                country.preset,
-                serverOptions(country, cache, tableSnapshots)
-              )
+            client: () => clientFor(country)
           })),
           {
             name: 'statsmcp',
@@ -138,7 +139,29 @@ const CORS_HEADERS = {
   'access-control-expose-headers': 'mcp-session-id, mcp-protocol-version'
 };
 
-let memoryCache: Cache | undefined;
+let sharedState: SharedState | undefined;
+
+function stateFor(bucket: IndexBucket | undefined): SharedState {
+  if (sharedState && sharedState.bucket === bucket) return sharedState;
+  sharedState = {
+    bucket,
+    cache: createEdgeCache(caches.default, createMemoryCache()),
+    reader: bucket ? bucketSnapshotReader(bucket) : undefined,
+    clients: new Map()
+  };
+  return sharedState;
+}
+
+function sharedClient(state: SharedState, country: HostedCountry): PxwebClient {
+  const existing = state.clients.get(country.code);
+  if (existing) return existing;
+  const client = createPresetClient(
+    country.preset,
+    serverOptions(country, state.cache, state.reader)
+  );
+  state.clients.set(country.code, client);
+  return client;
+}
 
 function withCors(response: Response): Response {
   const headers = new Headers(response.headers);
@@ -166,7 +189,7 @@ async function isRateLimited(env: Env, request: Request): Promise<boolean> {
 export async function handleRequest(
   request: Request,
   env: Env,
-  waitUntil: (promise: Promise<unknown>) => void
+  _waitUntil?: (promise: Promise<unknown>) => void
 ): Promise<Response> {
   const { pathname } = new URL(request.url);
   if (isIndexFile(pathname)) return serveIndexFile(request, env.INDEX);
@@ -187,18 +210,15 @@ export async function handleRequest(
     );
   }
 
-  memoryCache ??= createMemoryCache();
-  const cache = createEdgeCache(caches.default, memoryCache, waitUntil);
-  const tableSnapshots = env.INDEX
-    ? bucketSnapshotReader(env.INDEX)
-    : undefined;
-  const handler = createMcpHandler(() => server.create(cache, tableSnapshots));
+  const state = stateFor(env.INDEX);
+  const handler = createMcpHandler(() =>
+    server.create((country) => sharedClient(state, country))
+  );
   return withCors(await handler.fetch(request));
 }
 
 export const worker = {
-  fetch: (request, env, ctx) =>
-    handleRequest(request, env, (promise) => ctx.waitUntil(promise))
+  fetch: (request, env) => handleRequest(request, env)
 } satisfies ExportedHandler<Env>;
 
 export default worker;

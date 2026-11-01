@@ -31,6 +31,57 @@ function mcpRequest(method: string, path = '/si/mcp'): Request {
   });
 }
 
+const cubeList = [
+  {
+    productId: '18100004',
+    cubeTitleEn: 'Consumer Price Index, monthly',
+    cubeTitleFr: 'Indice des prix a la consommation mensuel',
+    cubeEndDate: '2026-09-01',
+    releaseTime: '2026-10-21T12:30:00Z',
+    archived: '2',
+    frequencyCode: 6
+  }
+];
+
+function stubCatalogue(): ReturnType<typeof vi.fn<typeof fetch>> {
+  const fetchMock = vi.fn<typeof fetch>(
+    async () => new Response(JSON.stringify(cubeList))
+  );
+  vi.stubGlobal('fetch', fetchMock);
+  vi.stubGlobal('caches', {
+    default: { match: async () => undefined, put: async () => undefined }
+  });
+  return fetchMock;
+}
+
+function searchRequest(): Request {
+  return new Request('https://mcp.example/ca/mcp', {
+    method: 'POST',
+    headers: mcpRequest('POST', '/ca/mcp').headers,
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'tools/call',
+      params: { name: 'search_tables', arguments: { query: 'price' } }
+    })
+  });
+}
+
+function catalogueCalls(
+  fetchMock: ReturnType<typeof vi.fn<typeof fetch>>
+): number {
+  return fetchMock.mock.calls.filter(([input]) =>
+    String(input).endsWith('/getAllCubesListLite')
+  ).length;
+}
+
+function envWithBucket(): Env {
+  return {
+    RATE_LIMITER: { limit: async () => ({ success: true }) },
+    INDEX: { get: async () => null }
+  };
+}
+
 describe('worker', () => {
   afterEach(() => {
     vi.unstubAllGlobals();
@@ -180,6 +231,39 @@ describe('worker', () => {
 
     expect(await response.text()).toContain('FOLK1A');
     expect(get).toHaveBeenCalledWith('index/dst/en.json.gz');
+  });
+
+  describe('client reuse', () => {
+    it('fetches the catalogue once for two searches with the same env', async () => {
+      const fetchMock = stubCatalogue();
+      const env = envWithBucket();
+
+      const first = await handleRequest(searchRequest(), env, waitUntil);
+      const second = await handleRequest(searchRequest(), env, waitUntil);
+
+      expect(await first.text()).toContain('18100004');
+      expect(await second.text()).toContain('18100004');
+      expect(catalogueCalls(fetchMock)).toBe(1);
+    });
+
+    it('builds a new client when the index bucket changes', async () => {
+      const fetchMock = stubCatalogue();
+
+      const first = await handleRequest(
+        searchRequest(),
+        envWithBucket(),
+        waitUntil
+      );
+      await first.text();
+      const second = await handleRequest(
+        searchRequest(),
+        envWithBucket(),
+        waitUntil
+      );
+      await second.text();
+
+      expect(catalogueCalls(fetchMock)).toBe(2);
+    });
   });
 
   it('accepts a trailing slash and a query string on a server path', async () => {

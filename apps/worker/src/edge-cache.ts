@@ -20,11 +20,7 @@ async function edgeRequest(key: string): Promise<Request> {
  * Isolate memory first, then the colo's Cache API. Cache API writes are
  * no-ops on workers.dev; they only persist on a zone (custom domain or route).
  */
-export function createEdgeCache(
-  edge: globalThis.Cache,
-  memory: Cache,
-  waitUntil: (promise: Promise<unknown>) => void
-): Cache {
+export function createEdgeCache(edge: globalThis.Cache, memory: Cache): Cache {
   return {
     async get(key) {
       const fromMemory = await memory.get(key);
@@ -42,18 +38,16 @@ export function createEdgeCache(
     async set(key, value, ttlSeconds) {
       if (ttlSeconds <= 0) return;
       await memory.set(key, value, ttlSeconds);
-      waitUntil(
-        edgeRequest(key)
-          .then((request) =>
-            edge.put(
-              request,
-              new Response(value, {
-                headers: { 'cache-control': `public, max-age=${ttlSeconds}` }
-              })
-            )
-          )
-          .catch(() => undefined)
-      );
+      try {
+        await edge.put(
+          await edgeRequest(key),
+          new Response(value, {
+            headers: { 'cache-control': `public, max-age=${ttlSeconds}` }
+          })
+        );
+      } catch {
+        return;
+      }
     }
   };
 }
