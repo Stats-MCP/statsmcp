@@ -36,6 +36,10 @@ export {
 } from '@/query-plan';
 export { searchTitles } from '@/title-search';
 export {
+  createStatcanClient,
+  type StatcanClientOptions
+} from '@/statcan-client';
+export {
   createEurostatClient,
   type EurostatClientOptions
 } from '@/eurostat-client';
