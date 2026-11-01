@@ -9,7 +9,7 @@ Website: [statsmcp.dev](https://statsmcp.dev)
 
 Official national statistics for every AI assistant. StatsMCP is a set of MCP servers for the databases of national statistics offices.
 
-There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Sweden, Denmark, the Netherlands, Iceland, Croatia, Ireland, Canada, Australia and Singapore, plus Eurostat for harmonised data on all EU and EFTA countries. The [Databases](#databases) table lists each database and its package. The servers support PxWeb API v1 and v2, the StatBank API of Statistics Denmark, the OData services of Statistics Netherlands, PxStat (Ireland), SDMX (Australia), the Eurostat API, the Web Data Service of Statistics Canada and SingStat Table Builder.
+There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Sweden, Denmark, the Netherlands, Iceland, Croatia, Ireland, Canada, Australia and Singapore, plus Eurostat for harmonised data on all EU and EFTA countries. All except Singapore are hosted, behind one endpoint or one each. The [Databases](#databases) table lists each database and its package. The servers support PxWeb API v1 and v2, the StatBank API of Statistics Denmark, the OData services of Statistics Netherlands, PxStat (Ireland), SDMX (Australia), the Eurostat API, the Web Data Service of Statistics Canada and SingStat Table Builder.
 
 > **You:** What is the latest inflation rate in Slovenia?
 >
@@ -18,7 +18,7 @@ There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Swe
 
 ## Features
 
-- **Search** more than 4,800 tables by keywords.
+- **Search** more than 44,000 tables by keywords.
 - **Read the variables** of a table, with a filter for long lists such as municipalities.
 - **Get data** as CSV with readable labels. Use `latest` to get the most recent periods.
 - **Source in every result**, with a link to the table, as the SURS terms require.
