@@ -1,7 +1,9 @@
+import { readFileSync } from 'node:fs';
+
 import { writeSnapshot } from 'pxweb-mcp';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { handleRequest, type Env } from '@/index';
+import { HOSTED_PATHS, handleRequest, type Env } from '@/index';
 
 function envWith(limit: RateLimit['limit']): Env {
   return { RATE_LIMITER: { limit } };
@@ -95,7 +97,8 @@ describe('worker', () => {
     ['/ca/mcp', 'Statistics Canada'],
     ['/is/mcp', 'Statistics Iceland'],
     ['/hr/mcp', 'Croatian Bureau of Statistics'],
-    ['/ie/mcp', 'Central Statistics Office']
+    ['/ie/mcp', 'Central Statistics Office'],
+    ['/au/mcp', 'Australian Bureau of Statistics']
   ])('serves the %s server', async (path, instructionsPart) => {
     vi.stubGlobal('caches', { default: {} });
     const initialize = new Request(`https://mcp.example${path}`, {
@@ -202,4 +205,18 @@ describe('worker', () => {
       expect(limit).not.toHaveBeenCalled();
     }
   );
+
+  it('has a production route for every hosted server', () => {
+    const config = readFileSync(
+      new URL('../wrangler.jsonc', import.meta.url),
+      'utf8'
+    );
+    const patterns = [...config.matchAll(/"pattern": "([^"]+)"/g)].map(
+      (match) => match[1]
+    );
+
+    expect(
+      HOSTED_PATHS.filter((path) => !patterns.includes(`statsmcp.dev${path}*`))
+    ).toEqual([]);
+  });
 });

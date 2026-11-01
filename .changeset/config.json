@@ -23,7 +23,8 @@
       "statsmcp-singstat",
       "statice-mcp",
       "dzs-mcp",
-      "cso-mcp"
+      "cso-mcp",
+      "abs-mcp"
     ]
   ],
   "access": "public",

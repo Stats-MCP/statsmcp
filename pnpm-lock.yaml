@@ -272,6 +272,9 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
+      abs-mcp:
+        specifier: workspace:*
+        version: link:../../packages/abs
       cbs-mcp:
         specifier: workspace:*
         version: link:../../packages/cbs

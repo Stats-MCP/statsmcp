@@ -1,4 +1,5 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
+import { createAbsServer, absPreset } from 'abs-mcp';
 import { createCbsServer, cbsPreset } from 'cbs-mcp';
 import { createCsoServer, csoPreset } from 'cso-mcp';
 import { createDstServer, dstPreset } from 'dst-mcp';
@@ -169,8 +170,21 @@ const SERVERS = new Map<string, HostedServer>([
           userAgent: `cso-mcp-worker/${csoPreset.version}`
         })
     }
+  ],
+  [
+    '/au/mcp',
+    {
+      create: (cache, tableSnapshots) =>
+        createAbsServer({
+          cache,
+          tableSnapshots,
+          userAgent: `abs-mcp-worker/${absPreset.version}`
+        })
+    }
   ]
 ]);
+
+export const HOSTED_PATHS: readonly string[] = [...SERVERS.keys()];
 
 const CORS_HEADERS = {
   'access-control-allow-origin': '*',
