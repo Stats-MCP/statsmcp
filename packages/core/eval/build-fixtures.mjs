@@ -94,6 +94,8 @@ async function dst(lang) {
   );
 }
 
+const CARIBBEAN = /^(?:Caribisch Nederland|Caribbean Netherlands)\b/i;
+
 async function cbs() {
   const data = await json(
     'https://opendata.cbs.nl/ODataCatalog/Tables?$format=json&$select=Identifier,Title,Language,Modified,OutputStatus,Period'
@@ -113,6 +115,11 @@ async function cbs() {
             ? { discontinued: true }
             : {})
         }))
+        // Same order as caribbeanLast in src/cbs-odata-client.ts.
+        .toSorted(
+          (a, b) =>
+            Number(CARIBBEAN.test(a.title)) - Number(CARIBBEAN.test(b.title))
+        )
     );
   }
 }

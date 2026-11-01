@@ -119,6 +119,19 @@ function cellValue(value: string | number | null): string | number | null {
   return value;
 }
 
+const CARIBBEAN = /^(?:Caribisch Nederland|Caribbean Netherlands)\b/i;
+
+/**
+ * The index trusts catalogue order. Tables for Bonaire, Sint Eustatius and Saba
+ * otherwise outrank the national tables for "population" or "GDP", so they go last.
+ */
+function caribbeanLast(docs: readonly TableDoc[]): TableDoc[] {
+  return [
+    ...docs.filter((doc) => !CARIBBEAN.test(doc.title)),
+    ...docs.filter((doc) => CARIBBEAN.test(doc.title))
+  ];
+}
+
 /**
  * Client for the OData v3 service of Statistics Netherlands (CBS). Measures are
  * table columns, so the client shows them as one extra variable, "Topics".
@@ -135,17 +148,19 @@ export function createCbsODataClient(
     | undefined;
 
   const listTables = async (lang: string): Promise<TableDoc[]> =>
-    (await catalogue())
-      .filter((entry) => entry.Language === lang)
-      .map((entry): TableDoc => ({
-        id: entry.Identifier,
-        title: entry.Title,
-        ...(entry.Modified ? { updated: entry.Modified } : {}),
-        ...(entry.Period ? { lastPeriod: entry.Period } : {}),
-        ...(DISCONTINUED.has(entry.OutputStatus ?? '')
-          ? { discontinued: true }
-          : {})
-      }));
+    caribbeanLast(
+      (await catalogue())
+        .filter((entry) => entry.Language === lang)
+        .map((entry): TableDoc => ({
+          id: entry.Identifier,
+          title: entry.Title,
+          ...(entry.Modified ? { updated: entry.Modified } : {}),
+          ...(entry.Period ? { lastPeriod: entry.Period } : {}),
+          ...(DISCONTINUED.has(entry.OutputStatus ?? '')
+            ? { discontinued: true }
+            : {})
+        }))
+    );
 
   const tableIndex = createTableIndexLoader(listTables, {
     fallback: options.listFallback,

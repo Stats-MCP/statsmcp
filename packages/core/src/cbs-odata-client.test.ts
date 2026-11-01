@@ -89,6 +89,14 @@ function tableFetch(): ReturnType<typeof vi.fn<typeof fetch>> {
   });
 }
 
+const catalogueEntry = (Identifier: string, Title: string) => ({
+  Identifier,
+  Title,
+  Language: 'en',
+  Modified: '2026-10-01T00:00:00',
+  OutputStatus: 'Regular'
+});
+
 describe('createCbsODataClient', () => {
   it('searches the catalogue in the asked language and hides discontinued tables unless asked', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () => json(catalogue));
@@ -108,6 +116,41 @@ describe('createCbsODataClient', () => {
       ['86141ENG', false],
       ['83131ENG', true]
     ]);
+  });
+
+  it('lists Caribbean Netherlands tables after the national tables', async () => {
+    const fetchMock = vi.fn<typeof fetch>(async () =>
+      json({
+        value: [
+          catalogueEntry(
+            '83774ENG',
+            'Caribbean Netherlands; population, births, deaths, migration'
+          ),
+          catalogueEntry(
+            '85723ENG',
+            'Caribbean Netherlands; population, country of birth, nationality'
+          ),
+          catalogueEntry('85496ENG', 'Population; key figures'),
+          catalogueEntry('83474ENG', 'Population dynamics; month and year')
+        ]
+      })
+    );
+    const client = createCbsODataClient({
+      baseUrl: BASE_URL,
+      fetch: fetchMock,
+      now: () => new Date('2026-11-01')
+    });
+
+    const docs = await client.listTables?.('en');
+    const caribbean = await client.search('en', 'caribbean population');
+
+    expect(docs?.map((doc) => doc.id)).toEqual([
+      '85496ENG',
+      '83474ENG',
+      '83774ENG',
+      '85723ENG'
+    ]);
+    expect(caribbean[0]?.tableId).toBe('83774ENG');
   });
 
   it('exposes dimensions with trimmed codes and the measures as a Topics variable', async () => {
