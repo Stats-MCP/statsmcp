@@ -12,7 +12,7 @@ const ATTRIBUTION = {
 export const ssbPreset: PxwebPreset = {
   name: 'ssb',
   title: 'Statbank Norway (Statistics Norway official statistics)',
-  version: '0.1.0',
+  version: '0.2.0',
   apiBaseUrl: 'https://data.ssb.no/api/v0',
   database: 'table',
   languages: ['no', 'en'],

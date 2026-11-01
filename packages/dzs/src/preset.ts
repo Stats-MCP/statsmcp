@@ -12,7 +12,7 @@ export const dzsPreset: PxwebPreset = {
   name: 'dzs',
   title:
     'PX-Web database of the Croatian Bureau of Statistics (official statistics)',
-  version: '0.1.0',
+  version: '0.2.0',
   apiBaseUrl: 'https://web.dzs.hr/PXWeb/api/v1',
   database: [
     'Cijene',

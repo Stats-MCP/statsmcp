@@ -1,6 +1,6 @@
 {
   "name": "statsmcp-eurostat",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MCP server for the Eurostat database (harmonised statistics for EU and EFTA countries)",
   "license": "MIT",
   "author": "Tadej Polajnar",

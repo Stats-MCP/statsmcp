@@ -1,6 +1,6 @@
 {
   "name": "scb-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MCP server for the Statistical Database of Statistics Sweden (SCB)",
   "license": "MIT",
   "author": "Tadej Polajnar",

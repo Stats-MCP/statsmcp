@@ -1,6 +1,6 @@
 {
   "name": "statsmcp-statcan",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MCP server for the data tables of Statistics Canada",
   "license": "MIT",
   "author": "Tadej Polajnar",

@@ -13,7 +13,7 @@ const CLOSED_TABLE =
 export const scbPreset: PxwebPreset = {
   name: 'scb',
   title: 'Statistical Database of Statistics Sweden (SCB official statistics)',
-  version: '0.1.0',
+  version: '0.2.0',
   apiBaseUrl: 'https://statistikdatabasen.scb.se/api/v2',
   api: 'pxweb-v2',
   // SCB's own search scored MRR 0.27 on the golden set; the local index scored 0.57.

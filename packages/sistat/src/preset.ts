@@ -12,7 +12,7 @@ const ATTRIBUTION = {
 export const sistatPreset: PxwebPreset = {
   name: 'sistat',
   title: 'SiStat (Slovenian official statistics)',
-  version: '0.1.0',
+  version: '0.2.0',
   apiBaseUrl: 'https://pxweb.stat.si/SiStatData/api/v1',
   languages: ['sl', 'en'],
   attribution: (lang) => (lang === 'sl' ? ATTRIBUTION.sl : ATTRIBUTION.en),

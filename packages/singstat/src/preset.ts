@@ -8,7 +8,7 @@ const ATTRIBUTION =
 export const singstatPreset: PxwebPreset = {
   name: 'singstat',
   title: 'SingStat Table Builder (official statistics of Singapore)',
-  version: '0.1.0',
+  version: '0.2.0',
   apiBaseUrl: 'https://tablebuilder.singstat.gov.sg/api/table',
   api: 'singstat',
   languages: ['en'],
