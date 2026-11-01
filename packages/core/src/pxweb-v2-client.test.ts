@@ -113,6 +113,85 @@ describe('createPxwebV2Client', () => {
     ]);
   });
 
+  it('lists every page of tables once and searches them locally in index mode', async () => {
+    const pages = [
+      {
+        tables: [
+          {
+            id: 'TAB1',
+            label: 'Population by region. Month 2025M01-2026M08',
+            updated: '2026-09-20T06:00:00Z',
+            lastPeriod: '2026M08',
+            paths: [[{ label: 'Population' }]]
+          }
+        ],
+        page: { pageNumber: 1, totalPages: 2 }
+      },
+      {
+        tables: [
+          {
+            id: 'TAB2',
+            label: 'Population by region (not updated)',
+            updated: '2016-01-01T06:00:00Z',
+            lastPeriod: '2016',
+            discontinued: true
+          }
+        ],
+        page: { pageNumber: 2, totalPages: 2 }
+      }
+    ];
+    const fetchMock = vi.fn<typeof fetch>(async (input) =>
+      json(
+        pages[Number(new URL(String(input)).searchParams.get('pageNumber')) - 1]
+      )
+    );
+    const client = createPxwebV2Client({
+      baseUrl: BASE_URL,
+      fetch: fetchMock,
+      search: 'index'
+    });
+
+    const current = await client.search('en', 'population');
+    const all = await client.search('en', 'population', {
+      includeArchived: true
+    });
+
+    expect(current.map((hit) => hit.tableId)).toEqual(['TAB1']);
+    expect(all.map((hit) => [hit.tableId, hit.archived ?? false])).toEqual([
+      ['TAB1', false],
+      ['TAB2', true]
+    ]);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(String(fetchMock.mock.calls[0]?.[0])).toBe(
+      `${BASE_URL}/tables?lang=en&pageSize=1000&pageNumber=1`
+    );
+  });
+
+  it('marks tables archived by the preset title rule in index mode', async () => {
+    const client = createPxwebV2Client({
+      baseUrl: BASE_URL,
+      search: 'index',
+      isArchived: (hit) => hit.title.includes('(no update after'),
+      fetch: async () =>
+        json({
+          tables: [
+            {
+              id: 'OLD',
+              label: 'Consumer price index (no update after 2025M12)',
+              discontinued: null
+            },
+            { id: 'NEW', label: 'Consumer price index', discontinued: null }
+          ]
+        })
+    });
+
+    expect(
+      (await client.search('en', 'consumer price index')).map(
+        (hit) => hit.tableId
+      )
+    ).toEqual(['NEW']);
+  });
+
   it('maps JSON-stat metadata to variables with time and elimination flags', async () => {
     const client = createPxwebV2Client({
       baseUrl: BASE_URL,

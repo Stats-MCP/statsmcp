@@ -66,7 +66,8 @@ function createPresetClient(
   return createPxwebV2Client({
     ...http,
     baseUrl: preset.apiBaseUrl,
-    isArchived: preset.isArchived
+    isArchived: preset.isArchived,
+    search: preset.search
   });
 }
 

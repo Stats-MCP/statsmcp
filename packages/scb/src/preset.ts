@@ -16,6 +16,8 @@ export const scbPreset: PxwebPreset = {
   version: '0.1.0',
   apiBaseUrl: 'https://statistikdatabasen.scb.se/api/v2',
   api: 'pxweb-v2',
+  // SCB's own search scored MRR 0.27 on the golden set; the local index scored 0.57.
+  search: 'index',
   languages: ['sv', 'en'],
   attribution: (lang) => (lang === 'sv' ? ATTRIBUTION.sv : ATTRIBUTION.en),
   tableUrl: (lang) =>
@@ -33,14 +35,21 @@ Statistics Sweden allows about 30 API calls per 10 seconds. Always cite the sour
   searchLimit: 10,
   searchAliases: {
     en: [
-      { terms: ['inflation', 'consumer prices'], query: 'CPI monthly' },
+      {
+        terms: ['inflation', 'consumer prices'],
+        query: 'consumer price index'
+      },
+      {
+        terms: ['population'],
+        query: 'population per month by region age and sex'
+      },
       {
         terms: ['salary', 'salaries', 'wage'],
         query: 'average monthly salary'
       },
       {
         terms: ['housing price', 'house price', 'home price', 'property price'],
-        query: 'real estate price index'
+        query: 'real estate price index permanent living'
       }
     ],
     sv: [

@@ -18,9 +18,13 @@ import type {
   TableSearchHit
 } from '@/pxweb-client';
 import { rankSearchHits } from '@/search-ranking';
+import { createTableIndexLoader, type TableDoc } from '@/table-index';
 
 const TABLE_ID_PATTERN = /^[A-Za-z0-9_-]+$/;
 const SEARCH_PAGE_SIZE = 50;
+const LIST_PAGE_SIZE = 1000;
+/** Guards against a run-away loop if the API keeps reporting more pages. */
+const MAX_LIST_PAGES = 50;
 const NOT_FOUND_STATUSES = new Set([400, 404]);
 
 const tableListSchema = z.object({
@@ -29,9 +33,12 @@ const tableListSchema = z.object({
       id: z.string(),
       label: z.string(),
       updated: z.string().nullish(),
-      discontinued: z.boolean().nullish()
+      lastPeriod: z.string().nullish(),
+      discontinued: z.boolean().nullish(),
+      paths: z.array(z.array(z.object({ label: z.string() }))).nullish()
     })
-  )
+  ),
+  page: z.object({ totalPages: z.number().optional() }).nullish()
 });
 
 const metadataSchema = z.object({
@@ -60,6 +67,8 @@ export interface PxwebV2ClientOptions extends HttpOptions {
   now?: () => Date;
   /** True when the office keeps the table in its archive, for example by its title. */
   isArchived?: (hit: SearchHit) => boolean;
+  /** "index" lists every table once an hour and searches locally; "api" uses the API search. */
+  search?: 'api' | 'index';
 }
 
 function toTableMetadata(data: V2Metadata): TableMetadata {
@@ -114,8 +123,58 @@ export function createPxwebV2Client(
     return `${baseUrl}/tables/${tableId}`;
   }
 
+  const tableIndex = createTableIndexLoader(
+    async (lang) => {
+      const docs: TableDoc[] = [];
+      for (let page = 1; page <= MAX_LIST_PAGES; page++) {
+        const params = new URLSearchParams({
+          lang,
+          pageSize: String(LIST_PAGE_SIZE),
+          pageNumber: String(page)
+        });
+        const url = `${baseUrl}/tables?${params.toString()}`;
+        const data = await request(
+          url,
+          { method: 'GET' },
+          tableListSchema,
+          (parsed) => parsed,
+          SEARCH_TTL_SECONDS,
+          `tables:${url}`
+        );
+        for (const table of data.tables) {
+          const archived =
+            table.discontinued === true ||
+            (options.isArchived?.({ id: table.id, title: table.label }) ??
+              false);
+          docs.push({
+            id: table.id,
+            title: table.label,
+            path: (table.paths?.[0] ?? []).map((part) => part.label),
+            ...(table.updated ? { updated: table.updated } : {}),
+            ...(table.lastPeriod ? { lastPeriod: table.lastPeriod } : {}),
+            ...(archived ? { discontinued: true } : {})
+          });
+        }
+        const totalPages = data.page?.totalPages;
+        const lastPage =
+          totalPages === undefined
+            ? data.tables.length < LIST_PAGE_SIZE
+            : page >= totalPages;
+        if (lastPage) break;
+      }
+      return docs;
+    },
+    {
+      ttlSeconds: SEARCH_TTL_SECONDS,
+      currentYear: () => now().getUTCFullYear()
+    }
+  );
+
   return {
-    async search(lang, query) {
+    async search(lang, query, searchOptions) {
+      if (options.search === 'index') {
+        return (await tableIndex(lang)).search(query, searchOptions);
+      }
       const params = new URLSearchParams({
         query,
         lang,

@@ -31,6 +31,12 @@ export interface PxwebPreset {
     | 'statcan-wds'
     | 'singstat';
   /**
+   * Search strategy for APIs that offer both: "api" uses the API's own search,
+   * "index" lists every table and searches locally (better on the golden sets).
+   * Only the PxWeb v2 client supports "index" today; others ignore it.
+   */
+  search?: 'api' | 'index';
+  /**
    * Path segment after the language: "Data" on SiStat (the default), "table" on SSB.
    * With an array, search covers every database in it and each table id starts with its database.
    * A database that fails is left out of the results; search fails only if all fail.
