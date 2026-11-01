@@ -1,11 +1,15 @@
-# statice-mcp
+# @statsmcp/statice
 
 ## 0.3.0
+
+### Minor Changes
+
+- Packages now publish under the `@statsmcp` scope. This package was `statice-mcp`; the command name does not change.
 
 ### Patch Changes
 
 - Updated dependencies [[`61cb1cc`](https://github.com/Stats-MCP/statsmcp/commit/61cb1ccc3dda0ee86068d05dbcfe42b9b2fe27dd), [`735cc71`](https://github.com/Stats-MCP/statsmcp/commit/735cc71cec49dad952cea5c296bfa984ea489c0a)]:
-  - pxweb-mcp@0.3.0
+  - @statsmcp/core@0.3.0
 
 ## 0.2.0
 

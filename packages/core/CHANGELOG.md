@@ -1,9 +1,10 @@
-# pxweb-mcp
+# @statsmcp/core
 
 ## 0.3.0
 
 ### Minor Changes
 
+- Packages now publish under the `@statsmcp` scope. This package was `pxweb-mcp`.
 - [`735cc71`](https://github.com/Stats-MCP/statsmcp/commit/735cc71cec49dad952cea5c296bfa984ea489c0a) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Add an SDMX-JSON client (`api: 'sdmx'`, with `sdmxAgency`), first used for the Australian Bureau of Statistics.
 
 ### Patch Changes
