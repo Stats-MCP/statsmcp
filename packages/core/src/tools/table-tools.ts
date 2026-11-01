@@ -4,7 +4,12 @@ import { toCsv } from '@/json-stat';
 import { formatMetadata } from '@/metadata';
 import type { PxwebPreset } from '@/preset';
 import type { PxwebClient } from '@/pxweb-client';
-import { planQuery, type SelectionInput } from '@/query-plan';
+import {
+  DEFAULT_MAX_RESULT_CHARS,
+  planQuery,
+  QueryPlanError,
+  type SelectionInput
+} from '@/query-plan';
 import { toolInput } from '@/tools/tool-input';
 import { readAnnotations, runTool, textResult } from '@/tools/tool-result';
 
@@ -82,9 +87,21 @@ export function queryTable(
       preset.maxResultChars
     );
     const table = await client.query(args.lang, args.tableId, plan.selections);
+    const csv = toCsv(table);
+    const maxChars = preset.maxResultChars ?? DEFAULT_MAX_RESULT_CHARS;
+    if (table.rows.length > preset.maxCells) {
+      throw new QueryPlanError(
+        `The result has ${table.rows.length} rows, above the limit of ${preset.maxCells}. Select fewer values or use a smaller latest.`
+      );
+    }
+    if (csv.length > maxChars) {
+      throw new QueryPlanError(
+        `The result has ${csv.length} characters, above the limit of ${maxChars}. Select fewer values or use a smaller latest.`
+      );
+    }
     const header = `${table.label ?? metadata.title}. ${table.rows.length} rows.`;
     return textResult(
-      `${header}\n\n${toCsv(table)}\n\n${sourceLine(preset, args.lang, args.tableId)}`
+      `${header}\n\n${csv}\n\n${sourceLine(preset, args.lang, args.tableId)}`
     );
   });
 }

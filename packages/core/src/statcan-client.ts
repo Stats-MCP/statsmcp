@@ -313,13 +313,16 @@ export function createStatcanClient(
       listed.cubeEndDate ?? undefined,
       frequency
     );
+    const incomplete =
+      !REGULAR_FREQUENCIES[frequency ?? ''] || !listed.cubeStartDate;
     variables.push({
       code: TIME_CODE,
       label: french ? 'Période de référence' : 'Reference period',
       values: periods,
       valueLabels: periods,
       eliminable: false,
-      isTime: true
+      isTime: true,
+      ...(incomplete && { periodsIncomplete: true })
     });
     return {
       metadata: {

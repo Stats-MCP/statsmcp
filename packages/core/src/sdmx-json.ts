@@ -275,7 +275,8 @@ export function toTableStructure(
     values: periods,
     valueLabels: periods,
     eliminable: false,
-    isTime: true
+    isTime: true,
+    ...(periods.length === 0 && { periodsIncomplete: true })
   });
 
   return {

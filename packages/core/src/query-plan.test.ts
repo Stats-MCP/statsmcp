@@ -139,4 +139,36 @@ describe('planQuery', () => {
 
     expect(plan.estimatedChars).toBe(4 + 1 + 10);
   });
+
+  it('keeps latest N when the period list is incomplete', () => {
+    const daily: TableMetadata = {
+      title: 'Daily',
+      variables: [
+        {
+          code: 'time',
+          label: 'Time',
+          values: ['2026-10-31'],
+          valueLabels: ['2026-10-31'],
+          eliminable: false,
+          isTime: true,
+          periodsIncomplete: true
+        }
+      ]
+    };
+
+    const plan = planQuery(daily, [{ code: 'time', latest: 30 }], 1000);
+
+    expect(plan.selections).toEqual([
+      { code: 'time', selection: { filter: 'top', values: ['30'] } }
+    ]);
+  });
+
+  it('caps latest at the known periods when the list is complete', () => {
+    const plan = planQuery(metadata, [{ code: 'LETO', latest: 30 }], 1000);
+
+    expect(plan.selections.at(-1)).toEqual({
+      code: 'LETO',
+      selection: { filter: 'top', values: ['3'] }
+    });
+  });
 });

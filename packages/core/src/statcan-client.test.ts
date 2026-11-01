@@ -269,6 +269,22 @@ describe('createStatcanClient', () => {
     expect(table.rows).toEqual([['Canada', 'All-items', '2026-09-01', 169]]);
   });
 
+  it('marks the periods as incomplete for an occasional cube', async () => {
+    const client = createStatcanClient({
+      baseUrl: BASE_URL,
+      fetch: vi.fn<typeof fetch>(async (input, init) => {
+        if (String(input).endsWith('/getAllCubesListLite')) {
+          return json([{ ...cubeList[0], frequencyCode: 18 }]);
+        }
+        return router()(input, init);
+      })
+    });
+
+    const metadata = await client.getMetadata('en', '18100004');
+
+    expect(metadata.variables.at(-1)?.periodsIncomplete).toBe(true);
+  });
+
   it('rejects a period that the cube does not have', async () => {
     const client = createStatcanClient({ baseUrl: BASE_URL, fetch: router() });
 

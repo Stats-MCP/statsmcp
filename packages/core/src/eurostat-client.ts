@@ -362,13 +362,18 @@ export function createEurostatClient(
       })
     );
     const periods = periodsBetween(entry.start, entry.end);
+    const incomplete =
+      stepOf(entry.end) === undefined ||
+      !periodParts(entry.start) ||
+      !periodParts(entry.end);
     variables.push({
       code: TIME_CODE,
       label: TIME_CODE,
       values: periods,
       valueLabels: periods,
       eliminable: false,
-      isTime: true
+      isTime: true,
+      ...(incomplete && { periodsIncomplete: true })
     });
     return { title: entry.title, variables };
   }

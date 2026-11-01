@@ -181,6 +181,27 @@ describe('createEurostatClient', () => {
     ]);
   });
 
+  it('marks the periods as incomplete for a daily table', async () => {
+    const daily = toc.replace(
+      '"2026-07"\t"2026-09"',
+      '"2026-10-01"\t"2026-10-31"'
+    );
+    const client = createEurostatClient({
+      baseUrl: BASE_URL,
+      fetch: vi.fn<typeof fetch>(async (input, init) => {
+        if (String(input).includes('/catalogue/toc/')) return text(daily);
+        return router()(input, init);
+      })
+    });
+
+    const metadata = await client.getMetadata('en', 'prc_hicp_minr');
+
+    expect(metadata.variables.at(-1)).toMatchObject({
+      values: ['2026-10-31'],
+      periodsIncomplete: true
+    });
+  });
+
   it('reports a code that is not in the table of contents as not found', async () => {
     const client = createEurostatClient({ baseUrl: BASE_URL, fetch: router() });
 

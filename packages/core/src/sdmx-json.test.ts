@@ -207,6 +207,12 @@ describe('toTableStructure', () => {
     );
   });
 
+  it('marks the periods as incomplete when availability is missing', () => {
+    const table = toTableStructure(structure, undefined, 'en');
+
+    expect(table.metadata.variables.at(-1)?.periodsIncomplete).toBe(true);
+  });
+
   it('uses annual periods for a table without a FREQ dimension', () => {
     const census: SdmxStructure = {
       data: {

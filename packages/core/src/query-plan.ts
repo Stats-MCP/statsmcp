@@ -100,7 +100,9 @@ export function planQuery(
     const input = inputByCode.get(variable.code);
 
     if (input?.latest !== undefined) {
-      const count = Math.min(input.latest, variable.values.length);
+      const count = variable.periodsIncomplete
+        ? input.latest
+        : Math.min(input.latest, variable.values.length);
       selections.push({
         code: variable.code,
         selection: { filter: 'top', values: [String(count)] }

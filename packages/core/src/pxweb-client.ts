@@ -85,6 +85,7 @@ export interface TableVariable {
   valueLabels: string[];
   eliminable: boolean;
   isTime: boolean;
+  periodsIncomplete?: boolean;
 }
 
 export interface TableMetadata {
