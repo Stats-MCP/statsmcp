@@ -97,6 +97,65 @@ const catalogueEntry = (Identifier: string, Title: string) => ({
   OutputStatus: 'Regular'
 });
 
+const DATASETS_URL = 'https://datasets.example/CBS';
+
+const v4Responses: Record<string, unknown> = {
+  Properties: { Title: 'Bevolkingsontwikkeling; maand en jaar' },
+  Dimensions: {
+    value: [
+      { Identifier: 'RegioS', Title: "Regio's", Kind: 'GeoDimension' },
+      { Identifier: 'Perioden', Title: 'Perioden', Kind: 'TimeDimension' }
+    ]
+  },
+  MeasureCodes: {
+    value: [
+      { Identifier: 'M000098', Title: 'Bevolking', Unit: 'aantal' },
+      { Identifier: 'D000128', Title: 'Levend geboren kinderen', Unit: null }
+    ]
+  },
+  RegioSCodes: {
+    value: [
+      { Identifier: 'NL01', Title: 'Nederland' },
+      { Identifier: "GM'1", Title: 'Quote' }
+    ]
+  },
+  PeriodenCodes: {
+    value: [
+      { Identifier: '2026MM08', Title: '2026 augustus' },
+      { Identifier: '2026MM09', Title: '2026 september' }
+    ]
+  },
+  Observations: {
+    value: [
+      {
+        Measure: 'M000098',
+        RegioS: 'NL01',
+        Perioden: '2026MM09',
+        Value: 18171612,
+        StringValue: null
+      },
+      {
+        Measure: 'D000128',
+        RegioS: 'NL01',
+        Perioden: '2026MM09',
+        Value: null,
+        StringValue: null
+      }
+    ]
+  }
+};
+
+/** The v3 service refuses every request, as it does for Cloudflare Workers. */
+function refusingV3Fetch(): ReturnType<typeof vi.fn<typeof fetch>> {
+  return vi.fn<typeof fetch>(async (input) => {
+    const url = String(input);
+    if (!url.startsWith(DATASETS_URL)) return new Response('', { status: 406 });
+    const path = new URL(url).pathname.split('/').at(-1) ?? '';
+    const known = url.includes('/83474NED/') && path in v4Responses;
+    return known ? json(v4Responses[path]) : json({}, 404);
+  });
+}
+
 describe('createCbsODataClient', () => {
   it('searches the catalogue in the asked language and hides discontinued tables unless asked', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () => json(catalogue));
@@ -310,6 +369,70 @@ describe('createCbsODataClient', () => {
     const metadata = await client.getMetadata('en', '86141ENG');
 
     expect(metadata.variables[0]?.values).toEqual(['A', 'B']);
+  });
+
+  it('reads the table from OData v4 when the v3 service refuses the request', async () => {
+    const fetchMock = refusingV3Fetch();
+    const client = createCbsODataClient({
+      baseUrl: BASE_URL,
+      datasetsUrl: DATASETS_URL,
+      fetch: fetchMock
+    });
+
+    const table = await client.query('nl', '83474NED', [
+      {
+        code: 'RegioS',
+        selection: { filter: 'item', values: ['NL01', "GM'1"] }
+      },
+      { code: 'Perioden', selection: { filter: 'top', values: ['1'] } }
+    ]);
+
+    const dataUrl = new URL(
+      String(
+        fetchMock.mock.calls.find(([input]) =>
+          String(input).includes('Observations')
+        )?.[0]
+      )
+    );
+    expect(dataUrl.searchParams.get('$filter')).toBe(
+      "Measure in ('M000098','D000128') and RegioS in ('NL01','GM''1') and Perioden in ('2026MM09')"
+    );
+    expect(table.columns).toEqual(["Regio's", 'Perioden', 'Topics', 'Value']);
+    expect(table.rows).toEqual([
+      ['Nederland', '2026 september', 'Bevolking (aantal)', 18171612],
+      ['Nederland', '2026 september', 'Levend geboren kinderen', null]
+    ]);
+  });
+
+  it('maps an English table id to its Dutch twin on OData v4', async () => {
+    const client = createCbsODataClient({
+      baseUrl: BASE_URL,
+      datasetsUrl: DATASETS_URL,
+      fetch: refusingV3Fetch()
+    });
+
+    const metadata = await client.getMetadata('en', '83474ENG');
+
+    expect(metadata.title).toBe(
+      'Bevolkingsontwikkeling; maand en jaar (Dutch table 83474NED)'
+    );
+    expect(metadata.variables.map((variable) => variable.isTime)).toEqual([
+      false,
+      true,
+      false
+    ]);
+  });
+
+  it('reports a table as not found when v3 refuses and v4 does not have it', async () => {
+    const client = createCbsODataClient({
+      baseUrl: BASE_URL,
+      datasetsUrl: DATASETS_URL,
+      fetch: refusingV3Fetch()
+    });
+
+    await expect(client.getMetadata('nl', '99999NED')).rejects.toMatchObject({
+      status: 404
+    });
   });
 
   it('reports an unknown table as not found', async () => {

@@ -61,6 +61,32 @@ const tableInfoSchema = z.object({
   value: z.array(z.object({ Title: z.string() })).min(1)
 });
 
+const v4DimensionsSchema = z.object({
+  value: z.array(
+    z.object({ Identifier: z.string(), Title: z.string(), Kind: z.string() })
+  )
+});
+
+const v4CodesSchema = z.object({
+  value: z.array(
+    z.object({
+      Identifier: z.string(),
+      Title: z.string(),
+      Unit: z.string().nullish()
+    })
+  ),
+  '@odata.nextLink': z.string().optional()
+});
+
+const v4PropertiesSchema = z.object({ Title: z.string() });
+
+const observationsSchema = z.object({
+  value: z.array(
+    z.record(z.string(), z.union([z.string(), z.number(), z.null()]))
+  ),
+  '@odata.nextLink': z.string().optional()
+});
+
 const rowsSchema = z.object({
   value: z.array(
     z.record(z.string(), z.union([z.string(), z.number(), z.null()]))
@@ -74,6 +100,11 @@ const MAX_KEY_PAGES = 20;
 export interface CbsODataClientOptions extends HttpOptions, TableListOptions {
   /** Root of the CBS open data service, for example "https://opendata.cbs.nl". */
   baseUrl: string;
+  /**
+   * Root of the CBS OData v4 catalogue, used when the v3 service refuses a request.
+   * Defaults to "https://datasets.cbs.nl/odata/v1/CBS".
+   */
+  datasetsUrl?: string;
   /** Clock for search ranking; defaults to the system time. */
   now?: () => Date;
 }
@@ -82,6 +113,32 @@ interface CbsTable {
   metadata: TableMetadata;
   /** Per dimension: trimmed code → key exactly as the API stores it. */
   rawKeys: Map<string, Map<string, string>>;
+  /** Set when the table comes from the OData v4 service, with its v4 id. */
+  datasetId?: string;
+}
+
+const DEFAULT_DATASETS_URL = 'https://datasets.cbs.nl/odata/v1/CBS';
+
+function isNotFound(err: unknown): boolean {
+  return err instanceof PxwebError && NOT_FOUND_STATUSES.has(err.status);
+}
+
+function notFound(tableId: string): PxwebError {
+  return new PxwebError(
+    `Table "${tableId}" was not found. Use search_tables to find a table id.`,
+    404
+  );
+}
+
+function tooLarge(): PxwebError {
+  return new PxwebError(
+    'The result is larger than one CBS response. Select fewer values.',
+    400
+  );
+}
+
+function quoted(value: string): string {
+  return `'${value.replaceAll("'", "''")}'`;
 }
 
 function odataUrl(base: string, params: Record<string, string>): string {
@@ -133,13 +190,18 @@ function caribbeanLast(docs: readonly TableDoc[]): TableDoc[] {
 }
 
 /**
- * Client for the OData v3 service of Statistics Netherlands (CBS). Measures are
- * table columns, so the client shows them as one extra variable, "Topics".
+ * Client for the OData v3 service of Statistics Netherlands (CBS), with OData v4 as
+ * the fallback. Measures are table columns, so the client shows them as one extra
+ * variable, "Topics".
  */
 export function createCbsODataClient(
   options: CbsODataClientOptions
 ): PxwebClient {
   const baseUrl = options.baseUrl.replace(/\/+$/, '');
+  const datasetsUrl = (options.datasetsUrl ?? DEFAULT_DATASETS_URL).replace(
+    /\/+$/,
+    ''
+  );
   const now = options.now ?? (() => new Date());
   const request = createRequester(options);
   const get: RequestInit = { method: 'GET' };
@@ -266,19 +328,129 @@ export function createCbsODataClient(
     return { metadata: { title: info, variables }, rawKeys };
   }
 
+  async function v4Codes(
+    firstUrl: string
+  ): Promise<z.infer<typeof v4CodesSchema>['value']> {
+    const codes: z.infer<typeof v4CodesSchema>['value'] = [];
+    let url: string | undefined = firstUrl;
+    for (let page = 0; url && page < MAX_KEY_PAGES; page++) {
+      const data: z.infer<typeof v4CodesSchema> = await request(
+        url,
+        get,
+        v4CodesSchema,
+        (parsed) => parsed,
+        METADATA_TTL_SECONDS,
+        `meta:${url}`
+      );
+      codes.push(...data.value);
+      url = data['@odata.nextLink'];
+    }
+    return codes;
+  }
+
+  /**
+   * CBS refuses requests from Cloudflare Workers on the v3 service, so the same table
+   * comes from v4. The v4 catalogue has only Dutch tables: an English id maps to its
+   * Dutch twin, with Dutch labels.
+   */
+  async function loadV4Table(tableId: string): Promise<CbsTable> {
+    const datasetId = tableId.replace(/ENG$/i, 'NED');
+    const tableBase = `${datasetsUrl}/${datasetId}`;
+    const [title, dimensions, measures] = await Promise.all([
+      request(
+        `${tableBase}/Properties`,
+        get,
+        v4PropertiesSchema,
+        (data) => data.Title,
+        METADATA_TTL_SECONDS,
+        `meta:${tableBase}/Properties`
+      ),
+      request(
+        `${tableBase}/Dimensions`,
+        get,
+        v4DimensionsSchema,
+        (data) => data.value,
+        METADATA_TTL_SECONDS,
+        `meta:${tableBase}/Dimensions`
+      ),
+      v4Codes(
+        odataUrl(`${tableBase}/MeasureCodes`, {
+          $select: 'Identifier,Title,Unit'
+        })
+      )
+    ]);
+    const codeLists = await Promise.all(
+      dimensions.map((dimension) =>
+        v4Codes(
+          odataUrl(`${tableBase}/${dimension.Identifier}Codes`, {
+            $select: 'Identifier,Title'
+          })
+        )
+      )
+    );
+    const rawKeys = new Map<string, Map<string, string>>();
+    const variables: TableVariable[] = dimensions.map((dimension, index) => {
+      const codes = codeLists[index] ?? [];
+      rawKeys.set(
+        dimension.Identifier,
+        new Map(codes.map((code) => [code.Identifier.trim(), code.Identifier]))
+      );
+      return {
+        code: dimension.Identifier,
+        label: dimension.Title,
+        values: codes.map((code) => code.Identifier.trim()),
+        valueLabels: codes.map((code) => code.Title),
+        eliminable: false,
+        isTime: dimension.Kind === 'TimeDimension'
+      };
+    });
+    variables.push({
+      code: TOPICS_CODE,
+      label: TOPICS_CODE,
+      values: measures.map((measure) => measure.Identifier),
+      valueLabels: measures.map((measure) =>
+        measure.Unit ? `${measure.Title} (${measure.Unit})` : measure.Title
+      ),
+      eliminable: false,
+      isTime: false
+    });
+    const mapped = datasetId === tableId ? '' : ` (Dutch table ${datasetId})`;
+    return {
+      metadata: { title: `${title}${mapped}`, variables },
+      rawKeys,
+      datasetId
+    };
+  }
+
   async function table(tableId: string): Promise<CbsTable> {
     checkTableId(tableId);
     try {
       return await loadTable(tableId);
     } catch (err) {
-      if (err instanceof PxwebError && NOT_FOUND_STATUSES.has(err.status)) {
-        throw new PxwebError(
-          `Table "${tableId}" was not found. Use search_tables to find a table id.`,
-          404
-        );
+      if (isNotFound(err)) throw notFound(tableId);
+      try {
+        return await loadV4Table(tableId);
+      } catch (v4Err) {
+        if (isNotFound(v4Err)) throw notFound(tableId);
+        throw v4Err;
       }
-      throw err;
     }
+  }
+
+  function v4DataUrl(
+    datasetId: string,
+    filters: { code: string; codes: string[] }[],
+    topics: readonly string[]
+  ): string {
+    const clauses = [
+      `Measure in (${topics.map(quoted).join(',')})`,
+      ...filters.map(
+        (filter) => `${filter.code} in (${filter.codes.map(quoted).join(',')})`
+      )
+    ];
+    return odataUrl(`${datasetsUrl}/${datasetId}/Observations`, {
+      $filter: clauses.join(' and ')
+    });
   }
 
   return {
@@ -293,7 +465,7 @@ export function createCbsODataClient(
     },
 
     async query(_lang, tableId, selections) {
-      const { metadata, rawKeys } = await table(tableId);
+      const { metadata, rawKeys, datasetId } = await table(tableId);
       const byCode = new Map(
         selections.map((selection) => [selection.code, selection])
       );
@@ -321,30 +493,18 @@ export function createCbsODataClient(
           400
         );
       }
-      const clauses: string[] = [];
+      const filters: { code: string; codes: string[] }[] = [];
       for (const dimension of dimensions) {
         const selection = byCode.get(dimension.code);
         const codes = selectedCodes(dimension, selection);
         if (!selection || selection.selection.filter === 'all') continue;
         if (codes.length === 0) continue;
         const raw = rawKeys.get(dimension.code);
-        const terms = codes.map(
-          (code) =>
-            `${dimension.code} eq '${(raw?.get(code) ?? code).replaceAll("'", "''")}'`
-        );
-        clauses.push(`(${terms.join(' or ')})`);
+        filters.push({
+          code: dimension.code,
+          codes: codes.map((code) => raw?.get(code) ?? code)
+        });
       }
-      const params: Record<string, string> = {
-        $select: [
-          ...dimensions.map((dimension) => dimension.code),
-          ...topics
-        ].join(',')
-      };
-      if (clauses.length) params.$filter = clauses.join(' and ');
-      const url = odataUrl(
-        `${baseUrl}/ODataApi/odata/${tableId}/TypedDataSet`,
-        params
-      );
       const labels = new Map(
         metadata.variables.map((variable) => [
           variable.code,
@@ -356,41 +516,76 @@ export function createCbsODataClient(
           )
         ])
       );
+      const label = (code: string, value: string | number | null): string => {
+        const trimmed = String(value ?? '').trim();
+        return labels.get(code)?.get(trimmed) ?? trimmed;
+      };
+      const columns = [
+        ...dimensions.map((dimension) => dimension.label),
+        TOPICS_CODE,
+        'Value'
+      ];
+
+      if (datasetId) {
+        const url = v4DataUrl(datasetId, filters, topics);
+        return request(
+          url,
+          get,
+          observationsSchema,
+          (data): FlatTable => {
+            if (data['@odata.nextLink']) throw tooLarge();
+            return {
+              label: metadata.title,
+              columns,
+              rows: data.value.map((observation) => [
+                ...dimensions.map((dimension) =>
+                  label(dimension.code, observation[dimension.code] ?? null)
+                ),
+                label(TOPICS_CODE, observation.Measure ?? null),
+                cellValue(observation.Value ?? observation.StringValue ?? null)
+              ])
+            };
+          },
+          DATA_TTL_SECONDS,
+          `data:${url}`
+        );
+      }
+
+      const clauses = filters.map(
+        (filter) =>
+          `(${filter.codes.map((code) => `${filter.code} eq ${quoted(code)}`).join(' or ')})`
+      );
+      const params: Record<string, string> = {
+        $select: [
+          ...dimensions.map((dimension) => dimension.code),
+          ...topics
+        ].join(',')
+      };
+      if (clauses.length) params.$filter = clauses.join(' and ');
+      const url = odataUrl(
+        `${baseUrl}/ODataApi/odata/${tableId}/TypedDataSet`,
+        params
+      );
       return request(
         url,
         get,
         rowsSchema,
         (data): FlatTable => {
-          if (data['odata.nextLink']) {
-            throw new PxwebError(
-              'The result is larger than one CBS response. Select fewer values.',
-              400
-            );
-          }
+          if (data['odata.nextLink']) throw tooLarge();
           const rows: (string | number | null)[][] = [];
           for (const record of data.value) {
-            const cells = dimensions.map((dimension) => {
-              const code = String(record[dimension.code] ?? '').trim();
-              return labels.get(dimension.code)?.get(code) ?? code;
-            });
+            const cells = dimensions.map((dimension) =>
+              label(dimension.code, record[dimension.code] ?? null)
+            );
             for (const topic of topics) {
-              const value = record[topic] ?? null;
               rows.push([
                 ...cells,
-                labels.get(TOPICS_CODE)?.get(topic) ?? topic,
-                cellValue(value)
+                label(TOPICS_CODE, topic),
+                cellValue(record[topic] ?? null)
               ]);
             }
           }
-          return {
-            label: metadata.title,
-            columns: [
-              ...dimensions.map((dimension) => dimension.label),
-              TOPICS_CODE,
-              'Value'
-            ],
-            rows
-          };
+          return { label: metadata.title, columns, rows };
         },
         DATA_TTL_SECONDS,
         `data:${url}`
