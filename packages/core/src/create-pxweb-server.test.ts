@@ -334,12 +334,43 @@ describe('createPxwebServer', () => {
     );
   });
 
-  it('marks and ranks archived tables from the preset hook', async () => {
+  it.each([
+    [{ query: 'prices' }, ['NEW.PX | NEW: Prices']],
+    [
+      { query: 'prices', includeArchived: true },
+      ['NEW.PX | NEW: Prices', 'OLD.PX | OLD: Prices | archived']
+    ]
+  ])(
+    'hides archived tables unless asked, then marks them (%j)',
+    async (args, expected) => {
+      const fetchMock = vi.fn<typeof fetch>(async () =>
+        json([
+          { id: 'OLD.PX', path: '/Archive/x', title: 'OLD: Prices' },
+          { id: 'NEW.PX', path: '/prices', title: 'NEW: Prices' }
+        ])
+      );
+      const archivePreset: PxwebPreset = {
+        ...preset,
+        tableIdFromHit: (hit) => hit.id,
+        isArchived: (hit) => hit.path?.startsWith('/Archive/') ?? false
+      };
+
+      const { text } = await callTool(
+        fetchMock,
+        'search_tables',
+        args,
+        archivePreset,
+        () => createPresetServer(archivePreset, { fetch: fetchMock })
+      );
+
+      expect(text.split('\n').slice(1, 1 + expected.length)).toEqual(expected);
+      expect(text).toContain(`${expected.length} tables match`);
+    }
+  );
+
+  it('says when only discontinued tables match', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () =>
-      json([
-        { id: 'OLD.PX', path: '/Archive/x', title: 'OLD: Prices' },
-        { id: 'NEW.PX', path: '/prices', title: 'NEW: Prices' }
-      ])
+      json([{ id: 'OLD.PX', path: '/Archive/x', title: 'OLD: Prices' }])
     );
     const archivePreset: PxwebPreset = {
       ...preset,
@@ -355,10 +386,8 @@ describe('createPxwebServer', () => {
       () => createPresetServer(archivePreset, { fetch: fetchMock })
     );
 
-    expect(text.split('\n').slice(1, 3)).toEqual([
-      'NEW.PX | NEW: Prices',
-      'OLD.PX | OLD: Prices | archived'
-    ]);
+    expect(text).toContain('1 discontinued tables do');
+    expect(text).toContain('includeArchived: true');
   });
 
   it.each([

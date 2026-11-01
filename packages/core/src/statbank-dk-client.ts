@@ -13,11 +13,9 @@ import type { JsonStatDataset } from '@/json-stat';
 import type {
   PxwebClient,
   PxwebSelection,
-  TableMetadata,
-  TableSearchHit
+  TableMetadata
 } from '@/pxweb-client';
-import { rankSearchHits } from '@/search-ranking';
-import { searchTitles } from '@/title-search';
+import { createTableIndexLoader, type TableDoc } from '@/table-index';
 
 const TABLE_ID_PATTERN = /^[\p{L}\p{N}_-]+$/u;
 const NOT_FOUND_STATUSES = new Set([400, 404]);
@@ -27,6 +25,7 @@ const tableListSchema = z.array(
     id: z.string(),
     text: z.string(),
     updated: z.string().nullish(),
+    latestPeriod: z.string().nullish(),
     active: z.boolean().optional()
   })
 );
@@ -148,38 +147,34 @@ export function createStatbankDkClient(
   const now = options.now ?? (() => new Date());
   const request = createRequester(options);
 
-  const loading = new Map<string, Promise<TableSearchHit[]>>();
-
-  /** Parallel searches (a query and its aliases) share one download of the list. */
-  function tableList(lang: string): Promise<TableSearchHit[]> {
-    const pending = loading.get(lang);
-    if (pending) return pending;
-    const url = `${baseUrl}/tables`;
-    const promise = request(
-      url,
-      post({ lang }),
-      tableListSchema,
-      (list) =>
-        list.map((table): TableSearchHit => ({
-          tableId: table.id,
-          title: table.text,
-          published: table.updated ?? undefined,
-          ...(table.active === false ? { archived: true as const } : {})
-        })),
-      SEARCH_TTL_SECONDS,
-      `tables:${url}:${lang}`
-    ).finally(() => loading.delete(lang));
-    loading.set(lang, promise);
-    return promise;
-  }
+  const tableIndex = createTableIndexLoader(
+    (lang) => {
+      const url = `${baseUrl}/tables`;
+      return request(
+        url,
+        post({ lang }),
+        tableListSchema,
+        (list) =>
+          list.map((table): TableDoc => ({
+            id: table.id,
+            title: table.text,
+            ...(table.updated ? { updated: table.updated } : {}),
+            ...(table.latestPeriod ? { lastPeriod: table.latestPeriod } : {}),
+            ...(table.active === false ? { discontinued: true } : {})
+          })),
+        SEARCH_TTL_SECONDS,
+        `tables:${url}:${lang}`
+      );
+    },
+    {
+      ttlSeconds: SEARCH_TTL_SECONDS,
+      currentYear: () => now().getUTCFullYear()
+    }
+  );
 
   return {
-    async search(lang, query) {
-      const tables = await tableList(lang);
-      return rankSearchHits(
-        searchTitles(tables, query, lang),
-        now().getUTCFullYear()
-      );
+    async search(lang, query, searchOptions) {
+      return (await tableIndex(lang)).search(query, searchOptions);
     },
 
     async getMetadata(lang, tableId) {

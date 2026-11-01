@@ -25,6 +25,7 @@ export {
   type SearchHit,
   type TableMetadata,
   type TableSearchHit,
+  type TableSearchOptions,
   type TableVariable
 } from '@/pxweb-client';
 export {

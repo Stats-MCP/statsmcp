@@ -77,14 +77,36 @@ describe('periodsBetween', () => {
 });
 
 describe('parseToc and parseStructure', () => {
-  it('keeps datasets and tables with ISO update dates', () => {
+  it('keeps datasets and tables with their folder path and ISO update dates', () => {
     expect(parseToc(toc)[1]).toEqual({
       code: 'prc_hicp_minr',
       title: 'HICP - indices and rates of change, monthly data',
+      path: ['Economy'],
       updated: '2026-10-15',
       start: '2026-07',
       end: '2026-09'
     });
+  });
+
+  it('follows nested folders and unquotes doubled quotes in titles', () => {
+    const nested = [
+      '"title"\t"code"\t"type"\t"last update of data"\t"last table structure change"\t"data start"\t"data end"\t"values"',
+      '"Economy"\t"economy"\t"folder"\t""\t""\t""\t""\t""',
+      '"    Prices"\t"prices"\t"folder"\t""\t""\t""\t""\t""',
+      '"        HICP ""flash"" estimate"\t"prc_flash"\t"dataset"\t"01.10.2026"\t""\t"2026-01"\t"2026-09"\t"9"',
+      '"    Wages"\t"wages"\t"folder"\t""\t""\t""\t""\t""',
+      '"        Earnings"\t"earn_x"\t"dataset"\t"01.10.2026"\t""\t"2025"\t"2025"\t"9"',
+      '"Population"\t"pop"\t"folder"\t""\t""\t""\t""\t""',
+      '"    Population on 1 January"\t"tps00001"\t"table"\t"27.10.2026"\t""\t"2015"\t"2026"\t"9"'
+    ].join('\n');
+
+    expect(
+      parseToc(nested).map((entry) => [entry.code, entry.title, entry.path])
+    ).toEqual([
+      ['prc_flash', 'HICP "flash" estimate', ['Economy', 'Prices']],
+      ['earn_x', 'Earnings', ['Economy', 'Wages']],
+      ['tps00001', 'Population on 1 January', ['Population']]
+    ]);
   });
 
   it('reads self-closing codes and decodes numeric entities', () => {
@@ -118,14 +140,19 @@ describe('parseToc and parseStructure', () => {
 });
 
 describe('createEurostatClient', () => {
-  it('searches the table of contents once per table and ranks closed series last', async () => {
+  it('searches the table of contents once per table and hides closed series unless asked', async () => {
     const client = createEurostatClient({
       baseUrl: BASE_URL,
       fetch: router(),
       now: () => new Date('2026-11-01')
     });
 
-    const hits = await client.search('en', 'HICP monthly');
+    const current = await client.search('en', 'HICP monthly');
+    const hits = await client.search('en', 'HICP monthly', {
+      includeArchived: true
+    });
+
+    expect(current.map((hit) => hit.tableId)).toEqual(['prc_hicp_minr']);
 
     expect(hits.map((hit) => [hit.tableId, hit.archived ?? false])).toEqual([
       ['prc_hicp_minr', false],

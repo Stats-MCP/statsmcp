@@ -13,11 +13,9 @@ import type {
   PxwebClient,
   PxwebSelection,
   TableMetadata,
-  TableSearchHit,
   TableVariable
 } from '@/pxweb-client';
-import { rankSearchHits } from '@/search-ranking';
-import { searchTitles } from '@/title-search';
+import { createTableIndexLoader, type TableDoc } from '@/table-index';
 
 const PRODUCT_ID_PATTERN = /^\d{8}$/;
 const COORDINATE_LENGTH = 10;
@@ -238,6 +236,23 @@ export function createStatcanClient(
     return loading;
   }
 
+  const tableIndex = createTableIndexLoader(
+    async (lang) => {
+      const french = lang === 'fr';
+      return (await cubes()).map((item): TableDoc => ({
+        id: String(item.productId),
+        title: french ? item.cubeTitleFr : item.cubeTitleEn,
+        ...(item.releaseTime ? { updated: item.releaseTime } : {}),
+        ...(item.cubeEndDate ? { lastPeriod: item.cubeEndDate } : {}),
+        ...(String(item.archived) === ARCHIVED ? { discontinued: true } : {})
+      }));
+    },
+    {
+      ttlSeconds: SEARCH_TTL_SECONDS,
+      currentYear: () => now().getUTCFullYear()
+    }
+  );
+
   async function cube(productId: string): Promise<Cube> {
     const found = (await cubes()).find(
       (item) => String(item.productId) === productId
@@ -313,20 +328,8 @@ export function createStatcanClient(
   }
 
   return {
-    async search(lang, query) {
-      const french = lang === 'fr';
-      const hits = (await cubes()).map((item): TableSearchHit => ({
-        tableId: String(item.productId),
-        title: french ? item.cubeTitleFr : item.cubeTitleEn,
-        published: item.releaseTime ?? undefined,
-        ...(String(item.archived) === ARCHIVED
-          ? { archived: true as const }
-          : {})
-      }));
-      return rankSearchHits(
-        searchTitles(hits, query, lang),
-        now().getUTCFullYear()
-      );
+    async search(lang, query, searchOptions) {
+      return (await tableIndex(lang)).search(query, searchOptions);
     },
 
     async getMetadata(lang, productId) {

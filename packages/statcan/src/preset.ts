@@ -30,6 +30,7 @@ Always cite the source line that each result ends with. If you change the data o
   searchAliases: {
     en: [
       { terms: ['inflation', 'cpi'], query: 'consumer price index monthly' },
+      { terms: ['population'], query: 'population estimates' },
       {
         terms: ['salary', 'salaries', 'wage'],
         query: 'average weekly earnings'

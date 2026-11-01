@@ -13,11 +13,9 @@ import type {
   PxwebClient,
   PxwebSelection,
   TableMetadata,
-  TableSearchHit,
   TableVariable
 } from '@/pxweb-client';
-import { rankSearchHits } from '@/search-ranking';
-import { searchTitles } from '@/title-search';
+import { createTableIndexLoader, type TableDoc } from '@/table-index';
 
 const TABLE_ID_PATTERN = /^[A-Za-z0-9]+$/;
 const NOT_FOUND_STATUSES = new Set([400, 404]);
@@ -33,7 +31,8 @@ const catalogueSchema = z.object({
       Title: z.string(),
       Language: z.string(),
       Modified: z.string().nullish(),
-      OutputStatus: z.string().nullish()
+      OutputStatus: z.string().nullish(),
+      Period: z.string().nullish()
     })
   )
 });
@@ -131,11 +130,30 @@ export function createCbsODataClient(
     | Promise<z.infer<typeof catalogueSchema>['value']>
     | undefined;
 
+  const tableIndex = createTableIndexLoader(
+    async (lang) =>
+      (await catalogue())
+        .filter((entry) => entry.Language === lang)
+        .map((entry): TableDoc => ({
+          id: entry.Identifier,
+          title: entry.Title,
+          ...(entry.Modified ? { updated: entry.Modified } : {}),
+          ...(entry.Period ? { lastPeriod: entry.Period } : {}),
+          ...(DISCONTINUED.has(entry.OutputStatus ?? '')
+            ? { discontinued: true }
+            : {})
+        })),
+    {
+      ttlSeconds: SEARCH_TTL_SECONDS,
+      currentYear: () => now().getUTCFullYear()
+    }
+  );
+
   /** One download serves both languages and parallel searches. */
   function catalogue(): Promise<z.infer<typeof catalogueSchema>['value']> {
     loadingCatalogue ??= request(
       odataUrl(`${baseUrl}/ODataCatalog/Tables`, {
-        $select: 'Identifier,Title,Language,Modified,OutputStatus'
+        $select: 'Identifier,Title,Language,Modified,OutputStatus,Period'
       }),
       get,
       catalogueSchema,
@@ -245,22 +263,8 @@ export function createCbsODataClient(
   }
 
   return {
-    async search(lang, query) {
-      const tables = await catalogue();
-      const hits = tables
-        .filter((entry) => entry.Language === lang)
-        .map((entry): TableSearchHit => ({
-          tableId: entry.Identifier,
-          title: entry.Title,
-          published: entry.Modified ?? undefined,
-          ...(DISCONTINUED.has(entry.OutputStatus ?? '')
-            ? { archived: true as const }
-            : {})
-        }));
-      return rankSearchHits(
-        searchTitles(hits, query, lang),
-        now().getUTCFullYear()
-      );
+    async search(lang, query, searchOptions) {
+      return (await tableIndex(lang)).search(query, searchOptions);
     },
 
     async getMetadata(_lang, tableId) {

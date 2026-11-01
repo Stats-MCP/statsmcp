@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 import type { PxwebPreset } from '@/preset';
 import type { PxwebClient, TableSearchHit } from '@/pxweb-client';
-import { rankSearchHits } from '@/search-ranking';
 import { normalize, startsWord } from '@/text';
 import { readAnnotations, runTool, textResult } from '@/tools/tool-result';
 
@@ -12,7 +11,8 @@ async function searchWithAliases(
   client: PxwebClient,
   preset: PxwebPreset,
   lang: string,
-  query: string
+  query: string,
+  includeArchived: boolean
 ): Promise<TableSearchHit[]> {
   const text = normalize(query, lang);
   const aliasQueries = (preset.searchAliases?.[lang] ?? [])
@@ -21,19 +21,21 @@ async function searchWithAliases(
     )
     .map((alias) => alias.query);
   const [original, ...aliases] = await Promise.allSettled(
-    [query, ...aliasQueries].map((search) => client.search(lang, search))
+    [query, ...aliasQueries].map((search) =>
+      client.search(lang, search, { includeArchived })
+    )
   );
   if (original?.status === 'rejected') throw original.reason;
   const aliasHits = aliases.flatMap((result) =>
     result.status === 'fulfilled' ? result.value : []
   );
   const seen = new Set<string>();
-  const merged = [...aliasHits, ...(original?.value ?? [])].filter((hit) => {
-    if (seen.has(hit.tableId)) return false;
+  return [...aliasHits, ...(original?.value ?? [])].filter((hit) => {
+    if (seen.has(hit.tableId) || (hit.archived && !includeArchived))
+      return false;
     seen.add(hit.tableId);
     return true;
   });
-  return rankSearchHits(merged, new Date().getUTCFullYear());
 }
 
 export function registerSearchTools(
@@ -59,14 +61,39 @@ export function registerSearchTools(
           .min(1)
           .max(50)
           .optional()
-          .describe(`Maximum results. Default ${preset.searchLimit}.`)
+          .describe(`Maximum results. Default ${preset.searchLimit}.`),
+        includeArchived: z
+          .boolean()
+          .optional()
+          .describe(
+            'Also list discontinued tables, for older periods. Default false.'
+          )
       }),
       annotations: readAnnotations('Search statistical tables')
     },
-    async ({ query, lang = preset.languages[0], limit = preset.searchLimit }) =>
+    async ({
+      query,
+      lang = preset.languages[0],
+      limit = preset.searchLimit,
+      includeArchived = false
+    }) =>
       runTool(async () => {
-        const hits = await searchWithAliases(client, preset, lang, query);
+        const hits = await searchWithAliases(
+          client,
+          preset,
+          lang,
+          query,
+          includeArchived
+        );
         if (!hits.length) {
+          const archived = includeArchived
+            ? []
+            : await searchWithAliases(client, preset, lang, query, true);
+          if (archived.length) {
+            return textResult(
+              `No current tables match "${query}", but ${archived.length} discontinued tables do. Call search_tables again with includeArchived: true to list them.`
+            );
+          }
           return textResult(
             `No tables match "${query}". Try fewer or broader keywords, or the other language.`
           );

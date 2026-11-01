@@ -265,3 +265,55 @@ export function createTableIndex(
     }
   };
 }
+
+export interface TableIndexLoaderOptions {
+  /** How long a built index stays fresh. */
+  ttlSeconds: number;
+  /** Wait before retrying after a failed refresh; the old index serves meanwhile. */
+  retrySeconds?: number;
+  /** Year for recency at build time; defaults to the current UTC year. */
+  currentYear?: () => number;
+}
+
+const DEFAULT_RETRY_SECONDS = 5 * 60;
+
+/**
+ * Keeps one built index per language. Parallel searches share a build, an index
+ * is rebuilt after `ttlSeconds`, and a failed refresh keeps serving the old one.
+ */
+export function createTableIndexLoader(
+  load: (lang: string) => Promise<readonly TableDoc[]>,
+  options: TableIndexLoaderOptions
+): (lang: string) => Promise<TableIndex> {
+  const built = new Map<string, { at: number; index: TableIndex }>();
+  const loading = new Map<string, Promise<TableIndex>>();
+  const ttlMs = options.ttlSeconds * 1000;
+  const retryMs = (options.retrySeconds ?? DEFAULT_RETRY_SECONDS) * 1000;
+
+  return (lang) => {
+    const current = built.get(lang);
+    if (current && Date.now() - current.at < ttlMs)
+      return Promise.resolve(current.index);
+    const pending = loading.get(lang);
+    if (pending) return pending;
+    const promise = load(lang)
+      .then((docs) => {
+        const index = createTableIndex(docs, lang, {
+          currentYear: options.currentYear?.() ?? new Date().getUTCFullYear()
+        });
+        built.set(lang, { at: Date.now(), index });
+        return index;
+      })
+      .catch((err: unknown) => {
+        if (!current) throw err;
+        built.set(lang, {
+          at: Date.now() - ttlMs + retryMs,
+          index: current.index
+        });
+        return current.index;
+      })
+      .finally(() => loading.delete(lang));
+    loading.set(lang, promise);
+    return promise;
+  };
+}

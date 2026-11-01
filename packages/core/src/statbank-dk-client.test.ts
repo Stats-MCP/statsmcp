@@ -82,7 +82,7 @@ function json(body: unknown, status = 200): Response {
 }
 
 describe('createStatbankDkClient', () => {
-  it('searches the table list locally, marks inactive tables archived and ranks them last', async () => {
+  it('searches the table list locally and hides inactive tables unless asked', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () => json(tables));
     const client = createStatbankDkClient({
       baseUrl: BASE_URL,
@@ -91,9 +91,13 @@ describe('createStatbankDkClient', () => {
       now: () => new Date('2026-11-01')
     });
 
-    const hits = await client.search('en', 'consumer price index');
+    const current = await client.search('en', 'consumer price index');
+    const hits = await client.search('en', 'consumer price index', {
+      includeArchived: true
+    });
     await client.search('en', 'population');
 
+    expect(current.map((hit) => hit.tableId)).toEqual(['PRIS01']);
     expect(hits).toEqual([
       {
         tableId: 'PRIS01',

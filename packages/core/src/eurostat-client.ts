@@ -9,14 +9,8 @@ import {
   type HttpOptions
 } from '@/http';
 import { jsonStatDatasetSchema } from '@/json-stat';
-import type {
-  PxwebClient,
-  TableMetadata,
-  TableSearchHit,
-  TableVariable
-} from '@/pxweb-client';
-import { rankSearchHits } from '@/search-ranking';
-import { searchTitles } from '@/title-search';
+import type { PxwebClient, TableMetadata, TableVariable } from '@/pxweb-client';
+import { createTableIndexLoader, type TableDoc } from '@/table-index';
 
 const CODE_PATTERN = /^[A-Za-z0-9_$.-]+$/;
 const CLOSED_TITLE = /\(\d{4}\s*-\s*\d{4}\)\s*$/;
@@ -34,9 +28,17 @@ export interface EurostatClientOptions extends HttpOptions {
 interface TocEntry {
   code: string;
   title: string;
+  /** Folder titles above the table, from the indentation of the table of contents. */
+  path: string[];
   updated: string | undefined;
   start: string;
   end: string;
+}
+
+const TOC_INDENT = 4;
+
+function tocCell(cell: string): string {
+  return cell.trim().replace(/^"|"$/g, '').replaceAll('""', '"').trim();
 }
 
 interface Code {
@@ -144,27 +146,33 @@ export function parseStructure(
 
 /** Rows of the tab-separated table of contents that are datasets or tables. */
 export function parseToc(tsv: string): TocEntry[] {
-  return tsv
-    .split('\n')
-    .slice(1)
-    .map((line) =>
-      line
-        .split('\t')
-        .map((cell) =>
-          cell.trim().replace(/^"|"$/g, '').replaceAll('""', '"').trim()
-        )
-    )
-    .filter((cells) => cells[2] === 'dataset' || cells[2] === 'table')
-    .map((cells) => {
-      const [day, month, year] = (cells[3] ?? '').split('.');
-      return {
-        code: cells[1] ?? '',
-        title: cells[0] ?? '',
-        updated: year && month && day ? `${year}-${month}-${day}` : undefined,
-        start: cells[5] ?? '',
-        end: cells[6] ?? ''
-      };
+  const folders: string[] = [];
+  const entries: TocEntry[] = [];
+  for (const line of tsv.split('\n').slice(1)) {
+    const raw = line.split('\t');
+    const first = (raw[0] ?? '').replace(/^"/, '');
+    const depth = Math.floor(
+      (first.length - first.trimStart().length) / TOC_INDENT
+    );
+    const cells = raw.map(tocCell);
+    const title = cells[0] ?? '';
+    if (cells[2] === 'folder') {
+      folders.length = depth;
+      folders[depth] = title;
+      continue;
+    }
+    if (cells[2] !== 'dataset' && cells[2] !== 'table') continue;
+    const [day, month, year] = (cells[3] ?? '').split('.');
+    entries.push({
+      code: cells[1] ?? '',
+      title,
+      path: folders.slice(0, depth).filter(Boolean),
+      updated: year && month && day ? `${year}-${month}-${day}` : undefined,
+      start: cells[5] ?? '',
+      end: cells[6] ?? ''
     });
+  }
+  return entries;
 }
 
 function pad(value: number): string {
@@ -296,6 +304,22 @@ export function createEurostatClient(
     return promise;
   }
 
+  const tableIndex = createTableIndexLoader(
+    async (lang) =>
+      (await toc(lang)).map((entry): TableDoc => ({
+        id: entry.code,
+        title: entry.title,
+        path: entry.path,
+        ...(entry.updated ? { updated: entry.updated } : {}),
+        ...(entry.end ? { lastPeriod: entry.end } : {}),
+        ...(CLOSED_TITLE.test(entry.title) ? { discontinued: true } : {})
+      })),
+    {
+      ttlSeconds: SEARCH_TTL_SECONDS,
+      currentYear: () => now().getUTCFullYear()
+    }
+  );
+
   async function metadata(lang: string, code: string): Promise<TableMetadata> {
     const entry = (await toc(lang)).find((item) => item.code === code);
     if (!entry) {
@@ -346,17 +370,8 @@ export function createEurostatClient(
   }
 
   return {
-    async search(lang, query) {
-      const hits = (await toc(lang)).map((entry): TableSearchHit => ({
-        tableId: entry.code,
-        title: entry.title,
-        published: entry.updated,
-        ...(CLOSED_TITLE.test(entry.title) ? { archived: true as const } : {})
-      }));
-      return rankSearchHits(
-        searchTitles(hits, query, lang),
-        now().getUTCFullYear()
-      );
+    async search(lang, query, searchOptions) {
+      return (await tableIndex(lang)).search(query, searchOptions);
     },
 
     async getMetadata(lang, code) {

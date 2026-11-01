@@ -37,6 +37,7 @@ Always cite the source line that each result ends with. Data for countries outsi
   searchAliases: {
     en: [
       { terms: ['salary', 'salaries', 'wage'], query: 'earnings' },
+      { terms: ['population'], query: 'population on 1 January' },
       {
         terms: ['housing price', 'house price', 'home price', 'property price'],
         query: 'house price index'

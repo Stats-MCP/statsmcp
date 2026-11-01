@@ -1,6 +1,10 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { createTableIndex, type TableDoc } from '@/table-index';
+import {
+  createTableIndex,
+  createTableIndexLoader,
+  type TableDoc
+} from '@/table-index';
 
 const docs: TableDoc[] = [
   {
@@ -153,5 +157,46 @@ describe('createTableIndex', () => {
     const twice = createTableIndex([...docs, docs[0] as TableDoc], 'en');
     expect(twice.size).toBe(docs.length);
     expect(twice.search('   ')).toEqual([]);
+  });
+});
+
+describe('createTableIndexLoader', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('builds once for parallel calls and reuses the index until it expires', async () => {
+    vi.useFakeTimers();
+    const load = vi.fn<(lang: string) => Promise<TableDoc[]>>(async () => docs);
+    const loader = createTableIndexLoader(load, { ttlSeconds: 60 });
+
+    const [first, second] = await Promise.all([loader('en'), loader('en')]);
+    await loader('en');
+    vi.advanceTimersByTime(61_000);
+    await loader('en');
+
+    expect(first).toBe(second);
+    expect(load).toHaveBeenCalledTimes(2);
+  });
+
+  it('keeps serving the old index when a refresh fails, and fails without one', async () => {
+    vi.useFakeTimers();
+    const load = vi
+      .fn<(lang: string) => Promise<TableDoc[]>>()
+      .mockResolvedValueOnce(docs)
+      .mockRejectedValue(new Error('upstream down'));
+    const loader = createTableIndexLoader(load, {
+      ttlSeconds: 60,
+      retrySeconds: 10
+    });
+
+    const fresh = await loader('en');
+    vi.advanceTimersByTime(61_000);
+    const stale = await loader('en');
+    await loader('en');
+
+    expect(stale).toBe(fresh);
+    expect(load).toHaveBeenCalledTimes(2);
+    await expect(loader('da')).rejects.toThrow('upstream down');
   });
 });

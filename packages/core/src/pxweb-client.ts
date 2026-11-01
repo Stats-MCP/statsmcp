@@ -66,6 +66,11 @@ export interface TableSearchHit {
 
 type ScoredHit = TableSearchHit & { score: number };
 
+/** Clients with a local index leave out discontinued tables unless asked. */
+export interface TableSearchOptions {
+  includeArchived?: boolean;
+}
+
 export interface TableVariable {
   code: string;
   label: string;
@@ -86,7 +91,11 @@ export interface PxwebSelection {
 }
 
 export interface PxwebClient {
-  search(lang: string, query: string): Promise<TableSearchHit[]>;
+  search(
+    lang: string,
+    query: string,
+    options?: TableSearchOptions
+  ): Promise<TableSearchHit[]>;
   getMetadata(lang: string, tableId: string): Promise<TableMetadata>;
   query(
     lang: string,

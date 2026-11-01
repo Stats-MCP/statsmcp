@@ -90,7 +90,7 @@ function tableFetch(): ReturnType<typeof vi.fn<typeof fetch>> {
 }
 
 describe('createCbsODataClient', () => {
-  it('searches the catalogue in the asked language and ranks discontinued tables last', async () => {
+  it('searches the catalogue in the asked language and hides discontinued tables unless asked', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () => json(catalogue));
     const client = createCbsODataClient({
       baseUrl: BASE_URL,
@@ -98,8 +98,12 @@ describe('createCbsODataClient', () => {
       now: () => new Date('2026-11-01')
     });
 
-    const hits = await client.search('en', 'consumer prices');
+    const current = await client.search('en', 'consumer prices');
+    const hits = await client.search('en', 'consumer prices', {
+      includeArchived: true
+    });
 
+    expect(current.map((hit) => hit.tableId)).toEqual(['86141ENG']);
     expect(hits.map((hit) => [hit.tableId, hit.archived ?? false])).toEqual([
       ['86141ENG', false],
       ['83131ENG', true]

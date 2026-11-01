@@ -119,14 +119,19 @@ describe('periods', () => {
 });
 
 describe('createStatcanClient', () => {
-  it('searches the cube list in the asked language and ranks archived cubes last', async () => {
+  it('searches the cube list in the asked language and hides archived cubes unless asked', async () => {
     const client = createStatcanClient({
       baseUrl: BASE_URL,
       fetch: router(),
       now: () => new Date('2026-11-01')
     });
 
-    const hits = await client.search('fr', 'indice des prix');
+    const current = await client.search('fr', 'indice des prix');
+    const hits = await client.search('fr', 'indice des prix', {
+      includeArchived: true
+    });
+
+    expect(current.map((hit) => hit.tableId)).toEqual(['18100004']);
 
     expect(
       hits.map((hit) => [hit.tableId, hit.title, hit.archived ?? false])
