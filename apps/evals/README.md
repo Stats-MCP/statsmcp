@@ -12,6 +12,10 @@ These evals measure what a model does with the real StatsMCP tools. For each cas
 
 The cases are in [`src/dataset.ts`](src/dataset.ts). The pass rate of each scorer must stay at or above its floor in `floors.json`.
 
+Each search case lists the accepted search languages with keywords for each. Native-language questions also accept an English search, because English titles often find the same table. So `lang` fails only for a language the case does not accept.
+
+Floors: `tool` and `tableId` must stay at 100 %. The other scorers allow one miss in a new recording.
+
 ## Replay (default, CI)
 
 Model answers are saved in `recordings/`, one file per request. The tests replay them and make no network calls. If there are no recordings for the model, the eval test is skipped. With recordings, the model must have floors in `floors.json`. Provider error answers are never saved.
@@ -30,7 +34,7 @@ Recording calls the model on your computer. Run it only there, never in CI. By d
    ANTHROPIC_API_KEY=<key>
    ```
 
-2. Record, then write the floors from the recordings:
+2. Build the packages (`pnpm build`), because the evals use the built servers. Then record and write the floors from the recordings:
 
    ```sh
    EVAL_MODE=record pnpm --filter statsmcp-evals test
@@ -43,3 +47,4 @@ For a new model, the first record run saves the recordings and then fails with "
 - To use another model, set `EVAL_MODEL`, for example `claude-haiku-5-5`. The defaults are in `PROVIDERS` in [`src/task.ts`](src/task.ts). Claude models get no `temperature`, because current models reject it.
 - A change to a tool description, an input schema, the server instructions, a case, or the `ai`, `@ai-sdk/anthropic` or `@ai-sdk/openai` version changes the request. The Anthropic provider also takes `max_tokens` from its model table, so keep these versions pinned exactly. The old recordings then no longer match. Delete the model's folder in `recordings/` and record again.
 - Commit the recordings and `floors.json` together.
+- The endpoints in [`src/servers.ts`](src/servers.ts) must match the hosted routes in `apps/worker/src/index.ts`. Add a new country to both.

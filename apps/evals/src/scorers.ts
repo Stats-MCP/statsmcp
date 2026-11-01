@@ -34,28 +34,39 @@ export function toolMatch(item: EvalCase, output: TaskOutput): Score {
   );
 }
 
-/** The tools default to the first language, so a missing lang counts as that one. */
+function chosenLang(output: TaskOutput, defaultLang: string): string {
+  return stringArg(output, 'lang') ?? defaultLang;
+}
+
+/** Any accepted language passes; a missing lang counts as the endpoint's default. */
 export function langMatch(
   item: EvalCase,
   output: TaskOutput,
   defaultLang: string
 ): Score {
-  const expected = item.expected.lang;
-  if (!expected) return { name: 'lang', passed: null };
+  const accepted = Object.keys(item.expected.keywords ?? {});
+  if (accepted.length === 0) return { name: 'lang', passed: null };
   if (output.toolName === null) {
     return result('lang', false, 'no tool call');
   }
-  const actual = stringArg(output, 'lang') ?? defaultLang;
+  const actual = chosenLang(output, defaultLang);
   return result(
     'lang',
-    actual === expected,
-    `expected lang ${expected}, got ${actual}`
+    accepted.includes(actual),
+    `expected lang ${accepted.join(' or ')}, got ${actual}`
   );
 }
 
-export function queryKeywords(item: EvalCase, output: TaskOutput): Score {
-  const words = item.expected.queryAny;
-  if (!words?.length) return { name: 'keywords', passed: null };
+/** Uses the keywords of the language the model chose, or all keywords if that language is not accepted. */
+export function queryKeywords(
+  item: EvalCase,
+  output: TaskOutput,
+  defaultLang: string
+): Score {
+  const keywords = item.expected.keywords;
+  if (!keywords) return { name: 'keywords', passed: null };
+  const words =
+    keywords[chosenLang(output, defaultLang)] ?? Object.values(keywords).flat();
   const query = (stringArg(output, 'query') ?? '').toLocaleLowerCase();
   return result(
     'keywords',
@@ -96,7 +107,7 @@ export function scoreCase(
   return [
     toolMatch(item, output),
     langMatch(item, output, defaultLang),
-    queryKeywords(item, output),
+    queryKeywords(item, output, defaultLang),
     shortQuery(item, output),
     tableIdMatch(item, output)
   ];

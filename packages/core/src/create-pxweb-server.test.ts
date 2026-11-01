@@ -111,6 +111,42 @@ async function callTool(
 }
 
 describe('createPxwebServer', () => {
+  it('tells the model to search before it uses a table id', async () => {
+    const handler = createMcpHandler(() =>
+      createPxwebServer(
+        preset,
+        createPxwebClient({
+          baseUrl: preset.apiBaseUrl,
+          fetch: vi.fn<typeof fetch>()
+        })
+      )
+    );
+    const response = await handler.fetch(
+      new Request('https://mcp.example/mcp', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          accept: 'application/json, text/event-stream',
+          'mcp-protocol-version': '2025-06-18'
+        },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 1,
+          method: 'initialize',
+          params: {
+            protocolVersion: '2025-06-18',
+            capabilities: {},
+            clientInfo: { name: 'test', version: '1.0.0' }
+          }
+        })
+      })
+    );
+    const raw = await response.text();
+
+    expect(raw).toContain('Test instructions.');
+    expect(raw).toContain('Always call `search_tables` first');
+  });
+
   it('lists search hits with their full table path and the source', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () =>
       json([

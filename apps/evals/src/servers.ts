@@ -39,6 +39,10 @@ export const SERVER_IDS = Object.keys(PRESETS).filter(
   (id): id is ServerId => id in PRESETS
 );
 
+const initializeSchema = z.object({
+  result: z.object({ instructions: z.string().min(1) })
+});
+
 const toolsSchema = z.object({
   result: z.object({
     tools: z
@@ -60,10 +64,9 @@ export interface Manifest {
   tools: ToolDef[];
 }
 
-/** tools/list needs no API calls, so the manifest is exact and offline. */
-export async function manifest(id: ServerId): Promise<Manifest> {
-  const preset = PRESETS[id];
-  const handler = createMcpHandler(() => createPresetServer(preset));
+/** Same JSON-RPC call the hosted endpoint answers; SSE or JSON body. */
+async function rpc(id: ServerId, method: string, params: unknown) {
+  const handler = createMcpHandler(() => createPresetServer(PRESETS[id]));
   const response = await handler.fetch(
     new Request('https://mcp.example/mcp', {
       method: 'POST',
@@ -72,7 +75,7 @@ export async function manifest(id: ServerId): Promise<Manifest> {
         accept: 'application/json, text/event-stream',
         'mcp-protocol-version': '2025-06-18'
       },
-      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list' })
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params })
     })
   );
   const raw = await response.text();
@@ -81,8 +84,18 @@ export async function manifest(id: ServerId): Promise<Manifest> {
     .map((text) => text.replace(/^data: /, ''))
     .find((text) => text.startsWith('{'));
   const parsed: unknown = JSON.parse(line ?? raw);
-  return {
-    instructions: preset.instructions,
-    tools: toolsSchema.parse(parsed).result.tools
-  };
+  return parsed;
+}
+
+/** initialize and tools/list need no API calls, so the manifest is exact and offline. */
+export async function manifest(id: ServerId): Promise<Manifest> {
+  const { result: init } = initializeSchema.parse(
+    await rpc(id, 'initialize', {
+      protocolVersion: '2025-06-18',
+      capabilities: {},
+      clientInfo: { name: 'evals', version: '0.0.0' }
+    })
+  );
+  const { result } = toolsSchema.parse(await rpc(id, 'tools/list', {}));
+  return { instructions: init.instructions, tools: result.tools };
 }

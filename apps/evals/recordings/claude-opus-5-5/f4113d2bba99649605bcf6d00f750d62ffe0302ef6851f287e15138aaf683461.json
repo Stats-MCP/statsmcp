@@ -6,7 +6,7 @@
     "system": [
       {
         "type": "text",
-        "text": "Official statistics for Norway from Statbank, the database of Statistics Norway (SSB). This server is not affiliated with or endorsed by SSB.\n\nTo answer a question with data:\n1. Call `search_tables` with short topic keywords. Norwegian titles (\"no\") are the most complete; try \"en\" if the user writes in English, and try the other language when results are poor. Table ids are five-digit table numbers.\n2. Call `get_table_metadata` on the best table to see its variables and value codes. Use `valueFilter` to find a municipality, county or industry by name.\n3. Call `query_table` with only the values you need. Use `latest` for recent periods.\n\nSSB allows about 40 API calls per minute, so avoid unnecessary calls. Always cite the source line that each result ends with. If you calculate new figures from the data, say they are your own calculation based on SSB data."
+        "text": "Official statistics for Croatia from the PX-Web database of the Croatian Bureau of Statistics (Državni zavod za statistiku, DZS). This server is not affiliated with or endorsed by the Croatian Bureau of Statistics.\n\nTo answer a question with data:\n1. Call `search_tables` with short topic keywords in Croatian (\"hr\") or English (\"en\"). Table ids contain the database and folder names; use them exactly as search_tables returns them. You can also search for a table number such as ME_PS09 if no other table has the same number.\n2. Call `get_table_metadata` on the best table to see its variables and value codes. Use `valueFilter` to find a county, town or municipality by name.\n3. Call `query_table` with only the values you need. Use `latest` for recent periods.\n\nThe bureau allows 10 API calls per 10 seconds, so request only the tables you need. Registered unemployment is published by the Croatian Employment Service, not in this database.\n\nAlways cite the source line that each result ends with, and the date of the last update that search_tables shows for the table. If you change the data or calculate new figures, say so, for example \"Croatian Bureau of Statistics and own calculations\".\n\nAlways call `search_tables` first, unless the user gives a table id. Use only table ids from search results or from the user."
       }
     ],
     "messages": [
@@ -15,7 +15,7 @@
         "content": [
           {
             "type": "text",
-            "text": "Hvor høy er arbeidsledigheten i Norge nå?"
+            "text": "Koliko je turista posjetilo Hrvatsku prošle godine?"
           }
         ]
       }
@@ -34,10 +34,10 @@
               "description": "Keywords to search for."
             },
             "lang": {
-              "description": "Language of titles. Default \"no\".",
+              "description": "Language of titles. Default \"hr\".",
               "type": "string",
               "enum": [
-                "no",
+                "hr",
                 "en"
               ]
             },
@@ -70,10 +70,10 @@
               "description": "Table id exactly as search_tables returns it."
             },
             "lang": {
-              "description": "Language of labels. Default \"no\".",
+              "description": "Language of labels. Default \"hr\".",
               "type": "string",
               "enum": [
-                "no",
+                "hr",
                 "en"
               ]
             },
@@ -100,10 +100,10 @@
               "description": "Table id exactly as search_tables returns it."
             },
             "lang": {
-              "description": "Language of labels. Default \"no\".",
+              "description": "Language of labels. Default \"hr\".",
               "type": "string",
               "enum": [
-                "no",
+                "hr",
                 "en"
               ]
             },
@@ -150,5 +150,5 @@
   },
   "status": 200,
   "contentType": "application/json",
-  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011CgcBPrdFAHvAchXUvkujB\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"thinking\",\"thinking\":\"\",\"signature\":\"CAQSyAUKEAgTGAI4AUIIdGhpbmtpbmcSDG+CmEjsJ+prP9PoDRoMHtvL/q9Ej8A8S+FgIjCK/EwfOkEIZOhYDaRXKQiaARvK6gUPivikJeJIrg1aO/BRbDCQdDe7yMrcKBx37zoq5QR9sfcJT6vm229AbYDjhpAEKi0WVrGodjwPJv32NOYnHcs2oV+5Qkg4DKui3Vo/Luo/bJQwjmQ4iT0TYkoleYCdCmM7vbVDwRD82auywqrK3efOvai3k4wtMUTCesTE6EFkfO2J4w4TZqmbddVRXufROYYPbcUqRbKF13ECe7pPOpj2I+6a9qnzT1EvdeYaR/Ad8RLMsCEQcHdjGKBfqmV/V0o3XX2UOxcexcjBvvdShI4rsduvBVYqn67gflb6BD8lk+JxFw6O2Fucu93wLUm3nr0zJ6h8qCdnnDTZRMv4CsD3Tc2GHc8ylLs/9bOwyenXUlDRO//XZOb4lLA3TC9HivFEQKFCO2G8WS2lt7aQOlGjd6/GWQeWBnH0hhrVFHIWkMdNPKeymY0nT3NwnRnN2k8SFytltAvLJED2KSMhysIWbKvHJidRdcIVHKovQXnXQNPCG/AP0PtU9xnvbArvGZecm9zcncDxi49ZYgNvMAPK2DgP8lPi9E6+0CpZviiT/Sir+qmCaOwLYna6W3Hkh5cI3TQOBsE5m+lz/Xl9j6U4GH5TkSZVtXHuvI/rGYjDcw+dR1zKsVO9bMjOpMQBc2EJ0Ubmv2dzf4XZI5wYA+vgHmll8pZrdAwo6cQtSspQ175gS8EQCbGEdnqDhtBMa1p/FtRWZZTdWXyDyMwiUC9WnGCytSswX6HalgaAyzZ7pD1CW3EAyjMcCIwdzTYflgX83j7nF86WtTBi18x2kjoNuCFVx3D015j3LcuPjhJnJyOQpglNkvd1o5GQpk2UpQLoGi/y66gRqpj8vmYyp2uSwSuLGAE=\"},{\"type\":\"tool_use\",\"id\":\"toolu_01Sg96tXkR9TMhgh9HmQHCVT\",\"name\":\"search_tables\",\"input\":{\"query\":\"arbeidsledige sesongjustert AKU\",\"limit\":5},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":1607,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":140,\"output_tokens_details\":{\"thinking_tokens\":54},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
+  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011CgcCAktiheVJDbjXysApr\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"tool_use\",\"id\":\"toolu_01UUY5QGE7kG1FdAkeKnigSj\",\"name\":\"search_tables\",\"input\":{\"query\":\"dolasci turista\"},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":1753,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":53,\"output_tokens_details\":{\"thinking_tokens\":0},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
 }

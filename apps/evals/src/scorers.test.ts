@@ -10,8 +10,7 @@ const searchCase: EvalCase = {
   ask: 'What is the latest inflation rate in Slovenia?',
   expected: {
     tool: 'search_tables',
-    lang: 'en',
-    queryAny: ['inflation', 'consumer price']
+    keywords: { en: ['inflation', 'consumer price'], sl: ['inflacij'] }
   }
 };
 
@@ -56,8 +55,18 @@ describe('scoreCase', () => {
       ['tool', 'keywords', 'short']
     ],
     [
-      'the default language when English is expected',
+      'an English word in a search with the default language',
       call('search_tables', { query: 'inflation' }),
+      ['keywords']
+    ],
+    [
+      'a search in the other accepted language',
+      call('search_tables', { query: 'inflacija', lang: 'sl' }),
+      []
+    ],
+    [
+      'a language the case does not accept',
+      call('search_tables', { query: 'inflation', lang: 'de' }),
       ['lang']
     ],
     [
@@ -96,7 +105,7 @@ describe('scoreCase', () => {
   it('accepts the default language when it is the expected one', () => {
     const native: EvalCase = {
       ...searchCase,
-      expected: { ...searchCase.expected, lang: 'sl', queryAny: ['plač'] }
+      expected: { ...searchCase.expected, keywords: { sl: ['plač'] } }
     };
 
     expect(
@@ -107,7 +116,7 @@ describe('scoreCase', () => {
   it('fails lang without a tool call, even when the default language is expected', () => {
     const native: EvalCase = {
       ...searchCase,
-      expected: { ...searchCase.expected, lang: 'sl', queryAny: ['plač'] }
+      expected: { ...searchCase.expected, keywords: { sl: ['plač'] } }
     };
 
     expect(failed(native, { toolName: null, args: null })).toContain('lang');

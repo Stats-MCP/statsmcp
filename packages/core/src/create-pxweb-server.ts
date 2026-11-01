@@ -20,13 +20,20 @@ import type { TableDoc } from '@/table-doc';
 import { registerSearchTools } from '@/tools/search-tools';
 import { registerTableTools } from '@/tools/table-tools';
 
+/**
+ * Models remember table ids for well-known statistics and skip the search; a
+ * remembered id can be outdated or wrong, so every server asks for a search first.
+ */
+const SEARCH_FIRST =
+  'Always call `search_tables` first, unless the user gives a table id. Use only table ids from search results or from the user.';
+
 export function createPxwebServer(
   preset: PxwebPreset,
   client: PxwebClient
 ): McpServer {
   const server = new McpServer(
     { name: preset.name, title: preset.title, version: preset.version },
-    { instructions: preset.instructions }
+    { instructions: `${preset.instructions}\n\n${SEARCH_FIRST}` }
   );
   registerSearchTools(server, client, preset);
   registerTableTools(server, client, preset);
