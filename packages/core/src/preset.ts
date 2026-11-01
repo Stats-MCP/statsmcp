@@ -29,12 +29,14 @@ export interface PxwebPreset {
     | 'cbs-odata'
     | 'eurostat'
     | 'statcan-wds'
-    | 'singstat';
+    | 'singstat'
+    | 'cso-pxstat';
   /**
    * Search strategy for APIs that offer both: "api" uses the API's own search,
    * "index" lists every table and searches locally (better on the golden sets).
    * PxWeb v2 lists the tables itself. PxWeb v1 reads the crawled snapshot from the
-   * server's `tableSnapshots` option. Other API types always search an index.
+   * server's `tableSnapshots` option. PxStat ("cso-pxstat") always reads the
+   * snapshot. Other API types always search an index.
    */
   search?: 'api' | 'index';
   /**

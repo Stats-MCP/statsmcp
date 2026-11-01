@@ -1,0 +1,78 @@
+{
+  "source": "cso",
+  "lang": "en",
+  "queries": [
+    {
+      "query": "consumer price index",
+      "relevant": {
+        "CPM20": 2,
+        "CPM02": 1,
+        "CPM21": 1,
+        "CPM24": 1
+      }
+    },
+    {
+      "query": "monthly unemployment",
+      "relevant": {
+        "MUM01": 2
+      }
+    },
+    {
+      "query": "live register",
+      "relevant": {
+        "LRM02": 2,
+        "LRM06": 1,
+        "LRM11": 1
+      }
+    },
+    {
+      "query": "births registered",
+      "relevant": {
+        "VSQ16": 2,
+        "VSQ12": 1
+      }
+    },
+    {
+      "query": "residential property price index",
+      "relevant": {
+        "HPM09": 2,
+        "HPM06": 2,
+        "HPQ01": 1
+      }
+    },
+    {
+      "query": "population estimates",
+      "relevant": {
+        "PEA01": 2,
+        "PEA04": 1,
+        "PEA08": 1,
+        "PEA11": 1
+      }
+    },
+    {
+      "query": "population by county",
+      "relevant": {
+        "PEA08": 2
+      }
+    },
+    {
+      "query": "gross domestic product",
+      "relevant": {
+        "NAQ03": 2
+      }
+    },
+    {
+      "query": "average earnings",
+      "relevant": {
+        "EHQ57": 2,
+        "EHQ13": 1
+      }
+    },
+    {
+      "query": "CPM20",
+      "relevant": {
+        "CPM20": 2
+      }
+    }
+  ]
+}

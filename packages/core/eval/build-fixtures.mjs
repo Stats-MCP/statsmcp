@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Downloads the table lists that the search-quality tests use. Run by hand:
 // node packages/core/eval/build-fixtures.mjs
-// statice-en and dzs-en come from the crawler instead (apps/crawler, --source statice/dzs).
+// statice-en, dzs-en and cso-en come from the crawler instead (apps/crawler, --source statice/dzs/cso).
 import { writeFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 

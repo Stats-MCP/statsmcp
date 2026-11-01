@@ -17,6 +17,7 @@
     { "pattern": "statsmcp.dev/ca/mcp*", "zone_name": "statsmcp.dev" },
     { "pattern": "statsmcp.dev/is/mcp*", "zone_name": "statsmcp.dev" },
     { "pattern": "statsmcp.dev/hr/mcp*", "zone_name": "statsmcp.dev" },
+    { "pattern": "statsmcp.dev/ie/mcp*", "zone_name": "statsmcp.dev" },
     { "pattern": "statsmcp.dev/index/*", "zone_name": "statsmcp.dev" }
   ],
   "r2_buckets": [{ "binding": "INDEX", "bucket_name": "statsmcp-index" }],

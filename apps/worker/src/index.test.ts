@@ -94,7 +94,8 @@ describe('worker', () => {
     ['/eu/mcp', 'Eurostat'],
     ['/ca/mcp', 'Statistics Canada'],
     ['/is/mcp', 'Statistics Iceland'],
-    ['/hr/mcp', 'Croatian Bureau of Statistics']
+    ['/hr/mcp', 'Croatian Bureau of Statistics'],
+    ['/ie/mcp', 'Central Statistics Office']
   ])('serves the %s server', async (path, instructionsPart) => {
     vi.stubGlobal('caches', { default: {} });
     const initialize = new Request(`https://mcp.example${path}`, {

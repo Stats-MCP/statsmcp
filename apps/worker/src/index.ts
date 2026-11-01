@@ -1,5 +1,6 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { createCbsServer, cbsPreset } from 'cbs-mcp';
+import { createCsoServer, csoPreset } from 'cso-mcp';
 import { createDstServer, dstPreset } from 'dst-mcp';
 import { createDzsServer, dzsPreset } from 'dzs-mcp';
 import { createHagstovaServer, hagstovaPreset } from 'hagstova-mcp';
@@ -155,6 +156,17 @@ const SERVERS = new Map<string, HostedServer>([
           cache,
           tableSnapshots,
           userAgent: `dzs-mcp-worker/${dzsPreset.version}`
+        })
+    }
+  ],
+  [
+    '/ie/mcp',
+    {
+      create: (cache, tableSnapshots) =>
+        createCsoServer({
+          cache,
+          tableSnapshots,
+          userAgent: `cso-mcp-worker/${csoPreset.version}`
         })
     }
   ]

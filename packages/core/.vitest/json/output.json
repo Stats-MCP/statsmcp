@@ -1,0 +1,150 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 10,
+  "numPassedTests": 10,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1793513472410,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["search quality on the golden sets"],
+          "fullName": "search quality on the golden sets has a golden set for every floor and a judged best table for every query",
+          "status": "passed",
+          "title": "has a golden set for every floor and a judged best table for every query",
+          "duration": 1.2671670000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["search quality on the golden sets"],
+          "fullName": "search quality on the golden sets cbs-en stays at or above its floor",
+          "status": "passed",
+          "title": "cbs-en stays at or above its floor",
+          "duration": 24.639042000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["search quality on the golden sets"],
+          "fullName": "search quality on the golden sets cbs-nl stays at or above its floor",
+          "status": "passed",
+          "title": "cbs-nl stays at or above its floor",
+          "duration": 67.28454199999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["search quality on the golden sets"],
+          "fullName": "search quality on the golden sets dst-da stays at or above its floor",
+          "status": "passed",
+          "title": "dst-da stays at or above its floor",
+          "duration": 26.08895799999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["search quality on the golden sets"],
+          "fullName": "search quality on the golden sets dst-en stays at or above its floor",
+          "status": "passed",
+          "title": "dst-en stays at or above its floor",
+          "duration": 27.19225,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["search quality on the golden sets"],
+          "fullName": "search quality on the golden sets dzs-en stays at or above its floor",
+          "status": "passed",
+          "title": "dzs-en stays at or above its floor",
+          "duration": 36.206042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["search quality on the golden sets"],
+          "fullName": "search quality on the golden sets eurostat-en stays at or above its floor",
+          "status": "passed",
+          "title": "eurostat-en stays at or above its floor",
+          "duration": 306.257959,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["search quality on the golden sets"],
+          "fullName": "search quality on the golden sets scb-en stays at or above its floor",
+          "status": "passed",
+          "title": "scb-en stays at or above its floor",
+          "duration": 82.72566699999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["search quality on the golden sets"],
+          "fullName": "search quality on the golden sets statcan-en stays at or above its floor",
+          "status": "passed",
+          "title": "statcan-en stays at or above its floor",
+          "duration": 186.925167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["search quality on the golden sets"],
+          "fullName": "search quality on the golden sets statice-en stays at or above its floor",
+          "status": "passed",
+          "title": "statice-en stays at or above its floor",
+          "duration": 37.32416699999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1793513472537,
+      "endTime": 1793513473333.3242,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/tadejpolajnar/Documents/Projects/Work/pxweb-mcp/packages/core/eval/search-quality.test.ts"
+    }
+  ]
+}

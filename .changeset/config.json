@@ -22,7 +22,8 @@
       "statsmcp-statcan",
       "statsmcp-singstat",
       "statice-mcp",
-      "dzs-mcp"
+      "dzs-mcp",
+      "cso-mcp"
     ]
   ],
   "access": "public",

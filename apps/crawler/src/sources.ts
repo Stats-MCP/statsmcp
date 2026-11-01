@@ -10,6 +10,7 @@ import { eurostatPreset } from 'statsmcp-eurostat';
 import { statcanPreset } from 'statsmcp-statcan';
 
 import type { CrawlSource } from '@/crawl';
+import { csoSource } from '@/cso';
 import { pxwebTreeSource } from '@/pxweb-tree';
 
 export function catalogueSource(
@@ -39,7 +40,9 @@ export function catalogueSource(
 // allows 30 calls per 10 s, so half is 1.5 per second; the others publish no limit.
 // Tree sources need one call per folder. Croatia allows 10 calls per 10 s (half:
 // 0.5 per second). Iceland advertises 100 per 10 s but sent 429 at 2.7 per second.
+// CSO publishes no limit; its whole collection is one request.
 export const SOURCES: readonly CrawlSource[] = [
+  csoSource('https://ws.cso.ie/public'),
   catalogueSource(cbsPreset, 1),
   catalogueSource(dstPreset, 1),
   catalogueSource(eurostatPreset, 1),

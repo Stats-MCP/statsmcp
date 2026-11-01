@@ -4,6 +4,7 @@ import type { Cache } from '@/cache';
 import { createCbsODataClient } from '@/cbs-odata-client';
 import { createEurostatClient } from '@/eurostat-client';
 import type { PxwebPreset } from '@/preset';
+import { createPxstatClient } from '@/pxstat-client';
 import {
   createPxwebClient,
   PxwebError,
@@ -39,7 +40,7 @@ export interface PresetServerOptions {
   tableSnapshots?: SnapshotReader;
 }
 
-/** PxWeb v1 has no list endpoint, so index search reads the crawled snapshot. */
+/** PxWeb v1 and PxStat have no small list endpoint, so index search reads the crawled snapshot. */
 function snapshotTableList(
   preset: PxwebPreset,
   tableSnapshots: SnapshotReader | undefined
@@ -78,6 +79,13 @@ export function createPresetClient(
   }
   if (typeof preset.apiBaseUrl !== 'string') {
     throw new Error(`A ${api} preset needs one apiBaseUrl string.`);
+  }
+  if (api === 'cso-pxstat') {
+    return createPxstatClient({
+      ...http,
+      baseUrl: preset.apiBaseUrl,
+      tableList: snapshotTableList(preset, tableSnapshots)
+    });
   }
   if (api === 'singstat') {
     return createSingstatClient({ ...http, baseUrl: preset.apiBaseUrl });
