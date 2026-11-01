@@ -1,0 +1,58 @@
+{
+  "name": "cbs-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for StatLine, the database of Statistics Netherlands (CBS)",
+  "license": "MIT",
+  "author": "Tadej Polajnar",
+  "homepage": "https://statsmcp.dev/netherlands/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stats-MCP/statsmcp.git",
+    "directory": "packages/cbs"
+  },
+  "bugs": {
+    "url": "https://github.com/Stats-MCP/statsmcp/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "statline",
+    "cbs",
+    "netherlands",
+    "statistics",
+    "pxweb"
+  ],
+  "bin": {
+    "cbs-mcp": "./dist/bin.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "catalog:",
+    "pxweb-mcp": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -100,6 +100,19 @@ Each `get_table_metadata` and `query_table` result also has the table ID and a l
 
 This project is not affiliated with or endorsed by Statistics Denmark.
 
+## Statistics Netherlands (CBS)
+
+CBS publishes its data under the [Creative Commons Attribution 4.0 licence (CC BY 4.0)](https://www.cbs.nl/en-gb/about-us/website/copyright). You can use it for any purpose, including commercial use, if you name Statistics Netherlands (CBS) as the source.
+
+The server adds the source and the licence link to every result:
+
+- `Source: Statistics Netherlands (CBS), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)` (English)
+- `Bron: CBS, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)` (Dutch)
+
+Each `get_table_metadata` and `query_table` result also has the table ID and a link to the table on cbs.nl.
+
+This project is not affiliated with or endorsed by CBS.
+
 ## Other statistics offices
 
 Before you add or publish a server for a different statistics office, read its terms of use. Some offices do not allow commercial use. You can run these offices as presets on your computer. We do not put them on the hosted endpoint.
