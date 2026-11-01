@@ -12,7 +12,7 @@ You need a Cloudflare account and the packages built (`pnpm build`).
 1. Log in to Cloudflare:
 
    ```sh
-   pnpm --filter sistat-mcp-worker exec wrangler login
+   pnpm --filter statsmcp-worker exec wrangler login
    ```
 
 2. Deploy:

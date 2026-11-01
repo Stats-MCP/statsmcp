@@ -1,5 +1,5 @@
 {
-  "name": "pxweb-mcp-monorepo",
+  "name": "statsmcp-monorepo",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@12.15.0",
@@ -13,8 +13,8 @@
     "test": "pnpm -r test",
     "format": "oxfmt --check .",
     "format:fix": "oxfmt --write .",
-    "dev:worker": "pnpm build && pnpm --filter sistat-mcp-worker dev",
-    "deploy:worker": "pnpm build && pnpm --filter sistat-mcp-worker run deploy",
+    "dev:worker": "pnpm build && pnpm --filter statsmcp-worker dev",
+    "deploy:worker": "pnpm build && pnpm --filter statsmcp-worker run deploy",
     "lint": "oxlint",
     "changeset": "changeset",
     "version-packages": "changeset version && node scripts/sync-versions.mjs && oxfmt --write packages/sistat/server.json && pnpm install --lockfile-only",

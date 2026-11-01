@@ -82,6 +82,6 @@ jobs:
           mapfile -t keys < <(find index -name '*.json.gz' | sort)
           if [ "${#keys[@]}" -eq 0 ]; then echo "No snapshots to upload."; exit 1; fi
           for key in "${keys[@]}"; do
-            pnpm --filter sistat-mcp-worker exec wrangler r2 object put "statsmcp-index/$key" \
+            pnpm --filter statsmcp-worker exec wrangler r2 object put "statsmcp-index/$key" \
               --file "$PWD/$key" --content-type application/gzip --remote < /dev/null
           done

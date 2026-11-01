@@ -30,5 +30,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["sistat-mcp-worker", "statsmcp-crawler", "statsmcp-evals"]
+  "ignore": ["statsmcp-worker", "statsmcp-crawler", "statsmcp-evals"]
 }
