@@ -123,6 +123,23 @@ function isNotFound(err: unknown): boolean {
   return err instanceof PxwebError && NOT_FOUND_STATUSES.has(err.status);
 }
 
+function isTransient(err: unknown): boolean {
+  if (!(err instanceof PxwebError)) return true;
+  return err.status === 429 || err.status >= 500;
+}
+
+function sameOriginLink(
+  next: string | undefined,
+  current: string
+): string | undefined {
+  if (!next) return undefined;
+  try {
+    return new URL(next).origin === new URL(current).origin ? next : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function notFound(tableId: string): PxwebError {
   return new PxwebError(
     `Table "${tableId}" was not found. Use search_tables to find a table id.`,
@@ -263,7 +280,7 @@ export function createCbsODataClient(
         `meta:${url}`
       );
       keys.push(...data.value);
-      url = data['odata.nextLink'];
+      url = sameOriginLink(data['odata.nextLink'], firstUrl);
     }
     return keys;
   }
@@ -343,7 +360,7 @@ export function createCbsODataClient(
         `meta:${url}`
       );
       codes.push(...data.value);
-      url = data['@odata.nextLink'];
+      url = sameOriginLink(data['@odata.nextLink'], firstUrl);
     }
     return codes;
   }
@@ -431,7 +448,7 @@ export function createCbsODataClient(
       try {
         return await loadV4Table(tableId);
       } catch (v4Err) {
-        if (isNotFound(v4Err)) throw notFound(tableId);
+        if (isNotFound(v4Err)) throw isTransient(err) ? err : notFound(tableId);
         throw v4Err;
       }
     }

@@ -16,7 +16,7 @@ import {
   type TableListOptions
 } from '@/table-index';
 
-const CODE_PATTERN = /^[A-Za-z0-9_$.-]+$/;
+const CODE_PATTERN = /^(?!\.{1,2}$)[A-Za-z0-9_$.-]+$/;
 const CLOSED_TITLE = /\(\d{4}\s*-\s*\d{4}\)\s*$/;
 const TIME_CODE = 'time';
 const NOT_FOUND_STATUSES = new Set([400, 404]);

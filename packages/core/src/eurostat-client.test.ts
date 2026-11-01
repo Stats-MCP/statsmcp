@@ -202,6 +202,22 @@ describe('createEurostatClient', () => {
     });
   });
 
+  it.each(['.', '..'])(
+    'refuses the dot-only code "%s" without a request',
+    async (code) => {
+      const fetchMock = router();
+      const client = createEurostatClient({
+        baseUrl: BASE_URL,
+        fetch: fetchMock
+      });
+
+      await expect(client.getMetadata('en', code)).rejects.toMatchObject({
+        status: 400
+      });
+      expect(fetchMock).not.toHaveBeenCalled();
+    }
+  );
+
   it('reports a code that is not in the table of contents as not found', async () => {
     const client = createEurostatClient({ baseUrl: BASE_URL, fetch: router() });
 

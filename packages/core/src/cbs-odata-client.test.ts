@@ -435,6 +435,51 @@ describe('createCbsODataClient', () => {
     });
   });
 
+  it.each([429, 500, 503])(
+    'keeps the v3 status %i when v4 does not know the table',
+    async (status) => {
+      const client = createCbsODataClient({
+        baseUrl: BASE_URL,
+        datasetsUrl: DATASETS_URL,
+        fetch: async (input) =>
+          String(input).startsWith(DATASETS_URL)
+            ? json({}, 404)
+            : json({}, status)
+      });
+
+      await expect(client.getMetadata('nl', '99999NED')).rejects.toMatchObject({
+        status
+      });
+    }
+  );
+
+  it('does not follow a next link to another host', async () => {
+    const pages: Record<string, unknown> = {
+      ...responses,
+      ExpenditureCategories: {
+        value: [{ Key: 'A', Title: 'First' }],
+        'odata.nextLink': 'https://evil.example/ODataApi/odata/x/Page2'
+      }
+    };
+    const fetchMock = vi.fn<typeof fetch>(async (input) => {
+      const path = new URL(String(input)).pathname.split('/').at(-1) ?? '';
+      return path in pages ? json(pages[path]) : json({}, 404);
+    });
+    const client = createCbsODataClient({
+      baseUrl: BASE_URL,
+      fetch: fetchMock
+    });
+
+    const metadata = await client.getMetadata('en', '86141ENG');
+
+    expect(metadata.variables[0]?.values).toEqual(['A']);
+    expect(
+      fetchMock.mock.calls.some(([input]) =>
+        String(input).includes('evil.example')
+      )
+    ).toBe(false);
+  });
+
   it('reports an unknown table as not found', async () => {
     const client = createCbsODataClient({
       baseUrl: BASE_URL,

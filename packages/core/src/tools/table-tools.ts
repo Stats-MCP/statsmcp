@@ -10,6 +10,7 @@ import {
   QueryPlanError,
   type SelectionInput
 } from '@/query-plan';
+import { checkMetadataInput, checkQueryInput } from '@/tools/input-limits';
 import { toolInput } from '@/tools/tool-input';
 import { readAnnotations, runTool, textResult } from '@/tools/tool-result';
 
@@ -66,6 +67,7 @@ export function getTableMetadata(
   args: { tableId: string; lang: string; valueFilter?: string | undefined }
 ): Promise<CallToolResult> {
   return runTool(async () => {
+    checkMetadataInput(args.tableId, args.valueFilter);
     const metadata = await client.getMetadata(args.lang, args.tableId);
     return textResult(
       `${formatMetadata(args.tableId, metadata, args.valueFilter)}\n\nOptional variables can be left out; the result then shows their total. Required variables left out return all their values.\n\n${sourceLine(preset, args.lang, args.tableId)}`
@@ -79,6 +81,7 @@ export function queryTable(
   args: { tableId: string; lang: string; selections: SelectionInput[] }
 ): Promise<CallToolResult> {
   return runTool(async () => {
+    checkQueryInput(args.tableId, args.selections);
     const metadata = await client.getMetadata(args.lang, args.tableId);
     const plan = planQuery(
       metadata,

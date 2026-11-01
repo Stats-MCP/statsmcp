@@ -3,6 +3,7 @@ import { z } from 'zod';
 import type { PxwebPreset } from '@/preset';
 import type { PxwebClient, TableSearchHit } from '@/pxweb-client';
 import { normalize, startsWord } from '@/text';
+import { checkSearchInput } from '@/tools/input-limits';
 import { toolInput } from '@/tools/tool-input';
 import { readAnnotations, runTool, textResult } from '@/tools/tool-result';
 
@@ -73,6 +74,7 @@ export function searchTables(
 ): Promise<CallToolResult> {
   const { query, lang, limit, includeArchived } = args;
   return runTool(async () => {
+    checkSearchInput(query);
     const hits = await searchWithAliases(
       client,
       preset,
