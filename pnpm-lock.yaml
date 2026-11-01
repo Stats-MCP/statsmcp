@@ -259,6 +259,9 @@ importers:
       statsmcp-eurostat:
         specifier: workspace:*
         version: link:../../packages/eurostat
+      statsmcp-statcan:
+        specifier: workspace:*
+        version: link:../../packages/statcan
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 'catalog:'

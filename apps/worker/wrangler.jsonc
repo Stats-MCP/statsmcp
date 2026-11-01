@@ -13,7 +13,8 @@
     { "pattern": "statsmcp.dev/se/mcp*", "zone_name": "statsmcp.dev" },
     { "pattern": "statsmcp.dev/dk/mcp*", "zone_name": "statsmcp.dev" },
     { "pattern": "statsmcp.dev/nl/mcp*", "zone_name": "statsmcp.dev" },
-    { "pattern": "statsmcp.dev/eu/mcp*", "zone_name": "statsmcp.dev" }
+    { "pattern": "statsmcp.dev/eu/mcp*", "zone_name": "statsmcp.dev" },
+    { "pattern": "statsmcp.dev/ca/mcp*", "zone_name": "statsmcp.dev" }
   ],
   "ratelimits": [
     {

@@ -20,7 +20,8 @@
     "scb-mcp": "workspace:*",
     "dst-mcp": "workspace:*",
     "cbs-mcp": "workspace:*",
-    "statsmcp-eurostat": "workspace:*"
+    "statsmcp-eurostat": "workspace:*",
+    "statsmcp-statcan": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:",
