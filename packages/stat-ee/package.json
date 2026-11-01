@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/stat-ee",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "MCP server for the database of Statistics Estonia (Statistikaamet)",
   "license": "MIT",
   "author": "Tadej Polajnar",

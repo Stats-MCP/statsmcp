@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/cbs",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "MCP server for StatLine, the database of Statistics Netherlands (CBS)",
   "license": "MIT",
   "author": "Tadej Polajnar",

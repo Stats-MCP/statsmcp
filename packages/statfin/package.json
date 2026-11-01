@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/statfin",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "MCP server for StatFin, the database of Statistics Finland (Tilastokeskus)",
   "license": "MIT",
   "author": "Tadej Polajnar",

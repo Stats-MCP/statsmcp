@@ -1,5 +1,13 @@
 # @statsmcp/core
 
+## 0.4.1
+
+### Patch Changes
+
+- [`d4c87e0`](https://github.com/Stats-MCP/statsmcp/commit/d4c87e067a46557722f1028cb888d6c954929a18) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Refuse oversized tool inputs, reject dot-only Eurostat codes, keep CBS paging on its own host and report CBS rate limits instead of 'not found'.
+
+- [`26eaec3`](https://github.com/Stats-MCP/statsmcp/commit/26eaec3392c6cb6910a287b3f6a8cdbfa4fc795d) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - `latest: N` now returns N periods for daily, weekly and irregular tables, and query_table refuses results above the cell or size limit.
+
 ## 0.4.0
 
 ### Minor Changes
