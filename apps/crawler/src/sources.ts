@@ -10,6 +10,7 @@ import { eurostatPreset } from 'statsmcp-eurostat';
 import { statcanPreset } from 'statsmcp-statcan';
 
 import type { CrawlSource } from '@/crawl';
+import { pxwebTreeSource } from '@/pxweb-tree';
 
 export function catalogueSource(
   preset: PxwebPreset,
@@ -34,12 +35,32 @@ export function catalogueSource(
   };
 }
 
-// Each source downloads its whole catalogue in one to a few requests. SCB allows
-// 30 calls per 10 s, so half is 1.5 per second; the others publish no limit.
+// Each catalogue source downloads its whole list in one to a few requests. SCB
+// allows 30 calls per 10 s, so half is 1.5 per second; the others publish no limit.
+// Tree sources need one call per folder. Croatia allows 10 calls per 10 s (half:
+// 0.5 per second). Iceland advertises 100 per 10 s but sent 429 at 2.7 per second.
 export const SOURCES: readonly CrawlSource[] = [
   catalogueSource(cbsPreset, 1),
   catalogueSource(dstPreset, 1),
   catalogueSource(eurostatPreset, 1),
   catalogueSource(scbPreset, 1.5),
-  catalogueSource(statcanPreset, 1)
+  catalogueSource(statcanPreset, 1),
+  pxwebTreeSource({
+    name: 'dzs',
+    roots: {
+      hr: 'https://web.dzs.hr/PXWeb/api/v1',
+      en: 'https://web.dzs.hr/PXWeb/api/v1'
+    },
+    skipDatabases: ['Popis poljoprivrede 2003'],
+    ratePerSecond: 0.5
+  }),
+  pxwebTreeSource({
+    name: 'statice',
+    roots: {
+      is: 'https://px.hagstofa.is/pxis/api/v1',
+      en: 'https://px.hagstofa.is/pxen/api/v1'
+    },
+    skipDatabases: ['Sogulegar'],
+    ratePerSecond: 1
+  })
 ];
