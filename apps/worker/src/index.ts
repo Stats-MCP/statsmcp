@@ -1,4 +1,5 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
+import { createDstServer, dstPreset } from 'dst-mcp';
 import { createHagstovaServer, hagstovaPreset } from 'hagstova-mcp';
 import { createMemoryCache, type Cache } from 'pxweb-mcp';
 import { createScbServer, scbPreset } from 'scb-mcp';
@@ -75,6 +76,16 @@ const SERVERS = new Map<string, HostedServer>([
         createScbServer({
           cache,
           userAgent: `scb-mcp-worker/${scbPreset.version}`
+        })
+    }
+  ],
+  [
+    '/dk/mcp',
+    {
+      create: (cache) =>
+        createDstServer({
+          cache,
+          userAgent: `dst-mcp-worker/${dstPreset.version}`
         })
     }
   ]

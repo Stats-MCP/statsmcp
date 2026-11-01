@@ -229,6 +229,9 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
         version: 2.4.0
+      dst-mcp:
+        specifier: workspace:*
+        version: link:../../packages/dst
       hagstova-mcp:
         specifier: workspace:*
         version: link:../../packages/hagstova

@@ -23,11 +23,11 @@ You need a Cloudflare account and the packages built (`pnpm build`).
 
 3. Connect a client to `https://<your-worker>/si/mcp`.
 
-The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sends `statsmcp.dev/si/mcp*`, `statsmcp.dev/no/mcp*`, `statsmcp.dev/ee/mcp*`, `statsmcp.dev/fo/mcp*`, `statsmcp.dev/fi/mcp*` and `statsmcp.dev/se/mcp*` to the Worker with a Workers route. The website on `statsmcp.dev` is a separate project. To use your own domain, change the route, or remove it and use the `workers.dev` URL.
+The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sends `statsmcp.dev/si/mcp*`, `statsmcp.dev/no/mcp*`, `statsmcp.dev/ee/mcp*`, `statsmcp.dev/fo/mcp*`, `statsmcp.dev/fi/mcp*`, `statsmcp.dev/se/mcp*` and `statsmcp.dev/dk/mcp*` to the Worker with a Workers route. The website on `statsmcp.dev` is a separate project. To use your own domain, change the route, or remove it and use the `workers.dev` URL.
 
 ### What the Worker does
 
-- Each server has its own path. `/si/mcp` is the SiStat endpoint, `/no/mcp` is the Statbank Norway endpoint, `/ee/mcp` is the Statistics Estonia endpoint, `/fo/mcp` is the Statistics Faroe Islands endpoint, `/fi/mcp` is the Statistics Finland endpoint and `/se/mcp` is the Statistics Sweden endpoint. They need no authentication.
+- Each server has its own path. `/si/mcp` is the SiStat endpoint, `/no/mcp` is the Statbank Norway endpoint, `/ee/mcp` is the Statistics Estonia endpoint, `/fo/mcp` is the Statistics Faroe Islands endpoint, `/fi/mcp` is the Statistics Finland endpoint, `/se/mcp` is the Statistics Sweden endpoint and `/dk/mcp` is the Statistics Denmark endpoint. They need no authentication.
 - Each new country adds one route line, `statsmcp.dev/<id>/mcp*`, next to its entry in `SERVERS`.
 - Each IP address can send 60 POST requests per minute. The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sets this limit. If the rate limiter fails, the Worker lets the request through.
 - CORS allows all origins, so browser-based clients can connect.
@@ -58,4 +58,4 @@ pnpm build
 pnpm dev:worker
 ```
 
-The SiStat endpoint is `http://127.0.0.1:8787/si/mcp`, the Statbank Norway endpoint is `http://127.0.0.1:8787/no/mcp`, the Statistics Estonia endpoint is `http://127.0.0.1:8787/ee/mcp`, the Statistics Faroe Islands endpoint is `http://127.0.0.1:8787/fo/mcp`, the Statistics Finland endpoint is `http://127.0.0.1:8787/fi/mcp`, and the Statistics Sweden endpoint is `http://127.0.0.1:8787/se/mcp`.
+The SiStat endpoint is `http://127.0.0.1:8787/si/mcp`, the Statbank Norway endpoint is `http://127.0.0.1:8787/no/mcp`, the Statistics Estonia endpoint is `http://127.0.0.1:8787/ee/mcp`, the Statistics Faroe Islands endpoint is `http://127.0.0.1:8787/fo/mcp`, the Statistics Finland endpoint is `http://127.0.0.1:8787/fi/mcp`, the Statistics Sweden endpoint is `http://127.0.0.1:8787/se/mcp`, and the Statistics Denmark endpoint is `http://127.0.0.1:8787/dk/mcp`.

@@ -17,7 +17,8 @@
     "stat-ee-mcp": "workspace:*",
     "hagstova-mcp": "workspace:*",
     "statfin-mcp": "workspace:*",
-    "scb-mcp": "workspace:*"
+    "scb-mcp": "workspace:*",
+    "dst-mcp": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:",
