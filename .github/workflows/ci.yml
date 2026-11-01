@@ -55,7 +55,7 @@ jobs:
       - name: Install the packed packages
         run: |
           npm init -y > /dev/null
-          npm install --no-audit --no-fund pack/*.tgz
+          npm install --no-audit --no-fund ./pack/*.tgz
       - name: Start sistat-mcp and list its tools
         run: |
           {
