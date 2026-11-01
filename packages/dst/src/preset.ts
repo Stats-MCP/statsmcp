@@ -11,7 +11,7 @@ const ATTRIBUTION = {
 export const dstPreset: PxwebPreset = {
   name: 'dst',
   title: 'StatBank Denmark (Statistics Denmark official statistics)',
-  version: '0.3.0',
+  version: '0.4.0',
   apiBaseUrl: 'https://api.statbank.dk/v1',
   api: 'statbank-dk',
   languages: ['da', 'en'],

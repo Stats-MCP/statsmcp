@@ -12,7 +12,7 @@ const ATTRIBUTION = {
 export const statfinPreset: PxwebPreset = {
   name: 'statfin',
   title: 'StatFin (Statistics Finland official statistics)',
-  version: '0.3.0',
+  version: '0.4.0',
   apiBaseUrl: 'https://pxdata.stat.fi/PXWeb/api/v1',
   database: 'StatFin',
   languages: ['fi', 'sv', 'en'],

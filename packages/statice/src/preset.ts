@@ -10,7 +10,7 @@ const ATTRIBUTION = {
 export const staticePreset: PxwebPreset = {
   name: 'statice',
   title: 'PX-Web database of Statistics Iceland (official statistics)',
-  version: '0.3.0',
+  version: '0.4.0',
   apiBaseUrl: {
     en: 'https://px.hagstofa.is/pxen/api/v1',
     is: 'https://px.hagstofa.is/pxis/api/v1'

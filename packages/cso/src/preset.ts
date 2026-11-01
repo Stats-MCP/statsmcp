@@ -9,7 +9,7 @@ export const csoPreset: PxwebPreset = {
   name: 'cso',
   title:
     'PxStat database of the Central Statistics Office, Ireland (official statistics)',
-  version: '0.3.0',
+  version: '0.4.0',
   apiBaseUrl: 'https://ws.cso.ie/public',
   api: 'cso-pxstat',
   languages: ['en'],

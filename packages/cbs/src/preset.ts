@@ -11,7 +11,7 @@ const ATTRIBUTION = {
 export const cbsPreset: PxwebPreset = {
   name: 'cbs',
   title: 'StatLine (Statistics Netherlands official statistics)',
-  version: '0.3.0',
+  version: '0.4.0',
   apiBaseUrl: 'https://opendata.cbs.nl',
   api: 'cbs-odata',
   languages: ['nl', 'en'],

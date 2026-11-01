@@ -8,7 +8,7 @@ const ATTRIBUTION = `Source: Australian Bureau of Statistics (ABS), ${LICENCE}`;
 export const absPreset: PxwebPreset = {
   name: 'abs',
   title: 'Australian Bureau of Statistics data (official statistics)',
-  version: '0.3.0',
+  version: '0.4.0',
   apiBaseUrl: 'https://data.api.abs.gov.au/rest',
   api: 'sdmx',
   sdmxAgency: 'ABS',

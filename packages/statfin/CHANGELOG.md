@@ -1,5 +1,12 @@
 # @statsmcp/statfin
 
+## 0.4.0
+
+### Patch Changes
+
+- Updated dependencies [[`540f1e6`](https://github.com/Stats-MCP/statsmcp/commit/540f1e6c862948c2166b1d5f5a0100ca6dc4a84e), [`f353e63`](https://github.com/Stats-MCP/statsmcp/commit/f353e63c0f8bf9ab920739f4c6b900b96c406150), [`5fb591e`](https://github.com/Stats-MCP/statsmcp/commit/5fb591e9d6e0b58a93bb8a2bf14f20f5539c5803)]:
+  - @statsmcp/core@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes

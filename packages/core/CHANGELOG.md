@@ -1,5 +1,17 @@
 # @statsmcp/core
 
+## 0.4.0
+
+### Minor Changes
+
+- [`540f1e6`](https://github.com/Stats-MCP/statsmcp/commit/540f1e6c862948c2166b1d5f5a0100ca6dc4a84e) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Add `createMultiServer`: one MCP server for many offices, with a required `country` argument on the data tools and a `list_countries` tool.
+
+### Patch Changes
+
+- [`f353e63`](https://github.com/Stats-MCP/statsmcp/commit/f353e63c0f8bf9ab920739f4c6b900b96c406150) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Server instructions now tell the model to call `search_tables` first, unless the user gives a table id, and to use only table ids from search results or from the user.
+
+- [`5fb591e`](https://github.com/Stats-MCP/statsmcp/commit/5fb591e9d6e0b58a93bb8a2bf14f20f5539c5803) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Make the tool list smaller: leave the `$schema` URI out of tool input schemas and shorten the all-countries instructions and argument descriptions (about 270 fewer tokens for `/mcp`, 78 for one office).
+
 ## 0.3.0
 
 ### Minor Changes
