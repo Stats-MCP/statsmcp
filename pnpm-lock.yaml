@@ -256,6 +256,9 @@ importers:
       statfin-mcp:
         specifier: workspace:*
         version: link:../../packages/statfin
+      statsmcp-eurostat:
+        specifier: workspace:*
+        version: link:../../packages/eurostat
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 'catalog:'
