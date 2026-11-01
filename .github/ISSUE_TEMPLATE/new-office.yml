@@ -1,0 +1,43 @@
+name: New statistics office
+description: Ask us to add a national statistics office.
+title: 'New office: '
+labels: ['new-office']
+body:
+  - type: input
+    id: office
+    attributes:
+      label: Office name
+    validations:
+      required: true
+  - type: input
+    id: country
+    attributes:
+      label: Country
+    validations:
+      required: true
+  - type: input
+    id: api-url
+    attributes:
+      label: API URL
+      description: The base URL of the statistics API.
+    validations:
+      required: true
+  - type: dropdown
+    id: api-type
+    attributes:
+      label: API type
+      options:
+        - PxWeb v1
+        - PxWeb v2
+        - SDMX
+        - OData
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: licence-url
+    attributes:
+      label: Licence or terms of use URL
+      description: Say if the terms allow commercial use.
+    validations:
+      required: true

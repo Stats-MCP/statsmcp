@@ -1,7 +1,7 @@
 {
   "name": "@statsmcp/core",
   "version": "0.4.0",
-  "description": "MCP server toolkit for PxWeb API v1 statistics databases",
+  "description": "MCP server toolkit for statistics APIs: PxWeb v1 and v2, StatBank Denmark, CBS OData, PxStat, SDMX, Eurostat, Statistics Canada and SingStat",
   "license": "MIT",
   "author": "Tadej Polajnar",
   "homepage": "https://statsmcp.dev/",

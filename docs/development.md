@@ -1,6 +1,6 @@
 # Development
 
-You need Node.js 24 and pnpm 12. The published packages work on Node.js 20 or later.
+You need Node.js 24.21 or later (see `.nvmrc`) and pnpm 12. Enable pnpm with `corepack enable`. The published packages work on Node.js 20 or later.
 
 ## Repository layout
 

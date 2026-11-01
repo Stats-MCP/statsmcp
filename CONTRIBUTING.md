@@ -4,7 +4,7 @@ Thank you for your help. This document tells you how to set up the project and s
 
 ## Set up
 
-You need Node.js 24 and pnpm 12.
+You need Node.js 24.21 or later (see `.nvmrc`). Enable pnpm with `corepack enable`.
 
 ```sh
 pnpm install
@@ -54,8 +54,21 @@ These rules are conventions:
 
 ## Add a statistics office
 
-To add a PxWeb instance, first read the terms of use of that office. If the terms do not allow commercial use, tell us in the pull request. We do not put these instances on the hosted endpoint.
+First read the terms of use of the office. If the terms do not allow commercial use, tell us in the pull request. We do not put these offices on the hosted endpoint.
+
+Then do these steps. Use `packages/cso` as a model.
+
+1. Make `packages/<office>/`. Copy `package.json`, `src/preset.ts`, `src/preset.test.ts`, `src/bin.ts`, `src/index.ts`, `README.md` and `LICENSE` from `packages/cso`.
+2. Add the package to the `fixed` list in `.changeset/config.json`.
+3. Add the directory name to the list in `scripts/sync-versions.mjs`.
+4. Add the office to `COUNTRIES` in `apps/worker/src/index.ts`. Add the package to `dependencies` in `apps/worker/package.json`.
+5. Add a route to `apps/worker/wrangler.jsonc`.
+6. Add the office to the "Databases" table and to the table of endpoint codes in `README.md`.
+7. Add the package to the layout table in `docs/development.md`.
+8. Add a section to `docs/data-licence.md`.
+9. If the office needs a crawled list of tables, add a source in `apps/crawler/src/sources.ts`.
+10. Run `pnpm changeset` and add the changeset file.
 
 ## Releases
 
-The maintainer releases the packages. The Release workflow opens a version pull request from the changesets. When this pull request is merged, the workflow publishes the packages to npm with provenance.
+The maintainer releases the packages by hand at this time. The changesets in merged pull requests ship in the next release. Refer to [docs/releasing.md](docs/releasing.md).
