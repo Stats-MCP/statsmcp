@@ -36,6 +36,13 @@ export {
 } from '@/query-plan';
 export { searchTitles } from '@/title-search';
 export {
+  createTableIndex,
+  type TableDoc,
+  type TableIndex,
+  type TableIndexOptions,
+  type TableIndexSearchOptions
+} from '@/table-index';
+export {
   createSingstatClient,
   type SingstatClientOptions
 } from '@/singstat-client';

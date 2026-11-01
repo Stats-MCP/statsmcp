@@ -5,28 +5,27 @@ import { meanScores, scoreQuery, type QueryScores } from '@eval/metrics';
 import { afterAll, describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import type { TableSearchHit } from '@/pxweb-client';
-import { rankSearchHits } from '@/search-ranking';
-import { searchTitles } from '@/title-search';
+import { createTableIndex } from '@/table-index';
 
 const CURRENT_YEAR = 2026;
 
-/** The engine under test: today's word-start search plus the shared ranking. */
+/** The engine under test: the BM25 table index over the fixture catalogue. */
 function search(
   docs: readonly EvalDoc[],
   query: string,
   lang: string
 ): string[] {
-  const hits: TableSearchHit[] = docs.map((doc) => ({
-    tableId: doc.id,
-    title: doc.title,
-    published: doc.updated,
-    ...(doc.discontinued ? { archived: true as const } : {})
-  }));
-  return rankSearchHits(searchTitles(hits, query, lang), CURRENT_YEAR).map(
-    (hit) => hit.tableId
-  );
+  const index =
+    indexes.get(docs) ??
+    createTableIndex(docs, lang, { currentYear: CURRENT_YEAR });
+  indexes.set(docs, index);
+  return index.search(query).map((hit) => hit.tableId);
 }
+
+const indexes = new WeakMap<
+  readonly EvalDoc[],
+  ReturnType<typeof createTableIndex>
+>();
 
 const scoresSchema = z.object({
   mrr: z.number(),

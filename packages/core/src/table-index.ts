@@ -1,0 +1,267 @@
+import MiniSearch from 'minisearch';
+
+import type { TableSearchHit } from '@/pxweb-client';
+import { isHistorical, rankSearchHits } from '@/search-ranking';
+import { normalize } from '@/text';
+import { searchTitles } from '@/title-search';
+
+/** One table in a source's catalogue, in the shape the index stores. */
+export interface TableDoc {
+  id: string;
+  title: string;
+  /** Subject folders from the top, for example ["Economy", "Prices"]. */
+  path?: readonly string[];
+  /** ISO date of the last data update. */
+  updated?: string;
+  /** Last period with data, for example "2026M09", "2026-Q3" or "2025". */
+  lastPeriod?: string;
+  discontinued?: boolean;
+}
+
+export interface TableIndexSearchOptions {
+  /** Also return discontinued tables; by default they are left out. */
+  includeArchived?: boolean;
+}
+
+export interface TableIndex {
+  readonly size: number;
+  search(query: string, options?: TableIndexSearchOptions): TableSearchHit[];
+}
+
+export interface TableIndexOptions {
+  /**
+   * Year for the recency and current-data boosts, fixed when the index is built;
+   * defaults to the current UTC year. Rebuild the index when the catalogue refreshes.
+   */
+  currentYear?: number;
+}
+
+/** Norwegian written standards share one stop-word list. */
+const LANGUAGE_FAMILY: Readonly<Record<string, string>> = {
+  nb: 'no',
+  nn: 'no'
+};
+
+const FIELD_BOOST = { title: 3, path: 1 };
+const PREFIX_MIN_LENGTH = 4;
+const FUZZY_MIN_LENGTH = 6;
+const FUZZY_DISTANCE = 0.2;
+const MIN_TERM_LENGTH = 2;
+const RECENCY_WEIGHT = 0.15;
+const RECENCY_YEARS = 4;
+const CLOSED_FACTOR = 0.5;
+/** BM25 length normalisation; the MiniSearch default, kept after the golden-set evaluation. */
+const LENGTH_NORMALIZATION = 0.75;
+const CURRENT_DATA_BOOST = 0.3;
+/** Rank constant of reciprocal rank fusion; small values trust the top ranks more. */
+const FUSION_K = 10;
+
+/** Short function words that would otherwise match almost every title. */
+/** Function words of two or more letters (shorter words are never indexed). */
+const STOP_WORDS: Readonly<Record<string, readonly string[]>> = {
+  en: [
+    'an',
+    'and',
+    'at',
+    'by',
+    'for',
+    'from',
+    'in',
+    'of',
+    'on',
+    'or',
+    'per',
+    'the',
+    'to',
+    'with'
+  ],
+  da: ['af', 'den', 'det', 'efter', 'for', 'fordelt', 'med', 'og', 'pa', 'til'],
+  de: [
+    'das',
+    'der',
+    'die',
+    'fur',
+    'im',
+    'in',
+    'je',
+    'mit',
+    'nach',
+    'und',
+    'von'
+  ],
+  et: ['ja', 'ning'],
+  fi: ['ja'],
+  fo: ['og'],
+  fr: [
+    'au',
+    'aux',
+    'de',
+    'des',
+    'du',
+    'en',
+    'et',
+    'la',
+    'le',
+    'les',
+    'par',
+    'pour',
+    'un',
+    'une'
+  ],
+  nl: [
+    'de',
+    'een',
+    'en',
+    'het',
+    'in',
+    'met',
+    'naar',
+    'op',
+    'per',
+    'van',
+    'voor'
+  ],
+  no: ['av', 'etter', 'for', 'med', 'og', 'pa', 'til'],
+  sl: ['in', 'na', 'po', 'ter', 'za'],
+  sv: ['av', 'efter', 'for', 'med', 'och', 'pa', 'till']
+};
+
+function extractField(doc: TableDoc, field: string): string {
+  if (field === 'path') return (doc.path ?? []).join(' ');
+  if (field === 'id') return doc.id;
+  return doc.title;
+}
+
+function recency(updated: string | undefined, currentYear: number): number {
+  const year = Number(updated?.slice(0, 4));
+  if (!Number.isFinite(year)) return 0;
+  return Math.max(
+    0,
+    Math.min(1, (RECENCY_YEARS - (currentYear - year)) / RECENCY_YEARS)
+  );
+}
+
+/**
+ * Reciprocal rank fusion (Cormack et al. 2009): each list adds 1 / (k + rank),
+ * so a table that ranks well in both lists comes first.
+ */
+function fuseRankings(lists: readonly string[][], k: number): string[] {
+  const scores = new Map<string, number>();
+  for (const list of lists) {
+    list.forEach((id, rank) => {
+      scores.set(id, (scores.get(id) ?? 0) + 1 / (k + rank + 1));
+    });
+  }
+  return [...scores.entries()]
+    .toSorted((a, b) => b[1] - a[1])
+    .map(([id]) => id);
+}
+
+/** True when the last period lies in the current or the previous year. */
+function hasCurrentData(
+  lastPeriod: string | undefined,
+  currentYear: number
+): boolean {
+  const year = Number(/(\d{4})/.exec(lastPeriod ?? '')?.[1]);
+  return Number.isFinite(year) && year >= currentYear - 1;
+}
+
+/**
+ * Keyword search over a source's table catalogue, for APIs whose own search is
+ * missing, broken or weak. It fuses two rankings: BM25 over titles (three times)
+ * and subject folders, and word-start matches in the office's own catalogue order,
+ * where offices list their main tables first.
+ */
+export function createTableIndex(
+  docs: readonly TableDoc[],
+  lang: string,
+  options: TableIndexOptions = {}
+): TableIndex {
+  const currentYear = options.currentYear ?? new Date().getUTCFullYear();
+  const stopWords = new Set(STOP_WORDS[LANGUAGE_FAMILY[lang] ?? lang] ?? []);
+  const processTerm = (term: string): string | null => {
+    const value = normalize(term, lang);
+    return value.length < MIN_TERM_LENGTH || stopWords.has(value)
+      ? null
+      : value;
+  };
+  const byId = new Map(docs.map((doc) => [doc.id, doc]));
+  const byNormalizedId = new Map(
+    docs.map((doc) => [normalize(doc.id, lang), doc])
+  );
+  const factor = new Map(
+    docs.map((doc) => {
+      const closed = doc.discontinued || isHistorical(doc.title, currentYear);
+      const current = hasCurrentData(doc.lastPeriod, currentYear);
+      const boost =
+        (closed ? CLOSED_FACTOR : 1) *
+        (1 + RECENCY_WEIGHT * recency(doc.updated, currentYear)) *
+        (current ? 1 + CURRENT_DATA_BOOST : 1);
+      return [doc.id, boost];
+    })
+  );
+  const index = new MiniSearch<TableDoc>({
+    idField: 'id',
+    fields: ['title', 'path'],
+    extractField,
+    processTerm
+  });
+  index.addAll([...byId.values()]);
+
+  const base = {
+    boost: FIELD_BOOST,
+    prefix: (term: string) => term.length >= PREFIX_MIN_LENGTH,
+    boostDocument: (id: string) => factor.get(id) ?? 1,
+    bm25: { k: 1.2, b: LENGTH_NORMALIZATION, d: 0.5 }
+  };
+
+  const hits = [...byId.values()].map(toHit);
+
+  function toHit(doc: TableDoc): TableSearchHit {
+    return {
+      tableId: doc.id,
+      title: doc.title,
+      published: doc.updated,
+      ...(doc.discontinued ? { archived: true as const } : {})
+    };
+  }
+
+  return {
+    size: byId.size,
+    search(query, searchOptions = {}) {
+      const exact = byNormalizedId.get(normalize(query.trim(), lang));
+      let ids = [
+        ...index.search(query, { ...base, combineWith: 'AND' }),
+        ...index.search(query, { ...base, combineWith: 'OR' })
+      ].map((result) => String(result.id));
+      if (ids.length === 0) {
+        ids = index
+          .search(query, {
+            ...base,
+            combineWith: 'OR',
+            fuzzy: (term: string) =>
+              term.length >= FUZZY_MIN_LENGTH ? FUZZY_DISTANCE : false
+          })
+          .map((result) => String(result.id));
+      }
+      const visible = (id: string) =>
+        searchOptions.includeArchived || !byId.get(id)?.discontinued;
+      const bm25 = [...new Set(ids)].filter(visible);
+      const keywords = query
+        .split(/[^\p{L}\p{N}]+/u)
+        .filter((term) => processTerm(term) !== null)
+        .join(' ');
+      const catalogue = rankSearchHits(
+        searchTitles(hits, keywords, lang),
+        currentYear
+      )
+        .map((hit) => hit.tableId)
+        .filter(visible);
+      const fused = fuseRankings([bm25, catalogue], FUSION_K);
+      return [...new Set([...(exact ? [exact.id] : []), ...fused])]
+        .map((id) => byId.get(id))
+        .filter((doc): doc is TableDoc => doc !== undefined)
+        .map(toHit);
+    }
+  };
+}

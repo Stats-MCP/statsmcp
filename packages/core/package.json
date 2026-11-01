@@ -43,6 +43,7 @@
     "eval:fixtures": "node eval/build-fixtures.mjs"
   },
   "dependencies": {
+    "minisearch": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
