@@ -76,6 +76,11 @@ export {
 } from '@/eurostat-client';
 export { createSdmxClient, type SdmxClientOptions } from '@/sdmx-client';
 export {
+  createMultiServer,
+  type MultiServerEntry,
+  type MultiServerOptions
+} from '@/create-multi-server';
+export {
   createCbsODataClient,
   type CbsODataClientOptions
 } from '@/cbs-odata-client';
