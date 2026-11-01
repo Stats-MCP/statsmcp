@@ -30,64 +30,33 @@ There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Swe
 
 **Hosted (no install)**
 
-Add `https://statsmcp.dev/si/mcp` as a remote MCP server. It uses Streamable HTTP and needs no authentication.
+Add `https://statsmcp.dev/mcp` as a remote MCP server. It uses Streamable HTTP and needs no authentication. One connection gives the assistant every office below; each data tool takes a `country` argument.
+
+```sh
+claude mcp add --transport http statsmcp https://statsmcp.dev/mcp
+```
+
+To connect to only one office, use its own endpoint, `https://statsmcp.dev/<code>/mcp`:
+
+| Code | Office                                         |
+| ---- | ---------------------------------------------- |
+| `si` | Statistical Office of the Republic of Slovenia |
+| `no` | Statistics Norway                              |
+| `ee` | Statistics Estonia                             |
+| `fo` | Statistics Faroe Islands                       |
+| `fi` | Statistics Finland                             |
+| `se` | Statistics Sweden                              |
+| `dk` | Statistics Denmark                             |
+| `nl` | Statistics Netherlands (CBS)                   |
+| `is` | Statistics Iceland                             |
+| `hr` | Croatian Bureau of Statistics                  |
+| `ie` | Central Statistics Office (Ireland)            |
+| `ca` | Statistics Canada                              |
+| `au` | Australian Bureau of Statistics                |
+| `eu` | Eurostat                                       |
 
 ```sh
 claude mcp add --transport http statsmcp-si https://statsmcp.dev/si/mcp
-```
-
-For Norway:
-
-```sh
-claude mcp add --transport http statsmcp-no https://statsmcp.dev/no/mcp
-```
-
-For Estonia:
-
-```sh
-claude mcp add --transport http statsmcp-ee https://statsmcp.dev/ee/mcp
-```
-
-For the Faroe Islands:
-
-```sh
-claude mcp add --transport http statsmcp-fo https://statsmcp.dev/fo/mcp
-```
-
-For Finland:
-
-```sh
-claude mcp add --transport http statsmcp-fi https://statsmcp.dev/fi/mcp
-```
-
-For Sweden:
-
-```sh
-claude mcp add --transport http statsmcp-se https://statsmcp.dev/se/mcp
-```
-
-For Denmark:
-
-```sh
-claude mcp add --transport http statsmcp-dk https://statsmcp.dev/dk/mcp
-```
-
-For the Netherlands:
-
-```sh
-claude mcp add --transport http statsmcp-nl https://statsmcp.dev/nl/mcp
-```
-
-For Eurostat (all EU and EFTA countries):
-
-```sh
-claude mcp add --transport http statsmcp-eu https://statsmcp.dev/eu/mcp
-```
-
-For Canada:
-
-```sh
-claude mcp add --transport http statsmcp-ca https://statsmcp.dev/ca/mcp
 ```
 
 For Claude, ChatGPT, Cursor and VS Code, the steps are on [statsmcp.dev](https://statsmcp.dev).

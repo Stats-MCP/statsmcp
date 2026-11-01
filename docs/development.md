@@ -73,6 +73,17 @@ npx @modelcontextprotocol/inspector node packages/sistat/dist/bin.mjs
 
 To make a server for a different PxWeb instance, refer to the [`@statsmcp/core` README](../packages/core/README.md). Read [data-licence.md](data-licence.md) first.
 
+## Secrets and variables for GitHub Actions
+
+CI (`ci.yml`) needs no secrets, so pull requests from forks work.
+
+| Name                    | Kind     | Used by       | Purpose                                                                            |
+| ----------------------- | -------- | ------------- | ---------------------------------------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | secret   | `crawl.yml`   | Upload the table indexes to R2.                                                    |
+| `CLOUDFLARE_ACCOUNT_ID` | secret   | `crawl.yml`   | The Cloudflare account of the R2 bucket.                                           |
+| `NPM_TOKEN`             | secret   | `release.yml` | Publish to npm, until trusted publishing is set up. See [releasing](releasing.md). |
+| `RELEASE_ENABLED`       | variable | `release.yml` | Set it to `true` to let pushes to `main` publish releases.                         |
+
 ## Contribute
 
 Refer to [CONTRIBUTING.md](../CONTRIBUTING.md).

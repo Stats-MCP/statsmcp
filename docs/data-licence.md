@@ -136,6 +136,46 @@ If you change the data or make a new product from it, write "Adapted from Statis
 
 This project is not affiliated with or endorsed by Statistics Canada.
 
+## Statistics Iceland
+
+Statistics Iceland publishes its data under [CC BY 4.0](https://statice.is/publications/open-data-access). You can use it for any purpose, also commercially, if you credit Statistics Iceland.
+
+The server adds the source and the licence to every result:
+
+- `Heimild: Hagstofa Íslands, CC BY 4.0 (https://statice.is/publications/open-data-access)` (Icelandic)
+- `Source: Statistics Iceland, CC BY 4.0 (https://statice.is/publications/open-data-access)` (English)
+
+If you change the data or calculate new figures, say so, for example "Statistics Iceland and own calculations".
+
+This project is not affiliated with or endorsed by Statistics Iceland.
+
+## Croatian Bureau of Statistics
+
+The Croatian Bureau of Statistics publishes its data under the [Open Licence of the Republic of Croatia](https://web.dzs.hr/Hrv/about_us/Legals/Open%20Licence.pdf). The licence asks for the source, the date of the last update and a link to the table.
+
+The server adds the source and the licence to every result, with a link to the table. `search_tables` shows the date of the last update.
+
+- `Izvor: Državni zavod za statistiku. Contains public sector information licensed under the Open Data Licence (…)` (Croatian)
+- `Source: Croatian Bureau of Statistics. Contains public sector information licensed under the Open Data Licence (…)` (English)
+
+This project is not affiliated with or endorsed by the Croatian Bureau of Statistics.
+
+## Central Statistics Office (Ireland)
+
+The CSO publishes its statistics under [CC BY 4.0](https://www.cso.ie/en/aboutus/whoweare/copyrightpolicy/). You can use them for any purpose, also commercially, if you credit the CSO.
+
+The server adds `Source: Central Statistics Office, Ireland, CC BY 4.0 (https://www.cso.ie/en/aboutus/whoweare/copyrightpolicy/)` to every result, with a link to the table.
+
+This project is not affiliated with or endorsed by the Central Statistics Office.
+
+## Australian Bureau of Statistics
+
+Most ABS material is under [CC BY 4.0](https://www.abs.gov.au/website-privacy-copyright-and-disclaimer#copyright-and-creative-commons) and must be attributed to the ABS.
+
+The server adds `Source: Australian Bureau of Statistics (ABS), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)` to every result, with a link to the dataflow. If you calculate new figures, say they are your own calculation based on ABS data.
+
+This project is not affiliated with or endorsed by the Australian Bureau of Statistics.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.
