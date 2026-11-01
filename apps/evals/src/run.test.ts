@@ -12,10 +12,10 @@ import {
 } from '@/recorder';
 import { passRate, SCORER_NAMES, scoreCase, type Score } from '@/scorers';
 import { manifest, PRESETS } from '@/servers';
-import { PROVIDERS, runCase, type ProviderId } from '@/task';
+import { PROVIDER_IDS, PROVIDERS, runCase, type ProviderId } from '@/task';
 
 const provider: ProviderId =
-  process.env.EVAL_PROVIDER === 'openrouter' ? 'openrouter' : 'openai';
+  PROVIDER_IDS.find((id) => id === process.env.EVAL_PROVIDER) ?? 'anthropic';
 /** Recordings and floors are per model; change the default together with both. */
 const model = process.env.EVAL_MODEL ?? PROVIDERS[provider].model;
 const mode: EvalMode = process.env.EVAL_MODE === 'record' ? 'record' : 'replay';

@@ -2,6 +2,7 @@ packages:
   - apps/*
   - packages/*
 catalog:
+  '@ai-sdk/anthropic': 4.0.82
   '@ai-sdk/openai': 4.0.96
   '@changesets/changelog-github': 1.0.1
   '@changesets/cli': 3.0.3

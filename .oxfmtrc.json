@@ -8,7 +8,12 @@
   "useTabs": false,
   "trailingComma": "none",
   "sortPackageJson": false,
-  "ignorePatterns": ["**/dist/**", "**/.wrangler/**", "**/*.d.ts"],
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/.wrangler/**",
+    "**/*.d.ts",
+    "apps/evals/recordings/**"
+  ],
   "sortImports": {
     "customGroups": [
       {

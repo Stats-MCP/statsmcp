@@ -1,0 +1,154 @@
+{
+  "model": "claude-opus-5-5",
+  "requestBody": {
+    "model": "claude-opus-5-5",
+    "max_tokens": 128000,
+    "system": [
+      {
+        "type": "text",
+        "text": "Official statistics for Iceland from the PX-Web database of Statistics Iceland (Hagstofa Íslands). This server is not affiliated with or endorsed by Statistics Iceland.\n\nTo answer a question with data:\n1. Call `search_tables` with short topic keywords in English (\"en\") or Icelandic (\"is\"). The English and Icelandic table lists are not the same, so use a table id only in the language that returned it. You can also search for a table number such as MAN00101 if no other table has the same number.\n2. Call `get_table_metadata` on the best table to see its variables and value codes. Use `valueFilter` to find a municipality or industry by name.\n3. Call `query_table` with only the values you need. Use `latest` for recent periods.\n\nAlways cite the source line that each result ends with. If you change the data or calculate new figures, say so, for example \"Statistics Iceland and own calculations\"."
+      }
+    ],
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "Hver eru meðallaun á Íslandi?"
+          }
+        ]
+      }
+    ],
+    "tools": [
+      {
+        "name": "search_tables",
+        "description": "Find tables by keywords in their titles. Returns table ids, titles and publish dates, best match first. Search with short topic words, for example \"unemployment municipalities\", not full questions.",
+        "input_schema": {
+          "type": "object",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Keywords to search for."
+            },
+            "lang": {
+              "description": "Language of titles. Default \"en\".",
+              "type": "string",
+              "enum": [
+                "en",
+                "is"
+              ]
+            },
+            "limit": {
+              "description": "Maximum results. Default 10.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            },
+            "includeArchived": {
+              "description": "Also list discontinued tables, for older periods. Default false.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      },
+      {
+        "name": "get_table_metadata",
+        "description": "List the variables of a table and their value codes. Call this before query_table. Long value lists are shortened; use valueFilter to find specific values, for example a municipality name.",
+        "input_schema": {
+          "type": "object",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "properties": {
+            "tableId": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Table id exactly as search_tables returns it."
+            },
+            "lang": {
+              "description": "Language of labels. Default \"en\".",
+              "type": "string",
+              "enum": [
+                "en",
+                "is"
+              ]
+            },
+            "valueFilter": {
+              "description": "Show only values whose label contains this text, for example \"Ljubljana\".",
+              "type": "string"
+            }
+          },
+          "required": [
+            "tableId"
+          ]
+        }
+      },
+      {
+        "name": "query_table",
+        "description": "Get data from a table as CSV with readable labels. For each variable, give value codes from get_table_metadata, or \"latest\" for the most recent N periods. Results above 5000 cells, or too large for the context, are refused with advice on how to narrow the query.",
+        "input_schema": {
+          "type": "object",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "properties": {
+            "tableId": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Table id exactly as search_tables returns it."
+            },
+            "lang": {
+              "description": "Language of labels. Default \"en\".",
+              "type": "string",
+              "enum": [
+                "en",
+                "is"
+              ]
+            },
+            "selections": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "Variable code from get_table_metadata."
+                  },
+                  "values": {
+                    "description": "Value codes to include.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "latest": {
+                    "description": "Include only the last N values. Use it for time variables, for example the latest 4 quarters.",
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "code"
+                ]
+              },
+              "description": "One entry per variable to filter. Leave out variables you do not need."
+            }
+          },
+          "required": [
+            "tableId",
+            "selections"
+          ]
+        }
+      }
+    ],
+    "tool_choice": {
+      "type": "auto"
+    }
+  },
+  "status": 200,
+  "contentType": "application/json",
+  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011CgcBRtMysrLVvYqHy3ww2\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"thinking\",\"thinking\":\"\",\"signature\":\"CAQSnAUKEAgTGAI4AUIIdGhpbmtpbmcSDJz0smvAEHnT0k3E7hoMqLNDMmfOnGnv/CKiIjDtQ1wVEEFiOHIRLDUms3UU13bdivQgfajKVqhHq/CO3jKkpN/0/35s89UTUevo8R0quQRzZtKE1ETKUMm9/cp37SsubGB1bnNquNVw+ykQwnIYfcW/Co/GBrzhGk60bIUWfZKjRtJJ87uAoDXhS2NXKexIvis2LNb2jNqmUVkFh3OOLXkUa+IbmKNW3Q9BJpFkGMqbQXVDqiVg+Rluc5HWs5K9zRvd86rvNYpVwKlsDqPmDsEwtDkMyv2o2fnw6PIZR4AWmDUFX2TkjdRuhbStJIC+CI3/xZkD1PaX7tOFxOqQc8LNlDxGWUsImon/bwN4yRF3UqUbPl8R/nqwnowmey/m07Tw1/WdLLfmihNXRFEh0OCOqg+sr8TmfmFA1rkKjcwB5sQuXoEq367K+OfBgy4Txip/VJmDIuID2Q8PXP4i/JIq3Ip8Rwwlnq+VhtBU95hgwArUIOjvculTNXpDK7yLPTBBuKtKU5QdocTqJsYF6c5dLMpIZ8fVQCNDVpAjg8XvVVGY14DNkrF059quDcCykiw18OBIBP29UhGdnUrSgRYKD3PBpIPNXHatMAiPDWMQbdS/Vd5gL9paSYqdCckv6PqNkeQW3oJBNBf/VpBwIp5Qb5aEMpONVqMl33dCLEhCTE9J8o4CWiG6Qm1cvA/Jr19Hr/J3WUNOS3Yyeue8fwzgDDgp0iIlogaUX0NA+SqaLnVWkKDb6Aw9mK8lESkmPS9UsbpjGy8HM4r7QrCwRHxO8oaznZJTxJcvomGoA4NUx5FUXRbocIadUOYFVFUSyXXEvj1YR18fiY6v2RUezQQCmftiGPiLfhgB\"},{\"type\":\"tool_use\",\"id\":\"toolu_01RxmwC3T11v7R2qjWNbBHm6\",\"name\":\"search_tables\",\"input\":{\"query\":\"meðallaun\",\"lang\":\"is\"},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":1608,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":109,\"output_tokens_details\":{\"thinking_tokens\":34},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
+}

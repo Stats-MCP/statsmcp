@@ -66,8 +66,8 @@ function isErrorReason(reason: unknown): boolean {
 }
 
 /**
- * OpenRouter (and sometimes OpenAI) can answer HTTP 200 with an error inside the
- * body when an upstream provider fails. Such answers must never become recordings.
+ * Providers can answer HTTP 200 with an error inside the body (OpenRouter when an
+ * upstream fails). Accepts Anthropic messages and OpenAI chat completions. Such answers must never become recordings.
  */
 export function isProviderErrorBody(body: string): boolean {
   let parsed: unknown;
@@ -80,6 +80,14 @@ export function isProviderErrorBody(body: string): boolean {
     return true;
   }
   if (field(parsed, 'error') != null) return true;
+  if (field(parsed, 'type') === 'message') {
+    const stop = field(parsed, 'stop_reason');
+    return (
+      !Array.isArray(field(parsed, 'content')) ||
+      stop === 'refusal' ||
+      stop === 'max_tokens'
+    );
+  }
   const choices = field(parsed, 'choices');
   if (!Array.isArray(choices) || choices.length === 0) return true;
   return choices.some(

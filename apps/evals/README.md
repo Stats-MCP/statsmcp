@@ -22,16 +22,24 @@ pnpm --filter statsmcp-evals test
 
 ## Record
 
-Recording calls the model on your computer. Run it only there, never in CI. By default it uses the OpenAI API with the model `gpt-4.1-mini`.
+Recording calls the model on your computer. Run it only there, never in CI. By default it uses the Anthropic API with the model `claude-opus-5-5`.
 
-```sh
-EVAL_MODE=record OPENAI_API_KEY=<key> pnpm --filter statsmcp-evals test
-UPDATE_FLOORS=1 pnpm --filter statsmcp-evals test   # write the new floors from the recordings
-```
+1. Put your key in `apps/evals/.env` (git-ignored):
 
-For a new model, the first record run saves the recordings and then fails with "No floors for …". This is expected. Run the second command to write the floors.
+   ```sh
+   ANTHROPIC_API_KEY=<key>
+   ```
 
-- To use [OpenRouter](https://openrouter.ai) for other model families, set `EVAL_PROVIDER=openrouter` and `OPENROUTER_API_KEY`. Replay in CI then also needs `EVAL_PROVIDER=openrouter`.
-- To use another model, set `EVAL_MODEL`. The defaults are in `PROVIDERS` in [`src/task.ts`](src/task.ts).
-- A change to a tool description, an input schema, the server instructions, a case, or the `ai` or `@ai-sdk/openai` version changes the request. The old recordings then no longer match. Delete the model's folder in `recordings/` and record again.
+2. Record, then write the floors from the recordings:
+
+   ```sh
+   EVAL_MODE=record pnpm --filter statsmcp-evals test
+   UPDATE_FLOORS=1 pnpm --filter statsmcp-evals test
+   ```
+
+For a new model, the first record run saves the recordings and then fails with "No floors for …". This is expected. The second command replays the recordings and writes the floors.
+
+- Other providers: set `EVAL_PROVIDER=openai` with `OPENAI_API_KEY`, or `EVAL_PROVIDER=openrouter` with `OPENROUTER_API_KEY`. CI replays the default provider, so recordings for another provider also need that `EVAL_PROVIDER` in CI.
+- To use another model, set `EVAL_MODEL`, for example `claude-haiku-5-5`. The defaults are in `PROVIDERS` in [`src/task.ts`](src/task.ts). Claude models get no `temperature`, because current models reject it.
+- A change to a tool description, an input schema, the server instructions, a case, or the `ai`, `@ai-sdk/anthropic` or `@ai-sdk/openai` version changes the request. The Anthropic provider also takes `max_tokens` from its model table, so keep these versions pinned exactly. The old recordings then no longer match. Delete the model's folder in `recordings/` and record again.
 - Commit the recordings and `floors.json` together.

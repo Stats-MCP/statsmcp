@@ -125,7 +125,25 @@ describe('record and replay', () => {
     ['an error object', { error: { message: 'x' } }, true],
     ['an error finish reason', { choices: [{ finish_reason: 'error' }] }, true],
     ['no choices', { choices: [] }, true],
-    ['a normal answer', completion, false]
+    ['a normal answer', completion, false],
+    [
+      'an Anthropic message',
+      {
+        type: 'message',
+        content: [{ type: 'tool_use', name: 'search_tables', input: {} }]
+      },
+      false
+    ],
+    [
+      'an Anthropic refusal',
+      { type: 'message', content: [], stop_reason: 'refusal' },
+      true
+    ],
+    [
+      'an Anthropic error',
+      { type: 'error', error: { type: 'overloaded_error' } },
+      true
+    ]
   ])('treats %s as a provider error: %s', (_name, body, expected) => {
     expect(isProviderErrorBody(JSON.stringify(body))).toBe(expected);
   });

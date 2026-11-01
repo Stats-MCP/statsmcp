@@ -9,6 +9,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "catalog:",
     "@ai-sdk/openai": "catalog:",
     "@modelcontextprotocol/server": "catalog:",
     "@statsmcp/abs": "workspace:*",

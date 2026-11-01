@@ -9,3 +9,8 @@ coverage/
 tests/consumer/package.json
 tests/consumer/package-lock.json
 packages/*/snapshots/
+
+# Local secrets
+.env
+.env.*
+!.env.example

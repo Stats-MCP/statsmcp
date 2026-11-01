@@ -1,28 +1,50 @@
+import { createAnthropic } from '@ai-sdk/anthropic';
 import { createOpenAI } from '@ai-sdk/openai';
-import { generateText, jsonSchema, tool, type ToolSet } from 'ai';
+import {
+  generateText,
+  jsonSchema,
+  tool,
+  type LanguageModel,
+  type ToolSet
+} from 'ai';
 
 import type { EvalCase } from '@/dataset';
 import type { TaskOutput } from '@/scorers';
 import type { Manifest } from '@/servers';
 
-export type ProviderId = 'openai' | 'openrouter';
+export type ProviderId = 'anthropic' | 'openai' | 'openrouter';
 
-/** OpenAI is the default; OpenRouter gives access to other model families. */
+export const PROVIDER_IDS: readonly ProviderId[] = [
+  'anthropic',
+  'openai',
+  'openrouter'
+];
+
+/** Anthropic is the default; recordings and floors are per model. */
 export const PROVIDERS = {
-  openai: {
-    baseURL: undefined,
-    keyEnv: 'OPENAI_API_KEY',
-    model: 'gpt-4.1-mini'
-  },
-  openrouter: {
-    baseURL: 'https://openrouter.ai/api/v1',
-    keyEnv: 'OPENROUTER_API_KEY',
-    model: 'openai/gpt-4.1-mini'
+  anthropic: { keyEnv: 'ANTHROPIC_API_KEY', model: 'claude-opus-5-5' },
+  openai: { keyEnv: 'OPENAI_API_KEY', model: 'gpt-4.1-mini' },
+  openrouter: { keyEnv: 'OPENROUTER_API_KEY', model: 'openai/gpt-4.1-mini' }
+} as const satisfies Record<ProviderId, { keyEnv: string; model: string }>;
+
+const OPENROUTER_URL = 'https://openrouter.ai/api/v1';
+
+function languageModel(options: {
+  provider: ProviderId;
+  model: string;
+  apiKey: string;
+  fetch: typeof fetch;
+}): LanguageModel {
+  const { apiKey, fetch } = options;
+  if (options.provider === 'anthropic') {
+    return createAnthropic({ apiKey, fetch })(options.model);
   }
-} as const satisfies Record<
-  ProviderId,
-  { baseURL: string | undefined; keyEnv: string; model: string }
->;
+  const baseURL =
+    options.provider === 'openrouter' ? OPENROUTER_URL : undefined;
+  return createOpenAI({ ...(baseURL ? { baseURL } : {}), apiKey, fetch }).chat(
+    options.model
+  );
+}
 
 function asTools(manifest: Manifest): ToolSet {
   return Object.fromEntries(
@@ -47,19 +69,14 @@ export async function runCase(
     fetch: typeof fetch;
   }
 ): Promise<TaskOutput> {
-  const { baseURL } = PROVIDERS[options.provider];
-  const provider = createOpenAI({
-    ...(baseURL ? { baseURL } : {}),
-    apiKey: options.apiKey,
-    fetch: options.fetch
-  });
   const result = await generateText({
-    model: provider.chat(options.model),
+    model: languageModel(options),
     system: manifest.instructions,
     prompt: item.ask,
     tools: asTools(manifest),
     toolChoice: 'auto',
-    temperature: 0,
+    // Current Claude models reject sampling parameters with a 400.
+    ...(options.provider === 'anthropic' ? {} : { temperature: 0 }),
     maxRetries: 0
   });
   const call = result.toolCalls[0];
