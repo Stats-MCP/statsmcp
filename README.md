@@ -9,7 +9,7 @@ Website: [statsmcp.dev](https://statsmcp.dev)
 
 Official national statistics for every AI assistant. StatsMCP is a set of MCP servers for the databases of national statistics offices. The servers use the [PxWeb API](https://www.scb.se/en/services/open-data-api/api-for-the-statistical-database/), which many national statistics offices use.
 
-There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Sweden, Denmark, the Netherlands and Canada, plus Eurostat for harmonised data on all EU and EFTA countries. The [Databases](#databases) table lists each database and its package. The servers support PxWeb API v1 and v2, the StatBank API of Statistics Denmark, the OData service of Statistics Netherlands and the Eurostat API and the Web Data Service of Statistics Canada.
+There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Sweden, Denmark, the Netherlands, Canada and Singapore, plus Eurostat for harmonised data on all EU and EFTA countries. The [Databases](#databases) table lists each database and its package. The servers support PxWeb API v1 and v2, the StatBank API of Statistics Denmark, the OData service of Statistics Netherlands and the Eurostat API, the Web Data Service of Statistics Canada and SingStat Table Builder.
 
 > **You:** What is the latest inflation rate in Slovenia?
 >
@@ -90,6 +90,12 @@ For Canada:
 claude mcp add --transport http statsmcp-ca https://statsmcp.dev/ca/mcp
 ```
 
+For Singapore:
+
+```sh
+claude mcp add --transport http statsmcp-sg https://statsmcp.dev/sg/mcp
+```
+
 For Claude, ChatGPT, Cursor and VS Code, the steps are on [statsmcp.dev](https://statsmcp.dev).
 
 **Local (stdio)**
@@ -130,6 +136,7 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 | [StatLine](https://opendata.cbs.nl/) (CBS)                                        | Netherlands   | [`cbs-mcp`](packages/cbs)                | Hosted; npm package soon |
 | [Eurostat](https://ec.europa.eu/eurostat/data/database)                           | EU and EFTA   | [`statsmcp-eurostat`](packages/eurostat) | Hosted; npm package soon |
 | [Statistics Canada](https://www150.statcan.gc.ca/n1/en/type/data)                 | Canada        | [`statsmcp-statcan`](packages/statcan)   | Hosted; npm package soon |
+| [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                   | Singapore     | [`statsmcp-singstat`](packages/singstat) | Hosted; npm package soon |
 | Statistics Iceland                                                                | Iceland       |                                          | Planned                  |
 
 To add a database that uses PxWeb, use the [`pxweb-mcp`](packages/core) toolkit.
