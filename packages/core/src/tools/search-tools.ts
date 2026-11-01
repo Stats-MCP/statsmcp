@@ -3,22 +3,10 @@ import { z } from 'zod';
 import type { PxwebPreset } from '@/preset';
 import type { PxwebClient, TableSearchHit } from '@/pxweb-client';
 import { rankSearchHits } from '@/search-ranking';
+import { normalize, startsWord } from '@/text';
 import { readAnnotations, runTool, textResult } from '@/tools/tool-result';
 
 import type { McpServer } from '@modelcontextprotocol/server';
-
-function normalize(text: string, lang: string): string {
-  return text.toLocaleLowerCase(lang).normalize('NFD').replace(/\p{M}/gu, '');
-}
-
-function startsWord(text: string, term: string): boolean {
-  let index = text.indexOf(term);
-  while (index >= 0) {
-    if (!/\p{L}/u.test(text[index - 1] ?? ' ')) return true;
-    index = text.indexOf(term, index + 1);
-  }
-  return false;
-}
 
 async function searchWithAliases(
   client: PxwebClient,

@@ -34,6 +34,7 @@ export {
   type QueryPlan,
   type SelectionInput
 } from '@/query-plan';
+export { searchTitles } from '@/title-search';
 export {
   createPxwebV2Client,
   type PxwebV2ClientOptions
