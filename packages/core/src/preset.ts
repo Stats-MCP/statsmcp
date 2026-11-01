@@ -33,7 +33,8 @@ export interface PxwebPreset {
   /**
    * Search strategy for APIs that offer both: "api" uses the API's own search,
    * "index" lists every table and searches locally (better on the golden sets).
-   * Only the PxWeb v2 client supports "index" today; others ignore it.
+   * PxWeb v2 lists the tables itself. PxWeb v1 reads the crawled snapshot from the
+   * server's `tableSnapshots` option. Other API types always search an index.
    */
   search?: 'api' | 'index';
   /**

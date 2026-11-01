@@ -12,13 +12,19 @@ import {
 import { jsonStatDatasetSchema, type FlatTable } from '@/json-stat';
 import { rankSearchHits } from '@/search-ranking';
 import type { TableDoc } from '@/table-doc';
+import { createTableIndexLoader } from '@/table-index';
 
 export { PxwebError } from '@/http';
 
 /** PxWeb answers an unknown table with 400 or 404 on the metadata GET; both are reported as "not found". */
 const NOT_FOUND_STATUSES = new Set([400, 404]);
-const DATABASE_PATTERN = /^[A-Za-z0-9_-]+$/;
-const TABLE_ID_PATTERN = /^(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+(?:\.px|\.PX)?$/;
+/**
+ * One path segment of a database or table id. Croatian ids have spaces, commas,
+ * dashes and diacritics; "." and ".." and URL syntax characters are refused.
+ */
+const SEGMENT_PATTERN =
+  /^(?!\.{1,2}$)[^\s/\\?#%\p{Cc}\p{Cs}](?:[^/\\?#%\p{Cc}\p{Cs}]*[^\s/\\?#%\p{Cc}\p{Cs}])?$/u;
+const MAX_TABLE_ID_LENGTH = 400;
 
 const searchHitSchema = z.object({
   id: z.string(),
@@ -127,11 +133,22 @@ export interface PxwebClientOptions {
   tableIdFromHit?: (hit: SearchHit) => string;
   /** True when the office keeps the table in its archive, for example by its path. */
   isArchived?: (hit: SearchHit) => boolean;
+  /**
+   * Full table list (for example a crawled snapshot). When set, search uses a
+   * local index over it instead of the API search.
+   */
+  tableList?: (lang: string) => Promise<readonly TableDoc[]>;
 }
 
 export function isValidTableId(tableId: string): boolean {
-  return TABLE_ID_PATTERN.test(tableId);
+  return (
+    tableId.length <= MAX_TABLE_ID_LENGTH &&
+    tableId.split('/').every((segment) => SEGMENT_PATTERN.test(segment))
+  );
 }
+
+const encodePath = (path: string): string =>
+  path.split('/').map(encodeURIComponent).join('/');
 
 function rootForLanguage(
   baseUrl: ApiBaseUrl,
@@ -147,7 +164,7 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
       ? [options.database ?? 'Data']
       : [...options.database];
   for (const database of databases) {
-    if (!DATABASE_PATTERN.test(database)) {
+    if (!SEGMENT_PATTERN.test(database)) {
       throw new Error(`Invalid PxWeb database "${database}".`);
     }
   }
@@ -175,7 +192,7 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
       );
     }
     if (!multiDatabase)
-      return `${languageRoot(lang)}/${firstDatabase}/${tableId}`;
+      return `${languageRoot(lang)}/${encodePath(`${firstDatabase}/${tableId}`)}`;
     const [database, ...rest] = tableId.split('/');
     if (rest.length === 0 || !databases.includes(database ?? '')) {
       throw new PxwebError(
@@ -183,7 +200,7 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
         404
       );
     }
-    return `${languageRoot(lang)}/${tableId}`;
+    return `${languageRoot(lang)}/${encodePath(tableId)}`;
   }
 
   async function searchDatabase(
@@ -191,7 +208,7 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
     database: string,
     query: string
   ): Promise<ScoredHit[]> {
-    const url = `${languageRoot(lang)}/${database}?query=${encodeURIComponent(query)}`;
+    const url = `${languageRoot(lang)}/${encodeURIComponent(database)}?query=${encodeURIComponent(query)}`;
     const prefix = multiDatabase ? `${database}/` : '';
     return request(
       url,
@@ -210,8 +227,19 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
     );
   }
 
+  const tableIndex = options.tableList
+    ? createTableIndexLoader(options.tableList, {
+        ttlSeconds: SEARCH_TTL_SECONDS,
+        currentYear: () => now().getUTCFullYear()
+      })
+    : undefined;
+
   return {
-    async search(lang, query) {
+    async search(lang, query, searchOptions) {
+      if (tableIndex) {
+        languageRoot(lang);
+        return (await tableIndex(lang)).search(query, searchOptions);
+      }
       const results = await Promise.allSettled(
         databases.map((database) => searchDatabase(lang, database, query))
       );

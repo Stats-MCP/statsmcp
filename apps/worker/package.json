@@ -21,7 +21,9 @@
     "dst-mcp": "workspace:*",
     "cbs-mcp": "workspace:*",
     "statsmcp-eurostat": "workspace:*",
-    "statsmcp-statcan": "workspace:*"
+    "statsmcp-statcan": "workspace:*",
+    "statice-mcp": "workspace:*",
+    "dzs-mcp": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:",

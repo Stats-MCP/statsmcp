@@ -1,0 +1,80 @@
+{
+  "source": "dzs",
+  "lang": "en",
+  "queries": [
+    {
+      "query": "consumer price index",
+      "relevant": {
+        "Cijene/Indeksi potrošačkih cijena/Indeksi potrošačkih cijena – ECOICOP, ver. 2/ME_PS09.px": 2,
+        "Cijene/Indeksi potrošačkih cijena/Indeksi potrošačkih cijena – ECOICOP, ver. 2/ME_PS10.px": 1,
+        "Cijene/Indeksi potrošačkih cijena/Indeksi potrošačkih cijena – ECOICOP, ver. 2/ME_PS11.px": 1
+      }
+    },
+    {
+      "query": "house price index",
+      "relevant": {
+        "Cijene/Indeksi cijena stambenih objekata/ME_PS14.px": 2,
+        "Cijene/Indeksi cijena stambenih objekata/ME_PS15.px": 2
+      }
+    },
+    {
+      "query": "population estimate",
+      "relevant": {
+        "Stanovništvo/Procjene stanovništva/SP21_1.px": 2,
+        "Stanovništvo/Procjene stanovništva/SP22_2.px": 2,
+        "Stanovništvo/Procjene stanovništva/SP23_1.px": 1,
+        "Stanovništvo/Procjene stanovništva/SP24_2.px": 1
+      }
+    },
+    {
+      "query": "average gross earnings",
+      "relevant": {
+        "Zaposlenost i plaće/Od 2025/T01.px": 2,
+        "Zaposlenost i plaće/Od 2025/T02.px": 1
+      }
+    },
+    {
+      "query": "gross domestic product",
+      "relevant": {
+        "Nacionalni racuni/BDP/Godišnji nacionalni računi/T01_BDP_EUR_A.px": 2,
+        "Nacionalni racuni/BDP/Godišnji nacionalni računi/T07_BDPST_EUR_A.px": 1,
+        "Nacionalni racuni/BDP/Godišnji nacionalni računi/T08_BDPST_EUR_A.px": 1
+      }
+    },
+    {
+      "query": "tourist arrivals",
+      "relevant": {
+        "Turizam/Dolasci i noćenja turista u komercijalnim smještajnim objektima/BS_TU11.px": 2,
+        "Turizam/Dolasci i noćenja turista u komercijalnim smještajnim objektima/BS_TU12.px": 1,
+        "Turizam/Dolasci i noćenja turista u komercijalnim smještajnim objektima/BS_TU13.px": 1
+      }
+    },
+    {
+      "query": "industrial production",
+      "relevant": {
+        "Industrija/Indeks industrijske proizvodnje/BS_IN11.px": 2,
+        "Industrija/Indeks industrijske proizvodnje/BS_IN12.px": 1
+      }
+    },
+    {
+      "query": "retail trade turnover",
+      "relevant": {
+        "Trgovina na malo/Indeks prometa trgovine na malo/BS_TR21.px": 2,
+        "Trgovina na malo/Indeks prometa trgovine na malo/BS_TR22.px": 2
+      }
+    },
+    {
+      "query": "live births",
+      "relevant": {
+        "Stanovništvo/Vitalna statistika/Rođeni/SV111.px": 2,
+        "Stanovništvo/Vitalna statistika/Rođeni/SV112.px": 2
+      }
+    },
+    {
+      "query": "ME_PS09",
+      "relevant": {
+        "Cijene/Indeksi potrošačkih cijena/Indeksi potrošačkih cijena – ECOICOP, ver. 2/ME_PS09.px": 2
+      }
+    }
+  ]
+}

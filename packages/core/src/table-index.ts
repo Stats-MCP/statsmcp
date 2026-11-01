@@ -46,7 +46,6 @@ const CURRENT_DATA_BOOST = 0.3;
 /** Rank constant of reciprocal rank fusion; small values trust the top ranks more. */
 const FUSION_K = 10;
 
-/** Short function words that would otherwise match almost every title. */
 /** Function words of two or more letters (shorter words are never indexed). */
 const STOP_WORDS: Readonly<Record<string, readonly string[]>> = {
   en: [
@@ -82,6 +81,8 @@ const STOP_WORDS: Readonly<Record<string, readonly string[]>> = {
   et: ['ja', 'ning'],
   fi: ['ja'],
   fo: ['og'],
+  hr: ['do', 'i', 'iz', 'ili', 'na', 'od', 'po', 'prema', 'sa', 'te', 'za'],
+  is: ['af', 'eftir', 'fra', 'med', 'og', 'til', 'um', 'vid'],
   fr: [
     'au',
     'aux',
@@ -120,6 +121,38 @@ function extractField(doc: TableDoc, field: string): string {
   if (field === 'path') return (doc.path ?? []).join(' ');
   if (field === 'id') return doc.id;
   return doc.title;
+}
+
+const PX_FILE = /\.px$/i;
+
+/** Docs by key, leaving out keys that more than one doc shares. */
+function uniqueBy(
+  docs: readonly TableDoc[],
+  key: (doc: TableDoc) => string | undefined
+): Map<string, TableDoc> {
+  const byKey = new Map<string, TableDoc | undefined>();
+  for (const doc of docs) {
+    const value = key(doc);
+    if (value === undefined) continue;
+    byKey.set(value, byKey.has(value) ? undefined : doc);
+  }
+  return new Map(
+    [...byKey].filter(
+      (entry): entry is [string, TableDoc] => entry[1] !== undefined
+    )
+  );
+}
+
+/** Path ids ("db/folder/MAN00101.px") also match by a file name that only one table has. */
+function uniqueFileNames(
+  docs: readonly TableDoc[],
+  lang: string
+): Map<string, TableDoc> {
+  return uniqueBy(docs, (doc) =>
+    doc.id.includes('/')
+      ? normalize(doc.id.split('/').at(-1) ?? '', lang).replace(PX_FILE, '')
+      : undefined
+  );
 }
 
 function recency(updated: string | undefined, currentYear: number): number {
@@ -185,9 +218,8 @@ export function createTableIndex(
       : value;
   };
   const byId = new Map(docs.map((doc) => [doc.id, doc]));
-  const byNormalizedId = new Map(
-    docs.map((doc) => [normalize(doc.id, lang), doc])
-  );
+  const byNormalizedId = uniqueBy(docs, (doc) => normalize(doc.id, lang));
+  const byFileName = uniqueFileNames(docs, lang);
   const factor = new Map(
     docs.map((doc) => {
       const closed = doc.discontinued || isHistorical(doc.title, currentYear);
@@ -219,7 +251,11 @@ export function createTableIndex(
   return {
     size: byId.size,
     search(query, searchOptions = {}) {
-      const exact = byNormalizedId.get(normalize(query.trim(), lang));
+      const wanted = normalize(query.trim(), lang);
+      const exact =
+        byId.get(query.trim()) ??
+        byNormalizedId.get(wanted) ??
+        byFileName.get(wanted.replace(PX_FILE, ''));
       let ids = [
         ...index.search(query, { ...base, combineWith: 'AND' }),
         ...index.search(query, { ...base, combineWith: 'OR' })

@@ -44,12 +44,20 @@ describe('isValidTableId', () => {
     ['/05A1002S.px', false],
     ['a/../b.px', false],
     ['05A1002S.px?x=1', false],
-    ['05A1002S.csv', false],
-    ['a.b/c', false],
+    ['05A1002S.csv', true],
+    ['a.b/c', true],
     ['%2e%2e/x', false],
     ['a\\b', false],
     ['a/b.px\n', false],
-    ['tabela-č', false],
+    ['tabela-č', true],
+    ['Cijene/Indeksi potrošačkih cijena – ECOICOP, ver. 2/ME_PS09.px', true],
+    ['Ibuar/mannfjoldi/1_yfirlit/yfirlit_mannfjolda/MAN00101.px', true],
+    ['a/./b', false],
+    [' a/b', false],
+    ['a /b', false],
+    ['a#b', false],
+    ['a\ud800b', false],
+    ['a\u0000b', false],
     ['a//b', false]
   ])('%s → %s', (tableId, valid) => {
     expect(isValidTableId(tableId)).toBe(valid);
@@ -57,6 +65,51 @@ describe('isValidTableId', () => {
 });
 
 describe('createPxwebClient', () => {
+  it('encodes each segment of a Croatian table id in the request URL', async () => {
+    const fetchMock = vi.fn<typeof fetch>(
+      async () => new Response(metadataBody)
+    );
+    const client = createPxwebClient({
+      baseUrl: BASE_URL,
+      database: ['Cijene', 'Stanovništvo'],
+      fetch: fetchMock
+    });
+
+    await client.getMetadata(
+      'en',
+      'Cijene/Indeksi potrošačkih cijena – ECOICOP, ver. 2/ME_PS09.px'
+    );
+
+    expect(String(fetchMock.mock.calls[0]?.[0])).toBe(
+      `${BASE_URL}/en/Cijene/Indeksi%20potro%C5%A1a%C4%8Dkih%20cijena%20%E2%80%93%20ECOICOP%2C%20ver.%202/ME_PS09.px`
+    );
+  });
+
+  it('searches the table list instead of the API when one is given', async () => {
+    const fetchMock = vi.fn<typeof fetch>();
+    const client = createPxwebClient({
+      baseUrl: { en: BASE_URL },
+      database: ['Ibuar'],
+      fetch: fetchMock,
+      tableList: async () => [
+        {
+          id: 'Ibuar/mannfjoldi/MAN00101.px',
+          title: 'Population by sex and age 1841-2026'
+        }
+      ]
+    });
+
+    const hits = await client.search('en', 'population');
+
+    expect(hits.map((hit) => hit.tableId)).toEqual([
+      'Ibuar/mannfjoldi/MAN00101.px'
+    ]);
+    expect(fetchMock).not.toHaveBeenCalled();
+    await expect(client.search('is', 'population')).rejects.toThrow(
+      'Language "is" is not supported.'
+    );
+  });
+
   it('serves repeated metadata requests from the cache', async () => {
     const fetchMock = vi.fn<typeof fetch>(
       async () => new Response(metadataBody)

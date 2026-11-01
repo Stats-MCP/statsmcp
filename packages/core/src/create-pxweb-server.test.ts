@@ -397,6 +397,50 @@ describe('createPxwebServer', () => {
     }
   );
 
+  it.each([
+    ['the snapshot', true, 'MAN00101'],
+    ['a clear error without a snapshot', false, 'is not available now']
+  ])(
+    'createPresetServer searches a v1 index preset from %s',
+    async (_case, hasSnapshot, expected) => {
+      const fetchMock = vi.fn<typeof fetch>();
+      const indexPreset: PxwebPreset = {
+        ...preset,
+        database: ['Ibuar'],
+        search: 'index'
+      };
+      const tableSnapshots = vi.fn<SnapshotReader>(async (source, lang) =>
+        hasSnapshot
+          ? {
+              version: 1,
+              source,
+              lang,
+              builtAt: '2026-11-01T00:00:00.000Z',
+              count: 1,
+              docs: [
+                {
+                  id: 'Ibuar/mannfjoldi/MAN00101.px',
+                  title: 'Population by sex and age'
+                }
+              ]
+            }
+          : undefined
+      );
+
+      const { text } = await callTool(
+        fetchMock,
+        'search_tables',
+        { query: 'population' },
+        indexPreset,
+        () =>
+          createPresetServer(indexPreset, { fetch: fetchMock, tableSnapshots })
+      );
+
+      expect(text).toContain(expected);
+      expect(fetchMock).not.toHaveBeenCalled();
+    }
+  );
+
   it('says when only discontinued tables match', async () => {
     const fetchMock = vi.fn<typeof fetch>(async () =>
       json([{ id: 'OLD.PX', path: '/Archive/x', title: 'OLD: Prices' }])

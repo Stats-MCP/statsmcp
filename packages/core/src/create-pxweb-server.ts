@@ -4,12 +4,17 @@ import type { Cache } from '@/cache';
 import { createCbsODataClient } from '@/cbs-odata-client';
 import { createEurostatClient } from '@/eurostat-client';
 import type { PxwebPreset } from '@/preset';
-import { createPxwebClient, type PxwebClient } from '@/pxweb-client';
+import {
+  createPxwebClient,
+  PxwebError,
+  type PxwebClient
+} from '@/pxweb-client';
 import { createPxwebV2Client } from '@/pxweb-v2-client';
 import { createSingstatClient } from '@/singstat-client';
 import type { SnapshotReader } from '@/snapshot';
 import { createStatbankDkClient } from '@/statbank-dk-client';
 import { createStatcanClient } from '@/statcan-client';
+import type { TableDoc } from '@/table-doc';
 import { registerSearchTools } from '@/tools/search-tools';
 import { registerTableTools } from '@/tools/table-tools';
 
@@ -34,6 +39,23 @@ export interface PresetServerOptions {
   tableSnapshots?: SnapshotReader;
 }
 
+/** PxWeb v1 has no list endpoint, so index search reads the crawled snapshot. */
+function snapshotTableList(
+  preset: PxwebPreset,
+  tableSnapshots: SnapshotReader | undefined
+): (lang: string) => Promise<readonly TableDoc[]> {
+  return async (lang) => {
+    const snapshot = await tableSnapshots?.(preset.name, lang);
+    if (!snapshot) {
+      throw new PxwebError(
+        `The table list of ${preset.title} is not available now. Try again later.`,
+        503
+      );
+    }
+    return snapshot.docs;
+  };
+}
+
 export function createPresetClient(
   preset: PxwebPreset,
   options: Pick<PresetServerOptions, 'cache' | 'fetch' | 'tableSnapshots'> & {
@@ -48,7 +70,10 @@ export function createPresetClient(
       baseUrl: preset.apiBaseUrl,
       database: preset.database,
       tableIdFromHit: preset.tableIdFromHit,
-      isArchived: preset.isArchived
+      isArchived: preset.isArchived,
+      ...(preset.search === 'index'
+        ? { tableList: snapshotTableList(preset, tableSnapshots) }
+        : {})
     });
   }
   if (typeof preset.apiBaseUrl !== 'string') {

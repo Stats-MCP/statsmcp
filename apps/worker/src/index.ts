@@ -1,6 +1,7 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { createCbsServer, cbsPreset } from 'cbs-mcp';
 import { createDstServer, dstPreset } from 'dst-mcp';
+import { createDzsServer, dzsPreset } from 'dzs-mcp';
 import { createHagstovaServer, hagstovaPreset } from 'hagstova-mcp';
 import {
   bucketSnapshotReader,
@@ -13,6 +14,7 @@ import { createSistatServer, sistatPreset } from 'sistat-mcp';
 import { createSsbServer, ssbPreset } from 'ssb-mcp';
 import { createStatEeServer, statEePreset } from 'stat-ee-mcp';
 import { createStatfinServer, statfinPreset } from 'statfin-mcp';
+import { createStaticeServer, staticePreset } from 'statice-mcp';
 import { createEurostatServer, eurostatPreset } from 'statsmcp-eurostat';
 import { createStatcanServer, statcanPreset } from 'statsmcp-statcan';
 
@@ -131,6 +133,28 @@ const SERVERS = new Map<string, HostedServer>([
           cache,
           tableSnapshots,
           userAgent: `statsmcp-statcan-worker/${statcanPreset.version}`
+        })
+    }
+  ],
+  [
+    '/is/mcp',
+    {
+      create: (cache, tableSnapshots) =>
+        createStaticeServer({
+          cache,
+          tableSnapshots,
+          userAgent: `statice-mcp-worker/${staticePreset.version}`
+        })
+    }
+  ],
+  [
+    '/hr/mcp',
+    {
+      create: (cache, tableSnapshots) =>
+        createDzsServer({
+          cache,
+          tableSnapshots,
+          userAgent: `dzs-mcp-worker/${dzsPreset.version}`
         })
     }
   ]

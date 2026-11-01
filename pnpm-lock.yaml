@@ -275,6 +275,9 @@ importers:
       dst-mcp:
         specifier: workspace:*
         version: link:../../packages/dst
+      dzs-mcp:
+        specifier: workspace:*
+        version: link:../../packages/dzs
       hagstova-mcp:
         specifier: workspace:*
         version: link:../../packages/hagstova
@@ -296,6 +299,9 @@ importers:
       statfin-mcp:
         specifier: workspace:*
         version: link:../../packages/statfin
+      statice-mcp:
+        specifier: workspace:*
+        version: link:../../packages/statice
       statsmcp-eurostat:
         specifier: workspace:*
         version: link:../../packages/eurostat
@@ -364,6 +370,28 @@ importers:
         version: 5.0.5(@types/node@26.6.5)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(yaml@2.9.1))
 
   packages/dst:
+    dependencies:
+      '@modelcontextprotocol/server':
+        specifier: 'catalog:'
+        version: 2.4.0
+      pxweb-mcp:
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.23.2(typescript@7.0.2)
+      typescript:
+        specifier: 'catalog:'
+        version: 7.0.2
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@26.6.5)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(yaml@2.9.1))
+
+  packages/dzs:
     dependencies:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'
@@ -562,6 +590,28 @@ importers:
         version: 5.0.5(@types/node@26.6.5)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(yaml@2.9.1))
 
   packages/statfin:
+    dependencies:
+      '@modelcontextprotocol/server':
+        specifier: 'catalog:'
+        version: 2.4.0
+      pxweb-mcp:
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.23.2(typescript@7.0.2)
+      typescript:
+        specifier: 'catalog:'
+        version: 7.0.2
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@26.6.5)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(yaml@2.9.1))
+
+  packages/statice:
     dependencies:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'

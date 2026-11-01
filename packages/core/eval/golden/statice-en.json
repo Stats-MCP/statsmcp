@@ -1,0 +1,73 @@
+{
+  "source": "statice",
+  "lang": "en",
+  "queries": [
+    {
+      "query": "consumer price index",
+      "relevant": {
+        "Efnahagur/visitolur/1_vnv/1_vnv/VIS01000.px": 2,
+        "Efnahagur/visitolur/1_vnv/1_vnv/VIS01005.px": 1
+      }
+    },
+    {
+      "query": "population",
+      "relevant": {
+        "Ibuar/mannfjoldi/1_yfirlit/yfirlit_mannfjolda/MAN00101.px": 2,
+        "Ibuar/mannfjoldi/1_yfirlit/arsfjordungstolur/MAN10001.px": 1
+      }
+    },
+    {
+      "query": "population by municipality",
+      "relevant": {
+        "Ibuar/mannfjoldi/1_yfirlit/arsfjordungstolur/MAN10001.px": 2
+      }
+    },
+    {
+      "query": "unemployment",
+      "relevant": {
+        "Samfelag/vinnumarkadur/vinnumarkadsrannsokn/1_manadartolur/VIN00001.px": 2,
+        "Samfelag/vinnumarkadur/vinnumarkadsrannsokn/2_arsfjordungstolur/VIN00920.px": 2,
+        "Samfelag/vinnumarkadur/vinnumarkadsrannsokn/2_arsfjordungstolur/VIN00910.px": 1
+      }
+    },
+    {
+      "query": "wage index",
+      "relevant": {
+        "Samfelag/launogtekjur/2_lvt/1_manadartolur/LAU04000.px": 2,
+        "Samfelag/launogtekjur/2_lvt/3_arstolur/LAU04200.px": 1
+      }
+    },
+    {
+      "query": "gross domestic product",
+      "relevant": {
+        "Efnahagur/thjodhagsreikningar/landsframl/1_landsframleidsla/THJ01102.px": 2
+      }
+    },
+    {
+      "query": "hotel overnight stays",
+      "relevant": {
+        "Atvinnuvegir/ferdathjonusta/gisting/1_hotelgistiheimili/SAM01201.px": 2
+      }
+    },
+    {
+      "query": "live births",
+      "relevant": {
+        "Ibuar/Faeddirdanir/faeddir/faedingar/MAN05100.px": 2,
+        "Ibuar/Faeddirdanir/faeddir/faedingar/MAN05101.px": 1
+      }
+    },
+    {
+      "query": "fish catch",
+      "relevant": {
+        "Atvinnuvegir/sjavarutvegur/aflatolur/afli_manudir/SJA01101.px": 2,
+        "Atvinnuvegir/sjavarutvegur/aflatolur/afli_manudir/SJA01102.px": 2
+      }
+    },
+    {
+      "query": "MAN00101",
+      "relevant": {
+        "Ibuar/mannfjoldi/1_yfirlit/yfirlit_mannfjolda/MAN00101.px": 2
+      }
+    }
+  ]
+}

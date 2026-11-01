@@ -69,6 +69,39 @@ describe('createTableIndex', () => {
     expect(ids('KØB1')[0]).toBe('KØB1');
   });
 
+  it('finds a path id by its unique file name', () => {
+    const paths = createTableIndex(
+      [
+        { id: 'Ibuar/mannfjoldi/MAN00101.px', title: 'Population by sex' },
+        { id: 'A/T1.px', title: 'First table' },
+        { id: 'B/T1.px', title: 'Second table' }
+      ],
+      'en'
+    );
+
+    expect(paths.search('man00101')[0]?.tableId).toBe(
+      'Ibuar/mannfjoldi/MAN00101.px'
+    );
+    expect(paths.search('MAN00101.px')[0]?.tableId).toBe(
+      'Ibuar/mannfjoldi/MAN00101.px'
+    );
+    expect(paths.search('T1')).toEqual([]);
+  });
+
+  it('promotes only an exact id when two ids differ only by diacritics', () => {
+    const similar = createTableIndex(
+      [
+        { id: 'Građa/T1.px', title: 'First table' },
+        { id: 'Grada/T1.px', title: 'Second table' }
+      ],
+      'hr'
+    );
+
+    expect(similar.search('Grada/T1.px')[0]?.tableId).toBe('Grada/T1.px');
+    expect(similar.search('Građa/T1.px')[0]?.tableId).toBe('Građa/T1.px');
+    expect(similar.search('grada/t1.px')).toEqual([]);
+  });
+
   it('matches subject folders and word prefixes', () => {
     expect(ids('prices economy')[0]).toBe('PRIS01');
     expect(ids('popul')).toContain('FOLK1A');

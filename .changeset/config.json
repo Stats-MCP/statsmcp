@@ -20,11 +20,13 @@
       "cbs-mcp",
       "statsmcp-eurostat",
       "statsmcp-statcan",
-      "statsmcp-singstat"
+      "statsmcp-singstat",
+      "statice-mcp",
+      "dzs-mcp"
     ]
   ],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["sistat-mcp-worker"]
+  "ignore": ["sistat-mcp-worker", "statsmcp-crawler"]
 }
