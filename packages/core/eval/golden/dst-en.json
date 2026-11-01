@@ -1,0 +1,55 @@
+{
+  "source": "dst",
+  "lang": "en",
+  "queries": [
+    {
+      "query": "population",
+      "relevant": {
+        "FOLK1A": 2,
+        "FOLK1AM": 2,
+        "BEFOLK1": 1,
+        "BEFOLK2": 1,
+        "BEFOLK3": 1
+      }
+    },
+    {
+      "query": "inflation",
+      "relevant": { "PRIS01": 2, "PRIS9": 2, "PRIS07": 1, "PRIS8": 1 }
+    },
+    {
+      "query": "consumer price index",
+      "relevant": { "PRIS01": 2, "PRIS02": 1, "PRIS8": 1, "PRIS9": 1 }
+    },
+    {
+      "query": "unemployment",
+      "relevant": { "AUS09": 2, "AUS07": 2, "AKU520K": 1, "AKU510K": 1 }
+    },
+    {
+      "query": "average salary",
+      "relevant": { "LONS20": 2, "LONS30": 2, "LONSOFF": 1, "LONS7010": 1 }
+    },
+    {
+      "query": "GDP",
+      "relevant": { "NKHO2": 2, "NAHO2": 2, "NAHL2": 1, "NRHP": 1 }
+    },
+    {
+      "query": "house prices",
+      "relevant": { "EJ5": 2, "EJ56": 2, "EJ6": 1, "EJ67": 1 }
+    },
+    { "query": "births", "relevant": { "FOD": 2, "BEV3A": 1, "KM3": 1 } },
+    { "query": "deaths", "relevant": { "DOD": 2, "BEV3A": 1, "KM3": 1 } },
+    {
+      "query": "hotel nights",
+      "relevant": { "HOTEL1": 2, "HOTEL2": 1, "HOTEL7": 1, "HOTEL8": 1 }
+    },
+    {
+      "query": "immigrants",
+      "relevant": { "INDOPH1": 2, "INDOPH2": 1, "VAN8K": 1 }
+    },
+    {
+      "query": "bankruptcies",
+      "relevant": { "KONK3": 2, "KONK5": 1, "KONK6": 1, "KONK7": 1 }
+    },
+    { "query": "FOLK1A", "relevant": { "FOLK1A": 2 } }
+  ]
+}

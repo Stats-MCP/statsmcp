@@ -1,0 +1,26 @@
+{
+  "source": "cbs",
+  "lang": "nl",
+  "queries": [
+    { "query": "bevolking", "relevant": { "85496NED": 2, "83474NED": 2 } },
+    { "query": "inflatie", "relevant": { "86141NED": 2, "86143NED": 1 } },
+    {
+      "query": "consumentenprijzen",
+      "relevant": { "86141NED": 2, "86142NED": 1, "86143NED": 1 }
+    },
+    { "query": "werkloosheid", "relevant": { "80590ned": 2, "85312NED": 1 } },
+    {
+      "query": "huizenprijzen",
+      "relevant": { "85773NED": 2, "85791NED": 1, "85792NED": 1 }
+    },
+    {
+      "query": "faillissementen",
+      "relevant": { "82242NED": 2, "82522NED": 1 }
+    },
+    {
+      "query": "bbp",
+      "relevant": { "85879NED": 2, "85880NED": 2, "85865NED": 1 }
+    },
+    { "query": "geboorte", "relevant": { "85722NED": 2 } }
+  ]
+}

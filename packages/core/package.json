@@ -38,7 +38,9 @@
   "scripts": {
     "build": "tsdown",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "eval:update": "UPDATE_FLOORS=1 vitest run eval/search-quality.test.ts",
+    "eval:fixtures": "node eval/build-fixtures.mjs"
   },
   "dependencies": {
     "zod": "catalog:"

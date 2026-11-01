@@ -1,0 +1,40 @@
+{
+  "source": "cbs",
+  "lang": "en",
+  "queries": [
+    { "query": "population", "relevant": { "85496ENG": 2, "83474ENG": 2 } },
+    {
+      "query": "inflation",
+      "relevant": { "86141ENG": 2, "86143ENG": 1, "86142ENG": 1 }
+    },
+    {
+      "query": "consumer prices",
+      "relevant": { "86141ENG": 2, "86142ENG": 1, "86143ENG": 1 }
+    },
+    { "query": "unemployment", "relevant": { "80590eng": 2 } },
+    { "query": "wages", "relevant": { "81431ENG": 2, "85663ENG": 2 } },
+    {
+      "query": "GDP",
+      "relevant": { "85879ENG": 2, "85880ENG": 2, "85865ENG": 1 }
+    },
+    {
+      "query": "house prices",
+      "relevant": { "85773ENG": 2, "85791ENG": 1, "85792ENG": 1, "85819ENG": 1 }
+    },
+    { "query": "births", "relevant": { "85722ENG": 2 } },
+    {
+      "query": "deaths",
+      "relevant": { "37979eng": 2, "7052eng": 1, "7233ENG": 1 }
+    },
+    {
+      "query": "hotel overnight stays",
+      "relevant": { "82621ENG": 2, "84039ENG": 1 }
+    },
+    { "query": "migration", "relevant": { "85469ENG": 2 } },
+    {
+      "query": "bankruptcies",
+      "relevant": { "82242ENG": 2, "83085ENG": 1, "82522ENG": 1 }
+    },
+    { "query": "energy balance", "relevant": { "83989ENG": 2, "83140ENG": 2 } }
+  ]
+}

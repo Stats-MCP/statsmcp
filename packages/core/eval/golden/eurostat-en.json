@@ -1,0 +1,117 @@
+{
+  "source": "eurostat",
+  "lang": "en",
+  "queries": [
+    {
+      "query": "population",
+      "relevant": {
+        "tps00001": 2,
+        "demo_pjan": 2,
+        "demo_gind": 1,
+        "demo_r_d2jan": 1,
+        "tgs00096": 1
+      }
+    },
+    {
+      "query": "population by age and sex",
+      "relevant": { "demo_pjan": 2, "demo_r_d2jan": 1, "demo_r_pjangroup": 1 }
+    },
+    {
+      "query": "inflation",
+      "relevant": { "tec00118": 2, "prc_hicp_minr": 2, "ei_cphi_m": 1 }
+    },
+    {
+      "query": "HICP monthly",
+      "relevant": { "prc_hicp_minr": 2, "ei_cphi_m": 1 }
+    },
+    {
+      "query": "unemployment rate",
+      "relevant": {
+        "une_rt_m": 2,
+        "ei_lmhr_m": 2,
+        "tps00203": 2,
+        "une_rt_a": 1,
+        "tipsun20": 1
+      }
+    },
+    {
+      "query": "monthly unemployment",
+      "relevant": { "une_rt_m": 2, "ei_lmhr_m": 2, "ei_lmhu_m": 1 }
+    },
+    {
+      "query": "GDP",
+      "relevant": {
+        "nama_10_gdp": 2,
+        "namq_10_gdp": 2,
+        "tec00001": 2,
+        "nama_10_pc": 1
+      }
+    },
+    {
+      "query": "GDP per capita",
+      "relevant": { "nama_10_pc": 2, "namq_10_pc": 1 }
+    },
+    {
+      "query": "house prices",
+      "relevant": { "prc_hpi_q": 2, "prc_hpi_a": 2, "ei_hppi_q": 2 }
+    },
+    {
+      "query": "life expectancy",
+      "relevant": { "demo_mlexpec": 2, "tgs00101": 1, "demo_r_mlifexp": 1 }
+    },
+    {
+      "query": "minimum wage",
+      "relevant": { "earn_mw_cur": 2, "tps00155": 2 }
+    },
+    {
+      "query": "government debt",
+      "relevant": { "gov_10dd_ggd": 2, "teina225": 2 }
+    },
+    {
+      "query": "electricity prices households",
+      "relevant": { "nrg_pc_204": 2 }
+    },
+    {
+      "query": "tourism nights spent",
+      "relevant": {
+        "tour_occ_ninat": 2,
+        "tour_occ_nin2": 1,
+        "tgs00111": 1,
+        "tour_occ_nin2m": 1
+      }
+    },
+    {
+      "query": "immigration",
+      "relevant": { "migr_imm8": 2, "tps00176": 2, "migr_imm1ctz": 1 }
+    },
+    {
+      "query": "fertility rate",
+      "relevant": { "tps00199": 2, "demo_find": 2, "demo_r_frate2": 1 }
+    },
+    {
+      "query": "greenhouse gas emissions",
+      "relevant": { "env_air_gge": 2, "sdg_13_10": 2 }
+    },
+    {
+      "query": "poverty",
+      "relevant": {
+        "ilc_peps01n": 2,
+        "ilc_li02": 2,
+        "ilc_peps11n": 1,
+        "tgs00107": 1
+      }
+    },
+    {
+      "query": "employment rate",
+      "relevant": {
+        "tesem010": 2,
+        "lfsi_emp_a": 2,
+        "lfsi_emp_q": 1,
+        "lfsa_ergan": 1
+      }
+    },
+    { "query": "net earnings", "relevant": { "earn_nt_net": 2 } },
+    { "query": "popluation", "relevant": { "tps00001": 2, "demo_pjan": 2 } },
+    { "query": "prc_hicp_minr", "relevant": { "prc_hicp_minr": 2 } }
+  ]
+}

@@ -3,7 +3,10 @@ import { defineConfig } from 'vitest/config';
 
 export const config = defineConfig({
   resolve: {
-    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) }
+    alias: {
+      '@eval': fileURLToPath(new URL('./eval', import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
   }
 });
 

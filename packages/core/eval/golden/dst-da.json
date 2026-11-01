@@ -1,0 +1,33 @@
+{
+  "source": "dst",
+  "lang": "da",
+  "queries": [
+    {
+      "query": "befolkning",
+      "relevant": { "FOLK1A": 2, "FOLK1AM": 2, "BEFOLK1": 1, "BEFOLK3": 1 }
+    },
+    {
+      "query": "inflation",
+      "relevant": { "PRIS01": 2, "PRIS9": 2, "PRIS8": 1 }
+    },
+    {
+      "query": "forbrugerprisindeks",
+      "relevant": { "PRIS01": 2, "PRIS02": 1, "PRIS8": 1, "PRIS9": 1 }
+    },
+    {
+      "query": "ledighed",
+      "relevant": { "AUS09": 2, "AKU520K": 1, "AKU510K": 1 }
+    },
+    { "query": "løn", "relevant": { "LONS20": 2, "LONS30": 2, "LONSOFF": 1 } },
+    { "query": "boligpriser", "relevant": { "EJ5": 2, "EJ56": 2, "EJ6": 1 } },
+    {
+      "query": "konkurser",
+      "relevant": { "KONK3": 2, "KONK5": 1, "KONK6": 1 }
+    },
+    { "query": "fødte", "relevant": { "FOD": 2, "FODIE": 1 } },
+    {
+      "query": "overnatninger",
+      "relevant": { "TURIST": 2, "TURIST1": 2, "HOTEL1": 1 }
+    }
+  ]
+}

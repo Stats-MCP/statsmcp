@@ -3,8 +3,9 @@
   "compilerOptions": {
     "types": ["node"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@eval/*": ["./eval/*"]
     }
   },
-  "include": ["src", "tsdown.config.ts", "vitest.config.ts"]
+  "include": ["src", "eval", "tsdown.config.ts", "vitest.config.ts"]
 }

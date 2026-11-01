@@ -1,0 +1,42 @@
+{
+  "source": "scb",
+  "lang": "en",
+  "queries": [
+    {
+      "query": "consumer price index",
+      "relevant": { "TAB6596": 2, "TAB6590": 1, "TAB6601": 1 }
+    },
+    { "query": "inflation", "relevant": { "TAB6596": 2, "TAB6590": 2 } },
+    {
+      "query": "population",
+      "relevant": { "TAB6471": 2, "TAB6667": 2, "TAB5557": 2, "TAB5890": 1 }
+    },
+    {
+      "query": "population by age and sex",
+      "relevant": { "TAB6667": 2, "TAB6471": 2, "TAB5890": 1 }
+    },
+    {
+      "query": "unemployment",
+      "relevant": { "TAB6387": 2, "TAB6516": 1, "TAB6514": 1, "TAB2901": 1 }
+    },
+    { "query": "GDP", "relevant": { "TAB3102": 2, "TAB3112": 2 } },
+    {
+      "query": "house prices",
+      "relevant": { "TAB1150": 2, "TAB1149": 2, "TAB1167": 1 }
+    },
+    { "query": "salary", "relevant": { "TAB5841": 2, "TAB4263": 1 } },
+    {
+      "query": "births",
+      "relevant": { "TAB6401": 2, "TAB6654": 2, "TAB1264": 1, "TAB4392": 1 }
+    },
+    {
+      "query": "deaths",
+      "relevant": { "TAB6654": 2, "TAB6474": 2, "TAB4392": 1 }
+    },
+    {
+      "query": "immigration",
+      "relevant": { "TAB6641": 2, "TAB6734": 2, "TAB1617": 1 }
+    },
+    { "query": "TAB6596", "relevant": { "TAB6596": 2 } }
+  ]
+}

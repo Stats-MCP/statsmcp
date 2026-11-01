@@ -1,0 +1,123 @@
+{
+  "source": "statcan",
+  "lang": "en",
+  "queries": [
+    {
+      "query": "consumer price index",
+      "relevant": {
+        "18100004": 2,
+        "18100006": 2,
+        "18100005": 1
+      }
+    },
+    {
+      "query": "inflation",
+      "relevant": {
+        "18100004": 2,
+        "18100006": 1,
+        "10100106": 1
+      }
+    },
+    {
+      "query": "population",
+      "relevant": {
+        "17100009": 2,
+        "17100005": 2
+      }
+    },
+    {
+      "query": "population estimates by age",
+      "relevant": {
+        "17100005": 2
+      }
+    },
+    {
+      "query": "unemployment rate",
+      "relevant": {
+        "14100017": 2,
+        "14100287": 2,
+        "14100022": 1
+      }
+    },
+    {
+      "query": "labour force",
+      "relevant": {
+        "14100017": 2,
+        "14100287": 2,
+        "14100022": 1
+      }
+    },
+    {
+      "query": "average weekly earnings",
+      "relevant": {
+        "14100203": 2,
+        "14100204": 2,
+        "14100134": 1
+      }
+    },
+    {
+      "query": "GDP",
+      "relevant": {
+        "36100104": 2,
+        "36100103": 2,
+        "36100434": 2
+      }
+    },
+    {
+      "query": "new housing price index",
+      "relevant": {
+        "18100205": 2,
+        "18100210": 1
+      }
+    },
+    {
+      "query": "live births",
+      "relevant": {
+        "13100414": 2,
+        "13100415": 2,
+        "13100416": 1
+      }
+    },
+    {
+      "query": "retail sales",
+      "relevant": {
+        "20100056": 2
+      }
+    },
+    {
+      "query": "housing starts",
+      "relevant": {
+        "34100135": 2,
+        "34100126": 2,
+        "34100125": 1
+      }
+    },
+    {
+      "query": "international travellers",
+      "relevant": {
+        "24100053": 2,
+        "24100054": 1
+      }
+    },
+    {
+      "query": "deaths",
+      "relevant": {
+        "13100708": 2,
+        "13100932": 1
+      }
+    },
+    {
+      "query": "immigration",
+      "relevant": {
+        "17100040": 2,
+        "17100014": 2
+      }
+    },
+    {
+      "query": "18100004",
+      "relevant": {
+        "18100004": 2
+      }
+    }
+  ]
+}
