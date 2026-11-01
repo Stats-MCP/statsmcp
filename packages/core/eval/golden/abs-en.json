@@ -1,0 +1,111 @@
+{
+  "source": "abs",
+  "lang": "en",
+  "queries": [
+    {
+      "query": "population",
+      "relevant": {
+        "ERP_Q": 2,
+        "ABS_ANNUAL_ERP_ASGS2021": 1,
+        "POPULATION_CLOCK": 1
+      }
+    },
+    {
+      "query": "consumer price index",
+      "relevant": {
+        "CPI": 2,
+        "CPI_M": 1,
+        "CPI_Q": 1
+      }
+    },
+    {
+      "query": "inflation",
+      "relevant": {
+        "CPI": 2,
+        "CPI_M": 1,
+        "CPI_Q": 1
+      }
+    },
+    {
+      "query": "unemployment",
+      "relevant": {
+        "LF": 2,
+        "LF_UNDER": 1
+      }
+    },
+    {
+      "query": "labour force",
+      "relevant": {
+        "LF": 2,
+        "LF_AGES": 1,
+        "LF_UNDER": 1
+      }
+    },
+    {
+      "query": "wage price index",
+      "relevant": {
+        "WPI": 2
+      }
+    },
+    {
+      "query": "average weekly earnings",
+      "relevant": {
+        "AWE": 2
+      }
+    },
+    {
+      "query": "GDP",
+      "relevant": {
+        "ANA_AGG": 2,
+        "ANA_EXP": 1,
+        "ANA_INC": 1,
+        "ANA_IND_GVA": 1
+      }
+    },
+    {
+      "query": "residential property prices",
+      "relevant": {
+        "RPPI": 2
+      }
+    },
+    {
+      "query": "building approvals",
+      "relevant": {
+        "BA_GCCSA": 2,
+        "BA_SA2": 1,
+        "BA_LGA2026": 1
+      }
+    },
+    {
+      "query": "retail trade",
+      "relevant": {
+        "RT": 2
+      }
+    },
+    {
+      "query": "job vacancies",
+      "relevant": {
+        "JV": 2
+      }
+    },
+    {
+      "query": "household spending",
+      "relevant": {
+        "HSI_M": 2,
+        "HSI_Q": 2
+      }
+    },
+    {
+      "query": "international trade in goods",
+      "relevant": {
+        "ITGS": 2
+      }
+    },
+    {
+      "query": "business turnover",
+      "relevant": {
+        "BUSINESS_TURNOVER": 2
+      }
+    }
+  ]
+}

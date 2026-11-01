@@ -10,6 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "abs-mcp": "workspace:*",
     "cbs-mcp": "workspace:*",
     "dst-mcp": "workspace:*",
     "pxweb-mcp": "workspace:*",

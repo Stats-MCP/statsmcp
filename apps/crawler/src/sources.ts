@@ -1,3 +1,4 @@
+import { absPreset } from 'abs-mcp';
 import { cbsPreset } from 'cbs-mcp';
 import { dstPreset } from 'dst-mcp';
 import {
@@ -40,9 +41,11 @@ export function catalogueSource(
 // allows 30 calls per 10 s, so half is 1.5 per second; the others publish no limit.
 // Tree sources need one call per folder. Croatia allows 10 calls per 10 s (half:
 // 0.5 per second). Iceland advertises 100 per 10 s but sent 429 at 2.7 per second.
-// CSO publishes no limit; its whole collection is one request.
+// CSO publishes no limit; its whole collection is one request. ABS publishes no
+// limit and lists all dataflows in one request.
 export const SOURCES: readonly CrawlSource[] = [
   csoSource('https://ws.cso.ie/public'),
+  catalogueSource(absPreset, 1),
   catalogueSource(cbsPreset, 1),
   catalogueSource(dstPreset, 1),
   catalogueSource(eurostatPreset, 1),

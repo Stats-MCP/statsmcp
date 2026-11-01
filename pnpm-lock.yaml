@@ -229,6 +229,9 @@ importers:
 
   apps/crawler:
     dependencies:
+      abs-mcp:
+        specifier: workspace:*
+        version: link:../../packages/abs
       cbs-mcp:
         specifier: workspace:*
         version: link:../../packages/cbs
