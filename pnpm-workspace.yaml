@@ -6,7 +6,7 @@ catalog:
   '@ai-sdk/openai': 4.0.96
   '@changesets/changelog-github': 1.0.1
   '@changesets/cli': 3.0.3
-  '@cloudflare/workers-types': 5.20261024.1
+  '@cloudflare/workers-types': 5.20261029.1
   '@modelcontextprotocol/server': ^2.4.0
   '@types/node': 26.6.6
   ai: 7.0.143
