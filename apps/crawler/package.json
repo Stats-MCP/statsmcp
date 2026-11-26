@@ -17,6 +17,7 @@
     "@statsmcp/eurostat": "workspace:*",
     "@statsmcp/scb": "workspace:*",
     "@statsmcp/statcan": "workspace:*",
+    "@statsmcp/statec": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {

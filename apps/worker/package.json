@@ -28,6 +28,7 @@
     "@statsmcp/ssb": "workspace:*",
     "@statsmcp/stat-ee": "workspace:*",
     "@statsmcp/statcan": "workspace:*",
+    "@statsmcp/statec": "workspace:*",
     "@statsmcp/statfin": "workspace:*",
     "@statsmcp/statice": "workspace:*"
   },

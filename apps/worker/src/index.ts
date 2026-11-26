@@ -26,6 +26,7 @@ import { sistatPreset } from '@statsmcp/sistat';
 import { ssbPreset } from '@statsmcp/ssb';
 import { statEePreset } from '@statsmcp/stat-ee';
 import { statcanPreset } from '@statsmcp/statcan';
+import { statecPreset } from '@statsmcp/statec';
 import { statfinPreset } from '@statsmcp/statfin';
 import { staticePreset } from '@statsmcp/statice';
 
@@ -110,6 +111,12 @@ const COUNTRIES: readonly HostedCountry[] = [
     code: 'md',
     preset: bnsPreset,
     agent: 'bns-mcp',
+    snapshots: true
+  },
+  {
+    code: 'lu',
+    preset: statecPreset,
+    agent: 'statec-mcp',
     snapshots: true
   }
 ];

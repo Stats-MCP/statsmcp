@@ -113,7 +113,11 @@ export function createPresetClient(
     if (!preset.sdmxAgency) {
       throw new Error('An sdmx preset needs sdmxAgency.');
     }
-    return createSdmxClient({ ...indexed, agency: preset.sdmxAgency });
+    return createSdmxClient({
+      ...indexed,
+      agency: preset.sdmxAgency,
+      languages: preset.languages
+    });
   }
   if (api === 'statcan-wds') return createStatcanClient(indexed);
   if (api === 'eurostat') return createEurostatClient(indexed);

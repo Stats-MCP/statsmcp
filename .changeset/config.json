@@ -28,7 +28,8 @@
       "@statsmcp/asub",
       "@statsmcp/makstat",
       "@statsmcp/kas",
-      "@statsmcp/bns"
+      "@statsmcp/bns",
+      "@statsmcp/statec"
     ]
   ],
   "access": "public",

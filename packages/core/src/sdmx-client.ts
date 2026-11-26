@@ -39,6 +39,8 @@ export interface SdmxClientOptions extends HttpOptions, TableListOptions {
   baseUrl: string;
   /** Agency of the dataflows, for example "ABS". */
   agency: string;
+  /** Sent as Accept-Language, so names come back in each of these languages. */
+  languages?: readonly string[];
   /** Clock for search ranking; defaults to the system time. */
   now?: () => Date;
 }
@@ -98,13 +100,16 @@ export function createSdmxClient(options: SdmxClientOptions): PxwebClient {
   const { agency } = options;
   const now = options.now ?? (() => new Date());
   const request = createRequester(options);
+  const language = options.languages?.length
+    ? { 'accept-language': options.languages.join(',') }
+    : {};
   const structureGet: RequestInit = {
     method: 'GET',
-    headers: { accept: STRUCTURE_ACCEPT }
+    headers: { accept: STRUCTURE_ACCEPT, ...language }
   };
   const dataGet: RequestInit = {
     method: 'GET',
-    headers: { accept: DATA_ACCEPT }
+    headers: { accept: DATA_ACCEPT, ...language }
   };
   let loadingCatalogue: Promise<z.infer<typeof dataflowsSchema>> | undefined;
 

@@ -226,6 +226,17 @@ If you change the data or calculate new figures, say so, for example: `Own calcu
 
 This project is not affiliated with or endorsed by the National Bureau of Statistics of the Republic of Moldova.
 
+## STATEC (Luxembourg)
+
+STATEC publishes the statistics portal and its database LUSTAT under [Creative Commons CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/), without restriction ([terms](https://statistiques.public.lu/en/support/notice.html)). Its usage guidelines are based on goodwill and are not a contract. They ask you to keep the links to CC0 and to the guidelines, to say when you changed the data, and not to suggest that STATEC endorses your use.
+
+The server adds the source with both links to every result:
+
+- `Source: STATEC (Luxembourg), CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/), terms of use: https://statistiques.public.lu/en/support/notice.html` (English)
+- `Source : STATEC (Luxembourg), CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/), conditions d'utilisation : https://statistiques.public.lu/en/support/notice.html` (French)
+
+This project is not affiliated with or endorsed by STATEC.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

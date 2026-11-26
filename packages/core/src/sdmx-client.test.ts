@@ -167,6 +167,37 @@ describe('createSdmxClient', () => {
     ).toBe('application/vnd.sdmx.structure+json;version=1.0');
   });
 
+  it('asks names in every language and lists each language with its own names', async () => {
+    const fetchMock = routedFetch({
+      'dataflow/ABS': () =>
+        json({
+          data: {
+            dataflows: [
+              {
+                id: 'CPI',
+                version: '2.0.0',
+                agencyID: 'ABS',
+                names: { en: 'Consumer price index', fr: 'Indice des prix' }
+              }
+            ]
+          }
+        })
+    });
+    const bilingual = createSdmxClient({
+      baseUrl: BASE_URL,
+      agency: 'ABS',
+      languages: ['en', 'fr'],
+      fetch: fetchMock
+    });
+
+    const docs = await bilingual.listTables?.('fr');
+
+    expect(docs).toEqual([{ id: 'CPI', title: 'Indice des prix' }]);
+    expect(
+      new Headers(fetchMock.mock.calls[0]?.[1]?.headers).get('accept-language')
+    ).toBe('en,fr');
+  });
+
   it('reads metadata from the structure and the availability of its version', async () => {
     const fetchMock = routedFetch(tableRoutes);
 

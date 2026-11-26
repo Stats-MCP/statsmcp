@@ -9,6 +9,7 @@ import { dstPreset } from '@statsmcp/dst';
 import { eurostatPreset } from '@statsmcp/eurostat';
 import { scbPreset } from '@statsmcp/scb';
 import { statcanPreset } from '@statsmcp/statcan';
+import { statecPreset } from '@statsmcp/statec';
 
 import type { CrawlSource } from '@/crawl';
 import { csoSource } from '@/cso';
@@ -51,6 +52,7 @@ export const SOURCES: readonly CrawlSource[] = [
   catalogueSource(eurostatPreset, 1),
   catalogueSource(scbPreset, 1.5),
   catalogueSource(statcanPreset, 1),
+  catalogueSource(statecPreset, 1),
   pxwebTreeSource({
     name: 'dzs',
     roots: {
