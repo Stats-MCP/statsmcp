@@ -66,7 +66,12 @@ for (const source of selected) {
     });
   } catch (err) {
     failed = true;
-    console.error(err instanceof Error ? err.message : String(err));
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(
+      message.startsWith(`${source.name}/`)
+        ? message
+        : `${source.name}: ${message}`
+    );
   }
 }
 process.exit(failed ? 1 : 0);
