@@ -1,0 +1,15 @@
+[
+  {
+    "Sucesso": {
+      "Falso": [
+        {
+          "IndicadorCod": "9999999",
+          "Lingua": "EN",
+          "DataExtracao": "2026-11-26T15:45:25.967Z",
+          "Msg": "(PT) O código do indicador não existe. / (EN) The indicator code does not exist.",
+          "Cod": "1"
+        }
+      ]
+    }
+  }
+]

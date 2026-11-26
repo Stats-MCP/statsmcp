@@ -24,7 +24,10 @@ export class PxwebError extends Error {
   }
 }
 
-async function readCappedText(response: Response): Promise<string> {
+export async function readCappedText(
+  response: Response,
+  maxBytes: number = MAX_RESPONSE_BYTES
+): Promise<string> {
   if (!response.body) return '';
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
@@ -35,7 +38,7 @@ async function readCappedText(response: Response): Promise<string> {
       const { done, value } = await reader.read();
       if (done) break;
       size += value.byteLength;
-      if (size > MAX_RESPONSE_BYTES) {
+      if (size > maxBytes) {
         await reader.cancel().catch(() => undefined);
         throw new PxwebError('PxWeb response is too large.', 502);
       }

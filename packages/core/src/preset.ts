@@ -32,6 +32,7 @@ export interface PxwebPreset {
     | 'singstat'
     | 'cso-pxstat'
     | 'ine-es'
+    | 'ine-pt'
     | 'sdmx';
   /** SDMX agency id, for example "ABS". Required when `api` is "sdmx". */
   sdmxAgency?: string;
@@ -39,8 +40,8 @@ export interface PxwebPreset {
    * Search strategy for APIs that offer both: "api" uses the API's own search,
    * "index" lists every table and searches locally (better on the golden sets).
    * PxWeb v2 lists the tables itself. PxWeb v1 reads the crawled snapshot from the
-   * server's `tableSnapshots` option. PxStat ("cso-pxstat") and INE Spain
-   * ("ine-es") always read the snapshot. Other API types always search an index.
+   * server's `tableSnapshots` option. PxStat ("cso-pxstat") and the INE clients
+   * ("ine-es", "ine-pt") always read the snapshot. Other API types always search an index.
    */
   search?: 'api' | 'index';
   /**

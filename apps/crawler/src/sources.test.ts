@@ -2,7 +2,7 @@ import { dstPreset } from '@statsmcp/dst';
 import { describe, expect, it, vi } from 'vitest';
 
 import type { CrawlContext } from '@/crawl';
-import { catalogueSource } from '@/sources';
+import { catalogueSource, inePtSource } from '@/sources';
 
 function context(fetch: CrawlContext['fetch']): CrawlContext {
   return {
@@ -70,5 +70,24 @@ describe('catalogueSource', () => {
         context(async () => new Response('[]'))
       )
     ).rejects.toThrow('dst cannot list its tables.');
+  });
+});
+
+describe('inePtSource', () => {
+  it('downloads the catalogue again when the server cut the first download short', async () => {
+    const catalogue =
+      '<catalog><indicator id="0008074"><description>Crime rate</description></indicator></catalog>';
+    const fetch = vi
+      .fn<CrawlContext['fetch']>()
+      .mockResolvedValueOnce(new Response(catalogue.replace('</catalog>', '')))
+      .mockResolvedValueOnce(new Response(catalogue));
+
+    const docs = await inePtSource('https://ine.example/ine').crawl(
+      'en',
+      context(fetch)
+    );
+
+    expect(docs.map((doc) => doc.id)).toEqual(['0008074']);
+    expect(fetch).toHaveBeenCalledTimes(2);
   });
 });

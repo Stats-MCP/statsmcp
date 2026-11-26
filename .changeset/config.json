@@ -30,7 +30,8 @@
       "@statsmcp/kas",
       "@statsmcp/bns",
       "@statsmcp/statec",
-      "@statsmcp/ine-es"
+      "@statsmcp/ine-es",
+      "@statsmcp/ine-pt"
     ]
   ],
   "access": "public",

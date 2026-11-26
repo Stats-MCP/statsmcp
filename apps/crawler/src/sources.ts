@@ -2,8 +2,10 @@ import { absPreset } from '@statsmcp/abs';
 import { cbsPreset } from '@statsmcp/cbs';
 import {
   createIneEsClient,
+  createInePtClient,
   createMemoryCache,
   createPresetClient,
+  PxwebError,
   type PxwebPreset
 } from '@statsmcp/core';
 import { dstPreset } from '@statsmcp/dst';
@@ -58,12 +60,38 @@ export function ineEsSource(baseUrl: string): CrawlSource {
   };
 }
 
+const CATALOGUE_ATTEMPTS = 3;
+
+export function inePtSource(baseUrl: string): CrawlSource {
+  return {
+    name: 'ine-pt',
+    langs: ['pt', 'en'],
+    ratePerSecond: 1,
+    // Each catalogue is about 21 MB; downloads have taken from 30 s to more than 120 s.
+    timeoutMs: 300_000,
+    async crawl(lang, { fetch, userAgent }) {
+      const client = createInePtClient({ baseUrl, fetch, userAgent });
+      // The server sometimes closes the download early; the client then refuses it with 502.
+      for (let attempt = 1; ; attempt += 1) {
+        try {
+          return await client.listTables(lang);
+        } catch (err) {
+          const retry = err instanceof PxwebError && err.status === 502;
+          if (!retry || attempt >= CATALOGUE_ATTEMPTS) throw err;
+        }
+      }
+    }
+  };
+}
+
 // Each catalogue source downloads its whole list in one to a few requests. SCB
 // allows 30 calls per 10 s, so half is 1.5 per second; the others publish no limit.
 // Tree sources need one call per folder. Croatia and Moldova allow 10 calls per
 // 10 s (half: 0.5 per second). Iceland advertises 100 per 10 s but sent 429 at 2.7 per second.
 // CSO publishes no limit; its whole collection is one request. ABS publishes no
 // limit and lists all dataflows in one request. INE Spain publishes no limit.
+// INE Portugal recommends at most 15–20 requests per second; its whole catalogue
+// is one request per language.
 export const SOURCES: readonly CrawlSource[] = [
   csoSource('https://ws.cso.ie/public'),
   ineEsSource('https://servicios.ine.es/wstempus/js'),
@@ -74,6 +102,7 @@ export const SOURCES: readonly CrawlSource[] = [
   catalogueSource(scbPreset, 1.5),
   catalogueSource(statcanPreset, 1),
   catalogueSource(statecPreset, 1),
+  inePtSource('https://www.ine.pt/ine'),
   pxwebTreeSource({
     name: 'dzs',
     roots: {

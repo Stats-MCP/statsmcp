@@ -27,6 +27,8 @@ export interface CrawlSource {
   /** At most half of the rate that the office allows or advertises. */
   ratePerSecond: number;
   burst?: number;
+  /** Per-request timeout for sources with very large responses. */
+  timeoutMs?: number;
   crawl(lang: string, context: CrawlContext): Promise<TableDoc[]>;
 }
 
@@ -168,7 +170,8 @@ export async function crawlSource(
     bucket,
     userAgent: options.userAgent,
     fetch: options.fetch,
-    sleep: options.sleep
+    sleep: options.sleep,
+    ...(source.timeoutMs ? { timeoutMs: source.timeoutMs } : {})
   });
   const wanted = options.langs;
   const langs = wanted

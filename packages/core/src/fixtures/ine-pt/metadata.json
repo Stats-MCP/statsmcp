@@ -1,0 +1,115 @@
+[
+  {
+    "IndicadorCod": "0008074",
+    "IndicadorNome": "Crime rate (‰) by Geographic localization (NUTS - 2013) and Category of crime; Annual - Directorate General for Justice Policy",
+    "Periodic": "Annual",
+    "PrimeiroPeriodo": "2011",
+    "UltimoPeriodo": "2022",
+    "UnidadeMedida": "Permillage (‰)",
+    "Potencia10": "0",
+    "PrecisaoDecimal": "1",
+    "Lingua": "EN",
+    "DataUltimaAtualizacao": "2026-06-30",
+    "DataExtracao": "2026-11-26T15:38:32.168Z",
+    "Dimensoes": {
+      "Descricao_Dim": [
+        {
+          "dim_num": "1",
+          "abrv": "Data reference period",
+          "versao": "XXXXX"
+        },
+        {
+          "dim_num": "2",
+          "abrv": "Geographic localization (NUTS - 2013)",
+          "versao": "03505"
+        },
+        {
+          "dim_num": "3",
+          "abrv": "Category of crime",
+          "versao": "00902"
+        }
+      ],
+      "Categoria_Dim": [
+        {
+          "Dim_Num1_S7A2020": [
+            {
+              "dim_num": "1",
+              "cat_id": "S7A2020",
+              "categ_cod": "S7A2020",
+              "categ_dsg": "2020",
+              "categ_ord": "20200101",
+              "categ_nivel": "1"
+            }
+          ],
+          "Dim_Num1_S7A2021": [
+            {
+              "dim_num": "1",
+              "cat_id": "S7A2021",
+              "categ_cod": "S7A2021",
+              "categ_dsg": "2021",
+              "categ_ord": "20210101",
+              "categ_nivel": "1"
+            }
+          ],
+          "Dim_Num1_S7A2022": [
+            {
+              "dim_num": "1",
+              "cat_id": "S7A2022",
+              "categ_cod": "S7A2022",
+              "categ_dsg": "2022",
+              "categ_ord": "20220101",
+              "categ_nivel": "1"
+            }
+          ],
+          "Dim_Num2_PT": [
+            {
+              "dim_num": "2",
+              "cat_id": "PT",
+              "categ_cod": "PT",
+              "categ_dsg": "Portugal",
+              "categ_ord": "1",
+              "categ_nivel": "1"
+            }
+          ],
+          "Dim_Num2_11": [
+            {
+              "dim_num": "2",
+              "cat_id": "11",
+              "categ_cod": "11",
+              "categ_dsg": "Norte",
+              "categ_ord": "3",
+              "categ_nivel": "3"
+            }
+          ],
+          "Dim_Num3_T": [
+            {
+              "dim_num": "3",
+              "cat_id": "T",
+              "categ_cod": "T",
+              "categ_dsg": "Overall total",
+              "categ_ord": "10",
+              "categ_nivel": "1"
+            }
+          ],
+          "Dim_Num3_1": [
+            {
+              "dim_num": "3",
+              "cat_id": "1",
+              "categ_cod": "1",
+              "categ_dsg": "Crimes of assault",
+              "categ_ord": "20",
+              "categ_nivel": "2"
+            }
+          ]
+        }
+      ]
+    },
+    "Sucesso": {
+      "Verdadeiro": [
+        {
+          "Msg": "OK"
+        }
+      ]
+    }
+  }
+]

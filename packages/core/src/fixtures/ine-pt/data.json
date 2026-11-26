@@ -1,0 +1,55 @@
+[
+  {
+    "IndicadorCod": "0008074",
+    "IndicadorDsg": "Crime rate (‰) by Geographic localization (NUTS - 2013) and Category of crime; Annual - Directorate General for Justice Policy",
+    "MetaInfUrl": "https://www.ine.pt/bddXplorer/htdocs/minfo.jsp?var_cd=0008074&lingua=EN",
+    "DataExtracao": "2026-11-26T15:38:35.246Z",
+    "DataUltimoAtualizacao": "2026-06-30",
+    "UltimoPref": "2022",
+    "Dados": {
+      "2022": [
+        {
+          "geocod": "11",
+          "geodsg": "Norte",
+          "dim_3": "1",
+          "dim_3_t": "Crimes of assault",
+          "ind_string": "4,6",
+          "valor": "4.6"
+        },
+        {
+          "geocod": "PT",
+          "geodsg": "Portugal",
+          "dim_3": "1",
+          "dim_3_t": "Crimes of assault",
+          "ind_string": "5,1",
+          "valor": "5.1"
+        }
+      ],
+      "2021": [
+        {
+          "geocod": "11",
+          "geodsg": "Norte",
+          "dim_3": "1",
+          "dim_3_t": "Crimes of assault",
+          "ind_string": "4,3",
+          "valor": "4.3"
+        },
+        {
+          "geocod": "PT",
+          "geodsg": "Portugal",
+          "dim_3": "1",
+          "dim_3_t": "Crimes of assault",
+          "ind_string": "4,6",
+          "valor": "4.6"
+        }
+      ]
+    },
+    "Sucesso": {
+      "Verdadeiro": [
+        {
+          "Msg": "OK"
+        }
+      ]
+    }
+  }
+]

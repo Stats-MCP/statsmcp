@@ -254,6 +254,17 @@ The server adds the source and the licence link to every result, with a link to 
 
 This project is not affiliated with or endorsed by INE.
 
+## Statistics Portugal (INE)
+
+Statistics Portugal publishes the statistical data on its website under the [Creative Commons Attribution 4.0 licence (CC BY 4.0)](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_cont_inst&INST=3585857&xlang=en). It can be used and reused, also for commercial purposes, if the source is acknowledged as `Source: Instituto Nacional de Estatística – Portugal (Statistics Portugal)` with the statistical information and its reference period. Changes to the original data must be stated explicitly.
+
+The server adds the source and the terms link to every result, with a link to the indicator. Each result also names the indicator and its periods.
+
+- `Source: Instituto Nacional de Estatística – Portugal (Statistics Portugal), CC BY 4.0 (https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_cont_inst&INST=3585857&xlang=en)` (English)
+- `Fonte: Instituto Nacional de Estatística – Portugal, CC BY 4.0 (https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_cont_inst&INST=3585857&xlang=en)` (Portuguese)
+
+This project is not affiliated with or endorsed by Statistics Portugal.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

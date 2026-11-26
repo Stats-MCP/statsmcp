@@ -1,0 +1,60 @@
+<catalog>
+  <extraction_date><![CDATA[Thursday, 26 November 2026, 03:39:52.519 PM]]></extraction_date>
+  <language>EN</language>    
+  <indicator id="0008074">
+  
+        	 <theme><![CDATA[Justice]]></theme>
+             <subtheme><![CDATA[Police]]></subtheme>    	 
+        	
+  <keywords>INE,<![CDATA[Crime]]>,<![CDATA[(‰)]]>,<![CDATA[Policy]]>,<![CDATA[Justice]]>,<![CDATA[Police]]></keywords>
+  <title><![CDATA[Crime rate (‰)]]></title>
+  <varcd><![CDATA[0008074]]></varcd>
+  <description><![CDATA[Crime rate (‰) by Geographic localization (NUTS - 2013) and Category of crime; Annual - Directorate General for Justice Policy]]></description>
+  <geo_lastlevel><![CDATA[Município]]></geo_lastlevel>
+  <source><![CDATA[Directorate General for Justice Policy]]></source>
+  <dates>
+		<last_period_available><![CDATA[S7A2022]]></last_period_available>
+		<last_update><![CDATA[30-06-2026]]></last_update>		
+  </dates>      
+  <periodicity><![CDATA[ Annual]]></periodicity>
+  
+ 			<update_type>D</update_type>  
+ 
+  <html>
+        <bdd_url><![CDATA[https://www.ine.pt/xurl/indx/0008074]]></bdd_url>
+        <metainfo_url><![CDATA[https://www.ine.pt/xurl/metax/0008074]]></metainfo_url>	
+  </html>
+  <json>
+        <json_dataset><![CDATA[ https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0008074&lang=EN]]></json_dataset>
+        <json_metainfo><![CDATA[ https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0008074&lang=EN]]></json_metainfo>    
+  </json>  
+</indicator>
+  <indicator id="0001164">
+  
+        	 <theme><![CDATA[Short-term trends]]></theme>
+             <subtheme><![CDATA[Demand of goods and services]]></subtheme>    	 
+        	
+  <keywords>INE,<![CDATA[Expected]]>,<![CDATA[to]]>,<![CDATA[survey]]>,<![CDATA[Short-term trends]]>,<![CDATA[Demand of goods and services]]></keywords>
+  <title><![CDATA[Expected likelihood to spend money on major purchases over the next 12 months (Balance) of consumers]]></title>
+  <varcd><![CDATA[0001164]]></varcd>
+  <description><![CDATA[Expected likelihood to spend money on major purchases over the next 12 months (Balance) of consumers; Monthly - Statistics Portugal, Short-term statistics on business - consumers survey]]></description>
+  <geo_lastlevel><![CDATA[Portugal]]></geo_lastlevel>
+  <source><![CDATA[Statistics Portugal, Short-term statistics on business - consumers survey]]></source>
+  <dates>
+		<last_period_available><![CDATA[S3A202610]]></last_period_available>
+		<last_update><![CDATA[29-10-2026]]></last_update>		
+  </dates>      
+  <periodicity><![CDATA[ Monthly]]></periodicity>
+  
+ 			<update_type>D</update_type>  
+ 
+  <html>
+        <bdd_url><![CDATA[https://www.ine.pt/xurl/indx/0001164]]></bdd_url>
+        <metainfo_url><![CDATA[https://www.ine.pt/xurl/metax/0001164]]></metainfo_url>	
+  </html>
+  <json>
+        <json_dataset><![CDATA[ https://www.ine.pt/ine/json_indicador/pindica.jsp?op=2&varcd=0001164&lang=EN]]></json_dataset>
+        <json_metainfo><![CDATA[ https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp?varcd=0001164&lang=EN]]></json_metainfo>    
+  </json>  
+</indicator>
+</catalog>
