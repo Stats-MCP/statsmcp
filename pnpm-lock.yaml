@@ -296,6 +296,12 @@ importers:
       '@statsmcp/abs':
         specifier: workspace:*
         version: link:../../packages/abs
+      '@statsmcp/asub':
+        specifier: workspace:*
+        version: link:../../packages/asub
+      '@statsmcp/bns':
+        specifier: workspace:*
+        version: link:../../packages/bns
       '@statsmcp/cbs':
         specifier: workspace:*
         version: link:../../packages/cbs
@@ -317,6 +323,21 @@ importers:
       '@statsmcp/hagstova':
         specifier: workspace:*
         version: link:../../packages/hagstova
+      '@statsmcp/ine-es':
+        specifier: workspace:*
+        version: link:../../packages/ine-es
+      '@statsmcp/ine-pt':
+        specifier: workspace:*
+        version: link:../../packages/ine-pt
+      '@statsmcp/insee':
+        specifier: workspace:*
+        version: link:../../packages/insee
+      '@statsmcp/kas':
+        specifier: workspace:*
+        version: link:../../packages/kas
+      '@statsmcp/makstat':
+        specifier: workspace:*
+        version: link:../../packages/makstat
       '@statsmcp/scb':
         specifier: workspace:*
         version: link:../../packages/scb
@@ -332,6 +353,9 @@ importers:
       '@statsmcp/statcan':
         specifier: workspace:*
         version: link:../../packages/statcan
+      '@statsmcp/statec':
+        specifier: workspace:*
+        version: link:../../packages/statec
       '@statsmcp/statfin':
         specifier: workspace:*
         version: link:../../packages/statfin

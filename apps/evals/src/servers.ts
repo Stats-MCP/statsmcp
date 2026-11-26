@@ -1,5 +1,7 @@
 import { createMcpHandler } from '@modelcontextprotocol/server';
 import { absPreset } from '@statsmcp/abs';
+import { asubPreset } from '@statsmcp/asub';
+import { bnsPreset } from '@statsmcp/bns';
 import { cbsPreset } from '@statsmcp/cbs';
 import {
   createMultiServer,
@@ -12,19 +14,22 @@ import { dstPreset } from '@statsmcp/dst';
 import { dzsPreset } from '@statsmcp/dzs';
 import { eurostatPreset } from '@statsmcp/eurostat';
 import { hagstovaPreset } from '@statsmcp/hagstova';
+import { ineEsPreset } from '@statsmcp/ine-es';
+import { inePtPreset } from '@statsmcp/ine-pt';
+import { inseePreset } from '@statsmcp/insee';
+import { kasPreset } from '@statsmcp/kas';
+import { makstatPreset } from '@statsmcp/makstat';
 import { scbPreset } from '@statsmcp/scb';
 import { sistatPreset } from '@statsmcp/sistat';
 import { ssbPreset } from '@statsmcp/ssb';
 import { statEePreset } from '@statsmcp/stat-ee';
 import { statcanPreset } from '@statsmcp/statcan';
+import { statecPreset } from '@statsmcp/statec';
 import { statfinPreset } from '@statsmcp/statfin';
 import { staticePreset } from '@statsmcp/statice';
 import { z } from 'zod';
 
-/**
- * The hosted endpoints, keyed by their path segment on statsmcp.dev.
- * Hosted since the last recording, added with the next one: fr, pt, es, lu, md, xk, mk, ax.
- */
+/** The hosted endpoints, keyed by their path segment on statsmcp.dev. */
 export const PRESETS = {
   si: sistatPreset,
   no: ssbPreset,
@@ -39,7 +44,15 @@ export const PRESETS = {
   is: staticePreset,
   hr: dzsPreset,
   ie: csoPreset,
-  au: absPreset
+  au: absPreset,
+  ax: asubPreset,
+  mk: makstatPreset,
+  xk: kasPreset,
+  md: bnsPreset,
+  lu: statecPreset,
+  es: ineEsPreset,
+  pt: inePtPreset,
+  fr: inseePreset
 } as const satisfies Record<string, PxwebPreset>;
 
 export type CountryId = keyof typeof PRESETS;

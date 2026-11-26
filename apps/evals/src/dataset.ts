@@ -309,6 +309,195 @@ export const CASES: readonly EvalCase[] = casesSchema.parse([
     expected: { tool: 'get_table_metadata', tableId: 'CPI' }
   },
   {
+    id: 'ax-inflation-en',
+    server: 'ax',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in Åland?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi'],
+      sv: ['konsumentpris', 'inflation', 'kpi']
+    })
+  },
+  {
+    id: 'ax-population-sv',
+    server: 'ax',
+    tags: ['native'],
+    ask: 'Hur många invånare har Åland?',
+    expected: search({
+      sv: ['befolkning', 'invånare', 'folkmängd'],
+      en: POPULATION_EN
+    })
+  },
+  {
+    id: 'mk-inflation-en',
+    server: 'mk',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in North Macedonia?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi'],
+      mk: ['инфлациј', 'потрошувач', 'цени']
+    })
+  },
+  {
+    id: 'mk-unemployment-mk',
+    server: 'mk',
+    tags: ['native'],
+    ask: 'Која е стапката на невработеност во Северна Македонија?',
+    expected: search({
+      mk: ['невработен', 'работна сила', 'активно население'],
+      en: ['unemploy', 'labour force', 'labor force']
+    })
+  },
+  {
+    id: 'xk-inflation-en',
+    server: 'xk',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in Kosovo?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi'],
+      sq: ['inflacion', 'çmim', 'cmim']
+    })
+  },
+  {
+    id: 'xk-population-sq',
+    server: 'xk',
+    tags: ['native'],
+    ask: 'Sa është popullsia e Kosovës?',
+    expected: search({
+      sq: ['popullsi', 'banor'],
+      en: POPULATION_EN
+    })
+  },
+  {
+    id: 'md-inflation-en',
+    server: 'md',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in Moldova?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi', 'price ind'],
+      ro: ['inflați', 'inflati', 'prețuri', 'preturi', 'consum']
+    })
+  },
+  {
+    id: 'md-population-ro',
+    server: 'md',
+    tags: ['native'],
+    ask: 'Care este populația Republicii Moldova?',
+    expected: search({
+      ro: ['populați', 'populati', 'locuitor'],
+      en: POPULATION_EN
+    })
+  },
+  {
+    id: 'lu-inflation-en',
+    server: 'lu',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in Luxembourg?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi'],
+      fr: [
+        'inflation',
+        'prix à la consommation',
+        'prix a la consommation',
+        'ipc'
+      ]
+    })
+  },
+  {
+    id: 'lu-unemployment-fr',
+    server: 'lu',
+    tags: ['native'],
+    ask: 'Quel est le taux de chômage au Luxembourg ?',
+    expected: search({
+      fr: ['chômage', 'chomage', "demandeurs d'emploi"],
+      en: ['unemploy', 'labour force', 'labor force']
+    })
+  },
+  {
+    id: 'es-inflation-en',
+    server: 'es',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in Spain?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi'],
+      es: ['inflación', 'inflacion', 'ipc', 'precios de consumo']
+    })
+  },
+  {
+    id: 'es-unemployment-es',
+    server: 'es',
+    tags: ['native'],
+    ask: '¿Cuál es la tasa de paro en España?',
+    expected: search({
+      es: ['paro', 'desemple'],
+      en: ['unemploy', 'labour force', 'labor force']
+    })
+  },
+  {
+    id: 'pt-inflation-en',
+    server: 'pt',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in Portugal?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi'],
+      pt: [
+        'inflação',
+        'inflacao',
+        'ipc',
+        'preços no consumidor',
+        'precos no consumidor'
+      ]
+    })
+  },
+  {
+    id: 'pt-unemployment-pt',
+    server: 'pt',
+    tags: ['native'],
+    ask: 'Qual é a taxa de desemprego em Portugal?',
+    expected: search({
+      pt: ['desemprego'],
+      en: ['unemploy', 'labour force', 'labor force']
+    })
+  },
+  {
+    id: 'fr-inflation-en',
+    server: 'fr',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in France?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi'],
+      fr: [
+        'inflation',
+        'prix à la consommation',
+        'prix a la consommation',
+        'ipc'
+      ]
+    })
+  },
+  {
+    id: 'fr-unemployment-fr',
+    server: 'fr',
+    tags: ['native'],
+    ask: 'Quel est le taux de chômage en France ?',
+    expected: search({
+      fr: ['chômage', 'chomage'],
+      en: ['unemploy', 'labour force', 'labor force']
+    })
+  },
+  {
+    id: 'all-es-unemployment',
+    server: 'all',
+    tags: ['all-countries', 'english'],
+    ask: 'What is the unemployment rate in Spain?',
+    expected: {
+      ...search({
+        en: ['unemploy', 'labour force', 'labor force'],
+        es: ['paro', 'desemple']
+      }),
+      countries: ['es', 'eu']
+    }
+  },
+  {
     id: 'all-si-inflation-en',
     server: 'all',
     tags: ['all-countries', 'english'],
