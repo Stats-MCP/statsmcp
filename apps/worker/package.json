@@ -12,6 +12,7 @@
   "dependencies": {
     "@modelcontextprotocol/server": "catalog:",
     "@statsmcp/abs": "workspace:*",
+    "@statsmcp/asub": "workspace:*",
     "@statsmcp/cbs": "workspace:*",
     "@statsmcp/core": "workspace:*",
     "@statsmcp/cso": "workspace:*",

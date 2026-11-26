@@ -21,7 +21,10 @@ import { statfinPreset } from '@statsmcp/statfin';
 import { staticePreset } from '@statsmcp/statice';
 import { z } from 'zod';
 
-/** The hosted endpoints, keyed by their path segment on statsmcp.dev. */
+/**
+ * The hosted endpoints, keyed by their path segment on statsmcp.dev.
+ * Hosted since the last recording, added with the next one: ax.
+ */
 export const PRESETS = {
   si: sistatPreset,
   no: ssbPreset,

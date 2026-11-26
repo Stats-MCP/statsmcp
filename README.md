@@ -53,6 +53,7 @@ To connect to only one office, use its own endpoint, `https://statsmcp.dev/<code
 | `ie` | Central Statistics Office (Ireland)            |
 | `ca` | Statistics Canada                              |
 | `au` | Australian Bureau of Statistics                |
+| `ax` | Statistics and Research Åland (ÅSUB)           |
 | `eu` | Eurostat                                       |
 
 ```sh
@@ -103,6 +104,7 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 | [Eurostat](https://ec.europa.eu/eurostat/data/database)                                                                | EU and EFTA   | [`@statsmcp/eurostat`](packages/eurostat) | Hosted and npm       |
 | [Statistics Canada](https://www150.statcan.gc.ca/n1/en/type/data)                                                      | Canada        | [`@statsmcp/statcan`](packages/statcan)   | Hosted and npm       |
 | [ABS Data API](https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide) | Australia     | [`@statsmcp/abs`](packages/abs)           | Hosted and npm       |
+| [PxWeb of ÅSUB](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/)                                                       | Åland Islands | [`@statsmcp/asub`](packages/asub)         | Hosted and npm       |
 | [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                                                        | Singapore     | [`@statsmcp/singstat`](packages/singstat) | npm only; not hosted |
 
 To add a database, use the [`@statsmcp/core`](packages/core) toolkit.

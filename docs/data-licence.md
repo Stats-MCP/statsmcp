@@ -176,6 +176,19 @@ The server adds `Source: Australian Bureau of Statistics (ABS), CC BY 4.0 (https
 
 This project is not affiliated with or endorsed by the Australian Bureau of Statistics.
 
+## Statistics and Research Åland (ÅSUB)
+
+ÅSUB publishes its statistics and other material under the [Creative Commons Attribution 4.0 licence (CC BY 4.0)](https://www.asub.ax/sv/om-asub/om-asubax/anvandarvillkor). The material may be freely copied, adapted and shared, if ÅSUB is named as the source and changes are stated.
+
+The server adds the source and the terms link to every result:
+
+- `Source: Statistics and Research Åland (ÅSUB), CC BY 4.0 (https://www.asub.ax/sv/om-asub/om-asubax/anvandarvillkor)` (English)
+- `Källa: ÅSUB, CC BY 4.0 (https://www.asub.ax/sv/om-asub/om-asubax/anvandarvillkor)` (Swedish)
+
+If you change the data or calculate new figures, say so, for example: `ÅSUB and own calculations`.
+
+This project is not affiliated with or endorsed by ÅSUB.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

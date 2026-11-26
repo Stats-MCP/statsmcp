@@ -62,7 +62,8 @@ Then do these steps. Use `packages/cso` as a model.
 2. Add the package to the `fixed` list in `.changeset/config.json`.
 3. Add the directory name to the list in `scripts/sync-versions.mjs`.
 4. Add the office to `COUNTRIES` in `apps/worker/src/index.ts`. Add the package to `dependencies` in `apps/worker/package.json`.
-5. Add a route to `apps/worker/wrangler.jsonc`.
+5. Add a route to `apps/worker/wrangler.jsonc`. Add the code to the list of hosted offices in `docs/self-hosting.md`.
+   Add the preset to `PRESETS` in `apps/evals/src/servers.ts` and the package to `dependencies` in `apps/evals/package.json`. This changes the recorded requests, so record the evals again (refer to `apps/evals/README.md`).
 6. Add the office to the "Databases" table and to the table of endpoint codes in `README.md`.
 7. Add the package to the layout table in `docs/development.md`.
 8. Add a section to `docs/data-licence.md`.

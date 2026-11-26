@@ -1,0 +1,58 @@
+{
+  "name": "@statsmcp/asub",
+  "version": "0.4.1",
+  "description": "MCP server for the PxWeb database of Statistics and Research Åland (ÅSUB)",
+  "license": "MIT",
+  "author": "Tadej Polajnar",
+  "homepage": "https://statsmcp.dev/aland-islands/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stats-MCP/statsmcp.git",
+    "directory": "packages/asub"
+  },
+  "bugs": {
+    "url": "https://github.com/Stats-MCP/statsmcp/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "asub",
+    "aland",
+    "åland",
+    "statistics",
+    "pxweb"
+  ],
+  "bin": {
+    "asub-mcp": "./dist/bin.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "catalog:",
+    "@statsmcp/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

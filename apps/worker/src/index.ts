@@ -1,5 +1,6 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { absPreset } from '@statsmcp/abs';
+import { asubPreset } from '@statsmcp/asub';
 import { cbsPreset } from '@statsmcp/cbs';
 import {
   bucketSnapshotReader,
@@ -83,7 +84,13 @@ const COUNTRIES: readonly HostedCountry[] = [
   { code: 'is', preset: staticePreset, agent: 'statice-mcp', snapshots: true },
   { code: 'hr', preset: dzsPreset, agent: 'dzs-mcp', snapshots: true },
   { code: 'ie', preset: csoPreset, agent: 'cso-mcp', snapshots: true },
-  { code: 'au', preset: absPreset, agent: 'abs-mcp', snapshots: true }
+  { code: 'au', preset: absPreset, agent: 'abs-mcp', snapshots: true },
+  {
+    code: 'ax',
+    preset: asubPreset,
+    agent: 'asub-mcp',
+    snapshots: false
+  }
 ];
 
 function serverOptions(

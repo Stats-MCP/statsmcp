@@ -154,6 +154,7 @@ describe('worker', () => {
     ['/hr/mcp', 'Croatian Bureau of Statistics'],
     ['/ie/mcp', 'Central Statistics Office'],
     ['/au/mcp', 'Australian Bureau of Statistics'],
+    ['/ax/mcp', 'Statistics and Research Åland'],
     ['/mcp', 'national statistics offices and Eurostat']
   ])('serves the %s server', async (path, instructionsPart) => {
     vi.stubGlobal('caches', { default: {} });

@@ -47,4 +47,4 @@ For a new model, the first record run saves the recordings and then fails with "
 - To use another model, set `EVAL_MODEL`, for example `claude-haiku-5-5`. The defaults are in `PROVIDERS` in [`src/task.ts`](src/task.ts). Claude models get no `temperature`, because current models reject it.
 - A change to a tool description, an input schema, the server instructions, a case, or the `ai`, `@ai-sdk/anthropic` or `@ai-sdk/openai` version changes the request. The Anthropic provider also takes `max_tokens` from its model table, so keep these versions pinned exactly. The old recordings then no longer match. Delete the model's folder in `recordings/` and record again.
 - Commit the recordings and `floors.json` together.
-- The endpoints in [`src/servers.ts`](src/servers.ts) must match the hosted routes in `apps/worker/src/index.ts`. Add a new country to both.
+- The endpoints in [`src/servers.ts`](src/servers.ts) must match the hosted routes in `apps/worker/src/index.ts`. Add a new country to both. A new country changes the recorded requests, so offices added since the last recording wait for the next one. They are listed next to `PRESETS`.
