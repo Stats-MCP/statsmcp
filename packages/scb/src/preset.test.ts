@@ -14,9 +14,9 @@ describe('scbPreset', () => {
   });
 
   it.each([
-    ['en', 'https://www.statistikdatabasen.scb.se/pxweb/en/ssd/'],
-    ['sv', 'https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/']
-  ])('links %s tables to the database start page', (lang, expected) => {
+    ['en', 'https://statistikdatabasen2.scb.se/en/table/TAB6596'],
+    ['sv', 'https://statistikdatabasen2.scb.se/sv/table/TAB6596']
+  ])('links %s tables to the table page', (lang, expected) => {
     expect(scbPreset.tableUrl(lang, 'TAB6596')).toBe(expected);
   });
 

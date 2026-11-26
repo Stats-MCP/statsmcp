@@ -20,8 +20,8 @@ export const scbPreset: PxwebPreset = {
   search: 'index',
   languages: ['sv', 'en'],
   attribution: (lang) => (lang === 'sv' ? ATTRIBUTION.sv : ATTRIBUTION.en),
-  tableUrl: (lang) =>
-    `https://www.statistikdatabasen.scb.se/pxweb/${lang === 'sv' ? 'sv' : 'en'}/ssd/`,
+  tableUrl: (lang, tableId) =>
+    `https://statistikdatabasen2.scb.se/${lang === 'sv' ? 'sv' : 'en'}/table/${encodeURIComponent(tableId)}`,
   isArchived: (hit) => CLOSED_TABLE.test(hit.title),
   instructions: `Official statistics for Sweden from the Statistical Database of Statistics Sweden (SCB). This server is not affiliated with or endorsed by Statistics Sweden.
 

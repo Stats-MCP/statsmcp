@@ -1,6 +1,6 @@
 # @statsmcp/scb
 
-An MCP server for the [Statistical Database](https://www.statistikdatabasen.scb.se/pxweb/en/ssd/) of Statistics Sweden (SCB). It uses the PxWeb API v2 and gives AI assistants access to its tables in Swedish and English.
+An MCP server for the [Statistical Database](https://statistikdatabasen2.scb.se/en/) of Statistics Sweden (SCB). It uses the PxWeb API v2 and gives AI assistants access to its tables in Swedish and English.
 
 > This project is not affiliated with or endorsed by Statistics Sweden.
 
