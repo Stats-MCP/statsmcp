@@ -20,6 +20,24 @@ export const DEFAULT_MAX_RESULT_CHARS = 30_000;
 const VALUE_CHARS = 10;
 const CHARS_PER_TOKEN = 3.5;
 
+// MakStat writes the month letter of older periods in Cyrillic ("2015М01").
+const CYRILLIC_PERIOD_LETTERS: Readonly<Record<string, string>> = {
+  М: 'M',
+  К: 'K'
+};
+
+const periodSortKey = (code: string): string =>
+  code.replace(/[МК]/g, (letter) => CYRILLIC_PERIOD_LETTERS[letter] ?? letter);
+
+/** The `count` newest period codes, newest last, whatever the API's order. */
+function newestCodes(values: readonly string[], count: number): string[] {
+  return values
+    .toSorted((a, b) =>
+      periodSortKey(a).localeCompare(periodSortKey(b), 'en', { numeric: true })
+    )
+    .slice(-count);
+}
+
 function averageLabelLength(
   variable: TableVariable,
   values: readonly string[]
@@ -98,6 +116,20 @@ export function planQuery(
 
   for (const variable of metadata.variables) {
     const input = inputByCode.get(variable.code);
+
+    if (input?.latest !== undefined && variable.latestByCode) {
+      const newest = newestCodes(variable.values, input.latest);
+      selections.push({
+        code: variable.code,
+        selection: { filter: 'item', values: newest }
+      });
+      sizes.push({
+        label: variable.label,
+        count: newest.length,
+        labelChars: averageLabelLength(variable, newest)
+      });
+      continue;
+    }
 
     if (input?.latest !== undefined) {
       const count = variable.periodsIncomplete

@@ -110,6 +110,41 @@ describe('createPxwebClient', () => {
     );
   });
 
+  it('marks a named time variable without a server time flag, and leaves flagged ones to the server', async () => {
+    const body = JSON.stringify({
+      title: 'Prices',
+      variables: [
+        {
+          code: 'Период',
+          text: 'Period',
+          values: ['2026M01'],
+          valueTexts: ['2026M01']
+        },
+        {
+          code: 'Tid',
+          text: 'Time',
+          values: ['2026'],
+          valueTexts: ['2026'],
+          time: true
+        }
+      ]
+    });
+    const client = createPxwebClient({
+      baseUrl: BASE_URL,
+      timeVariables: ['Период', 'Tid'],
+      fetch: vi.fn<typeof fetch>(async () => new Response(body))
+    });
+
+    const { variables } = await client.getMetadata('en', 'T1.px');
+
+    expect(
+      variables.map(({ isTime, latestByCode }) => ({ isTime, latestByCode }))
+    ).toEqual([
+      { isTime: true, latestByCode: true },
+      { isTime: true, latestByCode: undefined }
+    ]);
+  });
+
   it('serves repeated metadata requests from the cache', async () => {
     const fetchMock = vi.fn<typeof fetch>(
       async () => new Response(metadataBody)

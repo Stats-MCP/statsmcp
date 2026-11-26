@@ -163,6 +163,56 @@ describe('planQuery', () => {
     ]);
   });
 
+  it.each([
+    [
+      'oldest first, with Cyrillic М',
+      ['2015М11', '2015М12', '2026M01'],
+      2,
+      ['2015М12', '2026M01']
+    ],
+    [
+      'newest first',
+      ['2026M01', '2015M12', '2015M11'],
+      2,
+      ['2015M12', '2026M01']
+    ],
+    [
+      'unpadded months',
+      ['2026M10', '2026M8', '2026M9'],
+      2,
+      ['2026M9', '2026M10']
+    ],
+    ['quarters', ['2026K2', '2025K4', '2026K1'], 2, ['2026K1', '2026K2']],
+    ['more than all values', ['2026', '2025'], 5, ['2025', '2026']]
+  ])(
+    'picks the newest period codes for a time variable without a server time flag (%s)',
+    (_order, values, latest, newest) => {
+      const monthly: TableMetadata = {
+        title: 'Prices',
+        variables: [
+          {
+            code: 'Period',
+            label: 'Period',
+            values,
+            valueLabels: values,
+            eliminable: false,
+            isTime: true,
+            latestByCode: true
+          }
+        ]
+      };
+
+      const plan = planQuery(monthly, [{ code: 'Period', latest }], 1000);
+
+      expect(plan.selections).toEqual([
+        {
+          code: 'Period',
+          selection: { filter: 'item', values: newest }
+        }
+      ]);
+    }
+  );
+
   it('caps latest at the known periods when the list is complete', () => {
     const plan = planQuery(metadata, [{ code: 'LETO', latest: 30 }], 1000);
 

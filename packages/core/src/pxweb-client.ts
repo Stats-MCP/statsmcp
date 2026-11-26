@@ -86,6 +86,8 @@ export interface TableVariable {
   eliminable: boolean;
   isTime: boolean;
   periodsIncomplete?: boolean;
+  /** The API's "top" filter does not pick the newest periods, so `latest` selects the newest codes. */
+  latestByCode?: boolean;
 }
 
 export interface TableMetadata {
@@ -130,6 +132,8 @@ export interface PxwebClientOptions {
   timeoutMs?: number;
   /** Clock for search ranking; defaults to the system time. */
   now?: () => Date;
+  /** Time variables that the API does not flag with `time: true`. */
+  timeVariables?: readonly string[];
   /** Builds the table id from a search hit; defaults to `path/id`. */
   tableIdFromHit?: (hit: SearchHit) => string;
   /** True when the office keeps the table in its archive, for example by its path. */
@@ -266,14 +270,20 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
           metadataSchema,
           (parsed) => ({
             title: parsed.title,
-            variables: parsed.variables.map((variable) => ({
-              code: variable.code,
-              label: variable.text,
-              values: variable.values,
-              valueLabels: variable.valueTexts,
-              eliminable: variable.elimination ?? false,
-              isTime: variable.time ?? false
-            }))
+            variables: parsed.variables.map((variable) => {
+              const namedTime =
+                variable.time !== true &&
+                (options.timeVariables?.includes(variable.code) ?? false);
+              return {
+                code: variable.code,
+                label: variable.text,
+                values: variable.values,
+                valueLabels: variable.valueTexts,
+                eliminable: variable.elimination ?? false,
+                isTime: variable.time === true || namedTime,
+                ...(namedTime && { latestByCode: true })
+              };
+            })
           }),
           METADATA_TTL_SECONDS,
           `meta:${url}`
