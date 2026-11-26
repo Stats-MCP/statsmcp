@@ -55,6 +55,7 @@ To connect to only one office, use its own endpoint, `https://statsmcp.dev/<code
 | `au` | Australian Bureau of Statistics                |
 | `ax` | Statistics and Research Åland (ÅSUB)           |
 | `mk` | State Statistical Office of North Macedonia    |
+| `xk` | Kosovo Agency of Statistics                    |
 | `eu` | Eurostat                                       |
 
 ```sh
@@ -107,6 +108,7 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 | [ABS Data API](https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide) | Australia       | [`@statsmcp/abs`](packages/abs)           | Hosted and npm       |
 | [PxWeb of ÅSUB](https://pxweb.asub.ax/PXWeb/pxweb/en/Statistik/)                                                       | Åland Islands   | [`@statsmcp/asub`](packages/asub)         | Hosted and npm       |
 | [MakStat](https://makstat.stat.gov.mk/PXWeb/pxweb/en/MakStat/)                                                         | North Macedonia | [`@statsmcp/makstat`](packages/makstat)   | Hosted and npm       |
+| [ASKdata](https://askdata.rks-gov.net/pxweb/en/ASKdata/) (KAS)                                                         | Kosovo          | [`@statsmcp/kas`](packages/kas)           | Hosted and npm       |
 | [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                                                        | Singapore       | [`@statsmcp/singstat`](packages/singstat) | npm only; not hosted |
 
 To add a database, use the [`@statsmcp/core`](packages/core) toolkit.

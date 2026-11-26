@@ -200,6 +200,19 @@ The server adds the source and the terms link to every result:
 
 This project is not affiliated with or endorsed by the State Statistical Office.
 
+## Kosovo Agency of Statistics
+
+The Kosovo Agency of Statistics (KAS) has no separate terms page for ASKdata or its API. Its publications, for example the 2024 population estimate, state: "Reuse is authorised provided the source is acknowledged." This project applies that notice to the published tables. Administrative Instruction QRK No. 02/2023 covers the paid supply, on request, of data outside the official statistics programme. It does not set terms for the tables published in ASKdata.
+
+The server adds the source and the KAS website to every result:
+
+- `Source: Kosovo Agency of Statistics (KAS), https://ask.rks-gov.net` (English)
+- `Burimi: Agjencia e Statistikave të Kosovës (ASK), https://ask.rks-gov.net` (Albanian)
+
+If you change the data or calculate new figures, say so, for example: `Kosovo Agency of Statistics and own calculations`.
+
+This project is not affiliated with or endorsed by the Kosovo Agency of Statistics.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

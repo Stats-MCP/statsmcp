@@ -20,6 +20,7 @@
     "@statsmcp/dzs": "workspace:*",
     "@statsmcp/eurostat": "workspace:*",
     "@statsmcp/hagstova": "workspace:*",
+    "@statsmcp/kas": "workspace:*",
     "@statsmcp/makstat": "workspace:*",
     "@statsmcp/scb": "workspace:*",
     "@statsmcp/sistat": "workspace:*",

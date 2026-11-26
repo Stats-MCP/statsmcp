@@ -21,6 +21,7 @@
     { "pattern": "statsmcp.dev/au/mcp*", "zone_name": "statsmcp.dev" },
     { "pattern": "statsmcp.dev/ax/mcp*", "zone_name": "statsmcp.dev" },
     { "pattern": "statsmcp.dev/mk/mcp*", "zone_name": "statsmcp.dev" },
+    { "pattern": "statsmcp.dev/xk/mcp*", "zone_name": "statsmcp.dev" },
     { "pattern": "statsmcp.dev/mcp", "zone_name": "statsmcp.dev" },
     { "pattern": "statsmcp.dev/mcp/", "zone_name": "statsmcp.dev" },
     { "pattern": "statsmcp.dev/index/*", "zone_name": "statsmcp.dev" }

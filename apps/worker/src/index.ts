@@ -18,6 +18,7 @@ import { dstPreset } from '@statsmcp/dst';
 import { dzsPreset } from '@statsmcp/dzs';
 import { eurostatPreset } from '@statsmcp/eurostat';
 import { hagstovaPreset } from '@statsmcp/hagstova';
+import { kasPreset } from '@statsmcp/kas';
 import { makstatPreset } from '@statsmcp/makstat';
 import { scbPreset } from '@statsmcp/scb';
 import { sistatPreset } from '@statsmcp/sistat';
@@ -96,6 +97,12 @@ const COUNTRIES: readonly HostedCountry[] = [
     code: 'mk',
     preset: makstatPreset,
     agent: 'makstat-mcp',
+    snapshots: false
+  },
+  {
+    code: 'xk',
+    preset: kasPreset,
+    agent: 'kas-mcp',
     snapshots: false
   }
 ];
