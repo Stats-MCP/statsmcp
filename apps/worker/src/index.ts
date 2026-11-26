@@ -21,6 +21,7 @@ import { eurostatPreset } from '@statsmcp/eurostat';
 import { hagstovaPreset } from '@statsmcp/hagstova';
 import { ineEsPreset } from '@statsmcp/ine-es';
 import { inePtPreset } from '@statsmcp/ine-pt';
+import { inseePreset } from '@statsmcp/insee';
 import { kasPreset } from '@statsmcp/kas';
 import { makstatPreset } from '@statsmcp/makstat';
 import { scbPreset } from '@statsmcp/scb';
@@ -131,6 +132,12 @@ const COUNTRIES: readonly HostedCountry[] = [
     code: 'pt',
     preset: inePtPreset,
     agent: 'ine-pt-mcp',
+    snapshots: true
+  },
+  {
+    code: 'fr',
+    preset: inseePreset,
+    agent: 'insee-mcp',
     snapshots: true
   }
 ];

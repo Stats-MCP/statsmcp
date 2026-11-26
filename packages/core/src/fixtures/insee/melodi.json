@@ -1,0 +1,435 @@
+{
+  "catalog/all": [
+    {
+      "identifier": "DS_FECONDITE",
+      "title": [
+        {
+          "content": "[déprécié] Fécondité",
+          "lang": "fr"
+        },
+        {
+          "content": "[deprecated] Fertility",
+          "lang": "en"
+        }
+      ],
+      "modified": null,
+      "numObservations": 0,
+      "temporal": {},
+      "theme": [
+        {
+          "label": [
+            {
+              "content": "1.1 Population et immigration",
+              "lang": "fr"
+            },
+            {
+              "content": "1.1 Population and migration",
+              "lang": "en"
+            }
+          ],
+          "themeTaxonomy": "classificationOfStatisticalDomain"
+        },
+        {
+          "label": [
+            {
+              "content": "1. Statistiques démographiques et sociales",
+              "lang": "fr"
+            },
+            {
+              "content": "1. Demographic and social statistics",
+              "lang": "en"
+            }
+          ],
+          "themeTaxonomy": "classificationOfStatisticalDomain"
+        },
+        {
+          "label": [
+            {
+              "content": "Naissances – Fécondité",
+              "lang": "fr"
+            },
+            {
+              "content": "Births – Fertility",
+              "lang": "en"
+            }
+          ],
+          "themeTaxonomy": "inseeTheme"
+        },
+        {
+          "label": [
+            {
+              "content": "Démographie",
+              "lang": "fr"
+            },
+            {
+              "content": "Demography",
+              "lang": "en"
+            }
+          ],
+          "themeTaxonomy": "inseeTheme"
+        }
+      ]
+    },
+    {
+      "identifier": "DS_IPC_PRINC",
+      "title": [
+        {
+          "content": "Indice des prix à la consommation - jeu de données principal",
+          "lang": "fr"
+        },
+        {
+          "content": "Consumption Price Index (CPI) - main dataset",
+          "lang": "en"
+        }
+      ],
+      "modified": "2026-09-30T08:45:43.847471356",
+      "numObservations": 448845,
+      "temporal": {
+        "endPeriod": "2026-09-01T00:00:00",
+        "startPeriod": "1995-01-01T00:00:00"
+      },
+      "theme": [
+        {
+          "label": [
+            {
+              "content": "2.7 Prix",
+              "lang": "fr"
+            },
+            {
+              "content": "2.7 Prices",
+              "lang": "en"
+            }
+          ],
+          "themeTaxonomy": "classificationOfStatisticalDomain"
+        },
+        {
+          "label": [
+            {
+              "content": "2. Statistiques économiques",
+              "lang": "fr"
+            },
+            {
+              "content": "2. Economic statistics",
+              "lang": "en"
+            }
+          ],
+          "themeTaxonomy": "classificationOfStatisticalDomain"
+        },
+        {
+          "label": [
+            {
+              "content": "Économie générale (inflation, PIB, dette,...)",
+              "lang": "fr"
+            },
+            {
+              "content": "General economy (inflation, GDP, debt,...)",
+              "lang": "en"
+            }
+          ],
+          "themeTaxonomy": "inseeTheme"
+        }
+      ]
+    }
+  ],
+  "range/DS_IPC_PRINC": {
+    "code": "DS_IPC_PRINC",
+    "label": {
+      "en": "Consumption Price Index (CPI) - main dataset",
+      "fr": "Indice des prix à la consommation - jeu de données principal"
+    },
+    "range": [
+      {
+        "concept": {
+          "code": "OBS_STATUS",
+          "label": {
+            "en": "Observation status",
+            "fr": "Statut de l'observation"
+          }
+        },
+        "type": "modalites",
+        "values": [
+          {
+            "code": "P",
+            "label": {
+              "en": "Provisional value",
+              "fr": "Valeur provisoire"
+            }
+          },
+          {
+            "code": "A",
+            "label": {
+              "en": "Normal",
+              "fr": "Normale"
+            }
+          }
+        ]
+      },
+      {
+        "concept": {
+          "code": "GEO",
+          "label": {
+            "en": "Geography",
+            "fr": "Géographie"
+          }
+        },
+        "type": "geo",
+        "values": [
+          {
+            "code": "976",
+            "id": "2025-DEP-976",
+            "label": {
+              "fr": "Mayotte"
+            },
+            "type": {
+              "code": "DEP",
+              "en": "Department",
+              "fr": "Département"
+            }
+          },
+          {
+            "code": "F",
+            "id": "2025-FRANCE-F",
+            "label": {
+              "en": "France",
+              "fr": "France"
+            },
+            "type": {
+              "code": "FRANCE",
+              "en": "France",
+              "fr": "France"
+            }
+          }
+        ]
+      },
+      {
+        "concept": {
+          "code": "FREQ",
+          "label": {
+            "en": "Frequency",
+            "fr": "Fréquence"
+          }
+        },
+        "type": "modalites",
+        "values": [
+          {
+            "code": "A",
+            "label": {
+              "en": "Annual",
+              "fr": "Annuel"
+            }
+          },
+          {
+            "code": "M",
+            "label": {
+              "en": "Monthly",
+              "fr": "Mensuel"
+            }
+          }
+        ]
+      },
+      {
+        "concept": {
+          "code": "TIME_PERIOD",
+          "label": {
+            "en": "Time period",
+            "fr": "Période temporelle"
+          }
+        },
+        "type": "date",
+        "values": [
+          {
+            "code": "2026-08",
+            "label": {
+              "en": "2026-08",
+              "fr": "2026-08"
+            }
+          },
+          {
+            "code": "2025",
+            "label": {
+              "en": "2025",
+              "fr": "2025"
+            }
+          },
+          {
+            "code": "2026-09",
+            "label": {
+              "en": "2026-09",
+              "fr": "2026-09"
+            }
+          },
+          {
+            "code": "2024",
+            "label": {
+              "en": "2024",
+              "fr": "2024"
+            }
+          },
+          {
+            "code": "2026-07",
+            "label": {
+              "en": "2026-07",
+              "fr": "2026-07"
+            }
+          }
+        ]
+      },
+      {
+        "concept": {
+          "code": "IND_TYPE",
+          "label": {
+            "en": "Indicator type",
+            "fr": "Type d'indicateur"
+          }
+        },
+        "type": "modalites",
+        "values": [
+          {
+            "code": "YOY",
+            "label": {
+              "en": "Year-on-year change",
+              "fr": "Glissement annuel"
+            }
+          },
+          {
+            "code": "IX",
+            "label": {
+              "en": "Index",
+              "fr": "Indice"
+            }
+          }
+        ]
+      },
+      {
+        "concept": {
+          "code": "MEASURE",
+          "label": {
+            "en": "Measure",
+            "fr": "Mesure"
+          }
+        },
+        "type": "mesures",
+        "values": [
+          {
+            "code": "OBS_VALUE_INDICE_DE_PRIX",
+            "label": {
+              "en": "Value",
+              "fr": "Valeur"
+            },
+            "measureType": {
+              "code": "INDICE_DE_PRIX",
+              "id": "INDICE_DE_PRIX",
+              "libelle": {
+                "en": "Indice de prix",
+                "fr": "Indice de prix"
+              },
+              "ordreRmes": 5,
+              "total": false,
+              "uri": "INDICE_DE_PRIX"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "data/DS_IPC_PRINC probe": {
+    "observations": [
+      {
+        "attributes": {
+          "OBS_STATUS": "A",
+          "DECIMALS": "2",
+          "CONF_STATUS": "F"
+        },
+        "dimensions": {
+          "GEO": "2025-FRANCE-F",
+          "FREQ": "M",
+          "TIME_PERIOD": "2013-12",
+          "IND_TYPE": "IX"
+        },
+        "measures": {
+          "OBS_VALUE_INDICE_DE_PRIX": {
+            "value": 82.68
+          }
+        }
+      }
+    ],
+    "identifier": "DS_IPC_PRINC"
+  },
+  "data/DS_IPC_PRINC query": {
+    "observations": [
+      {
+        "attributes": {
+          "OBS_STATUS": "A",
+          "DECIMALS": "2",
+          "CONF_STATUS": "F"
+        },
+        "dimensions": {
+          "GEO": "2025-DEP-976",
+          "FREQ": "M",
+          "TIME_PERIOD": "2026-08",
+          "IND_TYPE": "IX"
+        },
+        "measures": {
+          "OBS_VALUE_INDICE_DE_PRIX": {
+            "value": 102.44
+          }
+        }
+      },
+      {
+        "attributes": {
+          "OBS_STATUS": "P",
+          "DECIMALS": "2",
+          "CONF_STATUS": "F"
+        },
+        "dimensions": {
+          "GEO": "2025-FRANCE-F",
+          "FREQ": "M",
+          "TIME_PERIOD": "2025-01",
+          "IND_TYPE": "IX"
+        },
+        "measures": {
+          "OBS_VALUE_INDICE_DE_PRIX": {
+            "value": 99.03
+          }
+        }
+      },
+      {
+        "attributes": {
+          "OBS_STATUS": "P",
+          "DECIMALS": "2",
+          "CONF_STATUS": "F"
+        },
+        "dimensions": {
+          "GEO": "2025-FRANCE-F",
+          "FREQ": "M",
+          "TIME_PERIOD": "2026-09",
+          "IND_TYPE": "IX"
+        },
+        "measures": {
+          "OBS_VALUE_INDICE_DE_PRIX": {
+            "value": 101.91
+          }
+        }
+      },
+      {
+        "attributes": {
+          "OBS_STATUS": "A",
+          "DECIMALS": "2",
+          "CONF_STATUS": "F"
+        },
+        "dimensions": {
+          "GEO": "2025-FRANCE-F",
+          "FREQ": "M",
+          "TIME_PERIOD": "2026-08",
+          "IND_TYPE": "IX"
+        },
+        "measures": {
+          "OBS_VALUE_INDICE_DE_PRIX": {
+            "value": 101.69
+          }
+        }
+      }
+    ],
+    "identifier": "DS_IPC_PRINC"
+  }
+}

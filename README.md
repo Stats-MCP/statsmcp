@@ -60,6 +60,7 @@ To connect to only one office, use its own endpoint, `https://statsmcp.dev/<code
 | `lu` | STATEC (Luxembourg)                            |
 | `es` | National Statistics Institute of Spain (INE)   |
 | `pt` | Statistics Portugal (INE)                      |
+| `fr` | INSEE (France)                                 |
 | `eu` | Eurostat                                       |
 
 ```sh
@@ -117,6 +118,7 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 | [LUSTAT](https://lustat.statec.lu/) (STATEC)                                                                           | Luxembourg      | [`@statsmcp/statec`](packages/statec)     | Hosted and npm       |
 | [INEbase](https://www.ine.es/) (Tempus3 API)                                                                           | Spain           | [`@statsmcp/ine-es`](packages/ine-es)     | Hosted and npm       |
 | [INE database](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_base_dados&xlang=en)                                | Portugal        | [`@statsmcp/ine-pt`](packages/ine-pt)     | Hosted and npm       |
+| [Melodi](https://catalogue-donnees.insee.fr/) (INSEE)                                                                  | France          | [`@statsmcp/insee`](packages/insee)       | Hosted and npm       |
 | [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                                                        | Singapore       | [`@statsmcp/singstat`](packages/singstat) | npm only; not hosted |
 
 To add a database, use the [`@statsmcp/core`](packages/core) toolkit.

@@ -5,6 +5,7 @@ import { createCbsODataClient } from '@/cbs-odata-client';
 import { createEurostatClient } from '@/eurostat-client';
 import { createIneEsClient } from '@/ine-es-client';
 import { createInePtClient } from '@/ine-pt-client';
+import { createInseeClient } from '@/insee-client';
 import type { PxwebPreset } from '@/preset';
 import { createPxstatClient } from '@/pxstat-client';
 import {
@@ -50,7 +51,7 @@ export interface PresetServerOptions {
   tableSnapshots?: SnapshotReader;
 }
 
-/** PxWeb v1, PxStat and the INE Spain and Portugal APIs have no small list endpoint, so index search reads the crawled snapshot. */
+/** PxWeb v1, PxStat, INE Spain and Portugal, and INSEE have no small list endpoint, so index search reads the crawled snapshot. */
 function snapshotTableList(
   preset: PxwebPreset,
   tableSnapshots: SnapshotReader | undefined
@@ -107,6 +108,14 @@ export function createPresetClient(
   }
   if (api === 'ine-pt') {
     return createInePtClient({
+      ...http,
+      baseUrl: preset.apiBaseUrl,
+      maxCells: preset.maxCells,
+      tableList: snapshotTableList(preset, tableSnapshots)
+    });
+  }
+  if (api === 'insee') {
+    return createInseeClient({
       ...http,
       baseUrl: preset.apiBaseUrl,
       maxCells: preset.maxCells,

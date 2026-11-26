@@ -265,6 +265,17 @@ The server adds the source and the terms link to every result, with a link to th
 
 This project is not affiliated with or endorsed by Statistics Portugal.
 
+## INSEE (France)
+
+INSEE publishes the public information on its website, including data and databases, under the [Licence Ouverte / Open Licence 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence) ([terms](https://www.insee.fr/fr/information/2008466)). Reuse is free, also for commercial purposes, if you cite the source as `Source : Insee`, give the date of the last update when it is known, and do not change the meaning of the data. INSEE may block automated access that ignores its rules; the Melodi API allows about 30 calls per minute.
+
+The server adds the source and the licence link to every result, with a link to the dataset. The dataset title in every result shows the date of the last update. That date comes from the crawled dataset list, so it is as current as the last crawl.
+
+- `Source: Insee, Licence Ouverte / Open Licence 2.0 (https://www.etalab.gouv.fr/licence-ouverte-open-licence)` (English)
+- `Source : Insee, Licence Ouverte 2.0 (https://www.etalab.gouv.fr/licence-ouverte-open-licence)` (French)
+
+This project is not affiliated with or endorsed by INSEE.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

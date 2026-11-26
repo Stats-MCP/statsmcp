@@ -1,0 +1,58 @@
+{
+  "name": "@statsmcp/insee",
+  "version": "0.4.1",
+  "description": "MCP server for Melodi, the data catalogue of INSEE (France)",
+  "license": "MIT",
+  "author": "Tadej Polajnar",
+  "homepage": "https://statsmcp.dev/france/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stats-MCP/statsmcp.git",
+    "directory": "packages/insee"
+  },
+  "bugs": {
+    "url": "https://github.com/Stats-MCP/statsmcp/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "insee",
+    "melodi",
+    "france",
+    "statistics"
+  ],
+  "bin": {
+    "insee-mcp": "./dist/bin.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist",
+    "snapshots"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "catalog:",
+    "@statsmcp/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

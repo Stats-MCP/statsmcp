@@ -396,6 +396,9 @@ importers:
       '@statsmcp/ine-pt':
         specifier: workspace:*
         version: link:../../packages/ine-pt
+      '@statsmcp/insee':
+        specifier: workspace:*
+        version: link:../../packages/insee
       '@statsmcp/kas':
         specifier: workspace:*
         version: link:../../packages/kas
@@ -689,6 +692,28 @@ importers:
         version: 5.0.5(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(yaml@2.9.1))
 
   packages/ine-pt:
+    dependencies:
+      '@modelcontextprotocol/server':
+        specifier: 'catalog:'
+        version: 2.4.0
+      '@statsmcp/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.6
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.23.4(typescript@7.0.2)
+      typescript:
+        specifier: 'catalog:'
+        version: 7.0.2
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(yaml@2.9.1))
+
+  packages/insee:
     dependencies:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'

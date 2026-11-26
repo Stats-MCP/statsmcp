@@ -23,6 +23,7 @@
     "@statsmcp/hagstova": "workspace:*",
     "@statsmcp/ine-es": "workspace:*",
     "@statsmcp/ine-pt": "workspace:*",
+    "@statsmcp/insee": "workspace:*",
     "@statsmcp/kas": "workspace:*",
     "@statsmcp/makstat": "workspace:*",
     "@statsmcp/scb": "workspace:*",

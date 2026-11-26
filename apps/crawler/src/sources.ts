@@ -3,6 +3,7 @@ import { cbsPreset } from '@statsmcp/cbs';
 import {
   createIneEsClient,
   createInePtClient,
+  createInseeClient,
   createMemoryCache,
   createPresetClient,
   PxwebError,
@@ -84,6 +85,21 @@ export function inePtSource(baseUrl: string): CrawlSource {
   };
 }
 
+/** The whole catalogue is one 1.5 MB request; both languages share its cached body. */
+export function inseeSource(baseUrl: string): CrawlSource {
+  const cache = createMemoryCache();
+  return {
+    name: 'insee',
+    langs: ['fr', 'en'],
+    ratePerSecond: 0.25,
+    async crawl(lang, { fetch, userAgent }) {
+      return createInseeClient({ baseUrl, cache, fetch, userAgent }).listTables(
+        lang
+      );
+    }
+  };
+}
+
 // Each catalogue source downloads its whole list in one to a few requests. SCB
 // allows 30 calls per 10 s, so half is 1.5 per second; the others publish no limit.
 // Tree sources need one call per folder. Croatia and Moldova allow 10 calls per
@@ -92,9 +108,11 @@ export function inePtSource(baseUrl: string): CrawlSource {
 // limit and lists all dataflows in one request. INE Spain publishes no limit.
 // INE Portugal recommends at most 15–20 requests per second; its whole catalogue
 // is one request per language.
+// INSEE Melodi allows 30 calls per minute (half: 0.25 per second).
 export const SOURCES: readonly CrawlSource[] = [
   csoSource('https://ws.cso.ie/public'),
   ineEsSource('https://servicios.ine.es/wstempus/js'),
+  inseeSource('https://api.insee.fr/melodi'),
   catalogueSource(absPreset, 1),
   catalogueSource(cbsPreset, 1),
   catalogueSource(dstPreset, 1),
