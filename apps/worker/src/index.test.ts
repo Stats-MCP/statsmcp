@@ -159,6 +159,7 @@ describe('worker', () => {
     ['/xk/mcp', 'Kosovo Agency of Statistics'],
     ['/md/mcp', 'National Bureau of Statistics'],
     ['/lu/mcp', 'STATEC'],
+    ['/es/mcp', 'National Statistics Institute (INE)'],
     ['/mcp', 'national statistics offices and Eurostat']
   ])('serves the %s server', async (path, instructionsPart) => {
     vi.stubGlobal('caches', { default: {} });

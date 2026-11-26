@@ -19,6 +19,7 @@ import { dstPreset } from '@statsmcp/dst';
 import { dzsPreset } from '@statsmcp/dzs';
 import { eurostatPreset } from '@statsmcp/eurostat';
 import { hagstovaPreset } from '@statsmcp/hagstova';
+import { ineEsPreset } from '@statsmcp/ine-es';
 import { kasPreset } from '@statsmcp/kas';
 import { makstatPreset } from '@statsmcp/makstat';
 import { scbPreset } from '@statsmcp/scb';
@@ -117,6 +118,12 @@ const COUNTRIES: readonly HostedCountry[] = [
     code: 'lu',
     preset: statecPreset,
     agent: 'statec-mcp',
+    snapshots: true
+  },
+  {
+    code: 'es',
+    preset: ineEsPreset,
+    agent: 'ine-es-mcp',
     snapshots: true
   }
 ];

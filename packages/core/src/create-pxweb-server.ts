@@ -3,6 +3,7 @@ import { McpServer } from '@modelcontextprotocol/server';
 import type { Cache } from '@/cache';
 import { createCbsODataClient } from '@/cbs-odata-client';
 import { createEurostatClient } from '@/eurostat-client';
+import { createIneEsClient } from '@/ine-es-client';
 import type { PxwebPreset } from '@/preset';
 import { createPxstatClient } from '@/pxstat-client';
 import {
@@ -48,7 +49,7 @@ export interface PresetServerOptions {
   tableSnapshots?: SnapshotReader;
 }
 
-/** PxWeb v1 and PxStat have no small list endpoint, so index search reads the crawled snapshot. */
+/** PxWeb v1, PxStat and INE Spain have no small list endpoint, so index search reads the crawled snapshot. */
 function snapshotTableList(
   preset: PxwebPreset,
   tableSnapshots: SnapshotReader | undefined
@@ -91,6 +92,13 @@ export function createPresetClient(
   }
   if (api === 'cso-pxstat') {
     return createPxstatClient({
+      ...http,
+      baseUrl: preset.apiBaseUrl,
+      tableList: snapshotTableList(preset, tableSnapshots)
+    });
+  }
+  if (api === 'ine-es') {
+    return createIneEsClient({
       ...http,
       baseUrl: preset.apiBaseUrl,
       tableList: snapshotTableList(preset, tableSnapshots)

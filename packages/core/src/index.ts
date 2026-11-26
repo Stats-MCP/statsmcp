@@ -62,6 +62,7 @@ export {
   type TableIndexSearchOptions
 } from '@/table-index';
 export { createPxstatClient, type PxstatClientOptions } from '@/pxstat-client';
+export { createIneEsClient, type IneEsClientOptions } from '@/ine-es-client';
 export {
   createSingstatClient,
   type SingstatClientOptions

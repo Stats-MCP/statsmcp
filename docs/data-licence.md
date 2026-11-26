@@ -237,6 +237,23 @@ The server adds the source with both links to every result:
 
 This project is not affiliated with or endorsed by STATEC.
 
+## National Statistics Institute of Spain (INE)
+
+INE allows reuse of the statistics on its website under [Creative Commons Attribution 4.0 (CC BY 4.0)](https://www.ine.es/dyngs/AYU/index.htm?cid=125), also for commercial purposes. The conditions are:
+
+- Cite the source: `Fuente: Sitio web del INE: www.ine.es`, or `Elaboración propia con datos extraídos del sitio web del INE: www.ine.es` when the data was processed.
+- Give the date of the last update when the original shows it.
+- Do not indicate or suggest that INE takes part in, sponsors or supports the reuse.
+
+The licence covers only information whose original source is INE.
+
+The server adds the source and the licence link to every result, with a link to the table. The table title in every result shows the date of the last update. That date comes from the crawled table list, so it is as current as the last crawl.
+
+- `Source: INE website (Statistics Spain): www.ine.es, CC BY 4.0 (https://www.ine.es/dyngs/AYU/index.htm?cid=125)` (English)
+- `Fuente: Sitio web del INE: www.ine.es, CC BY 4.0 (https://www.ine.es/dyngs/AYU/index.htm?cid=125)` (Spanish)
+
+This project is not affiliated with or endorsed by INE.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

@@ -29,7 +29,8 @@
       "@statsmcp/makstat",
       "@statsmcp/kas",
       "@statsmcp/bns",
-      "@statsmcp/statec"
+      "@statsmcp/statec",
+      "@statsmcp/ine-es"
     ]
   ],
   "access": "public",

@@ -1,6 +1,7 @@
 import { absPreset } from '@statsmcp/abs';
 import { cbsPreset } from '@statsmcp/cbs';
 import {
+  createIneEsClient,
   createMemoryCache,
   createPresetClient,
   type PxwebPreset
@@ -38,14 +39,34 @@ export function catalogueSource(
   };
 }
 
+const INE_TIMEOUT_MS = 60_000;
+
+/** One request per INE operation (166); some take 20 s, so the timeout is longer. */
+export function ineEsSource(baseUrl: string): CrawlSource {
+  return {
+    name: 'ine-es',
+    langs: ['es', 'en'],
+    ratePerSecond: 1,
+    async crawl(lang, { fetch, userAgent }) {
+      return createIneEsClient({
+        baseUrl,
+        fetch,
+        userAgent,
+        timeoutMs: INE_TIMEOUT_MS
+      }).listTables(lang);
+    }
+  };
+}
+
 // Each catalogue source downloads its whole list in one to a few requests. SCB
 // allows 30 calls per 10 s, so half is 1.5 per second; the others publish no limit.
 // Tree sources need one call per folder. Croatia and Moldova allow 10 calls per
 // 10 s (half: 0.5 per second). Iceland advertises 100 per 10 s but sent 429 at 2.7 per second.
 // CSO publishes no limit; its whole collection is one request. ABS publishes no
-// limit and lists all dataflows in one request.
+// limit and lists all dataflows in one request. INE Spain publishes no limit.
 export const SOURCES: readonly CrawlSource[] = [
   csoSource('https://ws.cso.ie/public'),
+  ineEsSource('https://servicios.ine.es/wstempus/js'),
   catalogueSource(absPreset, 1),
   catalogueSource(cbsPreset, 1),
   catalogueSource(dstPreset, 1),

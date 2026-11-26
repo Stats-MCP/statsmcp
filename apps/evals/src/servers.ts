@@ -23,7 +23,7 @@ import { z } from 'zod';
 
 /**
  * The hosted endpoints, keyed by their path segment on statsmcp.dev.
- * Hosted since the last recording, added with the next one: lu, md, xk, mk, ax.
+ * Hosted since the last recording, added with the next one: es, lu, md, xk, mk, ax.
  */
 export const PRESETS = {
   si: sistatPreset,
