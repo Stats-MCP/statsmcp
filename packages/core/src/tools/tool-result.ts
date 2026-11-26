@@ -40,6 +40,8 @@ export async function runTool(
       return toolError(err.message);
     }
     console.error('Unexpected tool error', err);
-    return toolError('Unexpected error while reading statistics data.');
+    // The hosted worker keeps no logs, so the error type is the only clue a user can report.
+    const kind = err instanceof Error ? ` (${err.name})` : '';
+    return toolError(`Unexpected error while reading statistics data${kind}.`);
   }
 }
