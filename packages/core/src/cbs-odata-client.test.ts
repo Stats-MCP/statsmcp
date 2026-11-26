@@ -146,12 +146,14 @@ const v4Responses: Record<string, unknown> = {
 };
 
 /** The v3 service refuses every request, as it does for Cloudflare Workers. */
-function refusingV3Fetch(): ReturnType<typeof vi.fn<typeof fetch>> {
+function refusingV3Fetch(
+  v4TableId = '83474NED'
+): ReturnType<typeof vi.fn<typeof fetch>> {
   return vi.fn<typeof fetch>(async (input) => {
     const url = String(input);
     if (!url.startsWith(DATASETS_URL)) return new Response('', { status: 406 });
     const path = new URL(url).pathname.split('/').at(-1) ?? '';
-    const known = url.includes('/83474NED/') && path in v4Responses;
+    const known = url.includes(`/${v4TableId}/`) && path in v4Responses;
     return known ? json(v4Responses[path]) : json({}, 404);
   });
 }
@@ -421,6 +423,18 @@ describe('createCbsODataClient', () => {
       true,
       false
     ]);
+  });
+
+  it('keeps the case of a lower-case English id when it maps to the Dutch twin', async () => {
+    const client = createCbsODataClient({
+      baseUrl: BASE_URL,
+      datasetsUrl: DATASETS_URL,
+      fetch: refusingV3Fetch('80590ned')
+    });
+
+    const metadata = await client.getMetadata('en', '80590eng');
+
+    expect(metadata.title).toContain('(Dutch table 80590ned)');
   });
 
   it('reports a table as not found when v3 refuses and v4 does not have it', async () => {

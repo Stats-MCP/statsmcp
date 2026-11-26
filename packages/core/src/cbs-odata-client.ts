@@ -371,7 +371,10 @@ export function createCbsODataClient(
    * Dutch twin, with Dutch labels.
    */
   async function loadV4Table(tableId: string): Promise<CbsTable> {
-    const datasetId = tableId.replace(/ENG$/i, 'NED');
+    // v4 ids are case-sensitive: 80590eng has the twin 80590ned, 86141ENG has 86141NED.
+    const datasetId = tableId.replace(/eng$/i, (suffix) =>
+      suffix === 'eng' ? 'ned' : 'NED'
+    );
     const tableBase = `${datasetsUrl}/${datasetId}`;
     const [title, dimensions, measures] = await Promise.all([
       request(
