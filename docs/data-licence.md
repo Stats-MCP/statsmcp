@@ -189,6 +189,17 @@ If you change the data or calculate new figures, say so, for example: `ÅSUB and
 
 This project is not affiliated with or endorsed by ÅSUB.
 
+## State Statistical Office of North Macedonia
+
+The State Statistical Office makes [MakStat data free for all users](https://www.stat.mk/en/about-us/policies-and-strategies/open-data/), with no separate contract. The only condition is to name the source (`Source: State Statistical Office`). Applications must not be presented as "official cooperation" or "partnership" with the office, and the API must not be used with malicious code.
+
+The server adds the source and the terms link to every result:
+
+- `Source: State Statistical Office of the Republic of North Macedonia (https://www.stat.mk/en/about-us/policies-and-strategies/open-data/)` (English)
+- `Извор: Државен завод за статистика (https://www.stat.mk/en/about-us/policies-and-strategies/open-data/)` (Macedonian)
+
+This project is not affiliated with or endorsed by the State Statistical Office.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

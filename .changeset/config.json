@@ -25,7 +25,8 @@
       "@statsmcp/dzs",
       "@statsmcp/cso",
       "@statsmcp/abs",
-      "@statsmcp/asub"
+      "@statsmcp/asub",
+      "@statsmcp/makstat"
     ]
   ],
   "access": "public",
