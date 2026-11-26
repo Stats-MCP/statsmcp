@@ -57,7 +57,8 @@ for (const dir of [
   'abs',
   'asub',
   'makstat',
-  'kas'
+  'kas',
+  'bns'
 ]) {
   const version = await syncPresetVersion(dir);
   if (dir === 'sistat') await syncServerJson(dir, version);

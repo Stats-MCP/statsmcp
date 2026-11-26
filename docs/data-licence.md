@@ -213,6 +213,19 @@ If you change the data or calculate new figures, say so, for example: `Kosovo Ag
 
 This project is not affiliated with or endorsed by the Kosovo Agency of Statistics.
 
+## National Bureau of Statistics of the Republic of Moldova
+
+The National Bureau of Statistics (NBS) publishes the content of its website under the [Creative Commons Attribution 4.0 licence (CC BY 4.0)](https://statistica.gov.md/en/copyright-139.html). You can use it for commercial and non-commercial purposes. You must state the source with a link to the material and say when you changed it.
+
+The server adds the source, the terms link and the table link to every result:
+
+- `Source: National Bureau of Statistics of the Republic of Moldova, CC BY 4.0 (https://statistica.gov.md/en/copyright-139.html)` (English)
+- `Sursa: Biroul Național de Statistică al Republicii Moldova, CC BY 4.0 (https://statistica.gov.md/en/copyright-139.html)` (Romanian)
+
+If you change the data or calculate new figures, say so, for example: `Own calculations based on data of National Bureau of Statistics of the Republic of Moldova`.
+
+This project is not affiliated with or endorsed by the National Bureau of Statistics of the Republic of Moldova.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

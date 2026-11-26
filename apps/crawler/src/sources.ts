@@ -39,8 +39,8 @@ export function catalogueSource(
 
 // Each catalogue source downloads its whole list in one to a few requests. SCB
 // allows 30 calls per 10 s, so half is 1.5 per second; the others publish no limit.
-// Tree sources need one call per folder. Croatia allows 10 calls per 10 s (half:
-// 0.5 per second). Iceland advertises 100 per 10 s but sent 429 at 2.7 per second.
+// Tree sources need one call per folder. Croatia and Moldova allow 10 calls per
+// 10 s (half: 0.5 per second). Iceland advertises 100 per 10 s but sent 429 at 2.7 per second.
 // CSO publishes no limit; its whole collection is one request. ABS publishes no
 // limit and lists all dataflows in one request.
 export const SOURCES: readonly CrawlSource[] = [
@@ -68,5 +68,15 @@ export const SOURCES: readonly CrawlSource[] = [
     },
     skipDatabases: ['Sogulegar'],
     ratePerSecond: 1
+  }),
+  pxwebTreeSource({
+    name: 'bns',
+    roots: {
+      ro: 'https://statbank.statistica.md/PxWeb/api/v1',
+      en: 'https://statbank.statistica.md/PxWeb/api/v1'
+    },
+    // ssd is listed only in English and answers every request with "Parameter error".
+    skipDatabases: ['ssd'],
+    ratePerSecond: 0.5
   })
 ];

@@ -1,6 +1,7 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { absPreset } from '@statsmcp/abs';
 import { asubPreset } from '@statsmcp/asub';
+import { bnsPreset } from '@statsmcp/bns';
 import { cbsPreset } from '@statsmcp/cbs';
 import {
   bucketSnapshotReader,
@@ -104,6 +105,12 @@ const COUNTRIES: readonly HostedCountry[] = [
     preset: kasPreset,
     agent: 'kas-mcp',
     snapshots: false
+  },
+  {
+    code: 'md',
+    preset: bnsPreset,
+    agent: 'bns-mcp',
+    snapshots: true
   }
 ];
 

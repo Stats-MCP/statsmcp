@@ -13,6 +13,7 @@
     "@modelcontextprotocol/server": "catalog:",
     "@statsmcp/abs": "workspace:*",
     "@statsmcp/asub": "workspace:*",
+    "@statsmcp/bns": "workspace:*",
     "@statsmcp/cbs": "workspace:*",
     "@statsmcp/core": "workspace:*",
     "@statsmcp/cso": "workspace:*",
