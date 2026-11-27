@@ -18,7 +18,7 @@ There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Swe
 
 ## Features
 
-- **Search** more than 67,000 tables by keywords.
+- **Search** more than 69,000 tables by keywords.
 - **Read the variables** of a table, with a filter for long lists such as municipalities.
 - **Get data** as CSV with readable labels. Use `latest` to get the most recent periods.
 - **Source in every result**, with a link to the table, as the SURS terms require.
