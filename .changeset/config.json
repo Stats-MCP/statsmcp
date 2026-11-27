@@ -36,7 +36,8 @@
       "@statsmcp/ons",
       "@statsmcp/statbel",
       "@statsmcp/czso",
-      "@statsmcp/ibge"
+      "@statsmcp/ibge",
+      "@statsmcp/osp"
     ]
   ],
   "access": "public",

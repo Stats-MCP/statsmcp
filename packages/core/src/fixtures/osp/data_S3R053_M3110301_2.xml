@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mes:GenericData xmlns:mes="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:com="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common" xmlns:footer="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message/footer" xmlns:g="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/data/generic" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message https://osp-rs.stat.gov.lt/xsd_scheme/SDMXMessage.xsd http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common https://osp-rs.stat.gov.lt/xsd_scheme/SDMXCommon.xsd http://www.sdmx.org/resources/sdmxml/schemas/v2_1/data/generic https://osp-rs.stat.gov.lt/xsd_scheme/SDMXDataGeneric.xsd">
+   <mes:Header>
+      <mes:ID>9ADC5ECA23C74ECF94DD08C61E2AE43B</mes:ID>
+      <mes:Test>true</mes:Test>
+      <mes:Prepared>2026-11-27T05:31:59.252000000+02:00</mes:Prepared>
+      <mes:Sender id="LSD" />
+      <mes:Structure structureID="LSD" dimensionAtObservation="AllDimensions">
+         <com:Structure>
+            <URN>urn:sdmx:org.sdmx.infomodel.datastructure.DataStructure=LSD.LSD(1.0)</URN>
+         </com:Structure>
+      </mes:Structure>
+   </mes:Header>
+   <footer:Footer>
+      <footer:Message code="400" severity="Error">
+         <com:Text xml:lang="lt">Užklausa negrąžino duomenų. Pakeiskite datų intervalą.</com:Text>
+         <com:Text xml:lang="en">The request did not return the data. Change the date range.</com:Text>
+      </footer:Message>
+   </footer:Footer>
+</mes:GenericData>

@@ -67,6 +67,7 @@ export { createInePtClient, type InePtClientOptions } from '@/ine-pt-client';
 export { createInseeClient, type InseeClientOptions } from '@/insee-client';
 export { createCzsoClient, type CzsoClientOptions } from '@/czso-client';
 export { createIbgeClient, type IbgeClientOptions } from '@/ibge-client';
+export { createOspClient, type OspClientOptions } from '@/osp-client';
 export {
   createOnsClient,
   onsTableUrl,

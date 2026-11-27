@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mes:Structure xmlns:footer="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message/footer" xmlns:mes="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:com="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common" xmlns:str="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message https://osp-rs.stat.gov.lt/xsd_scheme/SDMXMessage.xsd http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common https://osp-rs.stat.gov.lt/xsd_scheme/SDMXCommon.xsd http://www.sdmx.org/resources/sdmxml/schemas/v2_1/data/generic https://osp-rs.stat.gov.lt/xsd_scheme/SDMXDataGeneric.xsd">
+   <mes:Header>
+      <mes:ID>C5B1F03CE48C4F4892B3119A58191A05</mes:ID>
+      <mes:Test>true</mes:Test>
+      <mes:Prepared>2026-11-27T05:17:01.162000000+02:00</mes:Prepared>
+      <mes:Sender id="unknown" />
+      <mes:Receiver id="not_supplied" />
+   </mes:Header>
+   <footer:Footer>
+      <footer:Message code="400" severity="Error">
+         <com:Text xml:lang="lt">Užklausa negrąžino duomenų.</com:Text>
+         <com:Text xml:lang="en">The request did not return the data.</com:Text>
+      </footer:Message>
+   </footer:Footer>
+</mes:Structure>

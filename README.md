@@ -65,6 +65,7 @@ To connect to only one office, use its own endpoint, `https://statsmcp.dev/<code
 | `be` | Statbel (Belgium)                               |
 | `cz` | Czech Statistical Office                        |
 | `br` | IBGE (Brazil)                                   |
+| `lt` | State Data Agency (Lithuania)                   |
 | `eu` | Eurostat                                        |
 
 ```sh
@@ -127,6 +128,7 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 | [Be.STAT](https://bestat.statbel.fgov.be/bestat/) (Statbel)                                                            | Belgium         | [`@statsmcp/statbel`](packages/statbel)   | Hosted and npm       |
 | [DataStat](https://data.csu.gov.cz/) (CZSO)                                                                            | Czechia         | [`@statsmcp/czso`](packages/czso)         | Hosted and npm       |
 | [SIDRA](https://sidra.ibge.gov.br/) (IBGE)                                                                             | Brazil          | [`@statsmcp/ibge`](packages/ibge)         | Hosted and npm       |
+| [Official Statistics Portal](https://osp.stat.gov.lt/)                                                                 | Lithuania       | [`@statsmcp/osp`](packages/osp)           | Hosted and npm       |
 | [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                                                        | Singapore       | [`@statsmcp/singstat`](packages/singstat) | npm only; not hosted |
 
 To add a database, use the [`@statsmcp/core`](packages/core) toolkit.

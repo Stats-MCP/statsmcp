@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mes:Structure xmlns:footer="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message/footer" xmlns:mes="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:com="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common" xmlns:str="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message https://osp-rs.stat.gov.lt/xsd_scheme/SDMXMessage.xsd http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common https://osp-rs.stat.gov.lt/xsd_scheme/SDMXCommon.xsd http://www.sdmx.org/resources/sdmxml/schemas/v2_1/data/generic https://osp-rs.stat.gov.lt/xsd_scheme/SDMXDataGeneric.xsd">
+   <mes:Header>
+      <mes:ID>13EB06528C24407E9B7CBB8317B96DC1</mes:ID>
+      <mes:Test>true</mes:Test>
+      <mes:Prepared>2026-11-27T05:14:39.984000000+02:00</mes:Prepared>
+      <mes:Sender id="unknown" />
+      <mes:Receiver id="not_supplied" />
+   </mes:Header>
+   <mes:Structures><str:Codelists><str:Codelist id="MATVNT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=LSD:MATVNT(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Matavimo vienetai</com:Name><com:Name xml:lang="en">Measure unit</com:Name><str:Code id="procentai" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:MATVNT(1.0).procentai"><com:Name xml:lang="lt">proc.</com:Name><com:Name xml:lang="en">per cent</com:Name></str:Code></str:Codelist><str:Codelist id="LYGINIMAS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=LSD:LYGINIMAS(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Lyginimas</com:Name><com:Name xml:lang="en">Comparison</com:Name><str:Code id="palyg_al" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:LYGINIMAS(1.0).palyg_al"><com:Name xml:lang="lt">palyginti su ankstesniu laikotarpiu</com:Name><com:Name xml:lang="en">compared to previous period</com:Name></str:Code><str:Code id="palyg_pm_gruodis" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:LYGINIMAS(1.0).palyg_pm_gruodis"><com:Name xml:lang="lt">palyginti su praėjusių metų gruodžio mėnesiu</com:Name><com:Name xml:lang="en">compared to December of the previous year</com:Name></str:Code><str:Code id="palyg_pm_12men" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:LYGINIMAS(1.0).palyg_pm_12men"><com:Name xml:lang="lt">12 paskutinių mėnesių, palyginti su atitinkamais ankstesniais 12 mėnesių</com:Name><com:Name xml:lang="en">Average annual change</com:Name></str:Code><str:Code id="palyg_pm" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:LYGINIMAS(1.0).palyg_pm"><com:Name xml:lang="lt">palyginti su praėjusių metų atitinkamu laikotarpiu</com:Name><com:Name xml:lang="en">compare to corresponding period of previous year</com:Name></str:Code></str:Codelist><str:Codelist id="OBS_STATUS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=LSD:OBS_STATUS(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Sutartinis simbolis</com:Name><com:Name xml:lang="en">Contractual symbol</com:Name><str:Code id="nebuvo" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:OBS_STATUS(1.0).nebuvo"><com:Name xml:lang="lt">tokio reiškinio (rodiklio) atitinkamu laikotarpiu nebuvo</com:Name><com:Name xml:lang="en">category not applicable</com:Name></str:Code><str:Code id="neraduomenu" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:OBS_STATUS(1.0).neraduomenu"><com:Name xml:lang="lt">nėra duomenų, nors toks reiškinys (rodiklis) atitinkamu laikotarpiu buvo</com:Name><com:Name xml:lang="en">data not available, although the phenomenon existed</com:Name></str:Code><str:Code id="konfidencialus" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:OBS_STATUS(1.0).konfidencialus"><com:Name xml:lang="lt">konfidencialūs duomenys</com:Name><com:Name xml:lang="en">confidential data</com:Name></str:Code></str:Codelist><str:Codelist id="ECOICOP2_M2020216_1" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=LSD:ECOICOP2_M2020216_1(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Europos individualaus vartojimo išlaidų pagal paskirtį klasifikatorius (ECOICOP2)</com:Name><com:Name xml:lang="en">European classification of individual consuption according to purpose (ECOICOP2)</com:Name><str:Code id="CP01" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:ECOICOP2_M2020216_1(1.0).CP01"><com:Name xml:lang="lt">Maistas ir nealkoholiniai gėrimai</com:Name><com:Name xml:lang="en">Food and non-alcoholic beverages</com:Name></str:Code><str:Code id="CP02" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:ECOICOP2_M2020216_1(1.0).CP02"><com:Name xml:lang="lt">Alkoholiniai gėrimai, tabakas ir narkotikai</com:Name><com:Name xml:lang="en">Alcoholic beverages, tobacco and narcotics</com:Name></str:Code><str:Code id="CP011" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:ECOICOP2_M2020216_1(1.0).CP011"><com:Name xml:lang="lt">Maistas</com:Name><com:Name xml:lang="en">Food</com:Name></str:Code><str:Code id="CP022" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:ECOICOP2_M2020216_1(1.0).CP022"><com:Name xml:lang="lt">Alkoholio gamybos paslaugos</com:Name><com:Name xml:lang="en">Alcohol production services</com:Name></str:Code><str:Code id="CP00" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:ECOICOP2_M2020216_1(1.0).CP00"><com:Name xml:lang="lt">Visos vartojimo prekės ir paslaugos</com:Name><com:Name xml:lang="en">All-items</com:Name></str:Code></str:Codelist></str:Codelists><str:Concepts><str:ConceptScheme id="M2020103_1" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.ConceptScheme=LSD:M2020103_1(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Schema M2020103_1</com:Name><com:Name xml:lang="en">Concept Scheme for M2020103_1</com:Name><str:Concept id="ECOICOP2_M2020216_1" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M2020103_1(1.0).ECOICOP2_M2020216_1"><com:Name xml:lang="lt">Europos individualaus vartojimo išlaidų pagal paskirtį klasifikatorius (ECOICOP2)</com:Name><com:Name xml:lang="en">European classification of individual consuption according to purpose (ECOICOP2)</com:Name></str:Concept><str:Concept id="MATVNT" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M2020103_1(1.0).MATVNT"><com:Name xml:lang="lt">Matavimo vienetai</com:Name><com:Name xml:lang="en">Measure unit</com:Name></str:Concept><str:Concept id="LYGINIMAS" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M2020103_1(1.0).LYGINIMAS"><com:Name xml:lang="lt">Lyginimas</com:Name><com:Name xml:lang="en">Comparison</com:Name></str:Concept><str:Concept id="TIME_PERIOD" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M2020103_1(1.0).TIME_PERIOD"><com:Name xml:lang="lt">Laikotarpis</com:Name><com:Name xml:lang="en">Time period</com:Name></str:Concept><str:Concept id="DS_LAST_UPDATE" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M2020103_1(1.0).DS_LAST_UPDATE"><com:Name xml:lang="lt">Paskutinio atnaujinimo data</com:Name><com:Name xml:lang="en">Last update date</com:Name></str:Concept><str:Concept id="OBS_VALUE" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M2020103_1(1.0).OBS_VALUE"><com:Name xml:lang="lt">Stebėjimo vertė</com:Name><com:Name xml:lang="en">Observation value</com:Name></str:Concept><str:Concept id="OBS_DECIMALS" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M2020103_1(1.0).OBS_DECIMALS"><com:Name xml:lang="lt">Tikslumas po kablelio</com:Name><com:Name xml:lang="en">Decimal precision</com:Name></str:Concept></str:ConceptScheme></str:Concepts>
+    <str:DataStructures>
+      <str:DataStructure id="M2020103_1" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataStructure=LSD:M2020103_1(1.0)" agencyID="LSD" version="1.0" isFinal="true">
+        <com:Name xml:lang="lt">Duomenų struktūros apibrėžimas</com:Name>
+        <com:Name xml:lang="en">Data Structure Definition</com:Name>
+        <str:DataStructureComponents>
+          <str:DimensionList id="DimensionDescriptor" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DimensionDescriptor=LSD:M2020103_1(1.0).DimensionDescriptor">
+            <str:Dimension id="ECOICOP2_M2020216_1" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dimension=LSD:M2020103_1(1.0).ECOICOP2_M2020216_1" position="1">
+              <str:ConceptIdentity>
+                <Ref id="ECOICOP2_M2020216_1" maintainableParentID="M2020103_1" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="ECOICOP2_M2020216_1" version="1.0" agencyID="LSD" package="codelist" class="Codelist"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+            </str:Dimension>
+            <str:Dimension id="LYGINIMAS" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dimension=LSD:M2020103_1(1.0).LYGINIMAS" position="2">
+              <str:ConceptIdentity>
+                <Ref id="LYGINIMAS" maintainableParentID="M2020103_1" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="LYGINIMAS" version="1.0" agencyID="LSD" package="codelist" class="Codelist"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+            </str:Dimension>
+            <str:MeasureDimension id="MATVNT" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dimension=LSD:M2020103_1(1.0).MATVNT" position="3">
+              <str:ConceptIdentity>
+                <Ref id="MATVNT" maintainableParentID="M2020103_1" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="MATVNT" version="1.0" agencyID="LSD"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+            </str:MeasureDimension>
+            <str:TimeDimension id="TIME_PERIOD" urn="urn:sdmx:org.sdmx.infomodel.datastructure.TimeDimension=LSD:M2020103_1(1.0).TIME_PERIOD" position="4">
+              <str:ConceptIdentity>
+                <Ref id="TIME_PERIOD" maintainableParentID="M2020103_1" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:TextFormat/>
+              </str:LocalRepresentation>
+            </str:TimeDimension>
+          </str:DimensionList>
+          <str:AttributeList id="AttributeDescriptor" urn="urn:sdmx:org.sdmx.infomodel.datastructure.AttributeDescriptor=LSD:M2020103_1(1.0).AttributeDescriptor">
+            <str:Attribute id="DS_LAST_UPDATE" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataAttribute=LSD:M2020103_1(1.0).DS_LAST_UPDATE" assignmentStatus="Conditional">
+              <str:ConceptIdentity>
+                <Ref id="DS_LAST_UPDATE" maintainableParentID="M2020103_1" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:TextFormat/>
+              </str:LocalRepresentation>
+              <str:AttributeRelationship>
+                <str:None/>
+              </str:AttributeRelationship>
+            </str:Attribute>
+            <str:Attribute id="OBS_STATUS" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataAttribute=LSD:M2020103_1(1.0).OBS_STATUS" assignmentStatus="Conditional">
+              <str:ConceptIdentity>
+                <Ref id="OBS_STATUS" maintainableParentID="M2020103_1" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="OBS_STATUS" version="1.0" agencyID="LSD" package="codelist" class="Codelist"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+              <str:AttributeRelationship>
+                <str:PrimaryMeasure>
+                  <Ref id="OBS_VALUE"/>
+                </str:PrimaryMeasure>
+              </str:AttributeRelationship>
+            </str:Attribute>
+            <str:Attribute id="OBS_DECIMALS" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataAttribute=LSD:M2020103_1(1.0).OBS_DECIMALS" assignmentStatus="Conditional">
+              <str:ConceptIdentity>
+                <Ref id="OBS_DECIMALS" maintainableParentID="M2020103_1" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:TextFormat/>
+              </str:LocalRepresentation>
+              <str:AttributeRelationship>
+                <str:PrimaryMeasure>
+                  <Ref id="OBS_VALUE"/>
+                </str:PrimaryMeasure>
+              </str:AttributeRelationship>
+            </str:Attribute>
+          </str:AttributeList>
+          <str:MeasureList id="MeasureDescriptor" urn="urn:sdmx:org.sdmx.infomodel.datastructure.MeasureDescriptor=LSD:M2020103_1(1.0).MeasureDescriptor">
+            <str:PrimaryMeasure id="OBS_VALUE" urn="urn:sdmx:org.sdmx.infomodel.datastructure.PrimaryMeasure=LSD:M2020103_1(1.0).OBS_VALUE">
+              <str:ConceptIdentity>
+                <Ref id="OBS_VALUE" maintainableParentID="M2020103_1" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+            </str:PrimaryMeasure>
+          </str:MeasureList>
+        </str:DataStructureComponents>
+      </str:DataStructure>
+    </str:DataStructures>
+  </mes:Structures>
+</mes:Structure>

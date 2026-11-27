@@ -29,6 +29,7 @@
     "@statsmcp/kas": "workspace:*",
     "@statsmcp/makstat": "workspace:*",
     "@statsmcp/ons": "workspace:*",
+    "@statsmcp/osp": "workspace:*",
     "@statsmcp/scb": "workspace:*",
     "@statsmcp/sistat": "workspace:*",
     "@statsmcp/ssb": "workspace:*",

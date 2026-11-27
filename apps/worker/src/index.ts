@@ -27,6 +27,7 @@ import { inseePreset } from '@statsmcp/insee';
 import { kasPreset } from '@statsmcp/kas';
 import { makstatPreset } from '@statsmcp/makstat';
 import { onsPreset } from '@statsmcp/ons';
+import { ospPreset } from '@statsmcp/osp';
 import { scbPreset } from '@statsmcp/scb';
 import { sistatPreset } from '@statsmcp/sistat';
 import { ssbPreset } from '@statsmcp/ssb';
@@ -166,6 +167,12 @@ const COUNTRIES: readonly HostedCountry[] = [
     code: 'br',
     preset: ibgePreset,
     agent: 'ibge-mcp',
+    snapshots: false
+  },
+  {
+    code: 'lt',
+    preset: ospPreset,
+    agent: 'osp-mcp',
     snapshots: false
   }
 ];

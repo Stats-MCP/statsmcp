@@ -319,6 +319,17 @@ The server adds the source to every result, with a link to the SIDRA table:
 
 This project is not affiliated with or endorsed by IBGE.
 
+## State Data Agency (Statistics Lithuania)
+
+The Law on the Right of Access to Information and the Re-use of Data ([VIII-1524](https://e-seimas.lrs.lt/rs/legalact/TAD/be093fa03dca11efb121d2fe3a0eff27/)) says: "Such information and data may be re-used for commercial or non-commercial purposes" (Art. 1). Re-users may publish the data on the Internet without the consent of the institution and without an agreement (Art. 8(1)). They must not distort the data or suggest that the institution sponsors the service (Art. 8(2)), and they "must indicate the source of the data and the date on which it was received" (Art. 8(3)). The Law on Official Statistics (Art. 16(3)) requires naming the body that produced the statistics. The State Data Agency's datasets on data.gov.lt carry CC BY 4.0.
+
+The server adds the source to every result, with a link to the indicator. Each table title shows the date on which the data was retrieved.
+
+- `Source: State Data Agency (Statistics Lithuania), Official Statistics Portal (https://osp.stat.gov.lt)` (English)
+- `Šaltinis: Valstybės duomenų agentūra, Oficialiosios statistikos portalas (https://osp.stat.gov.lt)` (Lithuanian)
+
+This project is not affiliated with or endorsed by the State Data Agency.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

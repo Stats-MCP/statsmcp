@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mes:Structure xmlns:footer="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message/footer" xmlns:mes="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:com="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common" xmlns:str="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message https://osp-rs.stat.gov.lt/xsd_scheme/SDMXMessage.xsd http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common https://osp-rs.stat.gov.lt/xsd_scheme/SDMXCommon.xsd http://www.sdmx.org/resources/sdmxml/schemas/v2_1/data/generic https://osp-rs.stat.gov.lt/xsd_scheme/SDMXDataGeneric.xsd">
+   <mes:Header>
+      <mes:ID>99633747C5CE49DCAAE9CCC69011C50D</mes:ID>
+      <mes:Test>true</mes:Test>
+      <mes:Prepared>2026-11-27T05:31:57.817000000+02:00</mes:Prepared>
+      <mes:Sender id="unknown" />
+      <mes:Receiver id="not_supplied" />
+   </mes:Header>
+   <mes:Structures><str:Dataflows><str:Dataflow id="S3R053_M3110301_2" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dataflow=LSD:S3R053_M3110301_2(1.0)" isExternalReference="false" agencyID="LSD" isFinal="false" version="1.0"><com:Name xml:lang="lt">S3R053 - Bendrojo ugdymo mokyklos</com:Name><com:Name xml:lang="en">S3R053 - General schools</com:Name><com:Description xml:lang="lt">Gyvenamoji vietovė | Mokyklų paskirčių grupės (2000-2001 - 2026-2027) (Atnaujinta: 2026-10-09)</com:Description><com:Description xml:lang="en">Groups of school | Place of residence (2000-2001 - 2026-2027) (Was renewed: 2026-10-09)</com:Description><str:Structure><Ref id="M3110301_2" package="datastructure" class="DataStructure" agencyID="LSD" version="1.0"></Ref></str:Structure></str:Dataflow></str:Dataflows>
+  </mes:Structures>
+</mes:Structure>

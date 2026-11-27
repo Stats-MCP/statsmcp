@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mes:Structure xmlns:footer="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message/footer" xmlns:mes="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message" xmlns:com="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common" xmlns:str="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/structure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sdmx.org/resources/sdmxml/schemas/v2_1/message https://osp-rs.stat.gov.lt/xsd_scheme/SDMXMessage.xsd http://www.sdmx.org/resources/sdmxml/schemas/v2_1/common https://osp-rs.stat.gov.lt/xsd_scheme/SDMXCommon.xsd http://www.sdmx.org/resources/sdmxml/schemas/v2_1/data/generic https://osp-rs.stat.gov.lt/xsd_scheme/SDMXDataGeneric.xsd">
+   <mes:Header>
+      <mes:ID>C4939485DF524388BF2B8AF2849061CE</mes:ID>
+      <mes:Test>true</mes:Test>
+      <mes:Prepared>2026-11-27T05:16:53.611000000+02:00</mes:Prepared>
+      <mes:Sender id="unknown" />
+      <mes:Receiver id="not_supplied" />
+   </mes:Header>
+   <mes:Structures><str:Codelists><str:Codelist id="Lytis" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=LSD:Lytis(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Lytis</com:Name><com:Name xml:lang="en">Sex</com:Name><str:Code id="0" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:Lytis(1.0).0"><com:Name xml:lang="lt">Vyrai ir moterys</com:Name><com:Name xml:lang="en">Males and females</com:Name></str:Code><str:Code id="1" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:Lytis(1.0).1"><com:Name xml:lang="lt">Vyrai</com:Name><com:Name xml:lang="en">Males</com:Name></str:Code><str:Code id="2" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:Lytis(1.0).2"><com:Name xml:lang="lt">Moterys</com:Name><com:Name xml:lang="en">Females</com:Name></str:Code></str:Codelist><str:Codelist id="MATVNT" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=LSD:MATVNT(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Matavimo vienetai</com:Name><com:Name xml:lang="en">Measure unit</com:Name><str:Code id="asmenys" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:MATVNT(1.0).asmenys"><com:Name xml:lang="lt">asmenys</com:Name><com:Name xml:lang="en">persons</com:Name></str:Code></str:Codelist><str:Codelist id="OBS_STATUS" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=LSD:OBS_STATUS(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Sutartinis simbolis</com:Name><com:Name xml:lang="en">Contractual symbol</com:Name><str:Code id="nebuvo" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:OBS_STATUS(1.0).nebuvo"><com:Name xml:lang="lt">tokio reiškinio (rodiklio) atitinkamu laikotarpiu nebuvo</com:Name><com:Name xml:lang="en">category not applicable</com:Name></str:Code><str:Code id="neraduomenu" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:OBS_STATUS(1.0).neraduomenu"><com:Name xml:lang="lt">nėra duomenų, nors toks reiškinys (rodiklis) atitinkamu laikotarpiu buvo</com:Name><com:Name xml:lang="en">data not available, although the phenomenon existed</com:Name></str:Code><str:Code id="konfidencialus" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:OBS_STATUS(1.0).konfidencialus"><com:Name xml:lang="lt">konfidencialūs duomenys</com:Name><com:Name xml:lang="en">confidential data</com:Name></str:Code></str:Codelist><str:Codelist id="savivaldybesRegdb" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=LSD:savivaldybesRegdb(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Administracinė teritorija</com:Name><com:Name xml:lang="en">Administrative territory</com:Name><str:Code id="01" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:savivaldybesRegdb(1.0).01"><com:Name xml:lang="lt">Alytaus apskritis</com:Name><com:Name xml:lang="en">Alytus county</com:Name></str:Code><str:Code id="13" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:savivaldybesRegdb(1.0).13"><com:Name xml:lang="lt">Vilniaus m. sav.</com:Name><com:Name xml:lang="en">Vilnius c. mun.</com:Name></str:Code><str:Code id="00" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:savivaldybesRegdb(1.0).00"><com:Name xml:lang="lt">Lietuvos Respublika</com:Name><com:Name xml:lang="en">Republic of Lithuania</com:Name></str:Code></str:Codelist><str:Codelist id="Demogr_amziusM1411" urn="urn:sdmx:org.sdmx.infomodel.codelist.Codelist=LSD:Demogr_amziusM1411(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Amžius</com:Name><com:Name xml:lang="en">Age</com:Name><str:Code id="2" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:Demogr_amziusM1411(1.0).2"><com:Name xml:lang="lt">2</com:Name><com:Name xml:lang="en">2</com:Name></str:Code><str:Code id="10" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:Demogr_amziusM1411(1.0).10"><com:Name xml:lang="lt">10</com:Name><com:Name xml:lang="en">10</com:Name></str:Code><str:Code id="1" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:Demogr_amziusM1411(1.0).1"><com:Name xml:lang="lt">1</com:Name><com:Name xml:lang="en">1</com:Name></str:Code><str:Code id="0" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:Demogr_amziusM1411(1.0).0"><com:Name xml:lang="lt">0</com:Name><com:Name xml:lang="en">0</com:Name></str:Code><str:Code id="g085" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:Demogr_amziusM1411(1.0).g085"><com:Name xml:lang="lt">85 ir vyresni</com:Name><com:Name xml:lang="en">85 and older</com:Name></str:Code><str:Code id="g000g999" urn="urn:sdmx:org.sdmx.infomodel.codelist.Code=LSD:Demogr_amziusM1411(1.0).g000g999"><com:Name xml:lang="lt">Iš viso pagal amžių</com:Name><com:Name xml:lang="en">Total by age</com:Name></str:Code></str:Codelist></str:Codelists><str:Concepts><str:ConceptScheme id="M3010202" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.ConceptScheme=LSD:M3010202(1.0)" agencyID="LSD" version="1.0" isFinal="true"><com:Name xml:lang="lt">Schema M3010202</com:Name><com:Name xml:lang="en">Concept Scheme for M3010202</com:Name><str:Concept id="Demogr_amziusM1411" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M3010202(1.0).Demogr_amziusM1411"><com:Name xml:lang="lt">Amžius</com:Name><com:Name xml:lang="en">Age</com:Name></str:Concept><str:Concept id="savivaldybesRegdb" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M3010202(1.0).savivaldybesRegdb"><com:Name xml:lang="lt">Administracinė teritorija</com:Name><com:Name xml:lang="en">Administrative territory</com:Name></str:Concept><str:Concept id="Lytis" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M3010202(1.0).Lytis"><com:Name xml:lang="lt">Lytis</com:Name><com:Name xml:lang="en">Sex</com:Name></str:Concept><str:Concept id="MATVNT" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M3010202(1.0).MATVNT"><com:Name xml:lang="lt">Matavimo vienetai</com:Name><com:Name xml:lang="en">Measure unit</com:Name></str:Concept><str:Concept id="TIME_PERIOD" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M3010202(1.0).TIME_PERIOD"><com:Name xml:lang="lt">Laikotarpis</com:Name><com:Name xml:lang="en">Time period</com:Name></str:Concept><str:Concept id="DS_LAST_UPDATE" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M3010202(1.0).DS_LAST_UPDATE"><com:Name xml:lang="lt">Paskutinio atnaujinimo data</com:Name><com:Name xml:lang="en">Last update date</com:Name></str:Concept><str:Concept id="OBS_VALUE" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M3010202(1.0).OBS_VALUE"><com:Name xml:lang="lt">Stebėjimo vertė</com:Name><com:Name xml:lang="en">Observation value</com:Name></str:Concept><str:Concept id="OBS_DECIMALS" urn="urn:sdmx:org.sdmx.infomodel.conceptscheme.Concept=LSD:M3010202(1.0).OBS_DECIMALS"><com:Name xml:lang="lt">Tikslumas po kablelio</com:Name><com:Name xml:lang="en">Decimal precision</com:Name></str:Concept></str:ConceptScheme></str:Concepts>
+    <str:DataStructures>
+      <str:DataStructure id="M3010202" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataStructure=LSD:M3010202(1.0)" agencyID="LSD" version="1.0" isFinal="true">
+        <com:Name xml:lang="lt">Duomenų struktūros apibrėžimas</com:Name>
+        <com:Name xml:lang="en">Data Structure Definition</com:Name>
+        <str:DataStructureComponents>
+          <str:DimensionList id="DimensionDescriptor" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DimensionDescriptor=LSD:M3010202(1.0).DimensionDescriptor">
+            <str:Dimension id="Lytis" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dimension=LSD:M3010202(1.0).Lytis" position="1">
+              <str:ConceptIdentity>
+                <Ref id="Lytis" maintainableParentID="M3010202" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="Lytis" version="1.0" agencyID="LSD" package="codelist" class="Codelist"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+            </str:Dimension>
+            <str:Dimension id="Demogr_amziusM1411" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dimension=LSD:M3010202(1.0).Demogr_amziusM1411" position="2">
+              <str:ConceptIdentity>
+                <Ref id="Demogr_amziusM1411" maintainableParentID="M3010202" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="Demogr_amziusM1411" version="1.0" agencyID="LSD" package="codelist" class="Codelist"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+            </str:Dimension>
+            <str:Dimension id="savivaldybesRegdb" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dimension=LSD:M3010202(1.0).savivaldybesRegdb" position="3">
+              <str:ConceptIdentity>
+                <Ref id="savivaldybesRegdb" maintainableParentID="M3010202" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="savivaldybesRegdb" version="1.0" agencyID="LSD" package="codelist" class="Codelist"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+            </str:Dimension>
+            <str:MeasureDimension id="MATVNT" urn="urn:sdmx:org.sdmx.infomodel.datastructure.Dimension=LSD:M3010202(1.0).MATVNT" position="4">
+              <str:ConceptIdentity>
+                <Ref id="MATVNT" maintainableParentID="M3010202" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="MATVNT" version="1.0" agencyID="LSD"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+            </str:MeasureDimension>
+            <str:TimeDimension id="TIME_PERIOD" urn="urn:sdmx:org.sdmx.infomodel.datastructure.TimeDimension=LSD:M3010202(1.0).TIME_PERIOD" position="5">
+              <str:ConceptIdentity>
+                <Ref id="TIME_PERIOD" maintainableParentID="M3010202" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:TextFormat/>
+              </str:LocalRepresentation>
+            </str:TimeDimension>
+          </str:DimensionList>
+          <str:AttributeList id="AttributeDescriptor" urn="urn:sdmx:org.sdmx.infomodel.datastructure.AttributeDescriptor=LSD:M3010202(1.0).AttributeDescriptor">
+            <str:Attribute id="DS_LAST_UPDATE" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataAttribute=LSD:M3010202(1.0).DS_LAST_UPDATE" assignmentStatus="Conditional">
+              <str:ConceptIdentity>
+                <Ref id="DS_LAST_UPDATE" maintainableParentID="M3010202" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:TextFormat/>
+              </str:LocalRepresentation>
+              <str:AttributeRelationship>
+                <str:None/>
+              </str:AttributeRelationship>
+            </str:Attribute>
+            <str:Attribute id="OBS_STATUS" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataAttribute=LSD:M3010202(1.0).OBS_STATUS" assignmentStatus="Conditional">
+              <str:ConceptIdentity>
+                <Ref id="OBS_STATUS" maintainableParentID="M3010202" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:Enumeration>
+                  <Ref id="OBS_STATUS" version="1.0" agencyID="LSD" package="codelist" class="Codelist"/>
+                </str:Enumeration>
+              </str:LocalRepresentation>
+              <str:AttributeRelationship>
+                <str:PrimaryMeasure>
+                  <Ref id="OBS_VALUE"/>
+                </str:PrimaryMeasure>
+              </str:AttributeRelationship>
+            </str:Attribute>
+            <str:Attribute id="OBS_DECIMALS" urn="urn:sdmx:org.sdmx.infomodel.datastructure.DataAttribute=LSD:M3010202(1.0).OBS_DECIMALS" assignmentStatus="Conditional">
+              <str:ConceptIdentity>
+                <Ref id="OBS_DECIMALS" maintainableParentID="M3010202" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+              <str:LocalRepresentation>
+                <str:TextFormat/>
+              </str:LocalRepresentation>
+              <str:AttributeRelationship>
+                <str:PrimaryMeasure>
+                  <Ref id="OBS_VALUE"/>
+                </str:PrimaryMeasure>
+              </str:AttributeRelationship>
+            </str:Attribute>
+          </str:AttributeList>
+          <str:MeasureList id="MeasureDescriptor" urn="urn:sdmx:org.sdmx.infomodel.datastructure.MeasureDescriptor=LSD:M3010202(1.0).MeasureDescriptor">
+            <str:PrimaryMeasure id="OBS_VALUE" urn="urn:sdmx:org.sdmx.infomodel.datastructure.PrimaryMeasure=LSD:M3010202(1.0).OBS_VALUE">
+              <str:ConceptIdentity>
+                <Ref id="OBS_VALUE" maintainableParentID="M3010202" maintainableParentVersion="1.0" agencyID="LSD" package="conceptscheme" class="Concept"/>
+              </str:ConceptIdentity>
+            </str:PrimaryMeasure>
+          </str:MeasureList>
+        </str:DataStructureComponents>
+      </str:DataStructure>
+    </str:DataStructures>
+  </mes:Structures>
+</mes:Structure>

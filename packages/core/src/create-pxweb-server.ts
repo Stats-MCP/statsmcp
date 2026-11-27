@@ -9,6 +9,7 @@ import { createIneEsClient } from '@/ine-es-client';
 import { createInePtClient } from '@/ine-pt-client';
 import { createInseeClient } from '@/insee-client';
 import { createOnsClient } from '@/ons-client';
+import { createOspClient } from '@/osp-client';
 import type { PxwebPreset } from '@/preset';
 import { createPxstatClient } from '@/pxstat-client';
 import {
@@ -164,6 +165,9 @@ export function createPresetClient(
   }
   if (api === 'ibge') {
     return createIbgeClient({ ...indexed, maxCells: preset.maxCells });
+  }
+  if (api === 'osp') {
+    return createOspClient({ ...indexed, maxCells: preset.maxCells });
   }
   if (api === 'statcan-wds') return createStatcanClient(indexed);
   if (api === 'eurostat') return createEurostatClient(indexed);
