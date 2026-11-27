@@ -1,5 +1,27 @@
 # @statsmcp/core
 
+## 0.5.0
+
+### Minor Changes
+
+- [`0a31c89`](https://github.com/Stats-MCP/statsmcp/commit/0a31c89598b183f40c1529d1918bf759cd107a46) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Snapshots can carry a prebuilt search index (`searchIndex`), so search loads it instead of building it. The crawler writes it, and `crawl --reindex` adds it to existing snapshots.
+
+### Patch Changes
+
+- [`203c0b4`](https://github.com/Stats-MCP/statsmcp/commit/203c0b43ce1a5fb2f2ca0e7923a62f4ecd319078) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Find CBS tables with lower-case ids, such as 80590eng, on OData v4.
+
+- [`b08c503`](https://github.com/Stats-MCP/statsmcp/commit/b08c503cb4511b6f45405e2ca90402b63f5dc4e4) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - The Statistics Lithuania and IBGE clients search a crawled table list first when one is given (`crawledList`), so the hosted worker no longer downloads their whole catalogues.
+
+- [`4084aec`](https://github.com/Stats-MCP/statsmcp/commit/4084aec5edf7fcbc0a0dc0fc8cb510519573f471) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - The INSEE client keeps only finished tables in its table cache, so a load stopped on Cloudflare Workers no longer breaks later requests.
+
+- [`fe90f8f`](https://github.com/Stats-MCP/statsmcp/commit/fe90f8f05321c79b00a761e50c32167fa1fc8fe6) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Let a PxWeb preset name time variables that the API does not flag, so `latest` picks the newest periods.
+
+- [`e4312cf`](https://github.com/Stats-MCP/statsmcp/commit/e4312cff1301d8c12e3454fd21102abb5d884771) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - The Statistics Lithuania client stops a download at the observation limit, also when its period estimate is too low.
+
+- [`c5f4f97`](https://github.com/Stats-MCP/statsmcp/commit/c5f4f97dcca8ed0e3c1901bb095628c92aed7931) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Search no longer waits on an index build that never finished. On Cloudflare Workers, a build stopped by the CPU limit made later searches fail; now a later search starts a new build.
+
+- [`21c7635`](https://github.com/Stats-MCP/statsmcp/commit/21c7635441b11a15e7854fac716212ff4117b1a4) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Name the error type in the message for an unexpected tool error.
+
 ## 0.4.1
 
 ### Patch Changes

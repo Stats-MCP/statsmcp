@@ -15,7 +15,7 @@ export const czsoPreset: PxwebPreset = {
   name: 'czso',
   title:
     'DataStat, the database of the Czech Statistical Office (official statistics)',
-  version: '0.4.1',
+  version: '0.5.0',
   apiBaseUrl: 'https://data.csu.gov.cz/api',
   api: 'czso',
   languages: ['cs', 'en'],

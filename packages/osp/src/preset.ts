@@ -11,7 +11,7 @@ export const ospPreset: PxwebPreset = {
   name: 'osp',
   title:
     'Official Statistics Portal of Lithuania (State Data Agency official statistics)',
-  version: '0.4.1',
+  version: '0.5.0',
   apiBaseUrl: 'https://osp-rs.stat.gov.lt/ords/ipospp/ospp/rest_xml',
   api: 'osp',
   languages: ['lt', 'en'],

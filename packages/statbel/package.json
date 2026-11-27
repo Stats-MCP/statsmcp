@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/statbel",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "MCP server for Be.STAT, the database of Statbel (Belgium)",
   "license": "MIT",
   "author": "Tadej Polajnar",

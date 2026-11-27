@@ -11,7 +11,7 @@ export const bnsPreset: PxwebPreset = {
   name: 'bns',
   title:
     'StatBank of the National Bureau of Statistics of the Republic of Moldova (official statistics)',
-  version: '0.4.1',
+  version: '0.5.0',
   apiBaseUrl: 'https://statbank.statistica.md/PxWeb/api/v1',
   database: [
     '10 Mediul inconjurator',

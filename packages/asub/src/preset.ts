@@ -11,7 +11,7 @@ export const asubPreset: PxwebPreset = {
   name: 'asub',
   title:
     'PxWeb database of Statistics and Research Åland (ÅSUB official statistics)',
-  version: '0.4.1',
+  version: '0.5.0',
   apiBaseUrl: 'https://pxweb.asub.ax/PXWeb/api/v1',
   database: 'Statistik',
   languages: ['sv', 'en'],

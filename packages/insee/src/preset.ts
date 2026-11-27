@@ -11,7 +11,7 @@ const ATTRIBUTION = {
 export const inseePreset: PxwebPreset = {
   name: 'insee',
   title: 'INSEE Melodi data catalogue (official statistics of France)',
-  version: '0.4.1',
+  version: '0.5.0',
   apiBaseUrl: 'https://api.insee.fr/melodi',
   api: 'insee',
   languages: ['fr', 'en'],

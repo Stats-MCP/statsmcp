@@ -9,7 +9,7 @@ export const onsPreset: PxwebPreset = {
   name: 'ons',
   title:
     'ONS time series of the Office for National Statistics (official statistics of the United Kingdom)',
-  version: '0.4.1',
+  version: '0.5.0',
   apiBaseUrl: 'https://api.beta.ons.gov.uk/v1',
   api: 'ons',
   languages: ['en'],
