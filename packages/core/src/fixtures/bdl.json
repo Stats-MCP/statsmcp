@@ -1,0 +1,165 @@
+{
+  "subjects": [
+    {
+      "id": "G12",
+      "parentId": "K4",
+      "name": "REGISTERED UNEMPLOYMENT",
+      "hasVariables": false
+    },
+    {
+      "id": "G570",
+      "parentId": "K4",
+      "name": "ARCHIVAL DATA",
+      "hasVariables": false
+    },
+    {
+      "id": "K4",
+      "name": "LABOUR MARKET",
+      "hasVariables": false
+    },
+    {
+      "id": "P2567",
+      "parentId": "G570",
+      "name": "Economic activity of the population aged 15 years and more according to the LFS (quarterly data) - Economic activity of the population by place of residence",
+      "hasVariables": true
+    },
+    {
+      "id": "P3559",
+      "parentId": "G12",
+      "name": "Registered unemployment rate and inflow into unemployment rate (monthly data)",
+      "hasVariables": true
+    }
+  ],
+  "subject": {
+    "id": "P3559",
+    "parentId": "G12",
+    "name": "Registered unemployment rate and inflow into unemployment rate (monthly data)",
+    "hasVariables": true,
+    "years": [2024, 2025, 2026],
+    "dimensions": ["Months", "Indicators"]
+  },
+  "variables": [
+    {
+      "id": 461680,
+      "subjectId": "P3559",
+      "n1": "January",
+      "n2": "registered unemployment rate",
+      "level": 5,
+      "measureUnitName": "%"
+    },
+    {
+      "id": 461668,
+      "subjectId": "P3559",
+      "n1": "January",
+      "n2": "Inflow into unemployment rate",
+      "level": 5,
+      "measureUnitName": "%"
+    },
+    {
+      "id": 461681,
+      "subjectId": "P3559",
+      "n1": "February",
+      "n2": "registered unemployment rate",
+      "level": 5,
+      "measureUnitName": "%"
+    },
+    {
+      "id": 461669,
+      "subjectId": "P3559",
+      "n1": "February",
+      "n2": "Inflow into unemployment rate",
+      "level": 5,
+      "measureUnitName": "%"
+    }
+  ],
+  "byUnit": {
+    "totalRecords": 2,
+    "unitId": "000000000000",
+    "results": [
+      {
+        "id": 461680,
+        "values": [
+          {
+            "year": "2025",
+            "val": 5.4,
+            "attrId": 1
+          },
+          {
+            "year": "2026",
+            "val": 6.0,
+            "attrId": 1
+          }
+        ]
+      },
+      {
+        "id": 461681,
+        "values": [
+          {
+            "year": "2025",
+            "val": 5.5,
+            "attrId": 1
+          },
+          {
+            "year": "2026",
+            "val": 6.1,
+            "attrId": 1
+          }
+        ]
+      }
+    ]
+  },
+  "byVariable": {
+    "totalRecords": 3,
+    "variableId": 461680,
+    "results": [
+      {
+        "id": "011200000000",
+        "name": "MAŁOPOLSKIE",
+        "values": [
+          {
+            "year": "2025",
+            "val": 4.4,
+            "attrId": 1
+          },
+          {
+            "year": "2026",
+            "val": 5.0,
+            "attrId": 1
+          }
+        ]
+      },
+      {
+        "id": "012400000000",
+        "name": "ŚLĄSKIE",
+        "values": [
+          {
+            "year": "2025",
+            "val": 3.9,
+            "attrId": 1
+          },
+          {
+            "year": "2026",
+            "val": 4.7,
+            "attrId": 1
+          }
+        ]
+      },
+      {
+        "id": "071400000000",
+        "name": "MAZOWIECKIE",
+        "values": [
+          {
+            "year": "2025",
+            "val": 4.2,
+            "attrId": 1
+          },
+          {
+            "year": "2026",
+            "val": 4.5,
+            "attrId": 1
+          }
+        ]
+      }
+    ]
+  }
+}

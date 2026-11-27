@@ -1,5 +1,6 @@
 import { McpServer } from '@modelcontextprotocol/server';
 
+import { createBdlClient } from '@/bdl-client';
 import type { Cache } from '@/cache';
 import { createCbsODataClient } from '@/cbs-odata-client';
 import { createCzsoClient } from '@/czso-client';
@@ -78,9 +79,11 @@ export function createPresetClient(
   options: Pick<PresetServerOptions, 'cache' | 'fetch' | 'tableSnapshots'> & {
     userAgent: string;
     timeoutMs?: number;
+    /** API key for an office that takes one; BDL sends it as `X-ClientId`. */
+    clientId?: string;
   }
 ): PxwebClient {
-  const { tableSnapshots, ...http } = options;
+  const { tableSnapshots, clientId, ...http } = options;
   const api = preset.api ?? 'pxweb-v1';
   if (api === 'pxweb-v1') {
     return createPxwebClient({
@@ -168,6 +171,17 @@ export function createPresetClient(
     return createIbgeClient({
       ...indexed,
       maxCells: preset.maxCells,
+      ...(tableSnapshots && {
+        crawledList: async (lang: string) =>
+          (await tableSnapshots(preset.name, lang))?.docs
+      })
+    });
+  }
+  if (api === 'bdl') {
+    return createBdlClient({
+      ...indexed,
+      maxCells: preset.maxCells,
+      ...(clientId && { clientId }),
       ...(tableSnapshots && {
         crawledList: async (lang: string) =>
           (await tableSnapshots(preset.name, lang))?.docs
