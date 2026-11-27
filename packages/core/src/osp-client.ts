@@ -667,6 +667,7 @@ export function createOspClient(
         reader.push(decoder.decode(chunk.value, { stream: true }));
       }
     } catch (err) {
+      await body?.cancel().catch(() => undefined);
       if (err instanceof PxwebError) throw err;
       throw new PxwebError(
         `Statistics Lithuania response could not be read: ${err instanceof Error ? err.message : String(err)}`,
@@ -822,14 +823,29 @@ export function createOspClient(
       const parsed = flatTableSchema.safeParse(parseCached(cached));
       if (parsed.success) return parsed.data;
       const rows = collectRows(table, { chosen, hidden }, language);
+      // Some period lists hold only the first and last year of a span, so the estimate
+      // above can be low; the stream stops at the limit.
+      let observations = 0;
+      const countObservation = (observation: SdmxMlObservation) => {
+        observations += 1;
+        if (observations > maxDownload) {
+          throw new PxwebError(
+            `Statistics Lithuania sent more than ${maxDownload} observations for these periods. Select fewer periods.`,
+            400
+          );
+        }
+        rows.add(observation);
+      };
       const headers: SdmxMlDataHeader[] = [];
       for (const url of urls) {
-        const header = await streamData(url, rows.add).catch((err: unknown) => {
-          if (err instanceof PxwebError && err.status === 404) {
-            throw notFound(tableId);
+        const header = await streamData(url, countObservation).catch(
+          (err: unknown) => {
+            if (err instanceof PxwebError && err.status === 404) {
+              throw notFound(tableId);
+            }
+            throw err;
           }
-          throw err;
-        });
+        );
         const footer = header.footer;
         if (footer && !NO_DATA_MESSAGE.test(footer.texts.get('en') ?? '')) {
           throw new PxwebError(

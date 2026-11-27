@@ -221,6 +221,27 @@ describe('createOspClient', () => {
     expect(urls('data')).toEqual([]);
   });
 
+  it('stops a download that sends more observations than the limit', async () => {
+    const data = fixture(`data/${CPI}`) ?? '';
+    const observations =
+      data.match(/<g:Obs>[\s\S]*?<\/g:Obs>/g)?.join('') ?? '';
+    const tooMany = data.replace(
+      '</mes:DataSet>',
+      `${observations.repeat(2)}</mes:DataSet>`
+    );
+    const { client } = setup(
+      { data: () => new Response(tooMany) },
+      { maxDownloadObservations: 25 }
+    );
+
+    await expect(
+      client.query('en', CPI, [top('TIME_PERIOD', 1)])
+    ).rejects.toMatchObject({
+      status: 400,
+      message: expect.stringContaining('more than 25 observations')
+    });
+  });
+
   it.each<[string, string, Record<string, () => Response>, number]>([
     ['an unknown dataflow as not found', 'NOPE_X', {}, 404],
     [
