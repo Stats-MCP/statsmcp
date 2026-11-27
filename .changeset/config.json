@@ -33,7 +33,8 @@
       "@statsmcp/ine-es",
       "@statsmcp/ine-pt",
       "@statsmcp/insee",
-      "@statsmcp/ons"
+      "@statsmcp/ons",
+      "@statsmcp/statbel"
     ]
   ],
   "access": "public",

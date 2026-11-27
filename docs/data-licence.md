@@ -286,6 +286,18 @@ The server adds the source statement and the licence link to every result, with 
 
 This project is not affiliated with or endorsed by the Office for National Statistics.
 
+## Statbel (Belgium)
+
+Statbel publishes its data under the [Creative Commons Attribution 4.0 licence (CC BY 4.0)](https://statbel.fgov.be/en/cc-40). The licence allows any use, also commercial. You must credit Statbel (suggested: `Source: Statbel`), link the licence, say when you changed the data, and not suggest that Statbel supports your use.
+
+The server adds the source and the licence link to every result, with a link to the view:
+
+- `Source: Statbel, CC BY 4.0 (https://statbel.fgov.be/en/cc-40)` (English)
+- `Bron: Statbel, CC BY 4.0 (https://statbel.fgov.be/en/cc-40)` (Dutch)
+- `Source : Statbel, CC BY 4.0 (https://statbel.fgov.be/en/cc-40)` (French)
+
+This project is not affiliated with or endorsed by Statbel.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

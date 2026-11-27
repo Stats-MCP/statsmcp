@@ -31,6 +31,7 @@
     "@statsmcp/sistat": "workspace:*",
     "@statsmcp/ssb": "workspace:*",
     "@statsmcp/stat-ee": "workspace:*",
+    "@statsmcp/statbel": "workspace:*",
     "@statsmcp/statcan": "workspace:*",
     "@statsmcp/statec": "workspace:*",
     "@statsmcp/statfin": "workspace:*",

@@ -35,6 +35,7 @@ export interface PxwebPreset {
     | 'ine-pt'
     | 'insee'
     | 'ons'
+    | 'statbel'
     | 'sdmx';
   /** SDMX agency id, for example "ABS". Required when `api` is "sdmx". */
   sdmxAgency?: string;

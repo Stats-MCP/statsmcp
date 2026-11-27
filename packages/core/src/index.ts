@@ -71,6 +71,10 @@ export {
   type OnsClientOptions
 } from '@/ons-client';
 export {
+  createStatbelClient,
+  type StatbelClientOptions
+} from '@/statbel-client';
+export {
   createSingstatClient,
   type SingstatClientOptions
 } from '@/singstat-client';

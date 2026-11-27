@@ -29,6 +29,7 @@ import { scbPreset } from '@statsmcp/scb';
 import { sistatPreset } from '@statsmcp/sistat';
 import { ssbPreset } from '@statsmcp/ssb';
 import { statEePreset } from '@statsmcp/stat-ee';
+import { statbelPreset } from '@statsmcp/statbel';
 import { statcanPreset } from '@statsmcp/statcan';
 import { statecPreset } from '@statsmcp/statec';
 import { statfinPreset } from '@statsmcp/statfin';
@@ -145,6 +146,12 @@ const COUNTRIES: readonly HostedCountry[] = [
     code: 'gb',
     preset: onsPreset,
     agent: 'ons-mcp',
+    snapshots: false
+  },
+  {
+    code: 'be',
+    preset: statbelPreset,
+    agent: 'statbel-mcp',
     snapshots: false
   }
 ];

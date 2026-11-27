@@ -19,6 +19,7 @@ import { createSdmxClient } from '@/sdmx-client';
 import { createSingstatClient } from '@/singstat-client';
 import type { SnapshotReader } from '@/snapshot';
 import { createStatbankDkClient } from '@/statbank-dk-client';
+import { createStatbelClient } from '@/statbel-client';
 import { createStatcanClient } from '@/statcan-client';
 import type { TableDoc } from '@/table-doc';
 import { registerSearchTools } from '@/tools/search-tools';
@@ -152,6 +153,9 @@ export function createPresetClient(
       agency: preset.sdmxAgency,
       languages: preset.languages
     });
+  }
+  if (api === 'statbel') {
+    return createStatbelClient({ ...indexed, maxCells: preset.maxCells });
   }
   if (api === 'statcan-wds') return createStatcanClient(indexed);
   if (api === 'eurostat') return createEurostatClient(indexed);

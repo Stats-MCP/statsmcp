@@ -1,0 +1,259 @@
+{
+  "source": "https://bestat.statbel.fgov.be/bestat/api, fetched 2026-11-27, trimmed",
+  "views/": [
+    {
+      "id": "86586e27-90ac-47c6-87ce-64b63194e605",
+      "name": "Consumer price index, inflation, health index, health index (moving average), index without energy and petroleum , last 13 months",
+      "locale": "en",
+      "dataSourceId": "314984ea-123f-4c42-93e5-4942cb877795",
+      "lastPublishDate": 1775202376968,
+      "inapplicable": false,
+      "published": true
+    },
+    {
+      "id": "208b69bd-05c5-4947-b7f9-2d2300f517b8",
+      "name": "Consumer price index, inflation, health index, health index (moving average), index without energy and petroleum, last 13 months",
+      "locale": "en",
+      "dataSourceId": "a956f4c1-ac3b-4f95-b7bb-a37e705f6446",
+      "lastPublishDate": 1759743369629,
+      "inapplicable": false,
+      "published": true
+    },
+    {
+      "id": "7d30d7ff-ab74-4047-b2af-2a0bff250647",
+      "name": "Employment rate, unemployment rate and activity rate by gender for Belgium and the regions, quarterly",
+      "locale": "en",
+      "dataSourceId": "f0487d44-2b45-427c-b2ce-890196a728c4",
+      "lastPublishDate": 1686728679798,
+      "inapplicable": false,
+      "published": true
+    },
+    {
+      "id": "f865ac63-4299-494a-80f1-7232bf2053b2",
+      "name": "Family nuclei composed of couples in a registered partnership according to the place of residence",
+      "locale": "en",
+      "dataSourceId": "2c9ba058-2421-4945-afd0-067adf909844",
+      "lastPublishDate": 1728049339404,
+      "inapplicable": true,
+      "published": true
+    },
+    {
+      "id": "6354a929-6969-4172-8143-e57aab550cc3",
+      "name": "Consumptieprijsindex, inflatie, gezondheidsindex, afgevlakte index, indexen zonder petroleum en energie , laatste 13 maanden",
+      "locale": "nl",
+      "dataSourceId": "314984ea-123f-4c42-93e5-4942cb877795",
+      "lastPublishDate": 1775202376968,
+      "inapplicable": false,
+      "published": true
+    }
+  ],
+  "datasources/": [
+    {
+      "id": "314984ea-123f-4c42-93e5-4942cb877795",
+      "name": "IM_EAF_CPI_IDX_ECOICOPV2",
+      "descriptions": {
+        "de": "Verbraucherpreisindex pro Monat, pro Basisjahr nach der ECOICOP Ver. 2 Nomenklatur",
+        "fr": "Indice des prix à la consommation par mois, par année de base selon la nomenclature ECOICOP Ver. 2",
+        "nl": "Consumptieprijsindex per maand, per basisjaar volgens de ECOICOP Ver. 2 nomenclatuur",
+        "en": "Consumer price index per month, per base year according to the ECOICOP Ver. 2 classification"
+      },
+      "lastDataUpdateDate": 1793283874000
+    },
+    {
+      "id": "a956f4c1-ac3b-4f95-b7bb-a37e705f6446",
+      "name": "IM_EAF_CPI_IDX",
+      "descriptions": {
+        "fr": "Indice des prix à la consommation, par année de base selon la nomenclature COICOP, par année et mois",
+        "nl": "Index van de consumptieprijzen, volgens basisjaar, COICOP nomenclatuur, per jaar en maand",
+        "en": "Consumer price index according to the COICOP nomenclature base year, per year and month"
+      },
+      "lastDataUpdateDate": 1766488151000
+    },
+    {
+      "id": "f0487d44-2b45-427c-b2ce-890196a728c4",
+      "name": "IM_SOC_ACT_EMPMT_RT_Q",
+      "descriptions": {
+        "fr": "Population active (travailleurs et chômeurs) et inactive depuis 2017 basé sur l’Enquête sur les Forces de Travail reformée, par trimestre, province, sexe, classe d’âge et niveau d’éducation",
+        "nl": "Actieve (werkende en werkloze) en inactieve bevolking sinds 2017 op basis van de hervormde Enquête naar de ArbeidsKrachten, per kwartaal, gewest, leeftijdsklasse en onderwijsniveau",
+        "en": "Active (working and unemployed) population since 2017 based on the reformed Labour Force Survey, by quarter, region, age class and level of education"
+      },
+      "lastDataUpdateDate": 1788940506000
+    },
+    {
+      "id": "314984ea-123f-4c42-93e5-4942cb877795",
+      "name": "IM_EAF_CPI_IDX_ECOICOPV2",
+      "descriptions": {
+        "de": "Verbraucherpreisindex pro Monat, pro Basisjahr nach der ECOICOP Ver. 2 Nomenklatur",
+        "fr": "Indice des prix à la consommation par mois, par année de base selon la nomenclature ECOICOP Ver. 2",
+        "nl": "Consumptieprijsindex per maand, per basisjaar volgens de ECOICOP Ver. 2 nomenclatuur",
+        "en": "Consumer price index per month, per base year according to the ECOICOP Ver. 2 classification"
+      },
+      "lastDataUpdateDate": 1793283874000
+    }
+  ],
+  "views/86586e27-90ac-47c6-87ce-64b63194e605": {
+    "id": "86586e27-90ac-47c6-87ce-64b63194e605",
+    "name": "Consumer price index, inflation, health index, health index (moving average), index without energy and petroleum , last 13 months",
+    "locale": "en",
+    "dataSourceId": "314984ea-123f-4c42-93e5-4942cb877795",
+    "lastPublishDate": 1775202376968,
+    "inapplicable": false,
+    "published": true
+  },
+  "views/86586e27-90ac-47c6-87ce-64b63194e605/result/JSON": {
+    "facts": [
+      {
+        "Year": "2026",
+        "Month": "August 2026",
+        "Base year": "2025 = 100",
+        "Global Index": "Global Index",
+        "Level 1": "Health index",
+        "Consumer price index": 103.49000000000036
+      },
+      {
+        "Year": "2026",
+        "Month": "August 2026",
+        "Base year": "2025 = 100",
+        "Global Index": "Global Index",
+        "Level 1": null,
+        "Consumer price index": 104.01000000000037
+      },
+      {
+        "Year": "2026",
+        "Month": "September 2026",
+        "Base year": "2025 = 100",
+        "Global Index": "Global Index",
+        "Level 1": "Health index",
+        "Consumer price index": 103.76000000000037
+      },
+      {
+        "Year": "2026",
+        "Month": "September 2026",
+        "Base year": "2025 = 100",
+        "Global Index": "Global Index",
+        "Level 1": null,
+        "Consumer price index": 104.42000000000037
+      },
+      {
+        "Year": "2026",
+        "Month": "October 2026",
+        "Base year": "2025 = 100",
+        "Global Index": "Global Index",
+        "Level 1": "Health index",
+        "Consumer price index": 104.68000000000038
+      },
+      {
+        "Year": "2026",
+        "Month": "October 2026",
+        "Base year": "2025 = 100",
+        "Global Index": "Global Index",
+        "Level 1": null,
+        "Consumer price index": 105.37000000000037
+      }
+    ]
+  },
+  "datasources/314984ea-123f-4c42-93e5-4942cb877795": {
+    "id": "314984ea-123f-4c42-93e5-4942cb877795",
+    "name": "IM_EAF_CPI_IDX_ECOICOPV2",
+    "descriptions": {
+      "de": "Verbraucherpreisindex pro Monat, pro Basisjahr nach der ECOICOP Ver. 2 Nomenklatur",
+      "fr": "Indice des prix à la consommation par mois, par année de base selon la nomenclature ECOICOP Ver. 2",
+      "nl": "Consumptieprijsindex per maand, per basisjaar volgens de ECOICOP Ver. 2 nomenclatuur",
+      "en": "Consumer price index per month, per base year according to the ECOICOP Ver. 2 classification"
+    },
+    "lastDataUpdateDate": 1793283874000
+  },
+  "views/7d30d7ff-ab74-4047-b2af-2a0bff250647": {
+    "id": "7d30d7ff-ab74-4047-b2af-2a0bff250647",
+    "name": "Employment rate, unemployment rate and activity rate by gender for Belgium and the regions, quarterly",
+    "locale": "en",
+    "dataSourceId": "f0487d44-2b45-427c-b2ce-890196a728c4",
+    "lastPublishDate": 1686728679798,
+    "inapplicable": false,
+    "published": true
+  },
+  "views/7d30d7ff-ab74-4047-b2af-2a0bff250647/result/JSON": {
+    "facts": [
+      {
+        "Belgium": "Belgium",
+        "Region": "Brussels-Capital region",
+        "Quarter": "1st quarter 2026",
+        "Total": "Total",
+        "Gender": "Males",
+        "Employment rate": 0.6320000000000022,
+        "Unemployment rate": 0.14900000000000052,
+        "Activity rate": 0.7430000000000027
+      },
+      {
+        "Belgium": "Belgium",
+        "Region": "Brussels-Capital region",
+        "Quarter": "1st quarter 2026",
+        "Total": "Total",
+        "Gender": null,
+        "Employment rate": 0.5830000000000021,
+        "Unemployment rate": 0.13400000000000048,
+        "Activity rate": 0.6740000000000025
+      },
+      {
+        "Belgium": "Belgium",
+        "Region": "Brussels-Capital region",
+        "Quarter": "2nd quarter 2026",
+        "Total": "Total",
+        "Gender": "Males",
+        "Employment rate": 0.6350000000000022,
+        "Unemployment rate": 0.13300000000000048,
+        "Activity rate": 0.7320000000000025
+      },
+      {
+        "Belgium": "Belgium",
+        "Region": "Brussels-Capital region",
+        "Quarter": "2nd quarter 2026",
+        "Total": "Total",
+        "Gender": null,
+        "Employment rate": 0.5940000000000021,
+        "Unemployment rate": 0.12700000000000045,
+        "Activity rate": 0.6810000000000025
+      },
+      {
+        "Belgium": "Belgium",
+        "Region": null,
+        "Quarter": "1st quarter 2026",
+        "Total": "Total",
+        "Gender": "Males",
+        "Employment rate": 0.6960000000000024,
+        "Unemployment rate": 0.06500000000000024,
+        "Activity rate": 0.7440000000000027
+      },
+      {
+        "Belgium": "Belgium",
+        "Region": null,
+        "Quarter": "1st quarter 2026",
+        "Total": "Total",
+        "Gender": null,
+        "Employment rate": 0.6700000000000024,
+        "Unemployment rate": 0.06300000000000022,
+        "Activity rate": 0.7150000000000025
+      },
+      {
+        "Belgium": "Belgium",
+        "Region": null,
+        "Quarter": "2nd quarter 2026",
+        "Total": "Total",
+        "Gender": "Males",
+        "Employment rate": 0.7000000000000024,
+        "Unemployment rate": 0.06700000000000024,
+        "Activity rate": 0.7510000000000027
+      },
+      {
+        "Belgium": "Belgium",
+        "Region": null,
+        "Quarter": "2nd quarter 2026",
+        "Total": "Total",
+        "Gender": null,
+        "Employment rate": 0.6720000000000025,
+        "Unemployment rate": 0.061000000000000214,
+        "Activity rate": 0.7160000000000025
+      }
+    ]
+  }
+}
