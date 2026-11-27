@@ -15,7 +15,7 @@
         "content": [
           {
             "type": "text",
-            "text": "Compare the unemployment rate in Finland and Sweden."
+            "text": "What is the inflation rate in Slovenia?"
           }
         ]
       }
@@ -54,7 +54,9 @@
                 "fr",
                 "gb",
                 "be",
-                "cz"
+                "cz",
+                "br",
+                "lt"
               ],
               "description": "\"eu\" is Eurostat."
             }
@@ -94,7 +96,9 @@
                 "fr",
                 "gb",
                 "be",
-                "cz"
+                "cz",
+                "br",
+                "lt"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -157,7 +161,9 @@
                 "fr",
                 "gb",
                 "be",
-                "cz"
+                "cz",
+                "br",
+                "lt"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -214,7 +220,9 @@
                 "fr",
                 "gb",
                 "be",
-                "cz"
+                "cz",
+                "br",
+                "lt"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -271,5 +279,5 @@
   },
   "status": 200,
   "contentType": "application/json",
-  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011ChScwKKoufV1bWy1rzub4\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"thinking\",\"thinking\":\"\",\"signature\":\"CAQSwAYKEAgUGAI4AUIIdGhpbmtpbmcSDH+ZIU/A9Dpfpxn3QRoMJjA0eO4OqkWf4sBkIjBGNzbqU3cmB7KGY/4/njSMnTUGCz6o8NbIRPWThza3LoC0MiwX3w++UcCNJowWRPYq3QV38KllsOJEL2oiJm2erQ/ijYQo0RMMP/2r43W6ObmtmtngzzbKNVuMNWIvtGqAW/FwSgEkDOMj7h1vDUEK8WKmNyRJJffe3uue3UFEvryKISceVwCv8kvJ83dEntWg0YNE4YJ8Hx4tsp8iU0yDkb9IOQupYMWzOd9Nq2MI39NioJgGrcHrHmaRTaIf5ZBueGdi40+X5BBrSoZQ3/tHAaO2mBx6HSEAA4BdrWqLdrBpkZdxH3o3x/Aejbhc0vk2+aBE5pNgGVs+v65LiykSjdjxitMxd+HvoQZIp+1yDe8e0YoK138zHpdFKQx1F3YSU83ENJgnCsRXroqTwg/cyev0Y80KV7wKmbMlJn+8H/wU8l4YCrN9DIgrbzddSA47R78HEp2VIR8eS9dof1JGaJpJYkyAvQcBC1BXyOIyjDLFfWsc5tkKpLdSi2UrvCbGHpZXT0pncvHBV3rxQC7CA1kzwE5CR40YEu4Ep05Z4NWCMpPgBNtucVrXuzQChAKQfqaoJWcXebTlyZFSGFt8qZImipmUFxQzHukQJnD0RgiQGrTPLxRvVzUCTDPXEl7r2LOdNs0ymGnHYAWqlxZGiqPj51P83jAzC4f25ko2PqCjNK50UMVyiN/IBLhrhVanuC+3dXYpkwRvgSdVJmwQiA9DFWwFEUdr6HSkDziOhmqFzzOX7elWMGwFDQd0rg5PtO/MB1bE2CWrWU3mET5uuC0cQcUw3/IHxkGohnqfWBTu/ENnVByoGVbiInSF20iVMMIBxCO9YWjYno8/NSpaP53jBOp6kINTUfn98JCiX+ISAUD7xCxDNPN5QEQ0WoHS3Jz7kJVdc7yt4igfQh0248GZbD6Pc5uViduPcYSOiOetbm7SV+0jZHjKfX6vwpckHXrD9A7fX39hL/SWGhjPXJ7o0FdHE3NmhKivszFK04mme5F9v8RvZpAZWx/eXU58n8iyONPC5DafTZQoazj2GAE=\"},{\"type\":\"tool_use\",\"id\":\"toolu_017FFvC7wor4DnCsa8RCQXGw\",\"name\":\"search_tables\",\"input\":{\"country\":\"fi\",\"query\":\"unemployment rate\",\"lang\":\"en\"},\"caller\":{\"type\":\"direct\"}},{\"type\":\"tool_use\",\"id\":\"toolu_016vSoUPcnp1aqFLyxs76Zwq\",\"name\":\"search_tables\",\"input\":{\"country\":\"se\",\"query\":\"unemployment rate\",\"lang\":\"en\"},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":1986,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":257,\"output_tokens_details\":{\"thinking_tokens\":66},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
+  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011ChSmKoxYVfAFspkLNXTsV\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"tool_use\",\"id\":\"toolu_01MKk726k9Ncwc31nscd56DK\",\"name\":\"search_tables\",\"input\":{\"country\":\"si\",\"query\":\"consumer price index\",\"lang\":\"en\"},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":2009,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":95,\"output_tokens_details\":{\"thinking_tokens\":0},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
 }

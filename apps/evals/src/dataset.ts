@@ -568,6 +568,44 @@ export const CASES: readonly EvalCase[] = casesSchema.parse([
     }
   },
   {
+    id: 'lt-inflation-en',
+    server: 'lt',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in Lithuania?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi'],
+      lt: ['infliacij', 'vartotojų kain', 'vartotoju kain']
+    })
+  },
+  {
+    id: 'lt-population-lt',
+    server: 'lt',
+    tags: ['native'],
+    ask: 'Kiek gyventojų turi Lietuva?',
+    expected: search({
+      lt: ['gyventoj'],
+      en: POPULATION_EN
+    })
+  },
+  {
+    id: 'br-inflation-pt',
+    server: 'br',
+    tags: ['native', 'alias'],
+    ask: 'Qual é a inflação no Brasil?',
+    expected: search({
+      pt: ['inflação', 'inflacao', 'ipca']
+    })
+  },
+  {
+    id: 'br-unemployment-pt',
+    server: 'br',
+    tags: ['native', 'alias'],
+    ask: 'Qual é a taxa de desemprego no Brasil?',
+    expected: search({
+      pt: ['desemprego', 'desocupação', 'desocupacao']
+    })
+  },
+  {
     id: 'all-si-inflation-en',
     server: 'all',
     tags: ['all-countries', 'english'],

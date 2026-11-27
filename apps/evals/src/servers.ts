@@ -15,12 +15,14 @@ import { dstPreset } from '@statsmcp/dst';
 import { dzsPreset } from '@statsmcp/dzs';
 import { eurostatPreset } from '@statsmcp/eurostat';
 import { hagstovaPreset } from '@statsmcp/hagstova';
+import { ibgePreset } from '@statsmcp/ibge';
 import { ineEsPreset } from '@statsmcp/ine-es';
 import { inePtPreset } from '@statsmcp/ine-pt';
 import { inseePreset } from '@statsmcp/insee';
 import { kasPreset } from '@statsmcp/kas';
 import { makstatPreset } from '@statsmcp/makstat';
 import { onsPreset } from '@statsmcp/ons';
+import { ospPreset } from '@statsmcp/osp';
 import { scbPreset } from '@statsmcp/scb';
 import { sistatPreset } from '@statsmcp/sistat';
 import { ssbPreset } from '@statsmcp/ssb';
@@ -58,7 +60,9 @@ export const PRESETS = {
   fr: inseePreset,
   gb: onsPreset,
   be: statbelPreset,
-  cz: czsoPreset
+  cz: czsoPreset,
+  br: ibgePreset,
+  lt: ospPreset
 } as const satisfies Record<string, PxwebPreset>;
 
 export type CountryId = keyof typeof PRESETS;
