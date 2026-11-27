@@ -15,7 +15,7 @@
         "content": [
           {
             "type": "text",
-            "text": "What is the population of Japan?"
+            "text": "Hvor mange indbyggere har Danmark?"
           }
         ]
       }
@@ -51,7 +51,10 @@
                 "lu",
                 "es",
                 "pt",
-                "fr"
+                "fr",
+                "gb",
+                "be",
+                "cz"
               ],
               "description": "\"eu\" is Eurostat."
             }
@@ -88,7 +91,10 @@
                 "lu",
                 "es",
                 "pt",
-                "fr"
+                "fr",
+                "gb",
+                "be",
+                "cz"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -148,7 +154,10 @@
                 "lu",
                 "es",
                 "pt",
-                "fr"
+                "fr",
+                "gb",
+                "be",
+                "cz"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -202,7 +211,10 @@
                 "lu",
                 "es",
                 "pt",
-                "fr"
+                "fr",
+                "gb",
+                "be",
+                "cz"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -259,5 +271,5 @@
   },
   "status": 200,
   "contentType": "application/json",
-  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011ChRzGJhaQm6x6QtXhZ4NW\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"thinking\",\"thinking\":\"\",\"signature\":\"CAQSmAYKEAgUGAI4AUIIdGhpbmtpbmcSDOhMDwUvTRt3jVNkqBoMphYx19Agn8NYZUo0IjDMnmWmd5X+7HCsbasJrx3QxQjZOBzN8m5MQiqax2ufTW/JclZCWazJNyHruXBmqEoqtQU8fgLL9TLvzND/pvW2gTNEso/kF/KLSvgNOUGRW/Xfjh2/uO22GZ4s4NK1DnQg7K8LRwBysHWj2ZLASoEf1zeswwzV6hQYoRL5ZtFXUbPJwskEQ+f8s8OCVNtDeRE5d/YhO31hKkWTMtTZLb8FN1bjtbyDzmKG2AE0yt0z3VeXnSeV2OFTljSzaDQStRkABKBM41SsGvFW3a3s74xzlQlqaHbdXTTbbSj/zhMPDGMfM/1aNRzA6br5XpiBwmRHghMmyqOvNbGFzura9+zFaJFHsFJKvwp1NPtiGIFwoDVwRnxJa9BO3MHT/VNj3G5TiDvNNVjUtcODyB8UBjPjHHpl9tJHrmRJ//z7tVVWjOJQrEuvey4uZMDC2/u1ac3cFBl9tga4R1SfU4KLd3ZffSEaMeNmByYrd/OLc35EuD9yICzm1F0XjbSPjbjgFg7Ev+L+9dnL9unZYnAddDskXSZLxeTqwyX1cRvU/Up2+WGWwnLM85TAMmQUVYDolvZQKnS6HlpYH4VUbUW9a5kqwInK3h5zhjeJjy9Cc3gKH8M97UR9bjf9dxPBHibamgSNyVm17C3kzIm76MTRXX/eL12r4o5RAgEpezV/DfupmkonD4I65GEAeSgSrdQdmf63TPD63KVLxVUtToCgWLJkS6mMDE8VokXKbk4i9xeo1Z+Xx+J9VoDE0keOiKr/2GWnn/wuMY5IH26V4Xqfd7o30n43z2yamyAq73qwxO6q7lbYBrq3ymo9D6tNHjLW1xp8KWDWqyaS7yBH0rlbapyEQJBLXVs2FnkFOkHIwK/us4ggHw234k6w0G4O1GqxQNoucGNldXkVjcJtroEy1rridSqnqOXv0IDi+XpnJemrGh5ScxLQb5eiCk6Rw1LhkItze+aeKharZmxJnnT6P2q5BAJlwE6pDskYAQ==\"},{\"type\":\"tool_use\",\"id\":\"toolu_01Fun8hD2PgsDjfUmNrJfECY\",\"name\":\"search_tables\",\"input\":{\"country\":\"eu\",\"query\":\"population Japan\"},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":1931,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":134,\"output_tokens_details\":{\"thinking_tokens\":60},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
+  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011ChScwqP5UA5AruD5UJCy4\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"tool_use\",\"id\":\"toolu_0191q1FnjymFMQzj8moc1Uo1\",\"name\":\"search_tables\",\"input\":{\"country\":\"dk\",\"query\":\"folketal\",\"limit\":5},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":1983,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":94,\"output_tokens_details\":{\"thinking_tokens\":0},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
 }

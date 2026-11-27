@@ -498,6 +498,76 @@ export const CASES: readonly EvalCase[] = casesSchema.parse([
     }
   },
   {
+    id: 'gb-inflation-en',
+    server: 'gb',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in the United Kingdom?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi']
+    })
+  },
+  {
+    id: 'gb-unemployment-en',
+    server: 'gb',
+    tags: ['english', 'alias'],
+    ask: 'What is the unemployment rate in the UK?',
+    expected: search({
+      en: ['unemploy', 'labour force', 'labor force']
+    })
+  },
+  {
+    id: 'be-inflation-en',
+    server: 'be',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in Belgium?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi'],
+      nl: ['inflatie', 'consumptieprijs'],
+      fr: ['inflation', 'prix à la consommation', 'prix a la consommation']
+    })
+  },
+  {
+    id: 'be-unemployment-nl',
+    server: 'be',
+    tags: ['native'],
+    ask: 'Hoe hoog is de werkloosheid in België?',
+    expected: search({
+      nl: ['werkloos'],
+      fr: ['chômage', 'chomage'],
+      en: ['unemploy', 'labour force', 'labor force']
+    })
+  },
+  {
+    id: 'cz-inflation-en',
+    server: 'cz',
+    tags: ['english', 'alias'],
+    ask: 'What is the inflation rate in Czechia?',
+    expected: search({
+      en: ['inflation', 'consumer price', 'cpi'],
+      cs: ['inflac', 'spotřebitelsk', 'spotrebitelsk']
+    })
+  },
+  {
+    id: 'cz-population-cs',
+    server: 'cz',
+    tags: ['native'],
+    ask: 'Kolik obyvatel má Česko?',
+    expected: search({
+      cs: ['obyvatel', 'populac'],
+      en: POPULATION_EN
+    })
+  },
+  {
+    id: 'all-gb-inflation',
+    server: 'all',
+    tags: ['all-countries', 'english', 'alias'],
+    ask: 'How fast are prices rising in the United Kingdom?',
+    expected: {
+      ...search({ en: ['inflation', 'consumer price', 'cpi'] }),
+      countries: ['gb']
+    }
+  },
+  {
     id: 'all-si-inflation-en',
     server: 'all',
     tags: ['all-countries', 'english'],

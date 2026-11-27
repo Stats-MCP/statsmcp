@@ -10,6 +10,7 @@ import {
   type PxwebPreset
 } from '@statsmcp/core';
 import { csoPreset } from '@statsmcp/cso';
+import { czsoPreset } from '@statsmcp/czso';
 import { dstPreset } from '@statsmcp/dst';
 import { dzsPreset } from '@statsmcp/dzs';
 import { eurostatPreset } from '@statsmcp/eurostat';
@@ -19,10 +20,12 @@ import { inePtPreset } from '@statsmcp/ine-pt';
 import { inseePreset } from '@statsmcp/insee';
 import { kasPreset } from '@statsmcp/kas';
 import { makstatPreset } from '@statsmcp/makstat';
+import { onsPreset } from '@statsmcp/ons';
 import { scbPreset } from '@statsmcp/scb';
 import { sistatPreset } from '@statsmcp/sistat';
 import { ssbPreset } from '@statsmcp/ssb';
 import { statEePreset } from '@statsmcp/stat-ee';
+import { statbelPreset } from '@statsmcp/statbel';
 import { statcanPreset } from '@statsmcp/statcan';
 import { statecPreset } from '@statsmcp/statec';
 import { statfinPreset } from '@statsmcp/statfin';
@@ -52,7 +55,10 @@ export const PRESETS = {
   lu: statecPreset,
   es: ineEsPreset,
   pt: inePtPreset,
-  fr: inseePreset
+  fr: inseePreset,
+  gb: onsPreset,
+  be: statbelPreset,
+  cz: czsoPreset
 } as const satisfies Record<string, PxwebPreset>;
 
 export type CountryId = keyof typeof PRESETS;

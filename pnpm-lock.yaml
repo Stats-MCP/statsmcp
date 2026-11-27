@@ -311,6 +311,9 @@ importers:
       '@statsmcp/cso':
         specifier: workspace:*
         version: link:../../packages/cso
+      '@statsmcp/czso':
+        specifier: workspace:*
+        version: link:../../packages/czso
       '@statsmcp/dst':
         specifier: workspace:*
         version: link:../../packages/dst
@@ -338,6 +341,9 @@ importers:
       '@statsmcp/makstat':
         specifier: workspace:*
         version: link:../../packages/makstat
+      '@statsmcp/ons':
+        specifier: workspace:*
+        version: link:../../packages/ons
       '@statsmcp/scb':
         specifier: workspace:*
         version: link:../../packages/scb
@@ -350,6 +356,9 @@ importers:
       '@statsmcp/stat-ee':
         specifier: workspace:*
         version: link:../../packages/stat-ee
+      '@statsmcp/statbel':
+        specifier: workspace:*
+        version: link:../../packages/statbel
       '@statsmcp/statcan':
         specifier: workspace:*
         version: link:../../packages/statcan
