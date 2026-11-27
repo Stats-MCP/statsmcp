@@ -2,6 +2,7 @@ import { McpServer } from '@modelcontextprotocol/server';
 
 import type { Cache } from '@/cache';
 import { createCbsODataClient } from '@/cbs-odata-client';
+import { createCzsoClient } from '@/czso-client';
 import { createEurostatClient } from '@/eurostat-client';
 import { createIneEsClient } from '@/ine-es-client';
 import { createInePtClient } from '@/ine-pt-client';
@@ -156,6 +157,9 @@ export function createPresetClient(
   }
   if (api === 'statbel') {
     return createStatbelClient({ ...indexed, maxCells: preset.maxCells });
+  }
+  if (api === 'czso') {
+    return createCzsoClient({ ...indexed, maxCells: preset.maxCells });
   }
   if (api === 'statcan-wds') return createStatcanClient(indexed);
   if (api === 'eurostat') return createEurostatClient(indexed);

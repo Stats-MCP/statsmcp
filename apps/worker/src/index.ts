@@ -15,6 +15,7 @@ import {
   type SnapshotReader
 } from '@statsmcp/core';
 import { csoPreset } from '@statsmcp/cso';
+import { czsoPreset } from '@statsmcp/czso';
 import { dstPreset } from '@statsmcp/dst';
 import { dzsPreset } from '@statsmcp/dzs';
 import { eurostatPreset } from '@statsmcp/eurostat';
@@ -152,6 +153,12 @@ const COUNTRIES: readonly HostedCountry[] = [
     code: 'be',
     preset: statbelPreset,
     agent: 'statbel-mcp',
+    snapshots: false
+  },
+  {
+    code: 'cz',
+    preset: czsoPreset,
+    agent: 'czso-mcp',
     snapshots: false
   }
 ];

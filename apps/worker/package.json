@@ -17,6 +17,7 @@
     "@statsmcp/cbs": "workspace:*",
     "@statsmcp/core": "workspace:*",
     "@statsmcp/cso": "workspace:*",
+    "@statsmcp/czso": "workspace:*",
     "@statsmcp/dst": "workspace:*",
     "@statsmcp/dzs": "workspace:*",
     "@statsmcp/eurostat": "workspace:*",

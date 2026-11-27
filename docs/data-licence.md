@@ -298,6 +298,17 @@ The server adds the source and the licence link to every result, with a link to 
 
 This project is not affiliated with or endorsed by Statbel.
 
+## Czech Statistical Office
+
+"Statistical information released by the Czech Statistical Office through the website https://csu.gov.cz is licensed under CC BY 4.0" ([conditions](https://csu.gov.cz/conditions_for_use_and_further_dissemination)). DataStat is the database of the CZSO and is linked from that website. When you disseminate CZSO data, you must mention the terms, preferably with a direct link to that page, and label adjusted or derived data as such.
+
+The server adds the source and the terms link to every result, with a link to the dataset:
+
+- `Source: Czech Statistical Office (CZSO), CC BY 4.0 (https://csu.gov.cz/conditions_for_use_and_further_dissemination)` (English)
+- `Zdroj: Český statistický úřad, CC BY 4.0 (https://csu.gov.cz/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu)` (Czech)
+
+This project is not affiliated with or endorsed by the Czech Statistical Office.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

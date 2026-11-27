@@ -64,7 +64,8 @@ for (const dir of [
   'ine-pt',
   'insee',
   'ons',
-  'statbel'
+  'statbel',
+  'czso'
 ]) {
   const version = await syncPresetVersion(dir);
   if (dir === 'sistat') await syncServerJson(dir, version);

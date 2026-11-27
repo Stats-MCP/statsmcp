@@ -1,0 +1,57 @@
+{
+  "name": "@statsmcp/czso",
+  "version": "0.4.1",
+  "description": "MCP server for DataStat, the database of the Czech Statistical Office",
+  "license": "MIT",
+  "author": "Tadej Polajnar",
+  "homepage": "https://statsmcp.dev/czechia/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stats-MCP/statsmcp.git",
+    "directory": "packages/czso"
+  },
+  "bugs": {
+    "url": "https://github.com/Stats-MCP/statsmcp/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "czso",
+    "datastat",
+    "czechia",
+    "statistics"
+  ],
+  "bin": {
+    "czso-mcp": "./dist/bin.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "catalog:",
+    "@statsmcp/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

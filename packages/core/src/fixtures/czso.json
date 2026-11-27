@@ -1,0 +1,352 @@
+{
+  "katalog/v1/sady": [
+    {
+      "kod": "CEN0101H",
+      "verze": "1",
+      "nazev": "Inflation rate",
+      "stav": "ZVEREJNENO",
+      "casZmenyDefinice": "2026-11-25T15:17:23.026406Z"
+    },
+    {
+      "kod": "ZAM01",
+      "verze": "3",
+      "nazev": "Employment and unemployment",
+      "stav": "ZVEREJNENO",
+      "casZmenyDefinice": "2026-11-11T12:47:36.077581Z"
+    }
+  ],
+  "dotaz/v1/metadata/sady/seznam": [
+    {
+      "sadaKod": "ZAM01",
+      "verzeKod": "3",
+      "metadata": {
+        "casZmeny": "2026-09-26T13:51:23.797504Z",
+        "casovaDimenzeDo": "2026-06-30T22:00:00Z"
+      }
+    },
+    {
+      "sadaKod": "ZAM01",
+      "verzeKod": "2",
+      "metadata": {
+        "casZmeny": "2026-06-29T20:26:01.781411Z",
+        "casovaDimenzeDo": "2026-03-31T22:00:00Z"
+      }
+    }
+  ],
+  "katalog/v1/sady/ZAM01": {
+    "kod": "ZAM01",
+    "verze": "3",
+    "nazev": "Employment and unemployment",
+    "ukazatele": [
+      {
+        "kod": "6284",
+        "nazev": "Unemployed (thousand persons)",
+        "mericiJednotka": {
+          "nazev": "thousand persons"
+        }
+      },
+      {
+        "kod": "6290",
+        "nazev": "General unemployment rate (%)",
+        "mericiJednotka": {
+          "nazev": "per cent"
+        }
+      }
+    ],
+    "variantyDimenze": [
+      {
+        "kod": "CasR",
+        "verze": "1",
+        "typDimenzeKod": "REF_CAS",
+        "nazev": "Years",
+        "vychoziVariantaDimenze": false,
+        "urovneDimenze": [
+          {
+            "kodUrovne": "CAS_R",
+            "pocetPolozek": 61
+          }
+        ]
+      },
+      {
+        "kod": "CasQ",
+        "verze": "1",
+        "typDimenzeKod": "REF_CAS",
+        "nazev": "Quarters",
+        "vychoziVariantaDimenze": false,
+        "urovneDimenze": [
+          {
+            "kodUrovne": "CAS_Q",
+            "pocetPolozek": 240
+          }
+        ]
+      },
+      {
+        "kod": "POHL1",
+        "verze": "2",
+        "typDimenzeKod": "POHLAVI",
+        "nazev": "Sex",
+        "vychoziVariantaDimenze": false,
+        "urovneDimenze": [
+          {
+            "kodUrovne": "#DEFAULT",
+            "pocetPolozek": 3
+          }
+        ]
+      },
+      {
+        "kod": "Uz02h",
+        "verze": "1",
+        "typDimenzeKod": "VUZEMI",
+        "nazev": "Territory",
+        "vychoziVariantaDimenze": false,
+        "urovneDimenze": [
+          {
+            "kodUrovne": "STAT",
+            "pocetPolozek": 1
+          },
+          {
+            "kodUrovne": "KRAJ",
+            "pocetPolozek": 14
+          }
+        ]
+      },
+      {
+        "kod": "CASRQX",
+        "verze": "1",
+        "typDimenzeKod": "REF_CAS",
+        "nazev": "Time Periods",
+        "vychoziVariantaDimenze": true,
+        "urovneDimenze": [
+          {
+            "kodUrovne": "CAS_R",
+            "pocetPolozek": 60
+          },
+          {
+            "kodUrovne": "CAS_Q",
+            "pocetPolozek": 240
+          }
+        ]
+      },
+      {
+        "kod": "Uz0REGIO",
+        "verze": "1",
+        "typDimenzeKod": "VUZEMI",
+        "nazev": "CR, cohesion region",
+        "urovneDimenze": [
+          {
+            "kodUrovne": "STAT",
+            "pocetPolozek": 1
+          },
+          {
+            "kodUrovne": "REGION",
+            "pocetPolozek": 8
+          }
+        ]
+      }
+    ]
+  },
+  "dotaz/v1/metadata/sady/ZAM01?verze=3": {
+    "dimenze": [
+      {
+        "kod": "CASRQX",
+        "rozsahHodnot": [
+          {
+            "kodUrovne": "CAS_Q",
+            "kodPolozkyDo": "2026-Q2",
+            "kodPolozkyOd": "1993-Q1",
+            "pocet": 134,
+            "poradiPolozkyDo": 232,
+            "poradiPolozkyOd": 66
+          },
+          {
+            "kodUrovne": "CAS_R",
+            "kodPolozkyDo": "2025",
+            "kodPolozkyOd": "1993",
+            "pocet": 33,
+            "poradiPolozkyDo": 230,
+            "poradiPolozkyOd": 70
+          }
+        ]
+      }
+    ]
+  },
+  "katalog/v1/dimenze/CASRQX/polozky?verze=1": [
+    {
+      "kod": "1992",
+      "nazev": "1992",
+      "kodUrovne": "CAS_R",
+      "poradi": 65
+    },
+    {
+      "kod": "1993-Q1",
+      "nazev": "1993, quarter 1",
+      "kodUrovne": "CAS_Q",
+      "poradi": 66
+    },
+    {
+      "kod": "2024",
+      "nazev": "2024",
+      "kodUrovne": "CAS_R",
+      "poradi": 225
+    },
+    {
+      "kod": "2025-Q4",
+      "nazev": "2025, quarter 4",
+      "kodUrovne": "CAS_Q",
+      "poradi": 229
+    },
+    {
+      "kod": "2025",
+      "nazev": "2025",
+      "kodUrovne": "CAS_R",
+      "poradi": 230
+    },
+    {
+      "kod": "2026-Q1",
+      "nazev": "2026, quarter 1",
+      "kodUrovne": "CAS_Q",
+      "poradi": 231
+    },
+    {
+      "kod": "2026-Q2",
+      "nazev": "2026, quarter 2",
+      "kodUrovne": "CAS_Q",
+      "poradi": 232
+    },
+    {
+      "kod": "2026-Q3",
+      "nazev": "2026, quarter 3",
+      "kodUrovne": "CAS_Q",
+      "poradi": 233
+    },
+    {
+      "kod": "2026",
+      "nazev": "2026",
+      "kodUrovne": "CAS_R",
+      "poradi": 235
+    }
+  ],
+  "katalog/v1/dimenze/POHL1/polozky?verze=2": [
+    {
+      "kod": "0",
+      "nazev": "Total",
+      "poradi": 1,
+      "agregacniPolozka": true
+    },
+    {
+      "kod": "2",
+      "nazev": "Female",
+      "poradi": 2,
+      "agregacniPolozka": false
+    },
+    {
+      "kod": "1",
+      "nazev": "Male",
+      "poradi": 3,
+      "agregacniPolozka": false
+    }
+  ],
+  "katalog/v1/dimenze/Uz02h/polozky?verze=1": [
+    {
+      "kod": "CZ",
+      "nazev": "Czechia",
+      "kodUrovne": "STAT",
+      "poradi": 1,
+      "agregacniPolozka": true
+    },
+    {
+      "kod": "CZ010",
+      "nazev": "Hlavní město Praha",
+      "kodUrovne": "KRAJ",
+      "poradi": 2,
+      "agregacniPolozka": false
+    },
+    {
+      "kod": "CZ020",
+      "nazev": "Středočeský kraj",
+      "kodUrovne": "KRAJ",
+      "poradi": 3,
+      "agregacniPolozka": false
+    }
+  ],
+  "data": {
+    "version": "2.0",
+    "class": "dataset",
+    "label": "Employment and unemployment - custom selection",
+    "id": ["Uz02h", "IndicatorType", "POHL1", "CASRQX"],
+    "size": [1, 2, 2, 2],
+    "role": {
+      "geo": ["Uz02h"],
+      "metric": ["IndicatorType"],
+      "time": ["CASRQX"]
+    },
+    "value": [
+      150.50752648, 163.13169265, 72.508189886, 78.040175194, 2.7852161225,
+      2.9693763438, 2.5167541276, 2.664803247
+    ],
+    "dimension": {
+      "Uz02h": {
+        "label": "Territory",
+        "category": {
+          "index": {
+            "CZ": 0
+          },
+          "label": {
+            "CZ": "Czechia"
+          }
+        }
+      },
+      "IndicatorType": {
+        "label": "Indicator",
+        "category": {
+          "index": {
+            "6284": 0,
+            "6290": 1
+          },
+          "label": {
+            "6284": "Unemployed (thousand persons)",
+            "6290": "General unemployment rate (%)"
+          },
+          "unit": {
+            "6284": {
+              "decimals": 1,
+              "label": "thousand persons",
+              "symbol": "thous. persons"
+            },
+            "6290": {
+              "decimals": 1,
+              "label": "per cent",
+              "symbol": "per cent"
+            }
+          }
+        }
+      },
+      "POHL1": {
+        "label": "Sex",
+        "category": {
+          "index": {
+            "0": 0,
+            "1": 1
+          },
+          "label": {
+            "0": "Total",
+            "1": "Male"
+          }
+        }
+      },
+      "CASRQX": {
+        "label": "Time Periods",
+        "category": {
+          "index": {
+            "2025": 0,
+            "2026-Q2": 1
+          },
+          "label": {
+            "2025": "2025",
+            "2026-Q2": "2026, quarter 2"
+          }
+        }
+      }
+    }
+  }
+}
