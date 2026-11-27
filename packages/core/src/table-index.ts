@@ -313,6 +313,9 @@ export interface TableIndexLoaderOptions {
 }
 
 const DEFAULT_RETRY_SECONDS = 5 * 60;
+// On Cloudflare Workers, a build started by a request that the runtime stopped
+// (for example over the CPU limit) never settles, so later requests must not wait on it.
+const PENDING_TIMEOUT_MS = 30_000;
 
 /**
  * Keeps one built index per language. Parallel searches share a build, an index
@@ -323,7 +326,10 @@ export function createTableIndexLoader(
   options: TableIndexLoaderOptions
 ): (lang: string) => Promise<TableIndex> {
   const built = new Map<string, { at: number; index: TableIndex }>();
-  const loading = new Map<string, Promise<TableIndex>>();
+  const loading = new Map<
+    string,
+    { at: number; promise: Promise<TableIndex> }
+  >();
   const ttlMs = options.ttlSeconds * 1000;
   const retryMs = (options.retrySeconds ?? DEFAULT_RETRY_SECONDS) * 1000;
   const build = (docs: readonly TableDoc[], lang: string): TableIndex =>
@@ -340,26 +346,47 @@ export function createTableIndexLoader(
     }
   }
 
-  return (lang) => {
+  function start(lang: string): Promise<TableIndex> {
     const current = built.get(lang);
-    if (current && Date.now() - current.at < ttlMs)
-      return Promise.resolve(current.index);
-    const pending = loading.get(lang);
-    if (pending) return pending;
+    const isCurrent = () => loading.get(lang)?.promise === promise;
     const promise = load(lang)
       .then((docs) => {
         const index = build(docs, lang);
-        built.set(lang, { at: Date.now(), index });
+        if (isCurrent()) built.set(lang, { at: Date.now(), index });
         return index;
       })
       .catch(async (err: unknown) => {
         const index = current?.index ?? (await fallbackIndex(lang));
         if (!index) throw err;
-        built.set(lang, { at: Date.now() - ttlMs + retryMs, index });
+        if (isCurrent()) {
+          built.set(lang, { at: Date.now() - ttlMs + retryMs, index });
+        }
         return index;
       })
-      .finally(() => loading.delete(lang));
-    loading.set(lang, promise);
+      .finally(() => {
+        if (isCurrent()) loading.delete(lang);
+      });
+    loading.set(lang, { at: Date.now(), promise });
     return promise;
+  }
+
+  return (lang) => {
+    const current = built.get(lang);
+    if (current && Date.now() - current.at < ttlMs)
+      return Promise.resolve(current.index);
+    const pending = loading.get(lang);
+    if (!pending || Date.now() - pending.at > PENDING_TIMEOUT_MS)
+      return start(lang);
+    return pending.promise.catch((err: unknown) => {
+      const now = loading.get(lang);
+      if (now && now !== pending) return now.promise;
+      if (!now) {
+        const fresh = built.get(lang);
+        if (fresh && fresh !== current) return fresh.index;
+        throw err;
+      }
+      loading.delete(lang);
+      return start(lang);
+    });
   };
 }

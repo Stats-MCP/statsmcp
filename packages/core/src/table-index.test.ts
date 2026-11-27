@@ -232,6 +232,62 @@ describe('createTableIndexLoader', () => {
     expect(load).toHaveBeenCalledTimes(2);
     await expect(loader('da')).rejects.toThrow('upstream down');
   });
+
+  it('starts a new build when a pending build has not settled in 30 seconds', async () => {
+    vi.useFakeTimers();
+    const load = vi
+      .fn<(lang: string) => Promise<TableDoc[]>>()
+      .mockReturnValueOnce(new Promise<TableDoc[]>(() => {}))
+      .mockResolvedValue(docs);
+    const loader = createTableIndexLoader(load, { ttlSeconds: 60 });
+
+    void loader('en');
+    vi.advanceTimersByTime(31_000);
+    const rebuilt = await loader('en');
+
+    expect(rebuilt.size).toBe(docs.length);
+    expect(load).toHaveBeenCalledTimes(2);
+  });
+
+  it('keeps the newer index when a replaced stale build finishes late', async () => {
+    vi.useFakeTimers();
+    const staleLoad = Promise.withResolvers<TableDoc[]>();
+    const load = vi
+      .fn<(lang: string) => Promise<TableDoc[]>>()
+      .mockReturnValueOnce(staleLoad.promise)
+      .mockResolvedValue(docs);
+    const loader = createTableIndexLoader(load, { ttlSeconds: 60 });
+
+    const staleIndex = loader('en');
+    vi.advanceTimersByTime(31_000);
+    const fresh = await loader('en');
+    staleLoad.resolve([{ id: 'LATE', title: 'Late table' }]);
+    await staleIndex;
+
+    expect(await loader('en')).toBe(fresh);
+  });
+
+  it('keeps the newer index when a replaced stale refresh fails late', async () => {
+    vi.useFakeTimers();
+    const staleLoad = Promise.withResolvers<TableDoc[]>();
+    const load = vi
+      .fn<(lang: string) => Promise<TableDoc[]>>()
+      .mockResolvedValueOnce(docs)
+      .mockReturnValueOnce(staleLoad.promise)
+      .mockResolvedValue(docs);
+    const loader = createTableIndexLoader(load, { ttlSeconds: 60 });
+
+    const old = await loader('en');
+    vi.advanceTimersByTime(61_000);
+    const staleIndex = loader('en');
+    vi.advanceTimersByTime(31_000);
+    const fresh = await loader('en');
+    staleLoad.reject(new Error('stopped'));
+    await staleIndex;
+
+    expect(fresh).not.toBe(old);
+    expect(await loader('en')).toBe(fresh);
+  });
 });
 
 const crawled: TableDoc[] = [
