@@ -38,30 +38,31 @@ claude mcp add --transport http statsmcp https://statsmcp.dev/mcp
 
 To connect to only one office, use its own endpoint, `https://statsmcp.dev/<code>/mcp`:
 
-| Code | Office                                         |
-| ---- | ---------------------------------------------- |
-| `si` | Statistical Office of the Republic of Slovenia |
-| `no` | Statistics Norway                              |
-| `ee` | Statistics Estonia                             |
-| `fo` | Statistics Faroe Islands                       |
-| `fi` | Statistics Finland                             |
-| `se` | Statistics Sweden                              |
-| `dk` | Statistics Denmark                             |
-| `nl` | Statistics Netherlands (CBS)                   |
-| `is` | Statistics Iceland                             |
-| `hr` | Croatian Bureau of Statistics                  |
-| `ie` | Central Statistics Office (Ireland)            |
-| `ca` | Statistics Canada                              |
-| `au` | Australian Bureau of Statistics                |
-| `ax` | Statistics and Research Åland (ÅSUB)           |
-| `mk` | State Statistical Office of North Macedonia    |
-| `xk` | Kosovo Agency of Statistics                    |
-| `md` | National Bureau of Statistics of Moldova       |
-| `lu` | STATEC (Luxembourg)                            |
-| `es` | National Statistics Institute of Spain (INE)   |
-| `pt` | Statistics Portugal (INE)                      |
-| `fr` | INSEE (France)                                 |
-| `eu` | Eurostat                                       |
+| Code | Office                                          |
+| ---- | ----------------------------------------------- |
+| `si` | Statistical Office of the Republic of Slovenia  |
+| `no` | Statistics Norway                               |
+| `ee` | Statistics Estonia                              |
+| `fo` | Statistics Faroe Islands                        |
+| `fi` | Statistics Finland                              |
+| `se` | Statistics Sweden                               |
+| `dk` | Statistics Denmark                              |
+| `nl` | Statistics Netherlands (CBS)                    |
+| `is` | Statistics Iceland                              |
+| `hr` | Croatian Bureau of Statistics                   |
+| `ie` | Central Statistics Office (Ireland)             |
+| `ca` | Statistics Canada                               |
+| `au` | Australian Bureau of Statistics                 |
+| `ax` | Statistics and Research Åland (ÅSUB)            |
+| `mk` | State Statistical Office of North Macedonia     |
+| `xk` | Kosovo Agency of Statistics                     |
+| `md` | National Bureau of Statistics of Moldova        |
+| `lu` | STATEC (Luxembourg)                             |
+| `es` | National Statistics Institute of Spain (INE)    |
+| `pt` | Statistics Portugal (INE)                       |
+| `fr` | INSEE (France)                                  |
+| `gb` | Office for National Statistics (United Kingdom) |
+| `eu` | Eurostat                                        |
 
 ```sh
 claude mcp add --transport http statsmcp-si https://statsmcp.dev/si/mcp
@@ -119,6 +120,7 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 | [INEbase](https://www.ine.es/) (Tempus3 API)                                                                           | Spain           | [`@statsmcp/ine-es`](packages/ine-es)     | Hosted and npm       |
 | [INE database](https://www.ine.pt/xportal/xmain?xpid=INE&xpgid=ine_base_dados&xlang=en)                                | Portugal        | [`@statsmcp/ine-pt`](packages/ine-pt)     | Hosted and npm       |
 | [Melodi](https://catalogue-donnees.insee.fr/) (INSEE)                                                                  | France          | [`@statsmcp/insee`](packages/insee)       | Hosted and npm       |
+| [ONS time series](https://www.ons.gov.uk/timeseriestool)                                                               | United Kingdom  | [`@statsmcp/ons`](packages/ons)           | Hosted and npm       |
 | [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                                                        | Singapore       | [`@statsmcp/singstat`](packages/singstat) | npm only; not hosted |
 
 To add a database, use the [`@statsmcp/core`](packages/core) toolkit.

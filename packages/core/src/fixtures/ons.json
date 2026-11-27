@@ -1,0 +1,219 @@
+{
+  "source": "https://api.beta.ons.gov.uk/v1/search and https://www.ons.gov.uk/<uri>/data, fetched 2026-11-27, trimmed",
+  "search ABMI": {
+    "count": 5,
+    "items": [
+      {
+        "type": "timeseries",
+        "cdid": "ABMI",
+        "dataset_id": "UKEA",
+        "release_date": "2026-09-29T23:00:00.000Z",
+        "title": "Gross Domestic Product: chained volume measures: Seasonally adjusted £m",
+        "uri": "/economy/grossdomesticproductgdp/timeseries/abmi/ukea"
+      },
+      {
+        "type": "timeseries",
+        "cdid": "ABMI",
+        "dataset_id": "BB",
+        "release_date": "2026-10-30T00:00:00.000Z",
+        "title": "Gross Domestic Product: chained volume measures: Seasonally adjusted £m",
+        "uri": "/economy/grossdomesticproductgdp/timeseries/abmi/bb"
+      },
+      {
+        "type": "timeseries",
+        "cdid": "ABMI",
+        "dataset_id": "PGDP",
+        "release_date": "2018-04-26T23:00:00.000Z",
+        "title": "Gross Domestic Product: chained volume measures: Seasonally adjusted £m",
+        "uri": "/economy/grossdomesticproductgdp/timeseries/abmi/pgdp"
+      },
+      {
+        "type": "timeseries",
+        "cdid": "ABMI",
+        "dataset_id": "PN2",
+        "release_date": "2026-11-12T00:00:00.000Z",
+        "title": "Gross Domestic Product: chained volume measures: Seasonally adjusted £m",
+        "uri": "/economy/grossdomesticproductgdp/timeseries/abmi/pn2"
+      },
+      {
+        "type": "timeseries",
+        "cdid": "ABMI",
+        "dataset_id": "QNA",
+        "release_date": "2026-09-29T23:00:00.000Z",
+        "title": "Gross Domestic Product: chained volume measures: Seasonally adjusted £m",
+        "uri": "/economy/grossdomesticproductgdp/timeseries/abmi/qna"
+      }
+    ]
+  },
+  "search D7G7": {
+    "count": 1,
+    "items": [
+      {
+        "type": "timeseries",
+        "cdid": "D7G7",
+        "dataset_id": "MM23",
+        "release_date": "2026-11-18T00:00:00.000Z",
+        "title": "CPI ANNUAL RATE 00: ALL ITEMS 2015=100",
+        "uri": "/economy/inflationandpriceindices/timeseries/d7g7/mm23"
+      }
+    ]
+  },
+  "search UKPOP": {
+    "count": 1,
+    "items": [
+      {
+        "type": "timeseries",
+        "cdid": "UKPOP",
+        "dataset_id": "pop",
+        "release_date": "2026-11-26T00:00:00.000Z",
+        "title": "United Kingdom population mid-year estimate",
+        "uri": "/peoplepopulationandcommunity/populationandmigration/populationestimates/timeseries/ukpop/pop"
+      }
+    ]
+  },
+  "data /economy/inflationandpriceindices/timeseries/d7g7/mm23": {
+    "description": {
+      "title": "CPI ANNUAL RATE 00: ALL ITEMS 2015=100",
+      "unit": "%",
+      "preUnit": "",
+      "cdid": "D7G7",
+      "datasetId": "MM23",
+      "releaseDate": "2026-11-18T00:00:00.000Z",
+      "nextRelease": "16 December 2026",
+      "date": "2026 OCT",
+      "number": "3.6"
+    },
+    "years": [
+      {
+        "date": "2024",
+        "value": "2.5",
+        "label": "2024",
+        "year": "2024",
+        "month": "",
+        "quarter": ""
+      },
+      {
+        "date": "2025",
+        "value": "3.4",
+        "label": "2025",
+        "year": "2025",
+        "month": "",
+        "quarter": ""
+      }
+    ],
+    "quarters": [
+      {
+        "date": "2026 Q2",
+        "value": "2.8",
+        "label": "2026 Q2",
+        "year": "2026",
+        "month": "",
+        "quarter": "Q2"
+      },
+      {
+        "date": "2026 Q3",
+        "value": "3.1",
+        "label": "2026 Q3",
+        "year": "2026",
+        "month": "",
+        "quarter": "Q3"
+      }
+    ],
+    "months": [
+      {
+        "date": "2026 AUG",
+        "value": "3.1",
+        "label": "2026 AUG",
+        "year": "2026",
+        "month": "August",
+        "quarter": ""
+      },
+      {
+        "date": "2026 SEP",
+        "value": "3.5",
+        "label": "2026 SEP",
+        "year": "2026",
+        "month": "September",
+        "quarter": ""
+      },
+      {
+        "date": "2026 OCT",
+        "value": "3.6",
+        "label": "2026 OCT",
+        "year": "2026",
+        "month": "October",
+        "quarter": ""
+      }
+    ],
+    "uri": "/economy/inflationandpriceindices/timeseries/d7g7/mm23"
+  },
+  "data /peoplepopulationandcommunity/populationandmigration/populationestimates/timeseries/ukpop/pop": {
+    "description": {
+      "title": "United Kingdom population mid-year estimate",
+      "unit": "",
+      "preUnit": "",
+      "cdid": "UKPOP",
+      "datasetId": "pop",
+      "releaseDate": "2026-11-26T00:00:00.000Z",
+      "nextRelease": "To be announced",
+      "date": "2026",
+      "number": "69564000"
+    },
+    "years": [
+      {
+        "date": "2025",
+        "value": "69483900",
+        "label": "2025",
+        "year": "2025",
+        "month": "",
+        "quarter": ""
+      },
+      {
+        "date": "2026",
+        "value": "69564000",
+        "label": "2026",
+        "year": "2026",
+        "month": "",
+        "quarter": ""
+      }
+    ],
+    "quarters": [],
+    "months": [],
+    "uri": "/peoplepopulationandcommunity/populationandmigration/populationestimates/timeseries/ukpop/pop"
+  },
+  "data /economy/grossdomesticproductgdp/timeseries/abmi/pn2": {
+    "description": {
+      "title": "Gross Domestic Product: chained volume measures: Seasonally adjusted £m",
+      "unit": "m",
+      "preUnit": "£",
+      "cdid": "ABMI",
+      "datasetId": "PN2",
+      "releaseDate": "2026-11-12T00:00:00.000Z",
+      "nextRelease": "22 December 2026",
+      "date": "2026 Q3",
+      "number": "749999"
+    },
+    "years": [
+      {
+        "date": "2025",
+        "value": "2940195",
+        "label": "2025",
+        "year": "2025",
+        "month": "",
+        "quarter": ""
+      }
+    ],
+    "quarters": [
+      {
+        "date": "2026 Q3",
+        "value": "749999",
+        "label": "2026 Q3",
+        "year": "2026",
+        "month": "",
+        "quarter": "Q3"
+      }
+    ],
+    "months": [],
+    "uri": "/economy/grossdomesticproductgdp/timeseries/abmi/pn2"
+  }
+}

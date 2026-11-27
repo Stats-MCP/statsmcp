@@ -162,6 +162,7 @@ describe('worker', () => {
     ['/es/mcp', 'National Statistics Institute (INE)'],
     ['/pt/mcp', 'Statistics Portugal'],
     ['/fr/mcp', 'INSEE'],
+    ['/gb/mcp', 'Office for National Statistics'],
     ['/mcp', 'national statistics offices and Eurostat']
   ])('serves the %s server', async (path, instructionsPart) => {
     vi.stubGlobal('caches', { default: {} });

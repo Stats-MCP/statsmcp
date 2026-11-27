@@ -276,6 +276,16 @@ The server adds the source and the licence link to every result, with a link to 
 
 This project is not affiliated with or endorsed by INSEE.
 
+## Office for National Statistics (United Kingdom)
+
+The ONS publishes its statistics under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). "If you wish to use or re-use ONS material, whether commercially or privately, you may do so freely without a specific application for a licence" ([licences](https://www.ons.gov.uk/methodology/geography/licences)). You must include a source statement. Some content, such as Northern Ireland postcode data, is outside the OGL; the time series are not. The ONS API and website allow 200 requests per minute ([limits](https://developer.ons.gov.uk/bots/)).
+
+The server adds the source statement and the licence link to every result, with a link to the series page:
+
+- `Source: Office for National Statistics licensed under the Open Government Licence v.3.0 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)`
+
+This project is not affiliated with or endorsed by the Office for National Statistics.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

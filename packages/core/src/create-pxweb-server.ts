@@ -6,6 +6,7 @@ import { createEurostatClient } from '@/eurostat-client';
 import { createIneEsClient } from '@/ine-es-client';
 import { createInePtClient } from '@/ine-pt-client';
 import { createInseeClient } from '@/insee-client';
+import { createOnsClient } from '@/ons-client';
 import type { PxwebPreset } from '@/preset';
 import { createPxstatClient } from '@/pxstat-client';
 import {
@@ -120,6 +121,13 @@ export function createPresetClient(
       baseUrl: preset.apiBaseUrl,
       maxCells: preset.maxCells,
       tableList: snapshotTableList(preset, tableSnapshots)
+    });
+  }
+  if (api === 'ons') {
+    return createOnsClient({
+      ...http,
+      baseUrl: preset.apiBaseUrl,
+      maxCells: preset.maxCells
     });
   }
   if (api === 'singstat') {

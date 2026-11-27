@@ -66,6 +66,11 @@ export { createIneEsClient, type IneEsClientOptions } from '@/ine-es-client';
 export { createInePtClient, type InePtClientOptions } from '@/ine-pt-client';
 export { createInseeClient, type InseeClientOptions } from '@/insee-client';
 export {
+  createOnsClient,
+  onsTableUrl,
+  type OnsClientOptions
+} from '@/ons-client';
+export {
   createSingstatClient,
   type SingstatClientOptions
 } from '@/singstat-client';

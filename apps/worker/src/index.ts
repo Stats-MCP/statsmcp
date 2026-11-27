@@ -24,6 +24,7 @@ import { inePtPreset } from '@statsmcp/ine-pt';
 import { inseePreset } from '@statsmcp/insee';
 import { kasPreset } from '@statsmcp/kas';
 import { makstatPreset } from '@statsmcp/makstat';
+import { onsPreset } from '@statsmcp/ons';
 import { scbPreset } from '@statsmcp/scb';
 import { sistatPreset } from '@statsmcp/sistat';
 import { ssbPreset } from '@statsmcp/ssb';
@@ -139,6 +140,12 @@ const COUNTRIES: readonly HostedCountry[] = [
     preset: inseePreset,
     agent: 'insee-mcp',
     snapshots: true
+  },
+  {
+    code: 'gb',
+    preset: onsPreset,
+    agent: 'ons-mcp',
+    snapshots: false
   }
 ];
 
