@@ -20,6 +20,7 @@ import { dstPreset } from '@statsmcp/dst';
 import { dzsPreset } from '@statsmcp/dzs';
 import { eurostatPreset } from '@statsmcp/eurostat';
 import { hagstovaPreset } from '@statsmcp/hagstova';
+import { ibgePreset } from '@statsmcp/ibge';
 import { ineEsPreset } from '@statsmcp/ine-es';
 import { inePtPreset } from '@statsmcp/ine-pt';
 import { inseePreset } from '@statsmcp/insee';
@@ -159,6 +160,12 @@ const COUNTRIES: readonly HostedCountry[] = [
     code: 'cz',
     preset: czsoPreset,
     agent: 'czso-mcp',
+    snapshots: false
+  },
+  {
+    code: 'br',
+    preset: ibgePreset,
+    agent: 'ibge-mcp',
     snapshots: false
   }
 ];

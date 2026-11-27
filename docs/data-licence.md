@@ -309,6 +309,16 @@ The server adds the source and the terms link to every result, with a link to th
 
 This project is not affiliated with or endorsed by the Czech Statistical Office.
 
+## IBGE (Brazil)
+
+IBGE publishes its aggregate tables (SIDRA) as federal open data. The federal open data policy, [Decreto 8.777/2016](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2016/decreto/d8777.htm), requires data "under an open licence that permits free use, consumption or combination, limited to crediting the author or source" (Art. 2 III), "unrestricted permission to reuse databases published in open format" (Art. 3 IV), and makes the data "free for use by public authorities and by society" (Art. 4). The IBGE open data plan names the SIDRA API and servicodados as its open data channels. A SIDRA query returns at most 100,000 values.
+
+The server adds the source to every result, with a link to the SIDRA table:
+
+- `Fonte: IBGE` (Portuguese)
+
+This project is not affiliated with or endorsed by IBGE.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

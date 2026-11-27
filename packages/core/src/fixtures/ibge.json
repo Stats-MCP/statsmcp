@@ -1,0 +1,264 @@
+{
+  "catalogue": [
+    {
+      "id": "IA",
+      "nome": "Índice Nacional de Preços ao Consumidor Amplo",
+      "agregados": [
+        {
+          "id": "1737",
+          "nome": "IPCA - Série histórica com número-índice, variação mensal e variações acumuladas em 3 meses, em 6 meses, no ano e em 12 meses (a partir de dezembro/1979)"
+        },
+        {
+          "id": "1419",
+          "nome": "IPCA - Variação mensal, acumulada no ano, acumulada em 12 meses e peso mensal, para o índice geral, grupos, subgrupos, itens e subitens de produtos e serviços (de janeiro/2012 até dezembro/2019)"
+        }
+      ]
+    },
+    {
+      "id": "B5",
+      "nome": "Pesquisa Nacional por Amostra de Domicílios Contínua anual",
+      "agregados": [
+        {
+          "id": "6706",
+          "nome": "População residente, por sexo e grupos de idade - Pirâmide etária"
+        }
+      ]
+    },
+    {
+      "id": "DD",
+      "nome": "Pesquisa Nacional por Amostra de Domicílios Contínua trimestral",
+      "agregados": [
+        {
+          "id": "4099",
+          "nome": "Taxas de desocupação e de subutilização da força de trabalho, na semana de referência, das pessoas de 14 anos ou mais de idade"
+        }
+      ]
+    },
+    {
+      "id": "PE",
+      "nome": "Pesquisa Mensal de Emprego",
+      "agregados": [
+        {
+          "id": "2168",
+          "nome": "Pessoas de 10 anos ou mais de idade, desocupadas na semana de referência por sexo"
+        }
+      ]
+    },
+    {
+      "id": "SC",
+      "nome": "Pesquisa Mensal de Serviços",
+      "agregados": [
+        {
+          "id": "3839",
+          "nome": "Índice e variação da receita nominal e do volume de serviços (2011 = 100 - série encerrada em dezembro de 2016)"
+        }
+      ]
+    }
+  ],
+  "6706/metadados": {
+    "id": 6706,
+    "nome": "População residente, por sexo e grupos de idade - Pirâmide etária",
+    "periodicidade": {
+      "frequencia": "anual",
+      "inicio": 2012,
+      "fim": 2025
+    },
+    "nivelTerritorial": {
+      "Administrativo": ["N1", "N2", "N6", "N14", "N7", "N3"],
+      "Especial": [],
+      "IBGE": []
+    },
+    "variaveis": [
+      {
+        "id": 606,
+        "nome": "População",
+        "unidade": "Mil pessoas",
+        "sumarizacao": []
+      },
+      {
+        "id": 8413,
+        "nome": "Distribuição percentual da população por sexo segundo grupos de idade",
+        "unidade": "%",
+        "sumarizacao": []
+      }
+    ],
+    "classificacoes": [
+      {
+        "id": 2,
+        "nome": "Sexo",
+        "sumarizacao": {
+          "status": true,
+          "excecao": []
+        },
+        "categorias": [
+          {
+            "id": 6794,
+            "nome": "Total",
+            "unidade": null,
+            "nivel": 0
+          },
+          {
+            "id": 4,
+            "nome": "Homens",
+            "unidade": null,
+            "nivel": 1
+          },
+          {
+            "id": 5,
+            "nome": "Mulheres",
+            "unidade": null,
+            "nivel": 1
+          }
+        ]
+      },
+      {
+        "id": 58,
+        "nome": "Grupo de idade",
+        "sumarizacao": {
+          "status": false,
+          "excecao": []
+        },
+        "categorias": [
+          {
+            "id": 1140,
+            "nome": "0 a 4 anos",
+            "unidade": null,
+            "nivel": 0
+          },
+          {
+            "id": 1141,
+            "nome": "5 a 9 anos",
+            "unidade": null,
+            "nivel": 0
+          }
+        ]
+      }
+    ]
+  },
+  "6706/periodos": [
+    {
+      "id": "2023",
+      "literals": ["2023"]
+    },
+    {
+      "id": "2024",
+      "literals": ["2024"]
+    },
+    {
+      "id": "2025",
+      "literals": ["2025"]
+    }
+  ],
+  "6706/localidades/N1|N2|N3|N6": [
+    {
+      "id": "1",
+      "nome": "Brasil",
+      "nivel": {
+        "id": "N1",
+        "nome": "Brasil"
+      }
+    },
+    {
+      "id": "1",
+      "nome": "Norte",
+      "nivel": {
+        "id": "N2",
+        "nome": "Grande região"
+      }
+    },
+    {
+      "id": "33",
+      "nome": "Rio de Janeiro",
+      "nivel": {
+        "id": "N3",
+        "nome": "Unidade da Federação"
+      }
+    },
+    {
+      "id": "35",
+      "nome": "São Paulo",
+      "nivel": {
+        "id": "N3",
+        "nome": "Unidade da Federação"
+      }
+    },
+    {
+      "id": "3550308",
+      "nome": "São Paulo",
+      "nivel": {
+        "id": "N6",
+        "nome": "Município"
+      }
+    }
+  ],
+  "data": [
+    {
+      "NC": "Nível Territorial (Código)",
+      "NN": "Nível Territorial",
+      "MC": "Unidade de Medida (Código)",
+      "MN": "Unidade de Medida",
+      "V": "Valor",
+      "D1C": "Brasil e Unidade da Federação (Código)",
+      "D1N": "Brasil e Unidade da Federação",
+      "D2C": "Variável (Código)",
+      "D2N": "Variável",
+      "D3C": "Ano (Código)",
+      "D3N": "Ano",
+      "D4C": "Sexo (Código)",
+      "D4N": "Sexo",
+      "D5C": "Grupo de idade (Código)",
+      "D5N": "Grupo de idade"
+    },
+    {
+      "NC": "1",
+      "NN": "Brasil",
+      "MC": "1572",
+      "MN": "Mil pessoas",
+      "V": "6463",
+      "D1C": "1",
+      "D1N": "Brasil",
+      "D2C": "606",
+      "D2N": "População",
+      "D3C": "2025",
+      "D3N": "2025",
+      "D4C": "4",
+      "D4N": "Homens",
+      "D5C": "1140",
+      "D5N": "0 a 4 anos"
+    },
+    {
+      "NC": "1",
+      "NN": "Brasil",
+      "MC": "1572",
+      "MN": "Mil pessoas",
+      "V": "7296",
+      "D1C": "1",
+      "D1N": "Brasil",
+      "D2C": "606",
+      "D2N": "População",
+      "D3C": "2025",
+      "D3N": "2025",
+      "D4C": "4",
+      "D4N": "Homens",
+      "D5C": "1141",
+      "D5N": "5 a 9 anos"
+    },
+    {
+      "NC": "1",
+      "NN": "Brasil",
+      "MC": "1572",
+      "MN": "Mil pessoas",
+      "V": "6167",
+      "D1C": "1",
+      "D1N": "Brasil",
+      "D2C": "606",
+      "D2N": "População",
+      "D3C": "2025",
+      "D3N": "2025",
+      "D4C": "5",
+      "D4N": "Mulheres",
+      "D5C": "1140",
+      "D5N": "0 a 4 anos"
+    }
+  ]
+}

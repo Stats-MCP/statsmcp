@@ -4,6 +4,7 @@ import type { Cache } from '@/cache';
 import { createCbsODataClient } from '@/cbs-odata-client';
 import { createCzsoClient } from '@/czso-client';
 import { createEurostatClient } from '@/eurostat-client';
+import { createIbgeClient } from '@/ibge-client';
 import { createIneEsClient } from '@/ine-es-client';
 import { createInePtClient } from '@/ine-pt-client';
 import { createInseeClient } from '@/insee-client';
@@ -160,6 +161,9 @@ export function createPresetClient(
   }
   if (api === 'czso') {
     return createCzsoClient({ ...indexed, maxCells: preset.maxCells });
+  }
+  if (api === 'ibge') {
+    return createIbgeClient({ ...indexed, maxCells: preset.maxCells });
   }
   if (api === 'statcan-wds') return createStatcanClient(indexed);
   if (api === 'eurostat') return createEurostatClient(indexed);

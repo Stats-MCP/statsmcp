@@ -37,6 +37,7 @@ export interface PxwebPreset {
     | 'ons'
     | 'statbel'
     | 'czso'
+    | 'ibge'
     | 'sdmx';
   /** SDMX agency id, for example "ABS". Required when `api` is "sdmx". */
   sdmxAgency?: string;

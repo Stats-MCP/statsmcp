@@ -35,7 +35,8 @@
       "@statsmcp/insee",
       "@statsmcp/ons",
       "@statsmcp/statbel",
-      "@statsmcp/czso"
+      "@statsmcp/czso",
+      "@statsmcp/ibge"
     ]
   ],
   "access": "public",

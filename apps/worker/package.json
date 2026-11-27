@@ -22,6 +22,7 @@
     "@statsmcp/dzs": "workspace:*",
     "@statsmcp/eurostat": "workspace:*",
     "@statsmcp/hagstova": "workspace:*",
+    "@statsmcp/ibge": "workspace:*",
     "@statsmcp/ine-es": "workspace:*",
     "@statsmcp/ine-pt": "workspace:*",
     "@statsmcp/insee": "workspace:*",
