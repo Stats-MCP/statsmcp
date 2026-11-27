@@ -121,6 +121,15 @@ describe('createTableIndex', () => {
     ).toEqual(['KØB1']);
   });
 
+  it.each([
+    ['pt', 'Taxa de desocupação, por sexo', 'de por'],
+    ['es', 'Tasa de paro por sexo', 'de por']
+  ])('ignores %s function words', (lang, title, query) => {
+    const single = createTableIndex([{ id: 'T1', title }], lang);
+
+    expect(single.search(query)).toEqual([]);
+  });
+
   it('falls back to fuzzy matching only when nothing matches exactly', () => {
     expect(ids('popluation')).toContain('FOLK1A');
     const typoNeighbour = createTableIndex(
