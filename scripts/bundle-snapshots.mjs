@@ -97,7 +97,8 @@ for (const dir of await readdir(packagesUrl)) {
       missing.push(`${preset.name}/${lang}`);
       continue;
     }
-    const gzip = await writeSnapshot(snapshot);
+    // Packages ship the table list only; the prebuilt search index is for the hosted Worker.
+    const gzip = await writeSnapshot({ ...snapshot, searchIndex: undefined });
     total += gzip.byteLength;
     await writeFile(new URL(`${lang}.json.gz`, outUrl), gzip);
     process.stdout.write(

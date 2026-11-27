@@ -1,7 +1,15 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { parseArgs } from 'node:util';
 
-import { urlSnapshotReader } from '@statsmcp/core';
+import {
+  buildSearchIndex,
+  readSnapshot,
+  snapshotKey,
+  urlSnapshotReader,
+  writeSnapshot
+} from '@statsmcp/core';
 import { z } from 'zod';
 
 import { crawlSource } from '@/crawl';
@@ -23,7 +31,8 @@ const { values } = parseArgs({
     out: { type: 'string', default: 'out' },
     checkpoints: { type: 'string', default: '.crawl' },
     previous: { type: 'string', default: 'https://statsmcp.dev' },
-    force: { type: 'boolean', default: false }
+    force: { type: 'boolean', default: false },
+    reindex: { type: 'boolean', default: false }
   }
 });
 
@@ -33,7 +42,7 @@ const unknown = requested.filter(
 );
 if (requested.length === 0 || unknown.length > 0) {
   console.error(
-    `Usage: crawl --source <${['all', ...SOURCES.map((source) => source.name)].join('|')}> [--lang <code>] [--out dir] [--force]` +
+    `Usage: crawl --source <${['all', ...SOURCES.map((source) => source.name)].join('|')}> [--lang <code>] [--out dir] [--force] [--reindex]` +
       (unknown.length > 0 ? `\nUnknown source: ${unknown.join(', ')}` : '')
   );
   process.exit(2);
@@ -49,6 +58,29 @@ if (
 ) {
   console.error(`No selected source has the language ${langs.join(', ')}.`);
   process.exit(2);
+}
+
+// --reindex adds the prebuilt search index to the snapshots already in --out, with no crawl.
+if (values.reindex) {
+  for (const source of selected) {
+    for (const lang of source.langs.filter(
+      (code) => !langs || langs.includes(code)
+    )) {
+      const file = join(values.out, snapshotKey(source.name, lang));
+      if (!existsSync(file)) continue;
+      const snapshot = await readSnapshot(
+        new Blob([await readFile(file)]).stream(),
+        source.name,
+        lang
+      );
+      const searchIndex = buildSearchIndex(snapshot.docs, lang);
+      await writeFile(file, await writeSnapshot({ ...snapshot, searchIndex }));
+      process.stdout.write(
+        `${source.name}/${lang}: search index for ${snapshot.count} tables\n`
+      );
+    }
+  }
+  process.exit(0);
 }
 
 const previous = urlSnapshotReader(values.previous, { userAgent: USER_AGENT });

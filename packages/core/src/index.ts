@@ -52,8 +52,11 @@ export {
   type UrlSnapshotReaderOptions
 } from '@/snapshot';
 export {
+  buildSearchIndex,
   createTableIndex,
   createTableIndexLoader,
+  SEARCH_INDEX_VERSION,
+  type PrebuiltSearchIndex,
   type TableIndexLoaderOptions,
   type TableListOptions,
   type TableDoc,

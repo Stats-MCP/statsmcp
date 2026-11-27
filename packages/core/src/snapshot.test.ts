@@ -9,6 +9,7 @@ import {
   writeSnapshot,
   type Snapshot
 } from '@/snapshot';
+import { buildSearchIndex, createTableIndex } from '@/table-index';
 
 const snapshot: Snapshot = {
   version: 1,
@@ -58,6 +59,20 @@ describe('snapshots', () => {
     await expect(
       readSnapshot(streamOf(bytes), 'hagstofa', 'is')
     ).rejects.toThrow('not hagstofa/is');
+  });
+
+  it('gives search the prebuilt index stored with the tables', async () => {
+    const marked = snapshot.docs.map((doc, position) =>
+      position === 0 ? { ...doc, title: `${doc.title} zebra` } : doc
+    );
+    const bytes = await writeSnapshot({
+      ...snapshot,
+      searchIndex: buildSearchIndex(marked, 'en')
+    });
+
+    const read = await readSnapshot(streamOf(bytes), 'hagstofa', 'en');
+
+    expect(createTableIndex(read.docs, 'en').search('zebra')).toHaveLength(1);
   });
 
   it('reads a snapshot that the host already decompressed', async () => {

@@ -4,7 +4,11 @@ import {
   createTableIndex,
   createTableIndexLoader,
   type TableDoc,
-  preferCrawled
+  preferCrawled,
+  attachSearchIndex,
+  buildSearchIndex,
+  SEARCH_INDEX_VERSION,
+  type PrebuiltSearchIndex
 } from '@/table-index';
 
 const docs: TableDoc[] = [
@@ -288,6 +292,60 @@ describe('createTableIndexLoader', () => {
 
     expect(fresh).not.toBe(old);
     expect(await loader('en')).toBe(fresh);
+  });
+});
+
+describe('prebuilt search index', () => {
+  const marked = docs.map((doc, position) =>
+    position === 0 ? { ...doc, title: `${doc.title} zebra` } : doc
+  );
+  const extra = { id: 'EXTRA', title: 'Extra table' };
+
+  it.each<[string, () => PrebuiltSearchIndex, number]>([
+    [
+      'uses an index of the current version',
+      () => buildSearchIndex(marked, 'en'),
+      1
+    ],
+    [
+      'rebuilds an index of an older version',
+      () => ({
+        ...buildSearchIndex(marked, 'en'),
+        version: SEARCH_INDEX_VERSION - 1
+      }),
+      0
+    ],
+    [
+      'rebuilds an index made with other term processing',
+      () => ({ ...buildSearchIndex(marked, 'en'), terms: 'other' }),
+      0
+    ],
+    [
+      'rebuilds an index of another number of tables',
+      () => buildSearchIndex([...marked, extra], 'en'),
+      0
+    ],
+    [
+      'rebuilds a damaged index',
+      () => ({ ...buildSearchIndex(marked, 'en'), json: '{"broken' }),
+      0
+    ]
+  ])('%s', (_case, prebuilt, hits) => {
+    const list = docs.map((doc) => ({ ...doc }));
+    attachSearchIndex(list, prebuilt());
+
+    expect(createTableIndex(list, 'en').search('zebra')).toHaveLength(hits);
+  });
+
+  it('gives the same results as an index built on the spot', () => {
+    const list = docs.map((doc) => ({ ...doc }));
+    attachSearchIndex(list, buildSearchIndex(list, 'en'));
+    const prebuilt = createTableIndex(list, 'en');
+    const fresh = createTableIndex(docs, 'en');
+
+    for (const query of ['population', 'quarter', 'FOLK1A', 'popul']) {
+      expect(prebuilt.search(query)).toEqual(fresh.search(query));
+    }
   });
 });
 

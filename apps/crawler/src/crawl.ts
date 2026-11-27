@@ -2,6 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 
 import {
+  buildSearchIndex,
   SNAPSHOT_VERSION,
   snapshotKey,
   writeSnapshot,
@@ -132,7 +133,8 @@ async function crawlLanguage(
     lang,
     builtAt: now().toISOString(),
     count: docs.length,
-    docs
+    docs,
+    searchIndex: buildSearchIndex(docs, lang)
   };
   const problems = snapshotProblems(snapshot, previous);
   if (problems.length > 0 && !options.force) {

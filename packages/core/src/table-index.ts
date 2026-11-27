@@ -198,6 +198,97 @@ function hasCurrentData(
   return Number.isFinite(year) && year >= currentYear - 1;
 }
 
+/** Bump when the index fields or the MiniSearch version change; term processing is checked by its fingerprint. */
+export const SEARCH_INDEX_VERSION = 1;
+
+/** A search index built ahead of time, for example by the crawler. */
+export interface PrebuiltSearchIndex {
+  version: number;
+  /** How the language's terms were processed; a change to normalization or stop words rebuilds. */
+  terms?: string;
+  json: string;
+}
+
+// Keyed by the doc list a prebuilt index belongs to, so it is used for exactly that list.
+// The entry is used once; building another index for the same list builds it on the spot.
+const prebuiltIndexes = new WeakMap<readonly TableDoc[], PrebuiltSearchIndex>();
+
+/** Lets createTableIndex load this prebuilt index instead of building one for these docs. */
+export function attachSearchIndex(
+  docs: readonly TableDoc[],
+  prebuilt: PrebuiltSearchIndex
+): void {
+  prebuiltIndexes.set(docs, prebuilt);
+}
+
+function miniSearchOptions(lang: string) {
+  const stopWords = new Set(STOP_WORDS[LANGUAGE_FAMILY[lang] ?? lang] ?? []);
+  return {
+    idField: 'id',
+    fields: ['title', 'path'],
+    extractField,
+    processTerm: (term: string): string | null => {
+      const value = normalize(term, lang);
+      return value.length < MIN_TERM_LENGTH || stopWords.has(value)
+        ? null
+        : value;
+    }
+  };
+}
+
+// Sample words that show the effect of normalization and stop words.
+const TERM_PROBE =
+  'Ætt Øl Ål Ää Öö Üü Ññ Çç Šš Žž Čč Ćć Đđ Łł Ðð Þþ ß Ĳ ı İ Ş Ţ Ș Ț Ё Ђ Ѓ Ќ ќ 2026 1,5 e-mail';
+
+function termFingerprint(lang: string): string {
+  const { processTerm } = miniSearchOptions(lang);
+  const stopWords = STOP_WORDS[LANGUAGE_FAMILY[lang] ?? lang] ?? [];
+  const probe = TERM_PROBE.split(' ').map((term) => processTerm(term) ?? '-');
+  return [...probe, '|', ...stopWords].join(' ');
+}
+
+function uniqueDocs(docs: readonly TableDoc[]): TableDoc[] {
+  return [...new Map(docs.map((doc) => [doc.id, doc])).values()];
+}
+
+/** Builds the search index of a table list, to store with the list. */
+export function buildSearchIndex(
+  docs: readonly TableDoc[],
+  lang: string
+): PrebuiltSearchIndex {
+  const index = new MiniSearch<TableDoc>(miniSearchOptions(lang));
+  index.addAll(uniqueDocs(docs));
+  return {
+    version: SEARCH_INDEX_VERSION,
+    terms: termFingerprint(lang),
+    json: JSON.stringify(index)
+  };
+}
+
+function loadIndex(
+  docs: readonly TableDoc[],
+  unique: TableDoc[],
+  lang: string,
+  options: ReturnType<typeof miniSearchOptions>
+): MiniSearch<TableDoc> {
+  const prebuilt = prebuiltIndexes.get(docs);
+  prebuiltIndexes.delete(docs);
+  if (
+    prebuilt?.version === SEARCH_INDEX_VERSION &&
+    prebuilt.terms === termFingerprint(lang)
+  ) {
+    try {
+      const loaded = MiniSearch.loadJSON<TableDoc>(prebuilt.json, options);
+      if (loaded.documentCount === unique.length) return loaded;
+    } catch {
+      // A damaged prebuilt index is rebuilt below.
+    }
+  }
+  const index = new MiniSearch<TableDoc>(options);
+  index.addAll(unique);
+  return index;
+}
+
 /**
  * Keyword search over a source's table catalogue, for APIs whose own search is
  * missing, broken or weak. It fuses two rankings: BM25 over titles (three times)
@@ -210,13 +301,8 @@ export function createTableIndex(
   options: TableIndexOptions = {}
 ): TableIndex {
   const currentYear = options.currentYear ?? new Date().getUTCFullYear();
-  const stopWords = new Set(STOP_WORDS[LANGUAGE_FAMILY[lang] ?? lang] ?? []);
-  const processTerm = (term: string): string | null => {
-    const value = normalize(term, lang);
-    return value.length < MIN_TERM_LENGTH || stopWords.has(value)
-      ? null
-      : value;
-  };
+  const indexOptions = miniSearchOptions(lang);
+  const processTerm = indexOptions.processTerm;
   const byId = new Map(docs.map((doc) => [doc.id, doc]));
   const byNormalizedId = uniqueBy(docs, (doc) => normalize(doc.id, lang));
   const byFileName = uniqueFileNames(docs, lang);
@@ -231,13 +317,7 @@ export function createTableIndex(
       return [doc.id, boost];
     })
   );
-  const index = new MiniSearch<TableDoc>({
-    idField: 'id',
-    fields: ['title', 'path'],
-    extractField,
-    processTerm
-  });
-  index.addAll([...byId.values()]);
+  const index = loadIndex(docs, [...byId.values()], lang, indexOptions);
 
   const base = {
     boost: FIELD_BOOST,
