@@ -256,6 +256,12 @@ importers:
       '@statsmcp/eurostat':
         specifier: workspace:*
         version: link:../../packages/eurostat
+      '@statsmcp/ibge':
+        specifier: workspace:*
+        version: link:../../packages/ibge
+      '@statsmcp/osp':
+        specifier: workspace:*
+        version: link:../../packages/osp
       '@statsmcp/scb':
         specifier: workspace:*
         version: link:../../packages/scb

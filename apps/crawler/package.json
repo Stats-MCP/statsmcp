@@ -15,6 +15,8 @@
     "@statsmcp/core": "workspace:*",
     "@statsmcp/dst": "workspace:*",
     "@statsmcp/eurostat": "workspace:*",
+    "@statsmcp/ibge": "workspace:*",
+    "@statsmcp/osp": "workspace:*",
     "@statsmcp/scb": "workspace:*",
     "@statsmcp/statcan": "workspace:*",
     "@statsmcp/statec": "workspace:*",

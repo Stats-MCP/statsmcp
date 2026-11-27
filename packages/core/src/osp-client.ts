@@ -32,7 +32,8 @@ import {
 import {
   createTableIndexLoader,
   type TableDoc,
-  type TableListOptions
+  type TableListOptions,
+  preferCrawled
 } from '@/table-index';
 
 const AGENCY = 'LSD';
@@ -699,11 +700,14 @@ export function createOspClient(
     return catalogue.flows.map((flow) => toTableDoc(flow, language));
   }
 
-  const tableIndex = createTableIndexLoader(listTables, {
-    fallback: options.listFallback,
-    ttlSeconds: SEARCH_TTL_SECONDS,
-    currentYear: () => now().getUTCFullYear()
-  });
+  const tableIndex = createTableIndexLoader(
+    preferCrawled(listTables, options.crawledList),
+    {
+      fallback: options.listFallback,
+      ttlSeconds: SEARCH_TTL_SECONDS,
+      currentYear: () => now().getUTCFullYear()
+    }
+  );
 
   function getStructure<T>(
     path: string,

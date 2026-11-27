@@ -77,6 +77,7 @@ export function createPresetClient(
   preset: PxwebPreset,
   options: Pick<PresetServerOptions, 'cache' | 'fetch' | 'tableSnapshots'> & {
     userAgent: string;
+    timeoutMs?: number;
   }
 ): PxwebClient {
   const { tableSnapshots, ...http } = options;
@@ -164,10 +165,24 @@ export function createPresetClient(
     return createCzsoClient({ ...indexed, maxCells: preset.maxCells });
   }
   if (api === 'ibge') {
-    return createIbgeClient({ ...indexed, maxCells: preset.maxCells });
+    return createIbgeClient({
+      ...indexed,
+      maxCells: preset.maxCells,
+      ...(tableSnapshots && {
+        crawledList: async (lang: string) =>
+          (await tableSnapshots(preset.name, lang))?.docs
+      })
+    });
   }
   if (api === 'osp') {
-    return createOspClient({ ...indexed, maxCells: preset.maxCells });
+    return createOspClient({
+      ...indexed,
+      maxCells: preset.maxCells,
+      ...(tableSnapshots && {
+        crawledList: async (lang: string) =>
+          (await tableSnapshots(preset.name, lang))?.docs
+      })
+    });
   }
   if (api === 'statcan-wds') return createStatcanClient(indexed);
   if (api === 'eurostat') return createEurostatClient(indexed);

@@ -17,7 +17,8 @@ import type {
 import {
   createTableIndexLoader,
   type TableDoc,
-  type TableListOptions
+  type TableListOptions,
+  preferCrawled
 } from '@/table-index';
 
 const TABLE_ID_PATTERN = /^\d{1,7}$/;
@@ -250,11 +251,14 @@ export function createIbgeClient(
     return [...docs.values()];
   }
 
-  const tableIndex = createTableIndexLoader(listTables, {
-    fallback: options.listFallback,
-    ttlSeconds: SEARCH_TTL_SECONDS,
-    currentYear: () => now().getUTCFullYear()
-  });
+  const tableIndex = createTableIndexLoader(
+    preferCrawled(listTables, options.crawledList),
+    {
+      fallback: options.listFallback,
+      ttlSeconds: SEARCH_TTL_SECONDS,
+      currentYear: () => now().getUTCFullYear()
+    }
+  );
 
   async function missingOrUpstream(
     tableId: string,

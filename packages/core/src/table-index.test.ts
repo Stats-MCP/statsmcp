@@ -3,7 +3,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   createTableIndex,
   createTableIndexLoader,
-  type TableDoc
+  type TableDoc,
+  preferCrawled
 } from '@/table-index';
 
 const docs: TableDoc[] = [
@@ -287,6 +288,31 @@ describe('createTableIndexLoader', () => {
 
     expect(fresh).not.toBe(old);
     expect(await loader('en')).toBe(fresh);
+  });
+});
+
+describe('preferCrawled', () => {
+  it.each<[string, () => Promise<TableDoc[] | undefined>, string]>([
+    [
+      'the crawled tables when there are some',
+      async () => [{ id: 'CRAWLED', title: 'Crawled' }],
+      'CRAWLED'
+    ],
+    ['the live list when the crawled list is empty', async () => [], 'LIVE'],
+    [
+      'the live list when the crawled list fails',
+      async () => {
+        throw new Error('R2 down');
+      },
+      'LIVE'
+    ]
+  ])('loads %s', async (_case, crawledList, expected) => {
+    const load = preferCrawled(
+      async () => [{ id: 'LIVE', title: 'Live' }],
+      crawledList
+    );
+
+    expect((await load('en'))[0]?.id).toBe(expected);
   });
 });
 

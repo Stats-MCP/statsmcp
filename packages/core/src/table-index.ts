@@ -295,6 +295,20 @@ export function createTableIndex(
 export interface TableListOptions {
   /** Tables to use when the live table list fails, for example a crawled snapshot. */
   listFallback?: (lang: string) => Promise<readonly TableDoc[] | undefined>;
+  /** Tables to use before the live table list, for example a crawled snapshot. */
+  crawledList?: (lang: string) => Promise<readonly TableDoc[] | undefined>;
+}
+
+/** Loads the crawled list when it has tables, else the live list. */
+export function preferCrawled(
+  load: (lang: string) => Promise<readonly TableDoc[]>,
+  crawled: TableListOptions['crawledList']
+): (lang: string) => Promise<readonly TableDoc[]> {
+  if (!crawled) return load;
+  return async (lang) => {
+    const docs = await crawled(lang).catch(() => undefined);
+    return docs && docs.length > 0 ? docs : load(lang);
+  };
 }
 
 export interface TableIndexLoaderOptions {

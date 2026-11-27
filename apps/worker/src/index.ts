@@ -167,13 +167,13 @@ const COUNTRIES: readonly HostedCountry[] = [
     code: 'br',
     preset: ibgePreset,
     agent: 'ibge-mcp',
-    snapshots: false
+    snapshots: true
   },
   {
     code: 'lt',
     preset: ospPreset,
     agent: 'osp-mcp',
-    snapshots: false
+    snapshots: true
   }
 ];
 
