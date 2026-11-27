@@ -167,6 +167,7 @@ describe('worker', () => {
     ['/cz/mcp', 'Czech Statistical Office'],
     ['/br/mcp', 'IBGE'],
     ['/lt/mcp', 'Official Statistics Portal of the State Data Agency'],
+    ['/pl/mcp', 'Statistics Poland'],
     ['/mcp', 'national statistics offices and Eurostat']
   ])('serves the %s server', async (path, instructionsPart) => {
     vi.stubGlobal('caches', { default: {} });

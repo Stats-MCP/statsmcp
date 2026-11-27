@@ -330,6 +330,17 @@ The server adds the source to every result, with a link to the indicator. Each t
 
 This project is not affiliated with or endorsed by the State Data Agency.
 
+## Statistics Poland (BDL)
+
+Statistics Poland (GUS) publishes the Local Data Bank (BDL) API under CC BY 4.0: "The use of data is possible on the basis of Attribution 4.0 International licence (CC BY 4.0.)" (https://api.stat.gov.pl/Home/BdlApi?lang=en). The API limits anonymous use to 100 requests per 15 minutes per IP address; a free API key raises the limit to 500.
+
+The server adds the source and the licence link to every result, with a link to the BDL subject page:
+
+- `Źródło: Główny Urząd Statystyczny, Bank Danych Lokalnych (licencja CC BY 4.0, https://creativecommons.org/licenses/by/4.0/deed.pl)` (Polish)
+- `Source: Statistics Poland, Local Data Bank (licensed under CC BY 4.0, https://creativecommons.org/licenses/by/4.0/)` (English)
+
+This project is not affiliated with or endorsed by Statistics Poland.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

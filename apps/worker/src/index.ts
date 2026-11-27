@@ -1,6 +1,7 @@
 import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { absPreset } from '@statsmcp/abs';
 import { asubPreset } from '@statsmcp/asub';
+import { bdlPreset } from '@statsmcp/bdl';
 import { bnsPreset } from '@statsmcp/bns';
 import { cbsPreset } from '@statsmcp/cbs';
 import {
@@ -44,6 +45,8 @@ import { isIndexFile, serveIndexFile, type IndexBucket } from '@/index-files';
 export interface Env {
   RATE_LIMITER: RateLimit;
   INDEX?: IndexBucket;
+  /** Statistics Poland API key (a Worker secret); without it BDL allows 100 requests per 15 minutes. */
+  BDL_CLIENT_ID?: string;
 }
 
 interface SharedState {
@@ -65,6 +68,7 @@ interface HostedCountry {
   agent: string;
   /** Gets the crawled R2 snapshots, as search source or as fallback for a failing live list. */
   snapshots: boolean;
+  clientId?: (env: Env) => string | undefined;
 }
 
 const COUNTRIES: readonly HostedCountry[] = [
@@ -174,18 +178,28 @@ const COUNTRIES: readonly HostedCountry[] = [
     preset: ospPreset,
     agent: 'osp-mcp',
     snapshots: true
+  },
+  {
+    code: 'pl',
+    preset: bdlPreset,
+    agent: 'bdl-mcp',
+    snapshots: true,
+    clientId: (env) => env.BDL_CLIENT_ID
   }
 ];
 
 function serverOptions(
   country: HostedCountry,
   cache: Cache,
-  tableSnapshots: SnapshotReader | undefined
+  tableSnapshots: SnapshotReader | undefined,
+  env: Env
 ) {
+  const clientId = country.clientId?.(env);
   return {
     cache,
     userAgent: `${country.agent}-worker/${country.preset.version}`,
-    ...(country.snapshots && tableSnapshots ? { tableSnapshots } : {})
+    ...(country.snapshots && tableSnapshots ? { tableSnapshots } : {}),
+    ...(clientId && { clientId })
   };
 }
 
@@ -243,12 +257,16 @@ function stateFor(bucket: IndexBucket | undefined): SharedState {
   return sharedState;
 }
 
-function sharedClient(state: SharedState, country: HostedCountry): PxwebClient {
+function sharedClient(
+  state: SharedState,
+  country: HostedCountry,
+  env: Env
+): PxwebClient {
   const existing = state.clients.get(country.code);
   if (existing) return existing;
   const client = createPresetClient(
     country.preset,
-    serverOptions(country, state.cache, state.reader)
+    serverOptions(country, state.cache, state.reader, env)
   );
   state.clients.set(country.code, client);
   return client;
@@ -303,7 +321,7 @@ export async function handleRequest(
 
   const state = stateFor(env.INDEX);
   const handler = createMcpHandler(() =>
-    server.create((country) => sharedClient(state, country))
+    server.create((country) => sharedClient(state, country, env))
   );
   return withCors(await handler.fetch(request));
 }

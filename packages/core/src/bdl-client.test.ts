@@ -215,6 +215,13 @@ describe('createBdlClient', () => {
       new Response('error', { status: 500 }),
       502,
       'could not answer'
+    ],
+    [
+      'a refused API key',
+      'P3559',
+      new Response('{}', { status: 401 }),
+      502,
+      'BDL_CLIENT_ID'
     ]
   ])('reports %s', async (_case, tableId, data, status, message) => {
     const { client } = setup(data);
@@ -225,6 +232,19 @@ describe('createBdlClient', () => {
       status,
       message: expect.stringContaining(message)
     });
+  });
+
+  it('refuses a unit code that the table does not have, before it asks for data', async () => {
+    const { client, dataUrl } = setup();
+
+    await expect(
+      client.query('en', 'P3559', [
+        REGISTERED_RATE,
+        items('unit', ['../subjects']),
+        items('year', ['2025'])
+      ])
+    ).rejects.toMatchObject({ status: 400 });
+    expect(dataUrl()).toBeUndefined();
   });
 
   it('lists the subjects that hold variables, with their ancestors as path', async () => {

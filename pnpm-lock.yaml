@@ -411,6 +411,9 @@ importers:
       '@statsmcp/asub':
         specifier: workspace:*
         version: link:../../packages/asub
+      '@statsmcp/bdl':
+        specifier: workspace:*
+        version: link:../../packages/bdl
       '@statsmcp/bns':
         specifier: workspace:*
         version: link:../../packages/bns
@@ -529,6 +532,28 @@ importers:
         version: 5.0.5(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(yaml@2.9.1))
 
   packages/asub:
+    dependencies:
+      '@modelcontextprotocol/server':
+        specifier: 'catalog:'
+        version: 2.4.0
+      '@statsmcp/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.6
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.23.4(typescript@7.0.2)
+      typescript:
+        specifier: 'catalog:'
+        version: 7.0.2
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@26.6.6)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(yaml@2.9.1))
+
+  packages/bdl:
     dependencies:
       '@modelcontextprotocol/server':
         specifier: 'catalog:'

@@ -30,6 +30,8 @@ const PAGE_SIZE = 100;
 const PAGE_BATCH = 4;
 const MAX_VARIABLE_PAGES = 20;
 const VAR_IDS_PER_CALL = PAGE_SIZE;
+/** Keeps one query well inside the anonymous limit of 100 requests per 15 minutes. */
+const MAX_DATA_CALLS = 20;
 const DIMENSION_FIELDS = ['n1', 'n2', 'n3', 'n4', 'n5'] as const;
 const UNIT_CODE = 'unit';
 const YEAR_CODE = 'year';
@@ -199,6 +201,12 @@ function upstreamError(err: unknown): unknown {
       503
     );
   }
+  if (err.status === 401 || err.status === 403) {
+    return new PxwebError(
+      `Statistics Poland (BDL) refused the API key of this server (HTTP ${err.status}). Check BDL_CLIENT_ID.`,
+      502
+    );
+  }
   if (err.status >= 500) {
     return new PxwebError(
       `Statistics Poland (BDL) could not answer (HTTP ${err.status}). Try again later.`,
@@ -243,7 +251,14 @@ function chosenCodes(
   if (filter === 'top') {
     return variable.values.slice(-Math.max(1, Number(values[0]) || 1));
   }
-  return values;
+  const unknown = values.filter((code) => !variable.values.includes(code));
+  if (unknown.length > 0) {
+    throw new PxwebError(
+      `Unknown value "${unknown[0]}" for ${variable.code}. Check the value codes with get_table_metadata.`,
+      400
+    );
+  }
+  return [...new Set(values)];
 }
 
 function valueLabel(variable: TableVariable, code: string): string {
@@ -442,7 +457,7 @@ export function createBdlClient(
       [POLAND, labels.poland],
       ...(deepest >= VOIVODESHIP_LEVEL ? VOIVODESHIPS : [])
     ];
-    const years = subject.years.map(String);
+    const years = subject.years.toSorted((a, b) => a - b).map(String);
 
     const dimensionVariables = dimensions.map(
       (dimension) => dimension.variable
@@ -521,6 +536,12 @@ export function createBdlClient(
     const byUnitCalls =
       units.length * Math.ceil(series.length / VAR_IDS_PER_CALL);
     const byVariableCalls = series.length * levels.length;
+    if (Math.min(byUnitCalls, byVariableCalls) > MAX_DATA_CALLS) {
+      throw new PxwebError(
+        `This selection needs more than ${MAX_DATA_CALLS} requests to Statistics Poland. Select fewer units or values.`,
+        400
+      );
+    }
     if (byUnitCalls <= byVariableCalls) {
       const requests = units.flatMap((unit) =>
         chunks(series, VAR_IDS_PER_CALL).map((chunk) => ({ unit, chunk }))

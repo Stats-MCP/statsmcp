@@ -55,6 +55,8 @@ export interface PresetServerOptions {
   userAgent?: string;
   /** Crawled table lists, used when a source's live table list fails. */
   tableSnapshots?: SnapshotReader;
+  /** API key for an office that takes one; BDL sends it as `X-ClientId`. */
+  clientId?: string;
 }
 
 /** PxWeb v1, PxStat, INE Spain and Portugal, and INSEE have no small list endpoint, so index search reads the crawled snapshot. */
@@ -76,11 +78,12 @@ function snapshotTableList(
 
 export function createPresetClient(
   preset: PxwebPreset,
-  options: Pick<PresetServerOptions, 'cache' | 'fetch' | 'tableSnapshots'> & {
+  options: Pick<
+    PresetServerOptions,
+    'cache' | 'fetch' | 'tableSnapshots' | 'clientId'
+  > & {
     userAgent: string;
     timeoutMs?: number;
-    /** API key for an office that takes one; BDL sends it as `X-ClientId`. */
-    clientId?: string;
   }
 ): PxwebClient {
   const { tableSnapshots, clientId, ...http } = options;
@@ -219,6 +222,7 @@ export function createPresetServer(
       cache: options.cache,
       fetch: options.fetch,
       tableSnapshots: options.tableSnapshots,
+      ...(options.clientId && { clientId: options.clientId }),
       userAgent: options.userAgent ?? `${preset.name}-mcp/${preset.version}`
     })
   );

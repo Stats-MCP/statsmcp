@@ -1,0 +1,58 @@
+{
+  "name": "@statsmcp/bdl",
+  "version": "0.5.0",
+  "description": "MCP server for the Local Data Bank (BDL) of Statistics Poland",
+  "license": "MIT",
+  "author": "Tadej Polajnar",
+  "homepage": "https://statsmcp.dev/poland/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stats-MCP/statsmcp.git",
+    "directory": "packages/bdl"
+  },
+  "bugs": {
+    "url": "https://github.com/Stats-MCP/statsmcp/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "bdl",
+    "gus",
+    "poland",
+    "statistics"
+  ],
+  "bin": {
+    "bdl-mcp": "./dist/bin.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist",
+    "snapshots"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "catalog:",
+    "@statsmcp/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
