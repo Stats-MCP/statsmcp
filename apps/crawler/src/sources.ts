@@ -11,7 +11,6 @@ import {
 } from '@statsmcp/core';
 import { dstPreset } from '@statsmcp/dst';
 import { eurostatPreset } from '@statsmcp/eurostat';
-import { ibgePreset } from '@statsmcp/ibge';
 import { ospPreset } from '@statsmcp/osp';
 import { scbPreset } from '@statsmcp/scb';
 import { statcanPreset } from '@statsmcp/statcan';
@@ -19,6 +18,7 @@ import { statecPreset } from '@statsmcp/statec';
 
 import type { CrawlSource } from '@/crawl';
 import { csoSource } from '@/cso';
+import { ibgeSource } from '@/ibge';
 import { pxwebTreeSource } from '@/pxweb-tree';
 
 export function catalogueSource(
@@ -114,7 +114,9 @@ export function inseeSource(baseUrl: string): CrawlSource {
 // INE Portugal recommends at most 15–20 requests per second; its whole catalogue
 // is one request per language.
 // INSEE Melodi allows 30 calls per minute (half: 0.25 per second).
-// Statistics Lithuania and IBGE publish no limit; each lists all its tables in one request.
+// Statistics Lithuania publishes no limit and lists all its tables in one request.
+// IBGE publishes no limit; it lists all tables in one request, then the crawl reads
+// each table's metadata for its last period (about 9,400 small requests).
 export const SOURCES: readonly CrawlSource[] = [
   csoSource('https://ws.cso.ie/public'),
   ineEsSource('https://servicios.ine.es/wstempus/js'),
@@ -128,7 +130,7 @@ export const SOURCES: readonly CrawlSource[] = [
   catalogueSource(statecPreset, 1),
   // The Lithuanian dataflow list is 7 MB and once took over 30 s.
   catalogueSource(ospPreset, 1, 120_000),
-  catalogueSource(ibgePreset, 1),
+  ibgeSource(4),
   inePtSource('https://www.ine.pt/ine'),
   pxwebTreeSource({
     name: 'dzs',
