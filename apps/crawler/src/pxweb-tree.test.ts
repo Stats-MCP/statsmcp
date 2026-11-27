@@ -31,18 +31,22 @@ const SITE: Record<string, unknown> = {
   ]
 };
 
+const STATUS: Record<string, number> = {};
+
 let server: Server;
 let baseUrl: string;
 const paths: string[] = [];
 
 beforeEach(async () => {
   paths.length = 0;
+  for (const path of Object.keys(STATUS)) delete STATUS[path];
   server = createServer((request, response) => {
     const path = request.url ?? '/';
     paths.push(path);
     const body = SITE[path];
+    const status = STATUS[path] ?? (body ? 200 : 404);
     response
-      .writeHead(body ? 200 : 404, { 'content-type': 'application/json' })
+      .writeHead(status, { 'content-type': 'application/json' })
       .end(body ? `﻿${JSON.stringify(body)}` : 'missing');
   });
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
@@ -56,8 +60,9 @@ afterEach(async () => {
   await new Promise((resolve) => server.close(resolve));
 });
 
-function context(): CrawlContext {
+function context(extra: Partial<CrawlContext> = {}): CrawlContext {
   return {
+    ...extra,
     fetch,
     userAgent: 'test',
     step: <T>(_key: string, _schema: z.ZodType<T>, run: () => Promise<T>) =>
@@ -173,6 +178,56 @@ describe('pxwebTreeSource', () => {
       'returned HTTP 404'
     );
   });
+
+  it('keeps the previous tables of a database that the office refuses, without fresh tables of it', async () => {
+    STATUS['/api/v1/en/Cijene/Indeksi%20cijena'] = 400;
+    const previous = [
+      { id: 'Cijene/OLD.px', title: 'Old prices', path: ['Cijene'] },
+      { id: 'Stanovništvo/OLD.px', title: 'Old population', path: [] }
+    ];
+    const lines: string[] = [];
+    const source = pxwebTreeSource({
+      name: 'demo',
+      roots: { en: baseUrl },
+      skipDatabases: ['Popis 2003'],
+      ratePerSecond: 100
+    });
+
+    const docs = await source.crawl(
+      'en',
+      context({ previous, log: (line) => lines.push(line) })
+    );
+
+    expect(docs.map((doc) => doc.id)).toEqual([
+      'Cijene/OLD.px',
+      'Stanovništvo/POP1.px'
+    ]);
+    expect(lines).toEqual([
+      expect.stringContaining('kept 1 tables of "Cijene"')
+    ]);
+  });
+
+  it.each([503, 429])(
+    'fails on HTTP %i even when the previous list has the database',
+    async (status) => {
+      STATUS['/api/v1/en/Cijene'] = status;
+      const source = pxwebTreeSource({
+        name: 'demo',
+        roots: { en: baseUrl },
+        skipDatabases: ['Popis 2003', 'Stanovništvo'],
+        ratePerSecond: 100
+      });
+
+      await expect(
+        source.crawl(
+          'en',
+          context({
+            previous: [{ id: 'Cijene/OLD.px', title: 'Old', path: [] }]
+          })
+        )
+      ).rejects.toThrow(`returned HTTP ${status}`);
+    }
+  );
 
   it('stops a runaway walk at the folder limit', async () => {
     const source = pxwebTreeSource({

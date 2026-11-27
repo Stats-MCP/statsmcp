@@ -20,6 +20,9 @@ export interface CrawlContext {
   fetch: CrawlFetch;
   userAgent: string;
   step: Checkpoint['step'];
+  /** Tables of the previous snapshot, to keep a part that the office cannot serve now. */
+  previous?: readonly TableDoc[];
+  log?: (line: string) => void;
 }
 
 export interface CrawlSource {
@@ -125,7 +128,9 @@ async function crawlLanguage(
   const docs = await source.crawl(lang, {
     fetch,
     userAgent: options.userAgent,
-    step: checkpoint.step
+    step: checkpoint.step,
+    ...(previous && { previous: previous.docs }),
+    log
   });
   const snapshot: Snapshot = {
     version: SNAPSHOT_VERSION,

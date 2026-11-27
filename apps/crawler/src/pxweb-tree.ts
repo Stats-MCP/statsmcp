@@ -27,6 +27,25 @@ const nodesSchema = z.array(
   })
 );
 
+class HttpStatusError extends Error {
+  constructor(
+    url: string,
+    readonly status: number
+  ) {
+    super(`${url} returned HTTP ${status}`);
+  }
+}
+
+/** The office refused the request itself, so a retry gives the same answer. */
+function isRefused(err: unknown): boolean {
+  return (
+    err instanceof HttpStatusError &&
+    err.status >= 400 &&
+    err.status < 500 &&
+    err.status !== 429
+  );
+}
+
 async function getJson<T>(
   fetch: CrawlContext['fetch'],
   url: string,
@@ -37,7 +56,7 @@ async function getJson<T>(
   });
   if (!response.ok) {
     await response.body?.cancel();
-    throw new Error(`${url} returned HTTP ${response.status}`);
+    throw new HttpStatusError(url, response.status);
   }
   const text = await response.text();
   try {
@@ -60,7 +79,7 @@ export function pxwebTreeSource(options: PxwebTreeSourceOptions): CrawlSource {
     name: options.name,
     langs: Object.keys(options.roots),
     ratePerSecond: options.ratePerSecond,
-    async crawl(lang, { fetch, step }) {
+    async crawl(lang, { fetch, step, previous, log }) {
       const root = options.roots[lang];
       if (!root) throw new Error(`${options.name} has no root for ${lang}.`);
       const languageRoot = `${root.replace(/\/+$/, '')}/${encodeURIComponent(lang)}`;
@@ -69,8 +88,12 @@ export function pxwebTreeSource(options: PxwebTreeSourceOptions): CrawlSource {
       );
       const docs = new Map<string, TableDoc>();
       let folders = 0;
-      for (const database of databases) {
-        if (options.skipDatabases?.includes(database.dbid)) continue;
+
+      async function walk(database: {
+        dbid: string;
+        text: string;
+      }): Promise<TableDoc[]> {
+        const found = new Map<string, TableDoc>();
         const queue = [
           { ids: [database.dbid], labels: [database.text.trim()] }
         ];
@@ -105,14 +128,35 @@ export function pxwebTreeSource(options: PxwebTreeSourceOptions): CrawlSource {
             }
             if (node.type !== 't') continue;
             const id = `${path}/${node.id}`;
-            if (docs.has(id)) continue;
-            docs.set(id, {
+            if (found.has(id)) continue;
+            found.set(id, {
               id,
               title: label,
               path: folder.labels,
               ...(node.updated ? { updated: node.updated } : {})
             });
           }
+        }
+        return [...found.values()];
+      }
+
+      for (const database of databases) {
+        if (options.skipDatabases?.includes(database.dbid)) continue;
+        let tables: TableDoc[];
+        try {
+          tables = await walk(database);
+        } catch (err) {
+          const kept = (previous ?? []).filter((doc) =>
+            doc.id.startsWith(`${database.dbid}/`)
+          );
+          if (!isRefused(err) || kept.length === 0) throw err;
+          log?.(
+            `${options.name}/${lang}: kept ${kept.length} tables of "${database.dbid}" from the previous list: ${err instanceof Error ? err.message : String(err)}`
+          );
+          tables = kept;
+        }
+        for (const doc of tables) {
+          if (!docs.has(doc.id)) docs.set(doc.id, doc);
         }
       }
       return [...docs.values()];
