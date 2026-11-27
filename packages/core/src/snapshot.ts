@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { tableDocSchema } from '@/table-doc';
-import { attachSearchIndex } from '@/table-index';
+import { asPrebuiltIndex, attachSearchIndex } from '@/table-index';
 
 /** Format version of a table snapshot; readers reject other versions. */
 export const SNAPSHOT_VERSION = 1;
@@ -18,13 +18,7 @@ const snapshotSchema = z
     builtAt: z.iso.datetime(),
     count: z.number().int().nonnegative(),
     docs: z.array(tableDocSchema),
-    searchIndex: z
-      .object({
-        version: z.number().int(),
-        terms: z.string().optional(),
-        json: z.string()
-      })
-      .optional()
+    searchIndex: z.unknown().optional()
   })
   .refine((snapshot) => snapshot.count === snapshot.docs.length, {
     message: 'count does not match the number of tables'
@@ -118,8 +112,8 @@ export async function readSnapshot(
       `Snapshot is for ${snapshot.source}/${snapshot.lang}, not ${source}/${lang}.`
     );
   }
-  if (snapshot.searchIndex)
-    attachSearchIndex(snapshot.docs, snapshot.searchIndex);
+  const searchIndex = asPrebuiltIndex(snapshot.searchIndex);
+  if (searchIndex) attachSearchIndex(snapshot.docs, searchIndex);
   return snapshot;
 }
 

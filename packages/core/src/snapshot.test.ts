@@ -75,6 +75,20 @@ describe('snapshots', () => {
     expect(createTableIndex(read.docs, 'en').search('zebra')).toHaveLength(1);
   });
 
+  it.each([
+    ['another shape', { version: 1, index: 'not an index' }],
+    ['the earlier string format', { version: 1, terms: 'x', json: '{}' }]
+  ])(
+    'reads a snapshot whose search index has %s and searches without it',
+    async (_case, searchIndex) => {
+      const bytes = await writeSnapshot({ ...snapshot, searchIndex });
+
+      const read = await readSnapshot(streamOf(bytes), 'hagstofa', 'en');
+
+      expect(createTableIndex(read.docs, 'en').search('age')).toHaveLength(1);
+    }
+  );
+
   it('reads a snapshot that the host already decompressed', async () => {
     const plain = new TextEncoder().encode(JSON.stringify(snapshot));
 

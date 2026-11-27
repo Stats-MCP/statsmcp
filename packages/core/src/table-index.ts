@@ -1,4 +1,4 @@
-import MiniSearch from 'minisearch';
+import MiniSearch, { type AsPlainObject } from 'minisearch';
 
 import type { TableSearchHit } from '@/pxweb-client';
 import { isHistorical, rankSearchHits } from '@/search-ranking';
@@ -206,7 +206,40 @@ export interface PrebuiltSearchIndex {
   version: number;
   /** How the language's terms were processed; a change to normalization or stop words rebuilds. */
   terms?: string;
-  json: string;
+  index: AsPlainObject;
+}
+
+/** The prebuilt index stored in a snapshot, if it has the expected shape. */
+export function asPrebuiltIndex(
+  value: unknown
+): PrebuiltSearchIndex | undefined {
+  if (typeof value !== 'object' || value === null) return undefined;
+  if (!('version' in value) || typeof value.version !== 'number')
+    return undefined;
+  if (!('index' in value) || !isPlainIndex(value.index)) return undefined;
+  const terms =
+    'terms' in value && typeof value.terms === 'string'
+      ? value.terms
+      : undefined;
+  return {
+    version: value.version,
+    ...(terms && { terms }),
+    index: value.index
+  };
+}
+
+// A shallow check, so a large index is not walked; loadIndex catches a deeper damage.
+function isPlainIndex(value: unknown): value is AsPlainObject {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'documentCount' in value &&
+    typeof value.documentCount === 'number' &&
+    'index' in value &&
+    Array.isArray(value.index) &&
+    'serializationVersion' in value &&
+    typeof value.serializationVersion === 'number'
+  );
 }
 
 // Keyed by the doc list a prebuilt index belongs to, so it is used for exactly that list.
@@ -261,7 +294,7 @@ export function buildSearchIndex(
   return {
     version: SEARCH_INDEX_VERSION,
     terms: termFingerprint(lang),
-    json: JSON.stringify(index)
+    index: index.toJSON()
   };
 }
 
@@ -278,7 +311,7 @@ function loadIndex(
     prebuilt.terms === termFingerprint(lang)
   ) {
     try {
-      const loaded = MiniSearch.loadJSON<TableDoc>(prebuilt.json, options);
+      const loaded = MiniSearch.loadJS<TableDoc>(prebuilt.index, options);
       if (loaded.documentCount === unique.length) return loaded;
     } catch {
       // A damaged prebuilt index is rebuilt below.

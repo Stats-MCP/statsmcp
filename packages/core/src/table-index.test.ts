@@ -327,7 +327,13 @@ describe('prebuilt search index', () => {
     ],
     [
       'rebuilds a damaged index',
-      () => ({ ...buildSearchIndex(marked, 'en'), json: '{"broken' }),
+      () => ({
+        ...buildSearchIndex(marked, 'en'),
+        index: {
+          ...buildSearchIndex(marked, 'en').index,
+          serializationVersion: 99
+        }
+      }),
       0
     ]
   ])('%s', (_case, prebuilt, hits) => {
