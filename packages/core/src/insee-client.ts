@@ -260,23 +260,24 @@ export function createInseeClient(
   }
 
   // A commune-level range is 13 MB, above the shared cache's entry size, so the parsed
-  // table is kept here; metadata and query of one tool call share it.
-  const tables = new Map<
-    string,
-    { expires: number; table: Promise<MelodiTable> }
-  >();
+  // table is kept here; metadata and query of one tool call share it. Only finished
+  // tables are kept: on Workers, a pending load can belong to a request that the
+  // runtime stopped.
+  const tables = new Map<string, { expires: number; table: MelodiTable }>();
 
-  function cachedTable(lang: string, tableId: string): Promise<MelodiTable> {
+  async function cachedTable(
+    lang: string,
+    tableId: string
+  ): Promise<MelodiTable> {
     const key = `${lang}:${tableId}`;
     const cached = tables.get(key);
     if (cached && cached.expires > Date.now()) return cached.table;
-    const table = loadTable(lang, tableId);
+    const table = await loadTable(lang, tableId);
     tables.delete(key);
     tables.set(key, {
       expires: Date.now() + METADATA_TTL_SECONDS * 1000,
       table
     });
-    table.catch(() => tables.delete(key));
     const oldest = tables.keys().next().value;
     if (tables.size > MAX_CACHED_TABLES && oldest !== undefined) {
       tables.delete(oldest);
