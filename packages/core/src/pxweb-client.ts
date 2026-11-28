@@ -126,6 +126,11 @@ export interface PxwebClientOptions {
    * covers every database in it and each table id starts with its database.
    */
   database?: string | readonly [string, ...string[]];
+  /**
+   * For offices with one database per table: any database that matches is allowed
+   * as the first segment of a table id. Needs `tableList`.
+   */
+  databasePattern?: RegExp;
   cache?: Cache;
   fetch?: typeof fetch;
   userAgent?: string;
@@ -174,7 +179,15 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
     }
   }
   const [firstDatabase] = databases;
-  const multiDatabase = Array.isArray(options.database);
+  const { databasePattern } = options;
+  if (databasePattern && !options.tableList) {
+    throw new Error('A PxWeb database pattern needs a table list.');
+  }
+  const multiDatabase = Array.isArray(options.database) || !!databasePattern;
+  const isKnownDatabase = (database: string): boolean =>
+    databasePattern
+      ? databasePattern.test(database)
+      : databases.includes(database);
   const languageRoot = (lang: string): string => {
     const root = rootForLanguage(options.baseUrl, lang);
     if (!root) {
@@ -199,7 +212,7 @@ export function createPxwebClient(options: PxwebClientOptions): PxwebClient {
     if (!multiDatabase)
       return `${languageRoot(lang)}/${encodePath(`${firstDatabase}/${tableId}`)}`;
     const [database, ...rest] = tableId.split('/');
-    if (rest.length === 0 || !databases.includes(database ?? '')) {
+    if (rest.length === 0 || !isKnownDatabase(database ?? '')) {
       throw new PxwebError(
         `Table "${tableId}" was not found. Use search_tables to find a table id.`,
         404

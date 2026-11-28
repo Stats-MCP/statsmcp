@@ -207,6 +207,27 @@ describe('pxwebTreeSource', () => {
     ]);
   });
 
+  it('leaves out a refused database with no previous tables when the office refuses missing languages', async () => {
+    STATUS['/api/v1/en/Cijene'] = 400;
+    const source = pxwebTreeSource({
+      name: 'demo',
+      roots: { en: baseUrl },
+      skipDatabases: ['Popis 2003'],
+      skipRefusedDatabases: true,
+      ratePerSecond: 100
+    });
+
+    const lines: string[] = [];
+
+    const docs = await source.crawl(
+      'en',
+      context({ log: (line) => lines.push(line) })
+    );
+
+    expect(docs.map((doc) => doc.id)).toEqual(['Stanovništvo/POP1.px']);
+    expect(lines).toEqual([expect.stringContaining('left out 1 databases')]);
+  });
+
   it.each([503, 429])(
     'fails on HTTP %i even when the previous list has the database',
     async (status) => {

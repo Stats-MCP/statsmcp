@@ -15,6 +15,7 @@
     "@statsmcp/abs": "workspace:*",
     "@statsmcp/asub": "workspace:*",
     "@statsmcp/bdl": "workspace:*",
+    "@statsmcp/bfs": "workspace:*",
     "@statsmcp/bns": "workspace:*",
     "@statsmcp/cbs": "workspace:*",
     "@statsmcp/core": "workspace:*",

@@ -38,7 +38,8 @@
       "@statsmcp/czso",
       "@statsmcp/ibge",
       "@statsmcp/osp",
-      "@statsmcp/bdl"
+      "@statsmcp/bdl",
+      "@statsmcp/bfs"
     ]
   ],
   "access": "public",

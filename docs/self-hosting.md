@@ -23,7 +23,7 @@ You need a Cloudflare account and the packages built (`pnpm build`).
 
 3. Connect a client to `https://<your-worker>/si/mcp`.
 
-The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sends `statsmcp.dev/mcp`, `statsmcp.dev/<id>/mcp*` for each hosted office (`si`, `no`, `ee`, `fo`, `fi`, `se`, `dk`, `nl`, `is`, `hr`, `ie`, `ca`, `au`, `ax`, `mk`, `xk`, `md`, `lu`, `es`, `pt`, `fr`, `gb`, `be`, `cz`, `br`, `lt`, `pl` and `eu`) and `statsmcp.dev/index/*` to the Worker with a Workers route. The website on `statsmcp.dev` is a separate project. To use your own domain, change the route, or remove it and use the `workers.dev` URL.
+The [`wrangler.jsonc`](../apps/worker/wrangler.jsonc) file sends `statsmcp.dev/mcp`, `statsmcp.dev/<id>/mcp*` for each hosted office (`si`, `no`, `ee`, `fo`, `fi`, `se`, `dk`, `nl`, `is`, `hr`, `ie`, `ca`, `au`, `ax`, `mk`, `xk`, `md`, `lu`, `es`, `pt`, `fr`, `gb`, `be`, `cz`, `br`, `lt`, `pl`, `ch` and `eu`) and `statsmcp.dev/index/*` to the Worker with a Workers route. The website on `statsmcp.dev` is a separate project. To use your own domain, change the route, or remove it and use the `workers.dev` URL.
 
 ### What the Worker does
 

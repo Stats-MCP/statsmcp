@@ -341,6 +341,19 @@ The server adds the source and the licence link to every result, with a link to 
 
 This project is not affiliated with or endorsed by Statistics Poland.
 
+## Federal Statistical Office (Switzerland)
+
+STAT-TAB, the PxWeb database of the Swiss Federal Statistical Office (FSO), states its terms of use on every page: "Open use. Must provide the source." (https://www.pxweb.bfs.admin.ch/pxweb/en/). This is the opendata.swiss category "Open use. Must provide the source.", which allows commercial use (https://opendata.swiss/en/terms-of-use). The API allows 50 calls per 15 seconds per IP address.
+
+The server adds the source and the terms to every result, with a link to the STAT-TAB table page:
+
+- `Quelle: Bundesamt für Statistik (BFS), STAT-TAB. Freie Nutzung, Quellenangabe ist Pflicht (…)` (German)
+- `Source : Office fédéral de la statistique (OFS), STAT-TAB. Utilisation libre, indication de la source obligatoire (…)` (French)
+- `Fonte: Ufficio federale di statistica (UST), STAT-TAB. Uso libero, indicazione della fonte obbligatoria (…)` (Italian)
+- `Source: Federal Statistical Office (FSO), STAT-TAB. Open use, the source must be given (…)` (English)
+
+This project is not affiliated with or endorsed by the Federal Statistical Office.
+
 ## Singapore Department of Statistics
 
 SingStat datasets are made available under the [Singapore Open Data Licence](https://data.gov.sg/open-data-licence). You can use them for any purpose, including commercial use, if you credit the dataset, give the access date and link the licence. Do not suggest official status. The licence asks users to indemnify the agency against claims from their use.

@@ -10,6 +10,8 @@ export interface PxwebTreeSourceOptions {
   roots: Readonly<Record<string, string>>;
   ratePerSecond: number;
   skipDatabases?: readonly string[];
+  /** The office lists every database in every language but refuses the ones a language does not have. */
+  skipRefusedDatabases?: boolean;
   maxFolders?: number;
 }
 
@@ -88,6 +90,7 @@ export function pxwebTreeSource(options: PxwebTreeSourceOptions): CrawlSource {
       );
       const docs = new Map<string, TableDoc>();
       let folders = 0;
+      let skipped = 0;
 
       async function walk(database: {
         dbid: string;
@@ -149,7 +152,12 @@ export function pxwebTreeSource(options: PxwebTreeSourceOptions): CrawlSource {
           const kept = (previous ?? []).filter((doc) =>
             doc.id.startsWith(`${database.dbid}/`)
           );
-          if (!isRefused(err) || kept.length === 0) throw err;
+          if (!isRefused(err)) throw err;
+          if (kept.length === 0 && options.skipRefusedDatabases) {
+            skipped += 1;
+            continue;
+          }
+          if (kept.length === 0) throw err;
           log?.(
             `${options.name}/${lang}: kept ${kept.length} tables of "${database.dbid}" from the previous list: ${err instanceof Error ? err.message : String(err)}`
           );
@@ -158,6 +166,11 @@ export function pxwebTreeSource(options: PxwebTreeSourceOptions): CrawlSource {
         for (const doc of tables) {
           if (!docs.has(doc.id)) docs.set(doc.id, doc);
         }
+      }
+      if (skipped > 0) {
+        log?.(
+          `${options.name}/${lang}: left out ${skipped} databases that the office refused.`
+        );
       }
       return [...docs.values()];
     }

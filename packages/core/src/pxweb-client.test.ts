@@ -480,6 +480,29 @@ describe('createPxwebClient', () => {
     expect(hits.map((h) => h.tableId)).toEqual(['Econ/prices/A.px']);
   });
 
+  it('reads a table from any database that matches the pattern and rejects others without a request', async () => {
+    const fetchMock = vi.fn<typeof fetch>(
+      async () => new Response(metadataBody)
+    );
+    const client = createPxwebClient({
+      baseUrl: BASE_URL,
+      databasePattern: /^px-x-\d{10}_\d{3}$/,
+      fetch: fetchMock,
+      tableList: async () => []
+    });
+
+    await client.getMetadata(
+      'en',
+      'px-x-0102010000_101/px-x-0102010000_101.px'
+    );
+    const other = client.getMetadata('en', 'admin/px-x-0102010000_101.px');
+
+    await expect(other).rejects.toMatchObject({ status: 404 });
+    expect(fetchMock.mock.calls.map(([url]) => String(url))).toEqual([
+      `${BASE_URL}/en/px-x-0102010000_101/px-x-0102010000_101.px`
+    ]);
+  });
+
   it('rejects a database segment that could change the path', () => {
     expect(() =>
       createPxwebClient({ baseUrl: BASE_URL, database: '../admin' })

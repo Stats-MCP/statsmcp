@@ -57,6 +57,8 @@ export interface PxwebPreset {
    * A database that fails is left out of the results; search fails only if all fail.
    */
   database?: string | readonly [string, ...string[]];
+  /** pxweb-v1 with `search: "index"`: one database per table; table ids start with a database that matches. */
+  databasePattern?: RegExp;
   /** pxweb-v1: time variables that the API does not flag with `time: true`. */
   timeVariables?: readonly string[];
   languages: readonly [string, ...string[]];

@@ -93,6 +93,7 @@ export function createPresetClient(
       ...http,
       baseUrl: preset.apiBaseUrl,
       database: preset.database,
+      databasePattern: preset.databasePattern,
       timeVariables: preset.timeVariables,
       tableIdFromHit: preset.tableIdFromHit,
       isArchived: preset.isArchived,

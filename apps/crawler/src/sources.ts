@@ -164,5 +164,18 @@ export const SOURCES: readonly CrawlSource[] = [
     // ssd is listed only in English and answers every request with "Parameter error".
     skipDatabases: ['ssd'],
     ratePerSecond: 0.5
+  }),
+  // The Federal Statistical Office allows 50 calls per 15 seconds. Each table is its own
+  // database, and the root lists all of them in every language.
+  pxwebTreeSource({
+    name: 'bfs',
+    roots: {
+      de: 'https://www.pxweb.bfs.admin.ch/api/v1',
+      fr: 'https://www.pxweb.bfs.admin.ch/api/v1',
+      it: 'https://www.pxweb.bfs.admin.ch/api/v1',
+      en: 'https://www.pxweb.bfs.admin.ch/api/v1'
+    },
+    skipRefusedDatabases: true,
+    ratePerSecond: 2
   })
 ];

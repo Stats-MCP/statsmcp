@@ -9,7 +9,7 @@ Website: [statsmcp.dev](https://statsmcp.dev)
 
 Official national statistics for every AI assistant. StatsMCP is a set of MCP servers for the databases of national statistics offices.
 
-There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Sweden, Denmark, the Netherlands, Iceland, Croatia, Ireland, Canada, Australia, Singapore, Åland, North Macedonia, Kosovo, Moldova, Luxembourg, Spain, Portugal, France, the United Kingdom, Belgium, Czechia, Lithuania, Brazil and Poland, plus Eurostat for harmonised data on all EU and EFTA countries. All except Singapore are hosted, behind one endpoint or one each. The [Databases](#databases) table lists each database and its package. The servers support PxWeb API v1 and v2, the StatBank API of Statistics Denmark, the OData services of Statistics Netherlands, PxStat (Ireland), SDMX (Australia and Luxembourg), the Eurostat API, the Web Data Service of Statistics Canada, the Tempus3 API of INE Spain, the indicator API of Statistics Portugal, INSEE Melodi (France), the ONS time series (United Kingdom), Be.STAT of Statbel (Belgium), DataStat of the Czech Statistical Office, the SDMX-ML API of Statistics Lithuania, SIDRA of IBGE (Brazil), the Local Data Bank (BDL) of Statistics Poland and SingStat Table Builder.
+There are servers for Slovenia, Norway, Estonia, the Faroe Islands, Finland, Sweden, Denmark, the Netherlands, Iceland, Croatia, Ireland, Canada, Australia, Singapore, Åland, North Macedonia, Kosovo, Moldova, Luxembourg, Spain, Portugal, France, the United Kingdom, Belgium, Czechia, Lithuania, Brazil, Poland and Switzerland, plus Eurostat for harmonised data on all EU and EFTA countries. All except Singapore are hosted, behind one endpoint or one each. The [Databases](#databases) table lists each database and its package. The servers support PxWeb API v1 and v2, the StatBank API of Statistics Denmark, the OData services of Statistics Netherlands, PxStat (Ireland), SDMX (Australia and Luxembourg), the Eurostat API, the Web Data Service of Statistics Canada, the Tempus3 API of INE Spain, the indicator API of Statistics Portugal, INSEE Melodi (France), the ONS time series (United Kingdom), Be.STAT of Statbel (Belgium), DataStat of the Czech Statistical Office, the SDMX-ML API of Statistics Lithuania, SIDRA of IBGE (Brazil), the Local Data Bank (BDL) of Statistics Poland, STAT-TAB of the Swiss Federal Statistical Office and SingStat Table Builder.
 
 > **You:** What is the latest inflation rate in Slovenia?
 >
@@ -67,6 +67,7 @@ To connect to only one office, use its own endpoint, `https://statsmcp.dev/<code
 | `br` | IBGE (Brazil)                                   |
 | `lt` | State Data Agency (Lithuania)                   |
 | `pl` | Statistics Poland (BDL)                         |
+| `ch` | Federal Statistical Office (Switzerland)        |
 | `eu` | Eurostat                                        |
 
 ```sh
@@ -131,6 +132,7 @@ Then ask a question, for example "What is the average net salary in Slovenia?". 
 | [SIDRA](https://sidra.ibge.gov.br/) (IBGE)                                                                             | Brazil          | [`@statsmcp/ibge`](packages/ibge)         | Hosted and npm       |
 | [Official Statistics Portal](https://osp.stat.gov.lt/)                                                                 | Lithuania       | [`@statsmcp/osp`](packages/osp)           | Hosted and npm       |
 | [Local Data Bank (BDL)](https://bdl.stat.gov.pl/) (Statistics Poland)                                                  | Poland          | [`@statsmcp/bdl`](packages/bdl)           | Hosted and npm       |
+| [STAT-TAB](https://www.pxweb.bfs.admin.ch/pxweb/en/) (FSO)                                                             | Switzerland     | [`@statsmcp/bfs`](packages/bfs)           | Hosted and npm       |
 | [SingStat Table Builder](https://tablebuilder.singstat.gov.sg/)                                                        | Singapore       | [`@statsmcp/singstat`](packages/singstat) | npm only; not hosted |
 
 To add a database, use the [`@statsmcp/core`](packages/core) toolkit.

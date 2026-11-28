@@ -2,6 +2,7 @@ import { createMcpHandler, type McpServer } from '@modelcontextprotocol/server';
 import { absPreset } from '@statsmcp/abs';
 import { asubPreset } from '@statsmcp/asub';
 import { bdlPreset } from '@statsmcp/bdl';
+import { bfsPreset } from '@statsmcp/bfs';
 import { bnsPreset } from '@statsmcp/bns';
 import { cbsPreset } from '@statsmcp/cbs';
 import {
@@ -185,7 +186,8 @@ const COUNTRIES: readonly HostedCountry[] = [
     agent: 'bdl-mcp',
     snapshots: true,
     clientId: (env) => env.BDL_CLIENT_ID
-  }
+  },
+  { code: 'ch', preset: bfsPreset, agent: 'bfs-mcp', snapshots: true }
 ];
 
 function serverOptions(
