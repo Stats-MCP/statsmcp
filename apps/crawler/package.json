@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@statsmcp/abs": "workspace:*",
+    "@statsmcp/bdl": "workspace:*",
     "@statsmcp/cbs": "workspace:*",
     "@statsmcp/core": "workspace:*",
     "@statsmcp/dst": "workspace:*",

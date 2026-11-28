@@ -244,6 +244,9 @@ importers:
       '@statsmcp/abs':
         specifier: workspace:*
         version: link:../../packages/abs
+      '@statsmcp/bdl':
+        specifier: workspace:*
+        version: link:../../packages/bdl
       '@statsmcp/cbs':
         specifier: workspace:*
         version: link:../../packages/cbs

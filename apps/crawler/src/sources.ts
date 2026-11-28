@@ -1,4 +1,5 @@
 import { absPreset } from '@statsmcp/abs';
+import { bdlPreset } from '@statsmcp/bdl';
 import { cbsPreset } from '@statsmcp/cbs';
 import {
   createIneEsClient,
@@ -117,6 +118,8 @@ export function inseeSource(baseUrl: string): CrawlSource {
 // Statistics Lithuania publishes no limit and lists all its tables in one request.
 // IBGE publishes no limit; it lists all tables in one request, then the crawl reads
 // each table's metadata for its last period (about 9,400 small requests).
+// Statistics Poland allows 100 anonymous requests per 15 minutes; its subject list
+// is 28 pages per language, so both languages fit in one window.
 export const SOURCES: readonly CrawlSource[] = [
   csoSource('https://ws.cso.ie/public'),
   ineEsSource('https://servicios.ine.es/wstempus/js'),
@@ -131,6 +134,7 @@ export const SOURCES: readonly CrawlSource[] = [
   // The Lithuanian dataflow list is 7 MB and once took over 30 s.
   catalogueSource(ospPreset, 1, 120_000),
   ibgeSource(4),
+  catalogueSource(bdlPreset, 0.5),
   inePtSource('https://www.ine.pt/ine'),
   pxwebTreeSource({
     name: 'dzs',
