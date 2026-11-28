@@ -15,7 +15,7 @@
         "content": [
           {
             "type": "text",
-            "text": "Hver eru meðallaun á Íslandi?"
+            "text": "What is the population of Japan?"
           }
         ]
       }
@@ -57,7 +57,8 @@
                 "cz",
                 "br",
                 "lt",
-                "pl"
+                "pl",
+                "ch"
               ],
               "description": "\"eu\" is Eurostat."
             }
@@ -100,7 +101,8 @@
                 "cz",
                 "br",
                 "lt",
-                "pl"
+                "pl",
+                "ch"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -166,7 +168,8 @@
                 "cz",
                 "br",
                 "lt",
-                "pl"
+                "pl",
+                "ch"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -226,7 +229,8 @@
                 "cz",
                 "br",
                 "lt",
-                "pl"
+                "pl",
+                "ch"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -283,5 +287,5 @@
   },
   "status": 200,
   "contentType": "application/json",
-  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011ChUZdhmqZPhhTRX3JtscQ\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"tool_use\",\"id\":\"toolu_01LgjgJKktA4tXXxwptvyoMN\",\"name\":\"search_tables\",\"input\":{\"country\":\"is\",\"query\":\"laun meðaltal\",\"lang\":\"is\"},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":2027,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":97,\"output_tokens_details\":{\"thinking_tokens\":0},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
+  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011ChUp7Yyf2a6HA8WzN1Eqe\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"thinking\",\"thinking\":\"\",\"signature\":\"CAQStQcKEAgUGAI4AUIIdGhpbmtpbmcSDI2ZE9qNrP7PDFu8EBoMCpgm6TpiPEm9lwNrIjDqoK6tjettdrRjwEVABUJlhBRTKp41JgKWtj7Roizzz21AMqjPWzhP4u82PG9esksq0gbp+50G+sIH9RMAEraHHgCT0Nk6Eh4R7N/HdWyixal88XR6BWe57TLVgoSzD7/RJRBGW9aobCv4nk1UHQAJTArMkF78IUtR1M3lvgWz/QDlXY5R2doSDDzxdqBmIAQ29hpixRpvhXirjb6oW4jU6H4PhW30Y75mM0GtARwW/glrbLLeAK7z6iBvXpikVCb90L/5kcGizvJLzgJTgrAsVpXdgQ6MoIo+HDJA2BG9h5B0v0aLtsC6nI0YWf9b1NOs61po4YRXcmYnzoTg+EHTJ73TdbUQOX6YNPnnVVaHTeiKHE1Slazkv0SnRa0D3AHUciBGiCkfpdKEojVCEaXTG7Hjjj0hM36uj2rrs3jMlQYEWQD+Y+mVSL/5jTWzeFlCvOYXp5cAEpIpYwsQoy1a8w6ExsVl5PwcI5TAT2Ors73pXSCpH5yf5d2umqre1YGNdwpy2wuR7GjDgIwn4C3lMaaLkrDUDastcw//6tD0XnTH2Q0qaeXeSwryUOGrMoNiCSC63YhoDCmRhdoiAxIEznWDoN1QDIL0fRia52WQof4MOIiKOFpKpSspEmi1/Y6ZeUc6EpgnHMYTC0VcIYWRi8/Z6kWT7tSnDXztefnYXutAJ/SvGG3cZJ51J2PN558yfILFvlGIsimYqTS+QqeONPs8OV/kfBpeNAmr37nf/zmlmUppLlCs5WPYSDxZAZaUIV1TEZmYcbs2o9G9q7nnvi8C7U/7Lw6DFJjCNrNzGTy9805vRfkfbAhiVqcdLF0iwfJ9sZLkl+0q3ZHkpcTM460QijpQ9yo3hmnZnk2hXyt+PmjNQG4smdTOxsJLvjwPljqo4UBMg3hlh9vBtSzU4+QSGVhZxSB6WumJiBMreAhLP4IZvFMbnUwFtlGwyScwx0Lhh8GmgWo999jw0rwVo0g315rH2/bcWaBkWZX8MO06Y270t+cKlw8phKvsw8TUZcHhI+w9qmRFq5A7yEfWuQZLGiPMFwMYrU3cA21q64Rs68ZrAWxMyLwoT6haMc/8wUDeANbb5Al4b0GnNqixQc5Nb9AhG558/lMy+ptYsgYqFeIiIKW8tiZfI8yZcJHT3kaCFxGT5zXQjoVUJAFNCaUPMV+PXozT/iazLPVausqS0/QMGAE=\"},{\"type\":\"tool_use\",\"id\":\"toolu_01CKuxAdTP9dhgrYyvc6MFeA\",\"name\":\"search_tables\",\"input\":{\"country\":\"eu\",\"query\":\"population Japan\"},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":2035,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":192,\"output_tokens_details\":{\"thinking_tokens\":118},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
 }

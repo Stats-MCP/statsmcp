@@ -626,6 +626,25 @@ export const CASES: readonly EvalCase[] = casesSchema.parse([
     })
   },
   {
+    id: 'ch-population-en',
+    server: 'ch',
+    tags: ['english'],
+    ask: 'How many people live in Switzerland?',
+    expected: search({
+      en: POPULATION_EN,
+      de: ['bevölkerung', 'bevolkerung', 'einwohner']
+    })
+  },
+  {
+    id: 'ch-wages-de',
+    server: 'ch',
+    tags: ['native', 'alias'],
+    ask: 'Wie hoch ist der Lohn in der Schweiz?',
+    expected: search({
+      de: ['lohn', 'löhne', 'bruttolohn']
+    })
+  },
+  {
     id: 'all-si-inflation-en',
     server: 'all',
     tags: ['all-countries', 'english'],

@@ -15,7 +15,7 @@
         "content": [
           {
             "type": "text",
-            "text": "What is the population of Japan?"
+            "text": "How fast are prices rising in the United Kingdom?"
           }
         ]
       }
@@ -57,7 +57,8 @@
                 "cz",
                 "br",
                 "lt",
-                "pl"
+                "pl",
+                "ch"
               ],
               "description": "\"eu\" is Eurostat."
             }
@@ -100,7 +101,8 @@
                 "cz",
                 "br",
                 "lt",
-                "pl"
+                "pl",
+                "ch"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -166,7 +168,8 @@
                 "cz",
                 "br",
                 "lt",
-                "pl"
+                "pl",
+                "ch"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -226,7 +229,8 @@
                 "cz",
                 "br",
                 "lt",
-                "pl"
+                "pl",
+                "ch"
               ],
               "description": "\"eu\" is Eurostat."
             },
@@ -283,5 +287,5 @@
   },
   "status": 200,
   "contentType": "application/json",
-  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011ChUZe3hdyvz7Gq3TiMs3U\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"thinking\",\"thinking\":\"\",\"signature\":\"CAQSmgYKEAgUGAI4AUIIdGhpbmtpbmcSDEX2Ux15XK557VhmPhoMX+DPu9riJYcEYiyvIjBZY7fJFsSJnmhCY0B1smPNKyO0aunB79u2vsFBfYVZEv2zDGGNd92a5IAj+jM2zKcqtwWyKYFWylBQah6SVffpUztBOBga7zLM8or2+A/jMyfqv3Rwm8gq54cRnWVfso3YBWkptDNBfeWZp0c4g9pDv3WXZp8B+iLBpgl9xvdy6M7pNwJphm3gT7BPh+EPLGM8FHD3KX1/vvdSCDJVgj2hLmmyaKjsO9SfMptsGhlbEJyh7f23/q4VEs6/OxIYgcs5uePONy0XQ1roIF20axhv8gqjo2aTyc/v/8DLo82HpE9FpGNF9P2JXQw0xJH5zi+b9VkuEzH3HWozxhO4yZS7M5elJuuU0PDud2WfY0hUjx406Yfm9L4zMD04nrs7pCE/MtW4wB20nmf0ELeH4VGCR1yjpT3U4otzMwu2+BD5MD5h3D9KWWDRuBxuyzyRliZ9eN1m/2AUATLPHSu5X5dyGwaS/Igtp+tfxpH8AbnXnTCCdaGp678UnMJRNnZYh0sG+yzRYSouWF2hw97B/RKFMpBMR4D4u+KjSOTKCTvkq4wmxVLi5hfc17Ffg41orXqCw6ukUDCCoIQySq21R2LcdVmB240IKx84eDnQINPvVnb8GBYZP9Jx5nwN8//wOs1sBNLkfpVo6SiKBwC0ntVejZ9cSWnj1lL0bXRl1jo9i4z42wsx3rN94U0TnDbpZEAfX9GDgUcUbzg/IIYPsW4HZNxmp/QOjFPNXl3i5DtbslOJSImmd0lfkQ+dR+lUGZBTmYpI8WDKUk981NgEjAZXusHnqQoc/wZG9svfY/X9GdHY4IQfneEk76ZJj3a/MBXDoPQ0EcKvvVbQ5KdBVXY3D3cgwFqiydBWD8OaJC93I9PVTF7jXugXBcHOnDf6R6cb2417CQrYnyG8WXA07HVIAp5q4gH88JdIFPOyijz1Dd88tSRUSuDWIfnLHudmYaH4hvIiu1Smll9qQDSCu48bB885nC/Eg5ODahgB\"},{\"type\":\"tool_use\",\"id\":\"toolu_01876QEKpSEBqwJ33JwhpmQu\",\"name\":\"search_tables\",\"input\":{\"country\":\"eu\",\"query\":\"population Japan\"},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":2019,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":130,\"output_tokens_details\":{\"thinking_tokens\":56},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
+  "responseBody": "{\"model\":\"claude-opus-5-5\",\"id\":\"msg_011ChUp5NseVwSWDz191twbF\",\"type\":\"message\",\"role\":\"assistant\",\"content\":[{\"type\":\"tool_use\",\"id\":\"toolu_01BUD1Pv5miowe1r757R9MQh\",\"name\":\"search_tables\",\"input\":{\"country\":\"gb\",\"query\":\"consumer prices inflation CPIH CPI\"},\"caller\":{\"type\":\"direct\"}}],\"container\":null,\"stop_reason\":\"tool_use\",\"stop_sequence\":null,\"stop_details\":null,\"usage\":{\"input_tokens\":2043,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":0,\"cache_creation\":{\"ephemeral_5m_input_tokens\":0,\"ephemeral_1h_input_tokens\":0},\"output_tokens\":84,\"output_tokens_details\":{\"thinking_tokens\":0},\"service_tier\":\"standard\",\"inference_geo\":\"global\",\"speed\":\"standard\"},\"diagnostics\":null}"
 }
