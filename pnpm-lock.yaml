@@ -308,6 +308,9 @@ importers:
       '@statsmcp/asub':
         specifier: workspace:*
         version: link:../../packages/asub
+      '@statsmcp/bdl':
+        specifier: workspace:*
+        version: link:../../packages/bdl
       '@statsmcp/bns':
         specifier: workspace:*
         version: link:../../packages/bns

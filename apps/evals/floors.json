@@ -2,9 +2,9 @@
   "claude-opus-5-5": {
     "tool": 1,
     "country": 1,
-    "lang": 0.98,
-    "keywords": 0.98,
-    "short": 0.98,
+    "lang": 1,
+    "keywords": 1,
+    "short": 1,
     "tableId": 1
   }
 }

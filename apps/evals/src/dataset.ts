@@ -606,6 +606,26 @@ export const CASES: readonly EvalCase[] = casesSchema.parse([
     })
   },
   {
+    id: 'pl-unemployment-en',
+    server: 'pl',
+    tags: ['english', 'alias'],
+    ask: 'What is the unemployment rate in Poland?',
+    expected: search({
+      en: ['unemployment'],
+      pl: ['bezroboci']
+    })
+  },
+  {
+    id: 'pl-population-pl',
+    server: 'pl',
+    tags: ['native'],
+    ask: 'Ilu mieszkańców ma Polska?',
+    expected: search({
+      pl: ['ludność', 'ludnosc', 'mieszkańc', 'mieszkanc'],
+      en: POPULATION_EN
+    })
+  },
+  {
     id: 'all-si-inflation-en',
     server: 'all',
     tags: ['all-countries', 'english'],

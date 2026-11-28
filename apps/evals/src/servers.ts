@@ -1,6 +1,7 @@
 import { createMcpHandler } from '@modelcontextprotocol/server';
 import { absPreset } from '@statsmcp/abs';
 import { asubPreset } from '@statsmcp/asub';
+import { bdlPreset } from '@statsmcp/bdl';
 import { bnsPreset } from '@statsmcp/bns';
 import { cbsPreset } from '@statsmcp/cbs';
 import {
@@ -62,7 +63,8 @@ export const PRESETS = {
   be: statbelPreset,
   cz: czsoPreset,
   br: ibgePreset,
-  lt: ospPreset
+  lt: ospPreset,
+  pl: bdlPreset
 } as const satisfies Record<string, PxwebPreset>;
 
 export type CountryId = keyof typeof PRESETS;
