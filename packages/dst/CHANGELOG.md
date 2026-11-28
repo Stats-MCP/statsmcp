@@ -1,5 +1,12 @@
 # @statsmcp/dst
 
+## 0.6.0
+
+### Patch Changes
+
+- Updated dependencies [[`d557477`](https://github.com/Stats-MCP/statsmcp/commit/d557477ae2de26e1764389434e625b8a40204080)]:
+  - @statsmcp/core@0.6.0
+
 ## 0.5.0
 
 ### Patch Changes

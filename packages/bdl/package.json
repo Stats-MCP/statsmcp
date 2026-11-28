@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/bdl",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "MCP server for the Local Data Bank (BDL) of Statistics Poland",
   "license": "MIT",
   "author": "Tadej Polajnar",

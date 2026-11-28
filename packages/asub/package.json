@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/asub",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "MCP server for the PxWeb database of Statistics and Research Åland (ÅSUB)",
   "license": "MIT",
   "author": "Tadej Polajnar",

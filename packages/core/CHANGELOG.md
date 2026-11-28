@@ -1,5 +1,11 @@
 # @statsmcp/core
 
+## 0.6.0
+
+### Patch Changes
+
+- [`d557477`](https://github.com/Stats-MCP/statsmcp/commit/d557477ae2de26e1764389434e625b8a40204080) Thanks [@TadejPolajnar](https://github.com/TadejPolajnar)! - Search ignores Portuguese and Spanish function words such as "de" and "por".
+
 ## 0.5.0
 
 ### Minor Changes

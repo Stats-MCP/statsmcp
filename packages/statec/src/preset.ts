@@ -13,7 +13,7 @@ export const statecPreset: PxwebPreset = {
   name: 'statec',
   title:
     'LUSTAT, the statistics portal of STATEC Luxembourg (official statistics)',
-  version: '0.5.0',
+  version: '0.6.0',
   apiBaseUrl: 'https://lustat.statec.lu/rest',
   api: 'sdmx',
   sdmxAgency: 'LU1',

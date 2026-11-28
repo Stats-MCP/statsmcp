@@ -18,7 +18,7 @@ function attribution(lang: string): string {
 export const statbelPreset: PxwebPreset = {
   name: 'statbel',
   title: 'Be.STAT, the database of Statbel (official statistics of Belgium)',
-  version: '0.5.0',
+  version: '0.6.0',
   apiBaseUrl: 'https://bestat.statbel.fgov.be/bestat/api',
   api: 'statbel',
   languages: ['nl', 'fr', 'en'],

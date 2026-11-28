@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/insee",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "MCP server for Melodi, the data catalogue of INSEE (France)",
   "license": "MIT",
   "author": "Tadej Polajnar",
