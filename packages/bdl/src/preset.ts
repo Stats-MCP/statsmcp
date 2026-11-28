@@ -9,7 +9,7 @@ const ATTRIBUTION = {
 export const bdlPreset: PxwebPreset = {
   name: 'bdl',
   title: 'Local Data Bank of Statistics Poland (official statistics of Poland)',
-  version: '0.6.0',
+  version: '0.7.0',
   apiBaseUrl: 'https://bdl.stat.gov.pl/api/v1',
   api: 'bdl',
   languages: ['pl', 'en'],

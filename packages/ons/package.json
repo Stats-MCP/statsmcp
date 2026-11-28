@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/ons",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "MCP server for the time series of the Office for National Statistics (United Kingdom)",
   "license": "MIT",
   "author": "Tadej Polajnar",

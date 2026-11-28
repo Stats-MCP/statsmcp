@@ -11,7 +11,7 @@ const ATTRIBUTION = {
 export const ineEsPreset: PxwebPreset = {
   name: 'ine-es',
   title: 'INE Spain Tempus3 database (official statistics)',
-  version: '0.6.0',
+  version: '0.7.0',
   apiBaseUrl: 'https://servicios.ine.es/wstempus/js',
   api: 'ine-es',
   languages: ['es', 'en'],

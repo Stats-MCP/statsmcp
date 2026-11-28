@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/bfs",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "MCP server for STAT-TAB, the PxWeb database of the Swiss Federal Statistical Office (BFS/OFS/UST)",
   "license": "MIT",
   "author": "Tadej Polajnar",

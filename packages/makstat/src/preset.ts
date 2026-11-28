@@ -17,7 +17,7 @@ export const makstatPreset: PxwebPreset = {
   name: 'makstat',
   title:
     'MakStat database of the State Statistical Office of North Macedonia (official statistics)',
-  version: '0.6.0',
+  version: '0.7.0',
   apiBaseUrl: 'https://makstat.stat.gov.mk/PXWeb/api/v1',
   database: 'MakStat',
   // Some tables do not flag their period variable as time.

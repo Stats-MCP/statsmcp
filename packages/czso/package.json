@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/czso",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "MCP server for DataStat, the database of the Czech Statistical Office",
   "license": "MIT",
   "author": "Tadej Polajnar",

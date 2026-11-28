@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/ine-es",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "MCP server for the Tempus3 database of the National Statistics Institute of Spain (INE)",
   "license": "MIT",
   "author": "Tadej Polajnar",

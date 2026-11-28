@@ -11,7 +11,7 @@ const ATTRIBUTION = {
 export const ibgePreset: PxwebPreset = {
   name: 'ibge',
   title: 'SIDRA, the aggregate tables of IBGE (official statistics of Brazil)',
-  version: '0.6.0',
+  version: '0.7.0',
   apiBaseUrl: 'https://servicodados.ibge.gov.br/api/v3/agregados',
   api: 'ibge',
   languages: ['pt'],

@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/osp",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "MCP server for the Official Statistics Portal of Lithuania",
   "license": "MIT",
   "author": "Tadej Polajnar",

@@ -12,7 +12,7 @@ const ATTRIBUTION = {
 export const inePtPreset: PxwebPreset = {
   name: 'ine-pt',
   title: 'Statistics Portugal (INE) database (official statistics)',
-  version: '0.6.0',
+  version: '0.7.0',
   apiBaseUrl: 'https://www.ine.pt/ine',
   api: 'ine-pt',
   languages: ['pt', 'en'],

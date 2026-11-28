@@ -1,5 +1,12 @@
 # @statsmcp/abs
 
+## 0.7.0
+
+### Patch Changes
+
+- Updated dependencies [[`af924ff`](https://github.com/Stats-MCP/statsmcp/commit/af924ffa6009fdb9aa5bfcb5a0b9f47c6d816c60)]:
+  - @statsmcp/core@0.7.0
+
 ## 0.6.0
 
 ### Patch Changes

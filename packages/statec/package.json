@@ -1,6 +1,6 @@
 {
   "name": "@statsmcp/statec",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "MCP server for LUSTAT, the statistics portal of STATEC Luxembourg",
   "license": "MIT",
   "author": "Tadej Polajnar",

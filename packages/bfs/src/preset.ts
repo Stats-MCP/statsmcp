@@ -15,7 +15,7 @@ const PAGE_LANGUAGES: readonly string[] = ['de', 'fr', 'it', 'en'];
 export const bfsPreset: PxwebPreset = {
   name: 'bfs',
   title: 'STAT-TAB (Swiss Federal Statistical Office official statistics)',
-  version: '0.6.0',
+  version: '0.7.0',
   apiBaseUrl: 'https://www.pxweb.bfs.admin.ch/api/v1',
   databasePattern: /^px-x-\d{10}_\d{3}$/,
   search: 'index',

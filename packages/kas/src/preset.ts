@@ -12,7 +12,7 @@ export const kasPreset: PxwebPreset = {
   name: 'kas',
   title:
     'ASKdata, the database of the Kosovo Agency of Statistics (official statistics)',
-  version: '0.6.0',
+  version: '0.7.0',
   apiBaseUrl: 'https://askdata.rks-gov.net/api/v1',
   database: 'ASKdata',
   languages: ['sq', 'en'],
